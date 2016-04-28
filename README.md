@@ -1,4 +1,5 @@
-# MusicBrainz ![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)
+# MusicBrainz
+[![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)](https://travis-ci.org/Zastai/MusicBrainz)
 
 These are .NET implementations of libmusicbrainz and libdiscid.
 Both will use the same major & minor revision as the corresponding C/C++ libraries, but their own patch level.
