@@ -6,6 +6,7 @@ obj/
 *.VC.opendb
 *.*proj.user
 *.DotSettings.user
+*.userprefs
 
 # NuGet Packages
 *.nupkg
