@@ -2,6 +2,8 @@
 bin/
 obj/
 *.suo
+*.VC.db
+*.VC.opendb
 *.*proj.user
 *.DotSettings.user
 
