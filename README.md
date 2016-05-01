@@ -1,14 +1,19 @@
 # MusicBrainz
 [![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)](https://travis-ci.org/Zastai/MusicBrainz)
 
-These are .NET implementations of libmusicbrainz and libdiscid.
-Both will use the same major & minor revision as the corresponding C/C++ libraries, but their own patch level.
+These are .NET implementations of libmusicbrainz, libcoverart and libdiscid.
+All will use the same major & minor revision as the corresponding C/C++ libraries, but their own patch level.
 
-NuGet packages will be created for both libraries.
+NuGet packages will be created for all libraries.
 
 ## MetaBrainz.MusicBrainz.dll
 
 This assembly corresponds to the libmusicbrainz library.
+An attempt will be made to keep the same class hierarchy.
+
+## MetaBrainz.MusicBrainz.CoverArt.dll
+
+This assembly corresponds to the libcoverart library.
 An attempt will be made to keep the same class hierarchy.
 
 ## MetaBrainz.MusicBrainz.DiscId.dll
