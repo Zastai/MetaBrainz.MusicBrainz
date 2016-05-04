@@ -13,8 +13,8 @@ An attempt will be made to keep the same class hierarchy.
 
 ## MetaBrainz.MusicBrainz.CoverArt.dll
 
-This assembly corresponds to the libcoverart library.
-An attempt will be made to keep the same class hierarchy.
+This assembly corresponds to the libcoverart library (wrapping the [CoverArtArchive API](musicbrainz.org/doc/Cover_Art_Archive/API)).
+An attempt will be made to keep the same basic class hierarchy.
 
 ## MetaBrainz.MusicBrainz.DiscId.dll
 
