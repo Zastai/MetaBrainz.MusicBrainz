@@ -18,10 +18,12 @@ An attempt will be made to keep the same basic class hierarchy.
 
 ## MetaBrainz.MusicBrainz.DiscId.dll
 
-This assembly corresponds to the libdiscid library. For the moment, it uses PInvoke to access Windows APIs.
-Support for other platforms (whether via mono or coreclr) is not immediately planned, but may be added later;
-an attempt has been made to define most relevant structures based on the NCITS T10/1363-D standard (rather than
-just copying the Windows API structs), so that as little as possible resides in the WinApi class.
+This assembly corresponds to the libdiscid library.
+This uses PInvoke to access devices; currently, Windows, Linux and BSD (Free/Net/Open) are supported (assuming .NET on Windows and Mono on the rest).
+Support for Solaris is unlikely, because there does not seem to be any easy way to get Mono to work on it.
+Support for OSX is similarly unlikely, because I have no access to a system.
+
+When CoreCLR is released, I'll look into supporting that too (hopefully its PInvoke behaviour is Mono-compatible).
 
 ### DiscId.exe
 
