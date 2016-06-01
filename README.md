@@ -8,18 +8,22 @@ NuGet packages will be created for all libraries.
 
 ## MetaBrainz.MusicBrainz.dll
 
-This assembly corresponds to the libmusicbrainz library.
+This assembly corresponds to the libmusicbrainz library (wrapping the [MusicBrainz v2 API](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2)).
 An attempt will be made to keep the same class hierarchy.
 
 ## MetaBrainz.MusicBrainz.CoverArt.dll
 
-This assembly corresponds to the libcoverart library (wrapping the [CoverArtArchive API](musicbrainz.org/doc/Cover_Art_Archive/API)).
-An attempt will be made to keep the same basic class hierarchy.
+This assembly corresponds to the libcoverart library (wrapping the [CoverArtArchive API](https://musicbrainz.org/doc/Cover_Art_Archive/API)).
+An attempt has been made to keep the same basic class hierarchy.
 
 ## MetaBrainz.MusicBrainz.DiscId.dll
 
 This assembly corresponds to the libdiscid library.
-This uses PInvoke to access devices; currently, Windows, Linux and BSD (Free/Net/Open) are supported (assuming .NET on Windows and Mono on the rest).
+
+It uses PInvoke to access devices so is platform-dependent; currently, Windows, Linux and FreeBSD are supported (assuming .NET on Windows and Mono on the rest).
+
+NetBSD and OpenBSD are technically supported (code should be identical to FreeBSD except for the device name construction). However, all ioctls fail for an unknown reason, except for CDIOREADTOCHEADER.
+
 Support for Solaris is unlikely, because there does not seem to be any easy way to get Mono to work on it.
 Support for OSX is similarly unlikely, because I have no access to a system.
 
