@@ -20,9 +20,7 @@ An attempt has been made to keep the same basic class hierarchy.
 
 This assembly corresponds to the libdiscid library.
 
-It uses PInvoke to access devices so is platform-dependent; currently, Windows, Linux and FreeBSD are supported (assuming .NET on Windows and Mono on the rest).
-
-NetBSD and OpenBSD are technically supported (code should be identical to FreeBSD except for the device name construction). However, all ioctls fail for an unknown reason, except for CDIOREADTOCHEADER.
+It uses PInvoke to access devices so is platform-dependent; currently, Windows, Linux and BSD (FreeBSD, NetBSD and OpenBSD) are supported (assuming .NET on Windows and Mono on the rest).
 
 Support for Solaris is unlikely, because there does not seem to be any easy way to get Mono to work on it.
 Support for OSX is similarly unlikely, because I have no access to a system.
