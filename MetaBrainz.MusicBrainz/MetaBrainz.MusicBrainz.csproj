@@ -139,6 +139,7 @@
     <Compile Include="Model\WorkAttribute.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
     <Compile Include="Query.cs" />
+    <Compile Include="QueryException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

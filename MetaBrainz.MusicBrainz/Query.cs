@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
 
@@ -183,16 +181,28 @@ namespace MetaBrainz.MusicBrainz {
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
       req.Method = "GET";
+      req.Accept = "application/xml";
       {
         var an = Assembly.GetExecutingAssembly().GetName();
         req.UserAgent = $"{this.UserAgent} {an.Name}/v{an.Version}";
       }
-      using (var response = (HttpWebResponse) req.GetResponse()) {
-        var stream = response.GetResponseStream();
-        if (stream != null)
-          return (Metadata) Query._serializer.Deserialize(stream);
+      try {
+        using (var response = (HttpWebResponse) req.GetResponse()) {
+          var stream = response.GetResponseStream();
+          if (stream != null)
+            return (Metadata) Query._serializer.Deserialize(stream);
+        }
       }
-      throw new IOException("Query did not produce results.");
+      catch (WebException we) {
+        var response = we.Response;
+        // FIXME: Is there a better way to be sure it's an MB WS error response?
+        if (response != null && response.ContentLength > 0 && response.ContentType.StartsWith("application/xml"))
+          throw new QueryException(we);
+        // If not remapped, just rethrow the WebException.
+        throw;
+      }
+      // We got a response without any content (probably impossible).
+      throw new QueryException("Query did not produce results.");
     }
 
     #endregion
