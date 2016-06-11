@@ -42,7 +42,7 @@ namespace MetaBrainz.MusicBrainz {
       [XmlElement("text")] public string[] Lines;
 
       /// <summary>The message for the error (i.e. <see cref="Lines"/> as a single multi-line string).</summary>
-      public string Message => string.Join("\n", this.Lines);
+      public string Message => string.Join(Environment.NewLine, this.Lines);
 
 #if DEBUG
 
