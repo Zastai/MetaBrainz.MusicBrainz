@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,7 +29,6 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
@@ -40,11 +38,108 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Model\Lists\AliasList.cs" />
+    <Compile Include="Model\Lists\AnnotationList.cs" />
+    <Compile Include="Model\Lists\AreaList.cs" />
+    <Compile Include="Model\Lists\ArtistList.cs" />
+    <Compile Include="Model\Lists\CdStubList.cs" />
+    <Compile Include="Model\Lists\CollectionList.cs" />
+    <Compile Include="Model\Lists\DiscList.cs" />
+    <Compile Include="Model\Lists\EditorList.cs" />
+    <Compile Include="Model\Lists\EntityList.cs" />
+    <Compile Include="Model\Lists\EventList.cs" />
+    <Compile Include="Model\Lists\FreeDbDiscList.cs" />
+    <Compile Include="Model\Lists\InstrumentList.cs" />
+    <Compile Include="Model\Lists\IpiList.cs" />
+    <Compile Include="Model\Lists\IsniList.cs" />
+    <Compile Include="Model\Lists\Iso31661CodeList.cs" />
+    <Compile Include="Model\Lists\Iso31662CodeList.cs" />
+    <Compile Include="Model\Lists\Iso31663CodeList.cs" />
+    <Compile Include="Model\Lists\IsrcList.cs" />
+    <Compile Include="Model\Lists\IswcList.cs" />
+    <Compile Include="Model\Lists\ItemList.cs" />
+    <Compile Include="Model\Lists\LabelInfoList.cs" />
+    <Compile Include="Model\Lists\LabelList.cs" />
+    <Compile Include="Model\Lists\LanguageList.cs" />
+    <Compile Include="Model\Lists\MediumList.cs" />
+    <Compile Include="Model\Lists\OffsetList.cs" />
+    <Compile Include="Model\Lists\PlaceList.cs" />
+    <Compile Include="Model\Lists\PuidList.cs" />
+    <Compile Include="Model\Lists\RecordingList.cs" />
+    <Compile Include="Model\Lists\RelationAttributeList.cs" />
+    <Compile Include="Model\Lists\RelationList.cs" />
+    <Compile Include="Model\Lists\ReleaseEventList.cs" />
+    <Compile Include="Model\Lists\ReleaseGroupList.cs" />
+    <Compile Include="Model\Lists\ReleaseList.cs" />
+    <Compile Include="Model\Lists\SecondaryTypeList.cs" />
+    <Compile Include="Model\Lists\SeriesList.cs" />
+    <Compile Include="Model\Lists\SimpleTrackList.cs" />
+    <Compile Include="Model\Lists\TagList.cs" />
+    <Compile Include="Model\Lists\TrackList.cs" />
+    <Compile Include="Model\Lists\UrlList.cs" />
+    <Compile Include="Model\Lists\UserTagList.cs" />
+    <Compile Include="Model\Lists\WorkAttributeList.cs" />
+    <Compile Include="Model\Lists\WorkList.cs" />
+    <Compile Include="Model\Alias.cs" />
+    <Compile Include="Model\Annotation.cs" />
+    <Compile Include="Model\Area.cs" />
+    <Compile Include="Model\Artist.cs" />
+    <Compile Include="Model\ArtistCredit.cs" />
+    <Compile Include="Model\CdStub.cs" />
+    <Compile Include="Model\Collection.cs" />
+    <Compile Include="Model\Coordinates.cs" />
+    <Compile Include="Model\CoverArtArchive.cs" />
+    <Compile Include="Model\Disc.cs" />
+    <Compile Include="Model\EditInformation.cs" />
+    <Compile Include="Model\Editor.cs" />
+    <Compile Include="Model\Entity.cs" />
+    <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\Format.cs" />
+    <Compile Include="Model\FreeDbDisc.cs" />
+    <Compile Include="Model\Gender.cs" />
+    <Compile Include="Model\Instrument.cs" />
+    <Compile Include="Model\Isrc.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\Label.cs" />
+    <Compile Include="Model\LabelInfo.cs" />
+    <Compile Include="Model\LifeSpan.cs" />
+    <Compile Include="Model\MBEntity.cs" />
+    <Compile Include="Model\Medium.cs" />
+    <Compile Include="Model\Metadata.cs" />
+    <Compile Include="Model\NameCredit.cs" />
+    <Compile Include="Model\Offset.cs" />
+    <Compile Include="Model\Packaging.cs" />
+    <Compile Include="Model\Place.cs" />
+    <Compile Include="Model\PrimaryType.cs" />
+    <Compile Include="Model\Puid.cs" />
+    <Compile Include="Model\Rating.cs" />
+    <Compile Include="Model\Recording.cs" />
+    <Compile Include="Model\Relation.cs" />
+    <Compile Include="Model\RelationAttribute.cs" />
+    <Compile Include="Model\RelationTarget.cs" />
+    <Compile Include="Model\Release.cs" />
+    <Compile Include="Model\ReleaseEvent.cs" />
+    <Compile Include="Model\ReleaseGroup.cs" />
+    <Compile Include="Model\SecondaryType.cs" />
+    <Compile Include="Model\Series.cs" />
+    <Compile Include="Model\SimpleTrackInfo.cs" />
+    <Compile Include="Model\SpokenLanguage.cs" />
+    <Compile Include="Model\Status.cs" />
+    <Compile Include="Model\Tag.cs" />
+    <Compile Include="Model\TextEntity.cs" />
+    <Compile Include="Model\TextRepresentation.cs" />
+    <Compile Include="Model\TrackInfo.cs" />
+    <Compile Include="Model\Url.cs" />
+    <Compile Include="Model\UserTag.cs" />
+    <Compile Include="Model\Work.cs" />
+    <Compile Include="Model\WorkAttribute.cs" />
     <Compile Include="Query.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
