@@ -23,13 +23,13 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-    public static int    DefaultPort      { get; set; }
+    public static int DefaultPort { get; set; }
 
     /// <summary>The default user agent to use for requests.</summary>
     public static string DefaultUserAgent { get; set; }
 
     /// <summary>The default web site to use for requests.</summary>
-    public static string DefaultWebSite   { get; set; }
+    public static string DefaultWebSite { get; set; }
 
     /// <summary>
     ///   The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are made.
@@ -39,11 +39,17 @@ namespace MetaBrainz.MusicBrainz {
     ///   When querying the official musicbrainz site, setting this below the default of one second may incur penalties (ranging from rate limiting to IP bans).
     /// </remarks>
     public static double DelayBetweenRequests {
-      get { return Query.RequestDelay; }
+      get { return Query._requestDelay; }
       set {
-        Query.RequestDelay = value;
+        Query._requestDelay = value;
       }
     }
+
+    /// <summary>The root location of the web service.</summary>
+    public const string WebServiceRoot = "/ws/2";
+
+    /// <summary>The internet access protocol used when accessing the web service.</summary>
+    public const string WebServiceScheme = "https";
 
     #endregion
 
@@ -53,9 +59,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="userAgent">The user agent to use for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="userAgent"/> is null, and no default was set via <see cref="DefaultUserAgent"/>.</exception>
     public Query(string userAgent = null) {
-      this.Port      =              Query.DefaultPort;
-      this.UserAgent = userAgent ?? Query.DefaultUserAgent;
-      this.WebSite   =              Query.DefaultWebSite;
+      this.Credentials = new CredentialCache();
+      this.Port        =              Query.DefaultPort;
+      this.UserAgent   = userAgent ?? Query.DefaultUserAgent;
+      this.WebSite     =              Query.DefaultWebSite;
       if (this.UserAgent == null)
         throw new ArgumentNullException(nameof(userAgent));
       // libmetabrainz does not validate/change the user agent in any way, so neither do we
@@ -131,6 +138,9 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Instance Fields / Properties
 
+    /// <summary>The credentials used for requests.</summary>
+    public CredentialCache Credentials { get; set; }
+
     /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
     public int Port { get; set; }
 
@@ -140,48 +150,51 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>The web site to use for requests.</summary>
     public string WebSite { get; set; }
 
+    public Uri BaseUri => new UriBuilder(Query.WebServiceScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+
     #endregion
 
     #region Internals
 
-    private static readonly XmlSerializer _serializer = new XmlSerializer(typeof(Metadata));
+    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(Metadata));
 
-    private static readonly ReaderWriterLockSlim _requestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+    private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
-    private static DateTime LastRequest;
+    private static DateTime _lastRequestTime;
 
-    private static double RequestDelay = 1.0;
+    private static double _requestDelay = 1.0;
 
     private Metadata PerformRequest(string entity, string id, string extra) {
-      if (Query.RequestDelay <= 0.0)
+      if (Query._requestDelay <= 0.0)
         return this.PerformDirectRequest(entity, id, extra);
       while (true) {
-        Query._requestLock.EnterWriteLock();
+        Query.RequestLock.EnterWriteLock();
         try {
-          if ((DateTime.UtcNow - Query.LastRequest).TotalSeconds >= Query.RequestDelay) {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
             try {
               return this.PerformDirectRequest(entity, id, extra);
             }
             finally {
-              Query.LastRequest = DateTime.UtcNow;
+              Query._lastRequestTime = DateTime.UtcNow;
             }
           }
         }
         finally {
-          Query._requestLock.ExitWriteLock();
+          Query.RequestLock.ExitWriteLock();
         }
-        Thread.Sleep((int) (500 * Query.RequestDelay));
+        Thread.Sleep((int) (500 * Query._requestDelay));
       }
     }
 
     private Metadata PerformDirectRequest(string entity,string id, string extra) {
-      var uri = new UriBuilder("https", this.WebSite, this.Port, $"/ws/2/{entity}/{id}", extra);
+      var uri = new UriBuilder(Query.WebServiceScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra);
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri.Uri}");
       var req = WebRequest.Create(uri.Uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method = "GET";
-      req.Accept = "application/xml";
+      req.Method      = "GET";
+      req.Accept      = "application/xml";
+      req.Credentials = this.Credentials;
       {
         var an = Assembly.GetExecutingAssembly().GetName();
         req.UserAgent = $"{this.UserAgent} {an.Name}/v{an.Version}";
@@ -190,7 +203,7 @@ namespace MetaBrainz.MusicBrainz {
         using (var response = (HttpWebResponse) req.GetResponse()) {
           var stream = response.GetResponseStream();
           if (stream != null)
-            return (Metadata) Query._serializer.Deserialize(stream);
+            return (Metadata) Query.Serializer.Deserialize(stream);
         }
       }
       catch (WebException we) {
