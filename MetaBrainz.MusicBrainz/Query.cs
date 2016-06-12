@@ -18,12 +18,16 @@ namespace MetaBrainz.MusicBrainz {
     static Query() {
       // Mono's C# compiler does not like initializers on auto-properties, so set them up here instead.
       Query.DefaultPort      = -1;
+      Query.DefaultUrlScheme = "https";
       Query.DefaultUserAgent = null;
       Query.DefaultWebSite   = "musicbrainz.org";
     }
 
     /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
     public static int DefaultPort { get; set; }
+
+    /// <summary>The default internet access protocol to use for requests.</summary>
+    public static string DefaultUrlScheme { get; set; }
 
     /// <summary>The default user agent to use for requests.</summary>
     public static string DefaultUserAgent { get; set; }
@@ -48,9 +52,6 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>The root location of the web service.</summary>
     public const string WebServiceRoot = "/ws/2";
 
-    /// <summary>The internet access protocol used when accessing the web service.</summary>
-    public const string WebServiceScheme = "https";
-
     #endregion
 
     #region Constructors
@@ -61,6 +62,7 @@ namespace MetaBrainz.MusicBrainz {
     public Query(string userAgent = null) {
       this.Credentials = new CredentialCache();
       this.Port        =              Query.DefaultPort;
+      this.UrlScheme   =              Query.DefaultUrlScheme;
       this.UserAgent   = userAgent ?? Query.DefaultUserAgent;
       this.WebSite     =              Query.DefaultWebSite;
       if (this.UserAgent == null)
@@ -144,13 +146,16 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
     public int Port { get; set; }
 
-    /// <summary>The user agent to use for all requests.</summary>
+    /// <summary>The internet access protocol to use for requests.</summary>
+    public string UrlScheme { get; set; }
+
+    /// <summary>The user agent to use for requests.</summary>
     public string UserAgent { get; }
 
     /// <summary>The web site to use for requests.</summary>
     public string WebSite { get; set; }
 
-    public Uri BaseUri => new UriBuilder(Query.WebServiceScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+    public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
 
     #endregion
 
@@ -187,7 +192,7 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private Metadata PerformDirectRequest(string entity,string id, string extra) {
-      var uri = new UriBuilder(Query.WebServiceScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra);
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra);
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri.Uri}");
       var req = WebRequest.Create(uri.Uri) as HttpWebRequest;
       if (req == null)
