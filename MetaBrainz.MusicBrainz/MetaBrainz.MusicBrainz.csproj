@@ -38,6 +38,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -137,8 +138,11 @@
     <Compile Include="Model\UserTag.cs" />
     <Compile Include="Model\Work.cs" />
     <Compile Include="Model\WorkAttribute.cs" />
+    <Compile Include="AuthorizationScope.cs" />
+    <Compile Include="BearerToken.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
     <Compile Include="HttpDigestHelper.cs" />
+    <Compile Include="OAuth2.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
   </ItemGroup>
