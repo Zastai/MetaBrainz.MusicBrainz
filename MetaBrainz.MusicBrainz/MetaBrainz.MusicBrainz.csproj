@@ -138,6 +138,7 @@
     <Compile Include="Model\Work.cs" />
     <Compile Include="Model\WorkAttribute.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
+    <Compile Include="HttpDigestHelper.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
   </ItemGroup>

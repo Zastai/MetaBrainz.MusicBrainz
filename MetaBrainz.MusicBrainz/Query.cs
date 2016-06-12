@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
+using System.Security;
 using System.Threading;
 using System.Xml.Serialization;
 
@@ -60,11 +61,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="userAgent">The user agent to use for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="userAgent"/> is null, and no default was set via <see cref="DefaultUserAgent"/>.</exception>
     public Query(string userAgent = null) {
-      this.Credentials = new CredentialCache();
-      this.Port        =              Query.DefaultPort;
-      this.UrlScheme   =              Query.DefaultUrlScheme;
-      this.UserAgent   = userAgent ?? Query.DefaultUserAgent;
-      this.WebSite     =              Query.DefaultWebSite;
+      this.Port      =              Query.DefaultPort;
+      this.UrlScheme =              Query.DefaultUrlScheme;
+      this.UserAgent = userAgent ?? Query.DefaultUserAgent;
+      this.WebSite   =              Query.DefaultWebSite;
       if (this.UserAgent == null)
         throw new ArgumentNullException(nameof(userAgent));
       // libmetabrainz does not validate/change the user agent in any way, so neither do we
@@ -140,8 +140,18 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Instance Fields / Properties
 
-    /// <summary>The credentials used for requests.</summary>
-    public CredentialCache Credentials { get; set; }
+    /// <summary>The OAuth2 bearer token to use for authenticated requests; takes precedence over <see cref="Credential"/>.</summary>
+    public string BearerToken { get; set; }
+
+    /// <summary>The credential to use for authenticated requests; not used if <see cref="BearerToken"/> is also set.</summary>
+    /// <remarks>The user name is <em>case sensitive</em> (unlike the logon on the MusicBrainz website).</remarks>
+    public NetworkCredential Credential {
+      get { return this._credential; }
+      set {
+        this._credential = value;
+        this._lastDigest = null;
+      }
+    }
 
     /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
     public int Port { get; set; }
@@ -155,6 +165,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>The web site to use for requests.</summary>
     public string WebSite { get; set; }
 
+    /// <summary>The base URI for all requests.</summary>
     public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
 
     #endregion
@@ -168,6 +179,10 @@ namespace MetaBrainz.MusicBrainz {
     private static DateTime _lastRequestTime;
 
     private static double _requestDelay = 1.0;
+
+    private NetworkCredential _credential;
+
+    private string _lastDigest;
 
     private Metadata PerformRequest(string entity, string id, string extra) {
       if (Query._requestDelay <= 0.0)
@@ -192,31 +207,47 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private Metadata PerformDirectRequest(string entity,string id, string extra) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra);
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri.Uri}");
-      var req = WebRequest.Create(uri.Uri) as HttpWebRequest;
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri}");
+      var firstTry = true;
+    retry:
+      var req = WebRequest.Create(uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method      = "GET";
-      req.Accept      = "application/xml";
-      req.Credentials = this.Credentials;
+      req.Method = "GET";
+      req.Accept = "application/xml";
       {
         var an = Assembly.GetExecutingAssembly().GetName();
         req.UserAgent = $"{this.UserAgent} {an.Name}/v{an.Version}";
       }
+      if (this.BearerToken != null)
+        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
+      else if (this._lastDigest != null)
+        req.Headers.Add("Authorization", this._lastDigest);
       try {
         using (var response = (HttpWebResponse) req.GetResponse()) {
-          var stream = response.GetResponseStream();
-          if (stream != null)
-            return (Metadata) Query.Serializer.Deserialize(stream);
+          using (var stream = response.GetResponseStream()) {
+            if (stream != null)
+              return (Metadata) Query.Serializer.Deserialize(stream);
+          }
         }
       }
       catch (WebException we) {
-        var response = we.Response;
-        // FIXME: Is there a better way to be sure it's an MB WS error response?
-        if (response != null && response.ContentLength > 0 && response.ContentType.StartsWith("application/xml"))
-          throw new QueryException(we);
-        // If not remapped, just rethrow the WebException.
+        var response = we.Response as HttpWebResponse;
+        if (response != null) {
+          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
+            firstTry = false; // only retry authentication once
+            var digest = HttpDigestHelper.GetDigest(response, this.Credential);
+            if (digest != null && this._lastDigest != digest) {
+              this._lastDigest = digest;
+              goto retry;
+            }
+          }
+          // FIXME: Is there a better way to be sure it's an MB WS error response?
+          if (response.ContentLength > 0 && response.ContentType.StartsWith("application/xml"))
+            throw new QueryException(we);
+        }
+        // If not handled in some way, just rethrow the WebException.
         throw;
       }
       // We got a response without any content (probably impossible).
