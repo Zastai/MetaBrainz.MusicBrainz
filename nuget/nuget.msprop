@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- NuGet Package Settings (Solution-Wide) -->
+  <PropertyGroup>
+    <NuGetPackageAuthor>Tim Van Holder</NuGetPackageAuthor>
+    <NuGetPackageCopyright>Copyright © 2016 Tim Van Holder</NuGetPackageCopyright>
+    <NuGetPackageDescription />
+    <NuGetPackageIcon>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</NuGetPackageIcon>
+    <NuGetPackageLicense>https://opensource.org/licenses/ms-pl</NuGetPackageLicense>
+    <NuGetPackageProject>https://github.com/Zastai/MusicBrainz</NuGetPackageProject>
+    <NuGetPackageSummary />
+    <NuGetPackageVersion />
+  </PropertyGroup>
+</Project>
