@@ -36,6 +36,7 @@
       <NuGetSpecLines Include="    &lt;licenseUrl&gt;$(NuGetPackageLicense)&lt;/licenseUrl&gt;" Condition=" '$(NuGetPackageLicense)' != '' " />
       <NuGetSpecLines Include="    &lt;owners&gt;$(NuGetPackageOwners)&lt;/owners&gt;" Condition=" '$(NuGetPackageOwners)' != '' " />
       <NuGetSpecLines Include="    &lt;projectUrl&gt;$(NuGetPackageProject)&lt;/projectUrl&gt;" Condition=" '$(NuGetPackageProject)' != '' " />
+      <NuGetSpecLines Include="    &lt;releaseNotes&gt;$(NuGetPackageReleaseNotes)&lt;/releaseNotes&gt;" Condition=" '$(NuGetPackageReleaseNotes)' != '' " />
       <NuGetSpecLines Include="    &lt;summary&gt;$(NuGetPackageSummary)&lt;/summary&gt;" Condition=" '$(NuGetPackageSummary)' != '' " />
       <NuGetSpecLines Include="    &lt;tags&gt;$(NuGetPackageTags)&lt;/tags&gt;" Condition=" '$(NuGetPackageTags)' != '' " />
       <NuGetSpecLines Include="    &lt;title&gt;$(NuGetPackageTitle)&lt;/title&gt;" Condition=" '$(NuGetPackageTitle)' != '' " />

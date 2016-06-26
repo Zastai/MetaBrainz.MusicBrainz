@@ -3,6 +3,8 @@
   <!-- NuGet Package Settings (Project-Specific) -->
   <PropertyGroup>
     <NuGetPackageDescription>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</NuGetPackageDescription>
+    <NuGetPackageReleaseNotes>
+    </NuGetPackageReleaseNotes>
     <NuGetPackageSummary>C# implementation of libmusicbrainz</NuGetPackageSummary>
     <NuGetPackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</NuGetPackageTags>
     <NuGetPackageVersion>0.2.0-dev</NuGetPackageVersion>
