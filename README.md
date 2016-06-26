@@ -1,22 +1,21 @@
-# MusicBrainz
-[![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)](https://travis-ci.org/Zastai/MusicBrainz)
+# MusicBrainz [![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)](https://travis-ci.org/Zastai/MusicBrainz)
 
 These are .NET implementations of libmusicbrainz, libcoverart and libdiscid.
 Each will have its own NuGet package.
 
-## MetaBrainz.MusicBrainz.dll
+## MetaBrainz.MusicBrainz.dll [![NuGet version](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.svg)](https://badge.fury.io/nu/MetaBrainz.MusicBrainz)
 
 This assembly corresponds to the libmusicbrainz library (wrapping the [MusicBrainz v2 API](https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2)).
 An attempt has been made to keep the same basic class hierarchy.
 
 This also contains OAuth2 functionality.
 
-## MetaBrainz.MusicBrainz.CoverArt.dll
+## MetaBrainz.MusicBrainz.CoverArt.dll [![NuGet version](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.CoverArt.svg)](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.CoverArt)
 
 This assembly corresponds to the libcoverart library (wrapping the [CoverArtArchive API](https://musicbrainz.org/doc/Cover_Art_Archive/API)).
 An attempt has been made to keep the same basic class hierarchy.
 
-## MetaBrainz.MusicBrainz.DiscId.dll
+## MetaBrainz.MusicBrainz.DiscId.dll [![NuGet version](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.DiscId.svg)](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.DiscId)
 
 This assembly corresponds to the libdiscid library.
 The main point of divergence at this point is that fewer platforms are supported (see below), and that this library supports retrieval of CD-TEXT information.
