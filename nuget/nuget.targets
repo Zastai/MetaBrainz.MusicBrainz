@@ -30,12 +30,15 @@
       <NuGetSpecLines Include="    &lt;id&gt;$(AssemblyName)&lt;/id&gt;" />
       <NuGetSpecLines Include="    &lt;version&gt;$(NuGetPackageVersion)&lt;/version&gt;" />
       <NuGetSpecLines Include="    &lt;description&gt;$(NuGetPackageDescription)&lt;/description&gt;" />
-      <NuGetSpecLines Include="    &lt;authors&gt;$(NuGetPackageAuthor)&lt;/authors&gt;" />
+      <NuGetSpecLines Include="    &lt;authors&gt;$(NuGetPackageAuthors)&lt;/authors&gt;" />
       <NuGetSpecLines Include="    &lt;copyright&gt;$(NuGetPackageCopyright)&lt;/copyright&gt;" Condition=" '$(NuGetPackageCopyright)' != '' " />
       <NuGetSpecLines Include="    &lt;iconUrl&gt;$(NuGetPackageIcon)&lt;/iconUrl&gt;" Condition=" '$(NuGetPackageIcon)' != '' " />
       <NuGetSpecLines Include="    &lt;licenseUrl&gt;$(NuGetPackageLicense)&lt;/licenseUrl&gt;" Condition=" '$(NuGetPackageLicense)' != '' " />
+      <NuGetSpecLines Include="    &lt;owners&gt;$(NuGetPackageOwners)&lt;/owners&gt;" Condition=" '$(NuGetPackageOwners)' != '' " />
       <NuGetSpecLines Include="    &lt;projectUrl&gt;$(NuGetPackageProject)&lt;/projectUrl&gt;" Condition=" '$(NuGetPackageProject)' != '' " />
       <NuGetSpecLines Include="    &lt;summary&gt;$(NuGetPackageSummary)&lt;/summary&gt;" Condition=" '$(NuGetPackageSummary)' != '' " />
+      <NuGetSpecLines Include="    &lt;tags&gt;$(NuGetPackageTags)&lt;/tags&gt;" Condition=" '$(NuGetPackageTags)' != '' " />
+      <NuGetSpecLines Include="    &lt;title&gt;$(NuGetPackageTitle)&lt;/title&gt;" Condition=" '$(NuGetPackageTitle)' != '' " />
       <NuGetSpecLines Include="  &lt;/metadata&gt;" />
       <NuGetSpecLines Include="  &lt;files&gt;" />
       <NuGetSpecLines Include="    &lt;file src=&quot;%(NuGetFilesToPackage.FullPath)&quot; target=&quot;lib\net40\%(NuGetFilesToPackage.Filename)%(NuGetFilesToPackage.Extension)&quot; /&gt;" />
