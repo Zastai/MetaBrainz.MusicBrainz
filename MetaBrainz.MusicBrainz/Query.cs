@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Reflection;
 using System.Security;
+using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
 
@@ -76,63 +77,43 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Lookup
 
-    #region Generic
+    /// <summary>Looks up the specified area.</summary>
+    /// <param name="mbid">The MBID for the area to look up.</param>
+    /// <param name="inc">Additional information to include in the response.</param>
+    /// <returns>The requested area.</returns>
+    /// <exception cref="QueryException">When the serb service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Area LookupArea(Guid mbid, Include inc = Include.None) => this.PerformRequest("area", mbid, Query.BuildExtraText(inc)).Area;
 
-    /// <summary>Performs a general MBID-based lookup.</summary>
-    /// <param name="entity">The type of entity to look up.</param>
-    /// <param name="mbid">The MBID of the entity to retrieve.</param>
-    /// <param name="extra">Any additional query parameters (e.g. "?inc=annotation").</param>
-    /// <returns>The requested metadata.</returns>
-    public Metadata Lookup(string entity, Guid mbid, string extra = null) => this.PerformRequest(entity, mbid.ToString("D"), extra);
+    public Artist LookupArtist(Guid mbid, Include inc = Include.None) => this.PerformRequest("artist", mbid, Query.BuildExtraText(inc)).Artist;
 
-    /// <summary>Performs a general lookup.</summary>
-    /// <param name="entity">The type of entity to look up.</param>
-    /// <param name="id">The ID of the entity to retrieve.</param>
-    /// <param name="extra">Any additional query parameters (e.g. "?inc=annotation").</param>
-    /// <returns>The requested metadata.</returns>
-    public Metadata Lookup(string entity, string id, string extra = null) => this.PerformRequest(entity, id, extra);
+    public Collection LookupCollection(Guid mbid, Include inc = Include.None) => this.PerformRequest("collection", mbid, Query.BuildExtraText(inc)).Collection;
 
-    #endregion
+    public DiscIdLookupResult LookupDiscId(string discid, Include inc = Include.None) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc)));
 
-    #region Specific Entities
+    public Event LookupEvent(Guid mbid, Include inc = Include.None) => this.PerformRequest("event", mbid, Query.BuildExtraText(inc)).Event;
 
-    public Area LookupArea(Guid mbid, string extra = null) => this.Lookup("area", mbid, extra).Area;
+    public Instrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.PerformRequest("instrument", mbid, Query.BuildExtraText(inc)).Instrument;
 
-    public Artist LookupArtist(Guid mbid, string extra = null) => this.Lookup("artist", mbid, extra).Artist;
+    public Isrc LookupIsrc(string isrc, Include inc = Include.None) => this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc)).Isrc;
 
-    public Collection LookupCollection(Guid mbid, string extra = null) => this.Lookup("collection", mbid, extra).Collection;
+    public WorkList LookupIswc(string iswc, Include inc = Include.None) => this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc)).WorkList;
 
-    public DiscIdLookupResult LookupDiscId(string discid, string extra = null) => new DiscIdLookupResult(this.Lookup("discid", discid, extra));
+    public Label LookupLabel(Guid mbid, Include inc = Include.None) => this.PerformRequest("label", mbid, Query.BuildExtraText(inc)).Label;
 
-    public Event LookupEvent(Guid mbid, string extra = null) => this.Lookup("event", mbid, extra).Event;
+    public Place LookupPlace(Guid mbid, Include inc = Include.None) => this.PerformRequest("place", mbid, Query.BuildExtraText(inc)).Place;
 
-    public Instrument LookupInstrument(Guid mbid, string extra = null) => this.Lookup("instrument", mbid, extra).Instrument;
+    public Recording LookupRecording(Guid mbid, Include inc = Include.None) => this.PerformRequest("recording", mbid, Query.BuildExtraText(inc)).Recording;
 
-    public Isrc LookupIsrc(string isrc, string extra = null) => this.Lookup("isrc", isrc, extra).Isrc;
+    public Release LookupRelease(Guid mbid, Include inc = Include.None) => this.PerformRequest("release", mbid, Query.BuildExtraText(inc)).Release;
 
-    public WorkList LookupIswc(string iswc, string extra = null) => this.Lookup("iswc", iswc, extra).WorkList;
+    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None) => this.PerformRequest("release-group", mbid, Query.BuildExtraText(inc)).ReleaseGroup;
 
-    public Label LookupLabel(Guid mbid, string extra = null) => this.Lookup("label", mbid, extra).Label;
+    public Series LookupSeries(Guid mbid, Include inc = Include.None) => this.PerformRequest("series", mbid, Query.BuildExtraText(inc)).Series;
 
-    public Place LookupPlace(Guid mbid, string extra = null) => this.Lookup("place", mbid, extra).Place;
+    public Url LookupUrl(Guid mbid, Include inc = Include.None) => this.PerformRequest("url", mbid, Query.BuildExtraText(inc)).Url;
 
-    public Recording LookupRecording(Guid mbid, string extra = null) => this.Lookup("recording", mbid, extra).Recording;
-
-    public Release LookupRelease(Guid mbid, string extra = null) => this.Lookup("release", mbid, extra).Release;
-
-    public ReleaseGroup LookupReleaseGroup(Guid mbid, string extra = null) => this.Lookup("release-group", mbid, extra).ReleaseGroup;
-
-    public Series LookupSeries(Guid mbid, string extra = null) => this.Lookup("series", mbid, extra).Series;
-
-    public Url LookupUrl(Guid mbid, string extra = null) => this.Lookup("url", mbid, extra).Url;
-
-    public Work LookupWork(Guid mbid, string extra = null) => this.Lookup("work", mbid, extra).Work;
-
-    [XmlElement("rating")]        public Rating       Rating;
-    [XmlElement("user-rating")]   public byte         UserRating;
-    [XmlIgnore]                   public bool         UserRatingSpecified;
-
-    #endregion
+    public Work LookupWork(Guid mbid, Include inc = Include.None) => this.PerformRequest("work", mbid, Query.BuildExtraText(inc)).Work;
 
     #endregion
 
@@ -184,26 +165,51 @@ namespace MetaBrainz.MusicBrainz {
 
     private string _lastDigest;
 
-    private Metadata PerformRequest(string entity, string id, string extra) {
-      if (Query._requestDelay <= 0.0)
-        return this.PerformDirectRequest(entity, id, extra);
-      while (true) {
-        Query.RequestLock.EnterWriteLock();
-        try {
-          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
-            try {
-              return this.PerformDirectRequest(entity, id, extra);
-            }
-            finally {
-              Query._lastRequestTime = DateTime.UtcNow;
-            }
-          }
-        }
-        finally {
-          Query.RequestLock.ExitWriteLock();
-        }
-        Thread.Sleep((int) (500 * Query._requestDelay));
+    private static string BuildExtraText(Include inc) {
+      var sb = new StringBuilder();
+      if (inc != Include.None) {
+        sb.Append((sb.Length == 0) ? '?' : '&');
+        sb.Append("inc");
+        var letter = '=';
+        // Linked Entities
+        if ((inc & Include.Artists)       != 0) { sb.Append(letter).Append("artists");        letter = '+'; }
+        if ((inc & Include.Collections)   != 0) { sb.Append(letter).Append("collections");    letter = '+'; }
+        if ((inc & Include.Labels)        != 0) { sb.Append(letter).Append("labels");         letter = '+'; }
+        if ((inc & Include.Recordings)    != 0) { sb.Append(letter).Append("recordings");     letter = '+'; }
+        if ((inc & Include.ReleaseGroups) != 0) { sb.Append(letter).Append("release-groups"); letter = '+'; }
+        if ((inc & Include.Releases)      != 0) { sb.Append(letter).Append("releases");       letter = '+'; }
+        if ((inc & Include.Works)         != 0) { sb.Append(letter).Append("works");          letter = '+'; }
+        // Special Cases
+        if ((inc & Include.ArtistCredits)   != 0) { sb.Append(letter).Append("artist-credits");   letter = '+'; }
+        if ((inc & Include.DiscIds)         != 0) { sb.Append(letter).Append("discids");          letter = '+'; }
+        if ((inc & Include.Isrcs)           != 0) { sb.Append(letter).Append("isrcs");            letter = '+'; }
+        if ((inc & Include.Media)           != 0) { sb.Append(letter).Append("media");            letter = '+'; }
+        if ((inc & Include.UserCollections) != 0) { sb.Append(letter).Append("user-collections"); letter = '+'; }
+        if ((inc & Include.VariousArtists)  != 0) { sb.Append(letter).Append("various-artists");  letter = '+'; }
+        // Optional Info
+        if ((inc & Include.Aliases)     != 0) { sb.Append(letter).Append("aliases");      letter = '+'; }
+        if ((inc & Include.Annotation)  != 0) { sb.Append(letter).Append("annotation");   letter = '+'; }
+        if ((inc & Include.Ratings)     != 0) { sb.Append(letter).Append("ratings");      letter = '+'; }
+        if ((inc & Include.Tags)        != 0) { sb.Append(letter).Append("tags");         letter = '+'; }
+        if ((inc & Include.UserRatings) != 0) { sb.Append(letter).Append("user-ratings"); letter = '+'; }
+        if ((inc & Include.UserTags)    != 0) { sb.Append(letter).Append("user-tags");    letter = '+'; }
+        // Relationships
+        if ((inc & Include.AreaRelationships)           != 0) { sb.Append(letter).Append("area-rels");            letter = '+'; }
+        if ((inc & Include.ArtistRelationships)         != 0) { sb.Append(letter).Append("artist-rels");          letter = '+'; }
+        if ((inc & Include.EventRelationships)          != 0) { sb.Append(letter).Append("event-rels");           letter = '+'; }
+        if ((inc & Include.InstrumentRelationships)     != 0) { sb.Append(letter).Append("instrument-rels");      letter = '+'; }
+        if ((inc & Include.LabelRelationships)          != 0) { sb.Append(letter).Append("label-rels");           letter = '+'; }
+        if ((inc & Include.PlaceRelationships)          != 0) { sb.Append(letter).Append("place-rels");           letter = '+'; }
+        if ((inc & Include.RecordingLevelRelationships) != 0) { sb.Append(letter).Append("recording-level-rels"); letter = '+'; }
+        if ((inc & Include.RecordingRelationships)      != 0) { sb.Append(letter).Append("recording-rels");       letter = '+'; }
+        if ((inc & Include.ReleaseGroupRelationships)   != 0) { sb.Append(letter).Append("release-group-rels");   letter = '+'; }
+        if ((inc & Include.ReleaseRelationships)        != 0) { sb.Append(letter).Append("release-rels");         letter = '+'; }
+        if ((inc & Include.SeriesRelationships)         != 0) { sb.Append(letter).Append("series-rels");          letter = '+'; }
+        if ((inc & Include.UrlRelationships)            != 0) { sb.Append(letter).Append("url-rels");             letter = '+'; }
+        if ((inc & Include.WorkLevelRelationships)      != 0) { sb.Append(letter).Append("work-level-rels");      letter = '+'; }
+        if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
       }
+      return sb.ToString();
     }
 
     private Metadata PerformDirectRequest(string entity,string id, string extra) {
@@ -252,6 +258,30 @@ namespace MetaBrainz.MusicBrainz {
       }
       // We got a response without any content (probably impossible).
       throw new QueryException("Query did not produce results.");
+    }
+
+    private Metadata PerformRequest(string entity, Guid id, string extra) => this.PerformRequest(entity, id.ToString("D"), extra);
+
+    private Metadata PerformRequest(string entity, string id, string extra) {
+      if (Query._requestDelay <= 0.0)
+        return this.PerformDirectRequest(entity, id, extra);
+      while (true) {
+        Query.RequestLock.EnterWriteLock();
+        try {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+            try {
+              return this.PerformDirectRequest(entity, id, extra);
+            }
+            finally {
+              Query._lastRequestTime = DateTime.UtcNow;
+            }
+          }
+        }
+        finally {
+          Query.RequestLock.ExitWriteLock();
+        }
+        Thread.Sleep((int) (500 * Query._requestDelay));
+      }
     }
 
     #endregion

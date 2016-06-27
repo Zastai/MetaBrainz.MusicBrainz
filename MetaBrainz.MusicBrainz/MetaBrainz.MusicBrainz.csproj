@@ -147,6 +147,7 @@
     <Compile Include="BearerToken.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
     <Compile Include="HttpDigestHelper.cs" />
+    <Compile Include="Include.cs" />
     <Compile Include="OAuth2.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
@@ -160,7 +161,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="$(MSBuildThisFileDirectory)\..\nuget\nuget.msprop"/>
-  <Import Project="$(MSBuildThisFileDirectory)\Properties\nuget.msprop"/>
-  <Import Project="$(MSBuildThisFileDirectory)\..\nuget\nuget.targets"/>
+  <Import Project="$(MSBuildThisFileDirectory)\..\nuget\nuget.msprop" />
+  <Import Project="$(MSBuildThisFileDirectory)\Properties\nuget.msprop" />
+  <Import Project="$(MSBuildThisFileDirectory)\..\nuget\nuget.targets" />
 </Project>
