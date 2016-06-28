@@ -77,43 +77,161 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Lookup
 
-    /// <summary>Looks up the specified area.</summary>
-    /// <param name="mbid">The MBID for the area to look up.</param>
-    /// <param name="inc">Additional information to include in the response.</param>
-    /// <returns>The requested area.</returns>
+    /// <summary>Performs an MBID-based lookup for the specified entity type.</summary>
+    /// <param name="entity">The type of entity to look up.</param>
+    /// <param name="mbid">The MBID for the entity to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The result of the lookup.</returns>
     /// <exception cref="QueryException">When the serb service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Area LookupArea(Guid mbid, Include inc = Include.None) => this.PerformRequest("area", mbid, Query.BuildExtraText(inc)).Area;
+    public Metadata Lookup(string entity, Guid mbid, Include inc = Include.None) => this.Lookup(entity, mbid.ToString("D"), inc);
 
-    public Artist LookupArtist(Guid mbid, Include inc = Include.None) => this.PerformRequest("artist", mbid, Query.BuildExtraText(inc)).Artist;
+    /// <summary>Performs a generic identifier-based lookup for the specified entity type.</summary>
+    /// <param name="entity">The type of entity to look up.</param>
+    /// <param name="id">The identifier for the entity to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The result of the lookup.</returns>
+    /// <exception cref="QueryException">When the serb service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Metadata Lookup(string entity, string id, Include inc = Include.None) => this.PerformRequest(entity, id, Query.BuildExtraText(inc));
 
-    public Collection LookupCollection(Guid mbid, Include inc = Include.None) => this.PerformRequest("collection", mbid, Query.BuildExtraText(inc)).Collection;
+    /// <summary>Looks up the specified area.</summary>
+    /// <param name="mbid">The MBID for the area to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested area.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Area LookupArea(Guid mbid, Include inc = Include.None) => this.Lookup("area", mbid, inc).Area;
 
-    public DiscIdLookupResult LookupDiscId(string discid, Include inc = Include.None) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc)));
+    /// <summary>Looks up the specified artist.</summary>
+    /// <param name="mbid">The MBID for the artist to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested artist.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Artist LookupArtist(Guid mbid, Include inc = Include.None) => this.Lookup("artist", mbid, inc).Artist;
 
-    public Event LookupEvent(Guid mbid, Include inc = Include.None) => this.PerformRequest("event", mbid, Query.BuildExtraText(inc)).Event;
+    /// <summary>Looks up the specified collection.</summary>
+    /// <param name="mbid">The MBID for the collection to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested collection.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Collection LookupCollection(Guid mbid, Include inc = Include.None) => this.Lookup("collection", mbid, inc).Collection;
 
-    public Instrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.PerformRequest("instrument", mbid, Query.BuildExtraText(inc)).Instrument;
+    /// <summary>Looks up the specified disc ID.</summary>
+    /// <param name="discid">The disc ID to look up.</param>
+    /// <param name="toc">
+    ///   The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
+    ///   The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
+    ///   followed by the start address of each track (in sectors).
+    /// </param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
+    /// <param name="noStubs">If true, CD stubs are not returned.</param>
+    /// <returns>
+    ///   The result of the disc ID lookup. This can be a single disc or CD stub (for a direct match to <paramref name="discid"/>), or
+    ///   a list of matching releases (for a fuzzy lookup based on <paramref name="toc"/>).
+    /// </returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public DiscIdLookupResult LookupDiscId(string discid, int[] toc, Include inc = Include.None, bool allMedia = false, bool noStubs = false) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)));
 
-    public Isrc LookupIsrc(string isrc, Include inc = Include.None) => this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc)).Isrc;
+    /// <summary>Looks up the specified event.</summary>
+    /// <param name="mbid">The MBID for the event to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested event.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Event LookupEvent(Guid mbid, Include inc = Include.None) => this.Lookup("event", mbid, inc).Event;
 
-    public WorkList LookupIswc(string iswc, Include inc = Include.None) => this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc)).WorkList;
+    /// <summary>Looks up the specified instrument.</summary>
+    /// <param name="mbid">The MBID for the instrument to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested instrument.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Instrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.Lookup("instrument", mbid, inc).Instrument;
 
-    public Label LookupLabel(Guid mbid, Include inc = Include.None) => this.PerformRequest("label", mbid, Query.BuildExtraText(inc)).Label;
+    /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
+    /// <param name="isrc">The ISRC to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The recordings associated with the requested ISRC.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Isrc LookupIsrc(string isrc, Include inc = Include.None) => this.Lookup("isrc", isrc, inc).Isrc;
 
-    public Place LookupPlace(Guid mbid, Include inc = Include.None) => this.PerformRequest("place", mbid, Query.BuildExtraText(inc)).Place;
+    /// <summary>Looks up the works associated with the specified ISWC.</summary>
+    /// <param name="iswc">The ISWC to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The works associated with the requested ISWC.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public WorkList LookupIswc(string iswc, Include inc = Include.None) => this.Lookup("iswc", iswc, inc).WorkList;
 
-    public Recording LookupRecording(Guid mbid, Include inc = Include.None) => this.PerformRequest("recording", mbid, Query.BuildExtraText(inc)).Recording;
+    /// <summary>Looks up the specified label.</summary>
+    /// <param name="mbid">The MBID for the label to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested label.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Label LookupLabel(Guid mbid, Include inc = Include.None) => this.Lookup("label", mbid, inc).Label;
 
-    public Release LookupRelease(Guid mbid, Include inc = Include.None) => this.PerformRequest("release", mbid, Query.BuildExtraText(inc)).Release;
+    /// <summary>Looks up the specified place.</summary>
+    /// <param name="mbid">The MBID for the place to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested place.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Place LookupPlace(Guid mbid, Include inc = Include.None) => this.Lookup("place", mbid, inc).Place;
 
-    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None) => this.PerformRequest("release-group", mbid, Query.BuildExtraText(inc)).ReleaseGroup;
+    /// <summary>Looks up the specified recording.</summary>
+    /// <param name="mbid">The MBID for the recording to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested recording.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Recording LookupRecording(Guid mbid, Include inc = Include.None) => this.Lookup("recording", mbid, inc).Recording;
 
-    public Series LookupSeries(Guid mbid, Include inc = Include.None) => this.PerformRequest("series", mbid, Query.BuildExtraText(inc)).Series;
+    /// <summary>Looks up the specified release.</summary>
+    /// <param name="mbid">The MBID for the release to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested release.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Release LookupRelease(Guid mbid, Include inc = Include.None) => this.Lookup("release", mbid, inc).Release;
 
-    public Url LookupUrl(Guid mbid, Include inc = Include.None) => this.PerformRequest("url", mbid, Query.BuildExtraText(inc)).Url;
+    /// <summary>Looks up the specified release group.</summary>
+    /// <param name="mbid">The MBID for the release group to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested release group.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None) => this.Lookup("release-group", mbid, inc).ReleaseGroup;
 
-    public Work LookupWork(Guid mbid, Include inc = Include.None) => this.PerformRequest("work", mbid, Query.BuildExtraText(inc)).Work;
+    /// <summary>Looks up the specified series.</summary>
+    /// <param name="mbid">The MBID for the series to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested series.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Series LookupSeries(Guid mbid, Include inc = Include.None) => this.Lookup("series", mbid, inc).Series;
+
+    /// <summary>Looks up the specified URL.</summary>
+    /// <param name="mbid">The MBID for the URL to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested URL.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Url LookupUrl(Guid mbid, Include inc = Include.None) => this.Lookup("url", mbid, inc).Url;
+
+    /// <summary>Looks up the specified work.</summary>
+    /// <param name="mbid">The MBID for the work to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested work.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public Work LookupWork(Guid mbid, Include inc = Include.None) => this.Lookup("work", mbid, inc).Work;
 
     #endregion
 
@@ -165,7 +283,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private string _lastDigest;
 
-    private static string BuildExtraText(Include inc) {
+    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false) {
       var sb = new StringBuilder();
       if (inc != Include.None) {
         sb.Append((sb.Length == 0) ? '?' : '&');
@@ -209,6 +327,12 @@ namespace MetaBrainz.MusicBrainz {
         if ((inc & Include.WorkLevelRelationships)      != 0) { sb.Append(letter).Append("work-level-rels");      letter = '+'; }
         if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
       }
+      if (toc != null)
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=").Append(string.Join("+", toc));
+      if (allMedia)
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
+      if (noStubs)
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
       return sb.ToString();
     }
 
@@ -259,8 +383,6 @@ namespace MetaBrainz.MusicBrainz {
       // We got a response without any content (probably impossible).
       throw new QueryException("Query did not produce results.");
     }
-
-    private Metadata PerformRequest(string entity, Guid id, string extra) => this.PerformRequest(entity, id.ToString("D"), extra);
 
     private Metadata PerformRequest(string entity, string id, string extra) {
       if (Query._requestDelay <= 0.0)
