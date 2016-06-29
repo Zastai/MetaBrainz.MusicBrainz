@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Net;
 using System.Reflection;
-using System.Security;
 using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
@@ -370,7 +369,7 @@ namespace MetaBrainz.MusicBrainz {
         switch (status.Value) {
           case ReleaseStatus.Bootleg:       sb.Append("bootleg");        break;
           case ReleaseStatus.Official:      sb.Append("official");       break;
-          case ReleaseStatus.Promotional:   sb.Append("promotional");    break;
+          case ReleaseStatus.Promotional:   sb.Append("promotion");      break; // Docs call it Promotional, UI & ws use "Promotion".
           case ReleaseStatus.PseudoRelease: sb.Append("pseudo-release"); break;
         }
       }

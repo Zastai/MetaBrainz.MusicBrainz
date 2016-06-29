@@ -15,6 +15,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>A give-away release or a release intended to promote an upcoming official release (e.g. pre-release versions, releases included with a magazine, versions supplied to radio DJs for air-play).</summary>
     Promotional,
 
+    // The MusicBrainz documentation pages call the status "Promotional", which matches "Official". However, the release editor (and web service) use "Promotion").
+    /// <summary>A give-away release or a release intended to promote an upcoming official release (e.g. pre-release versions, releases included with a magazine, versions supplied to radio DJs for air-play).</summary>
+    Promotion = ReleaseStatus.Promotional,
+
     /// <summary>An alternate version of a release where the titles have been changed. These don't correspond to any real release and should be linked to the original release using the transl(iter)ation relationship.</summary>
     PseudoRelease,
 
