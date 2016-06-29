@@ -3,7 +3,6 @@
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of the release type values (combines primary and secondary types).</summary>
-  /// <remarks>For more detailed descriptions, see <a href="https://musicbrainz.org/doc/Release_Group/Type">the MusicBrainz documentation website</a>.</remarks>
   [SuppressMessage("ReSharper", "InconsistentNaming")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public enum ReleaseType : byte {
@@ -15,6 +14,19 @@ namespace MetaBrainz.MusicBrainz {
     /// types which change that, such as <see cref="Compilation"/>).
     /// </summary>
     Album,
+
+    /// <summary>An episodic release that was originally broadcast via radio, television, or the Internet, including podcasts.</summary>
+    Broadcast,
+
+    /// <summary>
+    /// An EP is a so-called "Extended Play" release and often contains the letters EP in the title. Generally an EP will be shorter than a full length release
+    /// (an LP or "Long Play") and the tracks are usually exclusive to the EP, in other words the tracks don't come from a previously issued release. EP is fairly
+    /// difficult to define; usually it should only be assumed that a release is an EP if the artist defines it as such.
+    /// </summary>
+    EP,
+
+    /// <summary>Any release that does not fit or can't decisively be placed in any of the categories above.</summary>
+    Other,
 
     /// <summary>
     /// A single has different definitions depending on the market it is released for.
@@ -42,19 +54,6 @@ namespace MetaBrainz.MusicBrainz {
     /// is named for, and the other side -side B- would contain a bonus song, or sometimes even the same song. 
     /// </summary>
     Single,
-
-    /// <summary>
-    /// An EP is a so-called "Extended Play" release and often contains the letters EP in the title. Generally an EP will be shorter than a full length release
-    /// (an LP or "Long Play") and the tracks are usually exclusive to the EP, in other words the tracks don't come from a previously issued release. EP is fairly
-    /// difficult to define; usually it should only be assumed that a release is an EP if the artist defines it as such.
-    /// </summary>
-    EP,
-
-    /// <summary>An episodic release that was originally broadcast via radio, television, or the Internet, including podcasts.</summary>
-    Broadcast,
-
-    /// <summary>Any release that does not fit or can't decisively be placed in any of the categories above.</summary>
-    Other,
 
     #endregion
 
