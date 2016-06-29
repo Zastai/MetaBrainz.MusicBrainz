@@ -37,12 +37,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>The default web site to use for requests.</summary>
     public static string DefaultWebSite { get; set; }
 
-    /// <summary>
-    ///   The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are made.
-    /// </summary>
+    /// <summary>The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are made.</summary>
     /// <remarks>
-    ///   Note that this is a global delay, affecting all threads.
-    ///   When querying the official musicbrainz site, setting this below the default of one second may incur penalties (ranging from rate limiting to IP bans).
+    /// Note that this is a global delay, affecting all threads.
+    /// When querying the official musicbrainz site, setting this below the default of one second may incur penalties (ranging from rate limiting to IP bans).
     /// </remarks>
     public static double DelayBetweenRequests {
       get { return Query._requestDelay; }
@@ -81,19 +79,27 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="entity">The type of entity to look up.</param>
     /// <param name="mbid">The MBID for the entity to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="type">
+    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
+    /// </param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The result of the lookup.</returns>
     /// <exception cref="QueryException">When the serb service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Metadata Lookup(string entity, Guid mbid, Include inc = Include.None) => this.Lookup(entity, mbid.ToString("D"), inc);
+    public Metadata Lookup(string entity, Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup(entity, mbid.ToString("D"), inc, type, status);
 
     /// <summary>Performs a generic identifier-based lookup for the specified entity type.</summary>
     /// <param name="entity">The type of entity to look up.</param>
     /// <param name="id">The identifier for the entity to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="type">
+    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
+    /// </param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The result of the lookup.</returns>
     /// <exception cref="QueryException">When the serb service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Metadata Lookup(string entity, string id, Include inc = Include.None) => this.PerformRequest(entity, id, Query.BuildExtraText(inc));
+    public Metadata Lookup(string entity, string id, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.PerformRequest(entity, id, Query.BuildExtraText(inc, type: type, status: status));
 
     /// <summary>Looks up the specified area.</summary>
     /// <param name="mbid">The MBID for the area to look up.</param>
@@ -106,10 +112,14 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Looks up the specified artist.</summary>
     /// <param name="mbid">The MBID for the artist to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="type">
+    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
+    /// </param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The requested artist.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Artist LookupArtist(Guid mbid, Include inc = Include.None) => this.Lookup("artist", mbid, inc).Artist;
+    public Artist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("artist", mbid, inc, type, status).Artist;
 
     /// <summary>Looks up the specified collection.</summary>
     /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -129,13 +139,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="inc">Additional information to include in the result.</param>
     /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
     /// <param name="noStubs">If true, CD stubs are not returned.</param>
-    /// <returns>
-    ///   The result of the disc ID lookup. This can be a single disc or CD stub (for a direct match to <paramref name="discid"/>), or
-    ///   a list of matching releases (for a fuzzy lookup based on <paramref name="toc"/>).
-    /// </returns>
+    /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public DiscIdLookupResult LookupDiscId(string discid, int[] toc, Include inc = Include.None, bool allMedia = false, bool noStubs = false) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)));
+    public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)));
 
     /// <summary>Looks up the specified event.</summary>
     /// <param name="mbid">The MBID for the event to look up.</param>
@@ -172,10 +179,12 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Looks up the specified label.</summary>
     /// <param name="mbid">The MBID for the label to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The requested label.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Label LookupLabel(Guid mbid, Include inc = Include.None) => this.Lookup("label", mbid, inc).Label;
+    public Label LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("label", mbid, inc, type, status).Label;
 
     /// <summary>Looks up the specified place.</summary>
     /// <param name="mbid">The MBID for the place to look up.</param>
@@ -188,10 +197,12 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Looks up the specified recording.</summary>
     /// <param name="mbid">The MBID for the recording to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The requested recording.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Recording LookupRecording(Guid mbid, Include inc = Include.None) => this.Lookup("recording", mbid, inc).Recording;
+    public Recording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("recording", mbid, inc, type, status).Recording;
 
     /// <summary>Looks up the specified release.</summary>
     /// <param name="mbid">The MBID for the release to look up.</param>
@@ -204,10 +215,11 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Looks up the specified release group.</summary>
     /// <param name="mbid">The MBID for the release group to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
+    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
     /// <returns>The requested release group.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None) => this.Lookup("release-group", mbid, inc).ReleaseGroup;
+    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) => this.Lookup("release-group", mbid, inc, status: status).ReleaseGroup;
 
     /// <summary>Looks up the specified series.</summary>
     /// <param name="mbid">The MBID for the series to look up.</param>
@@ -283,11 +295,10 @@ namespace MetaBrainz.MusicBrainz {
 
     private string _lastDigest;
 
-    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false) {
+    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, ReleaseType? type = null, ReleaseStatus? status = null) {
       var sb = new StringBuilder();
       if (inc != Include.None) {
-        sb.Append((sb.Length == 0) ? '?' : '&');
-        sb.Append("inc");
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
         var letter = '=';
         // Linked Entities
         if ((inc & Include.Artists)       != 0) { sb.Append(letter).Append("artists");        letter = '+'; }
@@ -333,14 +344,44 @@ namespace MetaBrainz.MusicBrainz {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
       if (noStubs)
         sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
+      if (type.HasValue) {
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("type=");
+        switch (type.Value) {
+          // Primary Types
+          case ReleaseType.Album:       sb.Append("album");          break;
+          case ReleaseType.Broadcast:   sb.Append("broadcast");      break;
+          case ReleaseType.EP:          sb.Append("ep");             break;
+          case ReleaseType.Other:       sb.Append("other");          break;
+          case ReleaseType.Single:      sb.Append("single");         break;
+          // Secondary Types
+          case ReleaseType.Audiobook:   sb.Append("audiobook");      break;
+          case ReleaseType.Compilation: sb.Append("compilation");    break;
+          case ReleaseType.DJMix:       sb.Append("dj-mix");         break;
+          case ReleaseType.Interview:   sb.Append("interview");      break;
+          case ReleaseType.Live:        sb.Append("live");           break;
+          case ReleaseType.MixTape:     sb.Append("mixtape/street"); break;
+          case ReleaseType.Remix:       sb.Append("remix");          break;
+          case ReleaseType.Soundtrack:  sb.Append("soundtrack");     break;
+          case ReleaseType.SpokenWord:  sb.Append("spokenwork");     break;
+        }
+      }
+      if (status.HasValue) {
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("status=");
+        switch (status.Value) {
+          case ReleaseStatus.Bootleg:       sb.Append("bootleg");        break;
+          case ReleaseStatus.Official:      sb.Append("official");       break;
+          case ReleaseStatus.Promotional:   sb.Append("promotional");    break;
+          case ReleaseStatus.PseudoRelease: sb.Append("pseudo-release"); break;
+        }
+      }
       return sb.ToString();
     }
 
-    private Metadata PerformDirectRequest(string entity,string id, string extra) {
+    private Metadata PerformDirectRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri}");
       var firstTry = true;
-    retry:
+      retry:
       var req = WebRequest.Create(uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
@@ -385,6 +426,11 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private Metadata PerformRequest(string entity, string id, string extra) {
+      if (id == null)
+        throw new ArgumentNullException(nameof(id));
+      id = id.Trim();
+      if (id.Length == 0)
+        throw new ArgumentException("An entity identifier must not be blank or empty.", nameof(id));
       if (Query._requestDelay <= 0.0)
         return this.PerformDirectRequest(entity, id, extra);
       while (true) {
@@ -407,7 +453,6 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     #endregion
-
   }
 
 }
