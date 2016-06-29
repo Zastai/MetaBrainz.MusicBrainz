@@ -151,6 +151,8 @@
     <Compile Include="OAuth2.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
+    <Compile Include="ReleaseType.cs" />
+    <Compile Include="ReleaseStatus.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
