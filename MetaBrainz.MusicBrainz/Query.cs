@@ -9,7 +9,6 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model;
 using MetaBrainz.MusicBrainz.Model.Lists;
-using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -117,7 +116,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested area.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IArea LookupArea(Guid mbid, Include inc = Include.None) => this.Lookup("area", mbid, inc).Area;
+    public Area LookupArea(Guid mbid, Include inc = Include.None) => this.Lookup("area", mbid, inc).Area;
 
     /// <summary>Looks up the specified artist.</summary>
     /// <param name="mbid">The MBID for the artist to look up.</param>
