@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -13,6 +14,8 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class providing access to the MusicBrainz API.</summary>
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed class Query {
 
     #region Static Fields / Properties
@@ -49,6 +52,9 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
+    /// <summary>The URL included in the user agent for requests as part of this library's information.</summary>
+    public const string UserAgentUrl = "https://github.com/Zastai/MusicBrainz";
+
     /// <summary>The root location of the web service.</summary>
     public const string WebServiceRoot = "/ws/2";
 
@@ -66,7 +72,11 @@ namespace MetaBrainz.MusicBrainz {
       this.WebSite   =              Query.DefaultWebSite;
       if (this.UserAgent == null)
         throw new ArgumentNullException(nameof(userAgent));
-      // libmetabrainz does not validate/change the user agent in any way, so neither do we
+      // libmusicbrainz does not validate/change the user agent in any way, so neither do we
+      {
+        var an = Assembly.GetExecutingAssembly().GetName();
+        this._fullUserAgent = $"{this.UserAgent} {an.Name}/v{an.Version} ({Query.UserAgentUrl})";
+      }
     }
 
     #endregion
@@ -283,15 +293,17 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
-    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(Metadata));
-
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+
+    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(Metadata));
 
     private static DateTime _lastRequestTime;
 
     private static double _requestDelay = 1.0;
 
     private NetworkCredential _credential;
+
+    private readonly string _fullUserAgent;
 
     private string _lastDigest;
 
@@ -385,12 +397,9 @@ namespace MetaBrainz.MusicBrainz {
       var req = WebRequest.Create(uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method = "GET";
-      req.Accept = "application/xml";
-      {
-        var an = Assembly.GetExecutingAssembly().GetName();
-        req.UserAgent = $"{this.UserAgent} {an.Name}/v{an.Version}";
-      }
+      req.Method    = "GET";
+      req.Accept    = "application/xml";
+      req.UserAgent = this._fullUserAgent;
       if (this.BearerToken != null)
         req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
       else if (this._lastDigest != null)
