@@ -6,7 +6,9 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Recording : MBEntity {
+  public class Recording : MbEntity {
+
+    #region XML Elements
 
     [XmlElement("alias-list")]     public AliasList      AliasList;
     [XmlElement("annotation")]     public Annotation     Annotation;
@@ -27,6 +29,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlIgnore]                    public bool           VideoSpecified;
 
     [Obsolete] [XmlElement("puid-list")] public PuidList PuidList;
+
+    #endregion
 
   }
 

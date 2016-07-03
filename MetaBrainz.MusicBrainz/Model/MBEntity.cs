@@ -3,12 +3,14 @@ using System.Xml.Serialization;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
-  /// <summary>An item identified by an MBID.</summary>
   [Serializable]
-  public abstract class MBEntity : Item {
+  public abstract class MbEntity : Item {
 
-    /// <summary>The MBID that identifies this entity.</summary>
+    #region XML Attributes
+
     [XmlAttribute("id")] public Guid Id;
+
+    #endregion
 
   }
 

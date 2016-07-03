@@ -8,11 +8,19 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public abstract class Item {
 
+    #region XML Attributes
+
     /// <summary>Attributes not matched by the standard schema; these will be either extensions, or new schema contents not yet supported by this library.</summary>
     [XmlAnyAttribute] public XmlAttribute[] ExtensionAttributes;
 
+    #endregion
+
+    #region XML Elements
+
     /// <summary>Elements not matched by the standard schema; these will be either extensions, or new schema contents not yet supported by this library.</summary>
     [XmlAnyElement]   public XmlElement  [] ExtensionElements;
+
+    #endregion
 
   }
 

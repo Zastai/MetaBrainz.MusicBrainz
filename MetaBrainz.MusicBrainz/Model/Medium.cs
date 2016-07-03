@@ -8,6 +8,8 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class Medium : Item {
 
+    #region XML Elements
+
     [XmlElement("data-track-list")] public TrackList DataTrackList;
     [XmlElement("disc-list")]       public DiscList  DiscList;
     [XmlElement("format")]          public Format    Format;
@@ -15,6 +17,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("pregap")]          public TrackInfo Pregap;
     [XmlElement("title")]           public string    Title;
     [XmlElement("track-list")]      public TrackList TrackList;
+
+    #endregion
 
   }
 

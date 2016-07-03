@@ -9,11 +9,15 @@ namespace MetaBrainz.MusicBrainz.Model {
   [XmlRoot("metadata", Namespace = "http://musicbrainz.org/ns/mmd-2.0#", IsNullable = false)]
   public sealed class Metadata : Item {
 
+    #region XML Attributes
+
     [XmlAttribute("generator")] public string   Generator;
     [XmlAttribute("created"  )] public DateTime Created;
     [XmlIgnore]                 public bool     CreatedSpecified;
 
-    #region Resources
+    #endregion
+
+    #region XML Elements: Resources
 
     [XmlElement("area")]          public Area         Area;
     [XmlElement("artist")]        public Artist       Artist;
@@ -40,7 +44,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     #endregion
 
-    #region Lists
+    #region XML Elements: Lists
 
     [XmlElement("annotation-list")]    public AnnotationList   AnnotationList;
     [XmlElement("area-list")]          public AreaList         AreaList;

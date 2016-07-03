@@ -8,11 +8,15 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class CdStub : Entity {
 
+    #region XML Elements
+
     [XmlElement("artist")]         public string          Artist;
     [XmlElement("barcode")]        public string          Barcode;
     [XmlElement("disambiguation")] public string          Comment;
     [XmlElement("title")]          public string          Title;
     [XmlElement("track-list")]     public SimpleTrackList TrackList;
+
+    #endregion
 
   }
 

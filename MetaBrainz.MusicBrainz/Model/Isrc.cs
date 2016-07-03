@@ -8,7 +8,11 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class Isrc : Entity {
 
+    #region XML Elements
+
     [XmlElement("recording-list")] public RecordingList RecordingList;
+
+    #endregion
 
   }
 

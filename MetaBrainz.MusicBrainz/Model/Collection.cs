@@ -6,12 +6,18 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Collection : MBEntity {
+  public class Collection : MbEntity {
+
+    #region XML Attributes
 
     [XmlAttribute("entity-type")] public string EntityType;
     [XmlAttribute("type")]        public string Type;
     [XmlAttribute("type-id")]     public Guid   TypeId;
     [XmlIgnore]                   public bool   TypeIdSpecified;
+
+    #endregion
+
+    #region XML Elements
 
     [XmlElement("editor")] public string Editor;
     [XmlElement("name")]   public string Name;
@@ -27,6 +33,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("release-group-list")] public ReleaseGroupList ReleaseGroupList;
     [XmlElement("series-list")]        public SeriesList       SeriesList;
     [XmlElement("work-list")]          public WorkList         WorkList;
+
+    #endregion
 
   }
 

@@ -8,9 +8,15 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class Relation : Item {
 
+    #region XML Attributes
+
     [XmlAttribute("type")]    public string Type;
     [XmlAttribute("type-id")] public Guid   TypeId;
     [XmlIgnore]               public bool   TypeIdSpecified;
+
+    #endregion
+
+    #region XML Elements
 
     [XmlElement("attribute-list")] public RelationAttributeList AttributeList;
     [XmlElement("begin")]          public string                Begin;
@@ -34,7 +40,9 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("release-group", typeof(ReleaseGroup))]
     [XmlElement("series",        typeof(Series))]
     [XmlElement("work",          typeof(Work))]
-    public MBEntity Item;
+    public MbEntity Item;
+
+    #endregion
 
   }
 

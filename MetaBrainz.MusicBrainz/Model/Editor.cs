@@ -8,7 +8,13 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class Editor : Item {
 
+    #region XML Attributes
+
     [XmlAttribute("id")] public uint Id;
+
+    #endregion
+
+    #region XML Elements
 
     [XmlElement("age")]              public string          Age;
     [XmlElement("area")]             public Area            Area;
@@ -22,6 +28,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("name")]             public string          Name;
     [XmlElement("privs")]            public uint            Privileges;
     [XmlIgnore]                      public bool            PrivilegesSpecified;
+
+    #endregion
 
   }
 

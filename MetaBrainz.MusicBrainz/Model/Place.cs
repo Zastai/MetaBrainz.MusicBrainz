@@ -6,11 +6,17 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Place : MBEntity {
+  public class Place : MbEntity {
+
+    #region XML Attributes
 
     [XmlAttribute("type")]    public string Type;
     [XmlAttribute("type-id")] public Guid   TypeId;
     [XmlIgnore]               public bool   TypeIdSpecified;
+
+    #endregion
+
+    #region XML Elements
 
     [XmlElement("address")]        public string         Address;
     [XmlElement("alias-list")]     public AliasList      AliasList;
@@ -23,6 +29,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("relation-list")]  public RelationList[] RelationList;
     [XmlElement("tag-list")]       public TagList        TagList;
     [XmlElement("user-tag-list")]  public UserTagList    UserTagList;
+
+    #endregion
 
   }
 

@@ -7,9 +7,13 @@ namespace MetaBrainz.MusicBrainz.Model {
 
   [Obsolete]
   [Serializable]
-  public class Puid : MBEntity {
+  public class Puid : MbEntity {
+
+    #region XML Elements
 
     [XmlElement("recording-list")] public RecordingList RecordingList;
+
+    #endregion
 
   }
 

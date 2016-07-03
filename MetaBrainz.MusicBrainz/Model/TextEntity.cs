@@ -1,12 +1,14 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
-  public abstract class TextEntity : MBEntity {
+  public abstract class TextEntity : MbEntity {
+
+    #region XML Elements
 
     [XmlText] public string Text;
+
+    #endregion
 
   }
 

@@ -6,6 +6,8 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class Alias : Item {
 
+    #region XML Attributes
+
     [XmlAttribute("begin-date")] public DateTime BeginDate;
     [XmlIgnore]                  public bool     BeginDateSpecified;
     [XmlAttribute("end-date")]   public DateTime EndDate;
@@ -17,7 +19,13 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlAttribute("type-id")]    public Guid     TypeId;
     [XmlIgnore]                  public bool     TypeIdSpecified;
 
+    #endregion
+
+    #region XML Elements
+
     [XmlText] public string Text;
+
+    #endregion
 
   }
 

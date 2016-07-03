@@ -6,8 +6,12 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class LabelInfo : Item {
 
+    #region XML Elements
+
     [XmlElement("catalog-number")] public string CatalogNumber;
     [XmlElement("label")]          public Label  Label;
+
+    #endregion
 
   }
 

@@ -6,6 +6,8 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public class TrackInfo : Entity {
 
+    #region XML Elements
+
     [XmlElement("artist-credit")] public ArtistCredit ArtistCredit;
     [XmlElement("length")]        public uint         Length;
     [XmlIgnore]                   public bool         LengthSpecified;
@@ -14,6 +16,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlIgnore]                   public bool         PositionSpecified;
     [XmlElement("recording")]     public Recording    Recording;
     [XmlElement("title")]         public string       Title;
+
+    #endregion
 
   }
 

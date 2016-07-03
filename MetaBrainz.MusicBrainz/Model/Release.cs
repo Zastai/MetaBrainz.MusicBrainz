@@ -6,7 +6,9 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Release : MBEntity {
+  public class Release : MbEntity {
+
+    #region XML Elements
 
     [XmlElement("alias-list")]          public AliasList          AliasList;
     [XmlElement("annotation")]          public Annotation         Annotation;
@@ -30,6 +32,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("text-representation")] public TextRepresentation TextRepresentation;
     [XmlElement("title")]               public string             Title;
     [XmlElement("user-tag-list")]       public UserTagList        UserTagList;
+
+    #endregion
 
   }
 

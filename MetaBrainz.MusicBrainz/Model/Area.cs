@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
@@ -6,11 +7,19 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Area : MBEntity {
+  [SuppressMessage("ReSharper", "UnassignedField.Global")]
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  public sealed class Area : MbEntity {
+
+    #region XML Attributes
 
     [XmlAttribute("type")]    public string Type;
     [XmlAttribute("type-id")] public Guid   TypeId;
     [XmlIgnore]               public bool   TypeIdSpecified;
+
+    #endregion
+
+    #region XML Elements
 
     [XmlElement("alias-list")]           public AliasList        AliasList;
     [XmlElement("annotation")]           public Annotation       Annotation;
@@ -24,6 +33,8 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("sort-name")]            public string           SortName;
     [XmlElement("tag-list")]             public TagList          TagList;
     [XmlElement("user-tag-list")]        public UserTagList      UserTagList;
+
+    #endregion
 
   }
 

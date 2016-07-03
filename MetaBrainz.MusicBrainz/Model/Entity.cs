@@ -7,8 +7,12 @@ namespace MetaBrainz.MusicBrainz.Model {
   [Serializable]
   public abstract class Entity : Item {
 
+    #region XML Attributes
+
     /// <summary>The identifier that identifies this entity.</summary>
     [XmlAttribute("id")] public string Id;
+
+    #endregion
 
   }
 

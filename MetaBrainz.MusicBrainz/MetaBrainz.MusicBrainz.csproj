@@ -113,7 +113,7 @@
     <Compile Include="Model\Label.cs" />
     <Compile Include="Model\LabelInfo.cs" />
     <Compile Include="Model\LifeSpan.cs" />
-    <Compile Include="Model\MBEntity.cs" />
+    <Compile Include="Model\MbEntity.cs" />
     <Compile Include="Model\Medium.cs" />
     <Compile Include="Model\Metadata.cs" />
     <Compile Include="Model\NameCredit.cs" />
