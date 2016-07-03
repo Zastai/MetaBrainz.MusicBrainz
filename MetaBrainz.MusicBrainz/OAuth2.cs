@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Reflection;
@@ -9,6 +10,9 @@ using System.Text;
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
+  [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public class OAuth2 {
 
     #region Static Fields / Properties

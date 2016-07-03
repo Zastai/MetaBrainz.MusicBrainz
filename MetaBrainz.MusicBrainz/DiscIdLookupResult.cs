@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Model;
 using MetaBrainz.MusicBrainz.Model.Lists;
@@ -6,6 +7,8 @@ using MetaBrainz.MusicBrainz.Model.Lists;
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class representing the result of a disc-id lookup: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "NotAccessedField.Global")]
   public sealed class DiscIdLookupResult {
 
     /// <summary>Creates a new <see cref="DiscIdLookupResult"/> instance based on the specified metadata.</summary>

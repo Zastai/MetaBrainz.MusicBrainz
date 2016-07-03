@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of the scopes available through MusicBrainz OAuth2 authentication.</summary>
   [Flags]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public enum AuthorizationScope : int {
 
     /// <summary>No authorization requested.</summary>

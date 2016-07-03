@@ -5,6 +5,8 @@ using System.Web.Script.Serialization;
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class representing an OAuth2 bearer token.</summary>
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
   public sealed class BearerToken {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
@@ -23,7 +25,7 @@ namespace MetaBrainz.MusicBrainz {
       if (json?.token_type != "bearer")
         throw new InvalidOperationException("No bearer token data found in the response text.");
       this.AccessToken  = json.access_token;
-      this.Lifetime       = json.expires_in;
+      this.Lifetime     = json.expires_in;
       this.RefreshToken = json.refresh_token;
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
@@ -7,6 +8,7 @@ namespace MetaBrainz.MusicBrainz {
 
   /// <summary>An exception raised by a MusicBrainz web service query.</summary>
   [Serializable]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed class QueryException : Exception {
 
     /// <summary>Creates a new <see cref="QueryException"/> instance using the specified message.</summary>
