@@ -245,7 +245,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested URL.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Url LookupUrl(Guid mbid, Include inc = Include.None) => this.Lookup("url", mbid, inc).Url;
+    public IUrl LookupUrl(Guid mbid, Include inc = Include.None) => this.Lookup("url", mbid, inc).Url;
 
     /// <summary>Looks up the specified work.</summary>
     /// <param name="mbid">The MBID for the work to look up.</param>
