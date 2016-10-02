@@ -4,9 +4,7 @@ namespace MetaBrainz.MusicBrainz.Resources {
 
   public interface IStringList : IResource {
 
-    uint? Count { get; }
-
-    uint? Offset { get; }
+    int? Count { get; }
 
     IEnumerable<string> Items { get; }
 
