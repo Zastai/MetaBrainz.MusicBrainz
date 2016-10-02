@@ -178,6 +178,7 @@
     <Compile Include="Resources\IRelatableResource.cs" />
     <Compile Include="Resources\IRelation.cs" />
     <Compile Include="Resources\IRelationAttribute.cs" />
+    <Compile Include="Resources\IRelationList.cs" />
     <Compile Include="Resources\IRelationTarget.cs" />
     <Compile Include="Resources\IRelease.cs" />
     <Compile Include="Resources\IReleaseEvent.cs" />
