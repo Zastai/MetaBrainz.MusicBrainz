@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
   [SuppressMessage("ReSharper", "UnassignedField.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  public sealed class Area : MbEntity {
+  public sealed class Area : MbEntity, IArea {
 
     #region XML Attributes
 
@@ -33,6 +35,58 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("sort-name")]            public string           SortName;
     [XmlElement("tag-list")]             public TagList          TagList;
     [XmlElement("user-tag-list")]        public UserTagList      UserTagList;
+
+    #endregion
+
+    #region IAnnotatedResource
+
+    IAnnotation IAnnotatedResource.Annotation => this.Annotation;
+
+    #endregion
+
+    #region INamedResource
+
+    IResourceList<IAlias> INamedResource.AliasList => this.AliasList;
+
+    string INamedResource.Disambiguation => this.Disambiguation;
+
+    string INamedResource.Name => this.Name;
+
+    string INamedResource.SortName => this.SortName;
+
+    #endregion
+
+    #region IRelatableResource
+
+    IEnumerable<IRelationList> IRelatableResource.RelationList => this.RelationList;
+
+    #endregion
+
+    #region ITaggedResource
+
+    IResourceList<ITag> ITaggedResource.TagList => this.TagList;
+
+    IResourceList<IUserTag> ITaggedResource.UserTagList => this.UserTagList;
+
+    #endregion
+
+    #region ITypedResource
+
+    string ITypedResource.Type => this.Type;
+
+    Guid? ITypedResource.TypeId => this.TypeIdSpecified ? (Guid?) this.TypeId : null;
+
+    #endregion
+
+    #region IArea
+
+    IStringList IArea.Iso31661CodeList => this.Iso31661CodeList;
+
+    IStringList IArea.Iso31662CodeList => this.Iso31662CodeList;
+
+    IStringList IArea.Iso31663CodeList => this.Iso31663CodeList;
+
+    ILifeSpan IArea.LifeSpan => this.LifeSpan;
 
     #endregion
 

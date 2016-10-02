@@ -2,11 +2,12 @@
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Relation : Item {
+  public class Relation : Item, IRelation {
 
     #region XML Attributes
 
@@ -41,6 +42,38 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("series",        typeof(Series))]
     [XmlElement("work",          typeof(Work))]
     public MbEntity Item;
+
+    #endregion
+
+    #region ITypedResource
+
+    string ITypedResource.Type => this.Type;
+
+    Guid? ITypedResource.TypeId => this.TypeIdSpecified ? (Guid?) this.TypeId : null;
+
+    #endregion
+
+    #region IRelation
+
+    IResourceList<IRelationAttribute> IRelation.AttributeList => this.AttributeList;
+
+    string IRelation.Begin => this.Begin;
+
+    string IRelation.Direction => this.Direction;
+
+    string IRelation.End => this.End;
+
+    bool? IRelation.Ended => this.EndedSpecified ? (bool?) this.Ended : null;
+
+    IMbEntity IRelation.Item => this.Item;
+
+    string IRelation.OrderingKey => this.OrderingKey;
+
+    string IRelation.SourceCredit => this.SourceCredit;
+
+    IRelationTarget IRelation.Target => this.Target;
+
+    string IRelation.TargetCredit => this.TargetCredit;
 
     #endregion
 
