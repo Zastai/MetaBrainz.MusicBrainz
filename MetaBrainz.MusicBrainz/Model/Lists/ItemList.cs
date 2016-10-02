@@ -11,6 +11,10 @@ namespace MetaBrainz.MusicBrainz.Model.Lists {
     [XmlAttribute("offset")] public uint Offset;
     [XmlIgnore]              public bool OffsetSpecified;
 
+    protected uint? ListCount => this.CountSpecified ? (uint?) this.Count : null;
+
+    protected uint? ListOffset => this.OffsetSpecified ? (uint?) this.Offset : null;
+
   }
 
 }
