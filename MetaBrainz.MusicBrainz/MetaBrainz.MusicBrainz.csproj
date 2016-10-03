@@ -109,6 +109,7 @@
     <Compile Include="Model\Gender.cs" />
     <Compile Include="Model\Instrument.cs" />
     <Compile Include="Model\Isrc.cs" />
+    <Compile Include="Model\Iswc.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Label.cs" />
     <Compile Include="Model\LabelInfo.cs" />
