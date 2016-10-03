@@ -20,7 +20,7 @@ namespace MetaBrainz.MusicBrainz.Resources {
 
     ICdStub CdStub { get; }
 
-    ICollection<IMbEntity> Collection { get; }
+    ICollection Collection { get; }
 
     IDisc Disc { get; }
 
@@ -66,7 +66,7 @@ namespace MetaBrainz.MusicBrainz.Resources {
 
     IResourceList<ICdStub> CdStubList { get; }
 
-    IResourceList<ICollection<IMbEntity>> CollectionList { get; }
+    IResourceList<ICollection> CollectionList { get; }
 
     IResourceList<IEditor> EditorList { get; }
 

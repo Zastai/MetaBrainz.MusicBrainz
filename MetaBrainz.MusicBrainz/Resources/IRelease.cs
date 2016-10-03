@@ -8,7 +8,7 @@
 
     string BarCode { get; }
 
-    IResourceList<ICollection<IRelease>> CollectionList { get; }
+    IResourceList<ICollection> CollectionList { get; }
 
     string Country { get; }
 
@@ -18,7 +18,7 @@
 
     IResourceList<ILabelInfo> LabelInfoList { get; }
 
-    IResourceList<IMedium> MediumList { get; }
+    IMediumList MediumList { get; }
 
     ITextResource Packaging { get; }
 

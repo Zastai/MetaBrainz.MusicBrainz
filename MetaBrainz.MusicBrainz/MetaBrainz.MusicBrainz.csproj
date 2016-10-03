@@ -167,6 +167,7 @@
     <Compile Include="Resources\ILifeSpan.cs" />
     <Compile Include="Resources\IMbEntity.cs" />
     <Compile Include="Resources\IMedium.cs" />
+    <Compile Include="Resources\IMediumList.cs" />
     <Compile Include="Resources\IMetadata.cs" />
     <Compile Include="Resources\INameCredit.cs" />
     <Compile Include="Resources\INamedResource.cs" />
