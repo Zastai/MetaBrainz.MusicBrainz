@@ -70,7 +70,7 @@ namespace MetaBrainz.MusicBrainz.Resources {
 
     IResourceList<IEditor> EditorList { get; }
 
-    IResourceList<IEntity> EntityList { get; }
+    IResourceList<IMbEntity> EntityList { get; }
 
     IResourceList<IEvent> EventList { get; }
 
