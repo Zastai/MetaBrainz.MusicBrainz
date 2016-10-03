@@ -1,6 +1,6 @@
 ﻿namespace MetaBrainz.MusicBrainz.Resources {
 
-  public interface IArtist : IMbEntity, IAnnotatedResource, INamedResource, IRatedResource, IRelatableResource, ITypedResource, ITaggedResource {
+  public interface IArtist : IMbEntity, IAnnotatedResource, INamedResource, IRatedResource, IRelatableResource, ITaggedResource, ITypedResource {
 
     IArea Area { get; }
 
@@ -14,9 +14,9 @@
 
     string Ipi { get; }
 
-    IResourceList<ITextResource> IpiList { get; }
+    IStringList IpiList { get; }
 
-    IResourceList<ITextResource> IsniList { get; }
+    IStringList IsniList { get; }
 
     IResourceList<ILabel> LabelList { get; }
 
