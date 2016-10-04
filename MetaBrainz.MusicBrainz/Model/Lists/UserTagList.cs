@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class UserTagList : ItemList, IResourceList<IUserTag> {
+  internal sealed class UserTagList : ItemList, IResourceList<IUserTag> {
 
     [XmlElement("user-tag")] public UserTag[] Items;
 

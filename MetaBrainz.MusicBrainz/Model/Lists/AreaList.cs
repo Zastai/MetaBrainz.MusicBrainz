@@ -4,14 +4,16 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class AreaList : ItemList, IResourceList<IArea> {
+  internal sealed class AreaList : ItemList, IResourceList<IArea> {
 
     [XmlElement("area")] public Area[] Items;
 
-    #region Implementation of IResourceList<out IArea>
+    #region IResourceList<IArea>
 
     uint? IResourceList<IArea>.Count => this.ListCount;
 

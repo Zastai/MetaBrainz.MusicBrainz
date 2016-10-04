@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class FreeDbDiscList : ItemList, IResourceList<IFreeDbDisc> {
+  internal sealed class FreeDbDiscList : ItemList, IResourceList<IFreeDbDisc> {
 
     [XmlElement("freedb-disc")] public FreeDbDisc[] Items;
 

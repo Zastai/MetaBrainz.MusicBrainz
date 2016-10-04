@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
+
+#pragma warning disable 649
 
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public abstract class ItemList : Item {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal abstract class ItemList : Item {
 
     [XmlAttribute("count")]  public uint Count;
     [XmlIgnore]              public bool CountSpecified;

@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class EditorList : ItemList, IResourceList<IEditor> {
+  internal sealed class EditorList : ItemList, IResourceList<IEditor> {
 
     [XmlElement("editor")] public Editor[] Items;
 

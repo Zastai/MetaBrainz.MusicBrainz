@@ -4,14 +4,16 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class AnnotationList : ItemList, IResourceList<IAnnotation> {
+  internal sealed class AnnotationList : ItemList, IResourceList<IAnnotation> {
 
     [XmlElement("annotation")] public Annotation[] Items;
 
-    #region Implementation of IResourceList<out IAnnotation>
+    #region IResourceList<IAnnotation>
 
     uint? IResourceList<IAnnotation>.Count => this.ListCount;
 

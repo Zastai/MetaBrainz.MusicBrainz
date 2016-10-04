@@ -3,10 +3,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class TextRepresentation : Item, ITextRepresentation {
+  internal sealed class TextRepresentation : Item, ITextRepresentation {
 
     #region XML Elements
 

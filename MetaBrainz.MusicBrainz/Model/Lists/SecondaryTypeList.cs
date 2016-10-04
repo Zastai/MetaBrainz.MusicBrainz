@@ -4,14 +4,16 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class SecondaryTypeList : Item, IResourceList<ITextResource> {
+  internal sealed class SecondaryTypeList : Item, IResourceList<ITextResource> {
 
     [XmlElement("secondary-type")] public SecondaryType[] Items;
 
-    #region Implementation of IResourceList<out ITextResource>
+    #region IResourceList<ITextResource>
 
     uint? IResourceList<ITextResource>.Count  => (this.Items == null) ? null : (uint?) this.Items.Length;
 

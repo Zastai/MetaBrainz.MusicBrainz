@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class ReleaseEventList : ItemList, IResourceList<IReleaseEvent> {
+  internal sealed class ReleaseEventList : ItemList, IResourceList<IReleaseEvent> {
 
     [XmlElement("release-event")] public ReleaseEvent[] Items;
 

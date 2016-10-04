@@ -3,10 +3,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class RelationTarget : Entity, IRelationTarget {
+  internal sealed class RelationTarget : Entity, IRelationTarget {
 
     #region XML Elements
 

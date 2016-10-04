@@ -4,11 +4,13 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Obsolete]
   [Serializable]
-  public class PuidList : ItemList, IResourceList<IPuid> {
+  internal sealed class PuidList : ItemList, IResourceList<IPuid> {
 
     [XmlElement("puid")] public Puid[] Items;
 

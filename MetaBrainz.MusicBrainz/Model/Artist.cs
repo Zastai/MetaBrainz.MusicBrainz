@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Artist : MbEntity, IArtist {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal sealed class Artist : MbEntity, IArtist {
 
     #region XML Attributes
 

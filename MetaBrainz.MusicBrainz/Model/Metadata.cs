@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
   [XmlRoot("metadata", Namespace = "http://musicbrainz.org/ns/mmd-2.0#", IsNullable = false)]
-  public sealed class Metadata : Item, IMetadata {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal sealed class Metadata : Item, IMetadata {
 
     #region XML Attributes
 
@@ -111,7 +115,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     IUrl IMetadata.Url => this.Url;
 
-    byte? IMetadata.UserRating => this.UserRating;
+    byte? IMetadata.UserRating => this.UserRatingSpecified ? (byte?) this.UserRating : null;
 
     IWork IMetadata.Work => this.Work;
 

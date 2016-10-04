@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class RelationAttributeList : Item, IResourceList<IRelationAttribute> {
+  internal sealed class RelationAttributeList : Item, IResourceList<IRelationAttribute> {
 
     [XmlElement("attribute")] public RelationAttribute[] Items;
 

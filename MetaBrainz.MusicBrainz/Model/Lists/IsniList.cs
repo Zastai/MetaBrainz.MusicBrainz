@@ -4,14 +4,16 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class IsniList : Item, IStringList {
+  internal sealed class IsniList : Item, IStringList {
 
     [XmlElement("isni")] public string[] Items;
 
-    #region Implementation of IStringList
+    #region IStringList
 
     int? IStringList.Count => this.Items?.Length;
 

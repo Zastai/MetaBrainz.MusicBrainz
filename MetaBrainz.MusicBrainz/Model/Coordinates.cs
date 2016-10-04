@@ -3,10 +3,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Coordinates : Item, ICoordinates {
+  internal sealed class Coordinates : Item, ICoordinates {
 
     #region XML Elements
 

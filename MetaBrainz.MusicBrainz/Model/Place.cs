@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Place : MbEntity, IPlace {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal sealed class Place : MbEntity, IPlace {
 
     #region XML Attributes
 
@@ -74,7 +78,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     #endregion
 
-    #region Implementation of IPlace
+    #region IPlace
 
     string IPlace.Address => this.Address;
 

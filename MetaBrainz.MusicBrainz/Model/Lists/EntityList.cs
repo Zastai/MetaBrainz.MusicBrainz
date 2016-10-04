@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class EntityList : ItemList, IResourceList<IMbEntity> {
+  internal sealed class EntityList : ItemList, IResourceList<IMbEntity> {
 
     [XmlElement("area",          typeof(Area))]
     [XmlElement("artist",        typeof(Artist))]

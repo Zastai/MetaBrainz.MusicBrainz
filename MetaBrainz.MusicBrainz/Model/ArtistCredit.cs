@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class ArtistCredit : Item, IArtistCredit {
+  internal sealed class ArtistCredit : Item, IArtistCredit {
 
     #region XML Elements
 

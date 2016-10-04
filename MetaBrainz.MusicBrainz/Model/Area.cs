@@ -6,12 +6,13 @@ using System.Xml.Serialization;
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  [SuppressMessage("ReSharper", "UnassignedField.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  public sealed class Area : MbEntity, IArea {
+  internal sealed class Area : MbEntity, IArea {
 
     #region XML Attributes
 

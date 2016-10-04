@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
   /// <summary>An item identified by some identifier.</summary>
   [Serializable]
-  public abstract class Entity : Item, IEntity {
+  internal abstract class Entity : Item, IEntity {
 
     #region XML Attributes
 

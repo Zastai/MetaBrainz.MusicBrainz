@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class CdStubList : ItemList, IResourceList<ICdStub> {
+  internal sealed class CdStubList : ItemList, IResourceList<ICdStub> {
 
     [XmlElement("cdstub")] public CdStub[] Items;
 
@@ -20,6 +22,7 @@ namespace MetaBrainz.MusicBrainz.Model.Lists {
     IEnumerable<ICdStub> IResourceList<ICdStub>.Items => this.Items;
 
     #endregion
+
   }
 
 }

@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Medium : Item, IMedium {
+  internal sealed class Medium : Item, IMedium {
 
     #region XML Elements
 
@@ -21,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     #endregion
 
-    #region Implementation of IMedium
+    #region IMedium
 
     IResourceList<ITrackInfo> IMedium.DataTrackList => this.DataTrackList;
 

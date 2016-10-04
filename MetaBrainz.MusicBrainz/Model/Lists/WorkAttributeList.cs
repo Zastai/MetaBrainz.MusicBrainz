@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class WorkAttributeList : Item, IResourceList<IWorkAttribute> {
+  internal sealed class WorkAttributeList : Item, IResourceList<IWorkAttribute> {
 
     [XmlElement("attribute")] public WorkAttribute[] Items;
 

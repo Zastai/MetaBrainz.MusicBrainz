@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class IswcList : ItemList, IResourceList<ITextResource> {
+  internal sealed class IswcList : ItemList, IResourceList<ITextResource> {
 
     [XmlElement("iswc")] public Iswc[] Items;
 

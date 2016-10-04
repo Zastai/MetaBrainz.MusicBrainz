@@ -4,7 +4,7 @@ using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
-  public abstract class TextEntity : MbEntity, ITextResource {
+  internal abstract class TextEntity : MbEntity, ITextResource {
 
     #region XML Elements
 

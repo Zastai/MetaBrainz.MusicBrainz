@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class PlaceList : ItemList, IResourceList<IPlace> {
+  internal sealed class PlaceList : ItemList, IResourceList<IPlace> {
 
     [XmlElement("place")] public Place[] Items;
 

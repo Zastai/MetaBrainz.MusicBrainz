@@ -3,6 +3,6 @@
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Packaging : TextEntity { }
+  internal sealed class Packaging : TextEntity { }
 
 }

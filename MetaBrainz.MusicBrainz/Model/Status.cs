@@ -3,6 +3,6 @@
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Status : TextEntity { }
+  internal sealed class Status : TextEntity { }
 
 }

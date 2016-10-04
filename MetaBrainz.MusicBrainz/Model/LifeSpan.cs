@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class LifeSpan : Item, ILifeSpan {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal sealed class LifeSpan : Item, ILifeSpan {
 
     #region XML Elements
 

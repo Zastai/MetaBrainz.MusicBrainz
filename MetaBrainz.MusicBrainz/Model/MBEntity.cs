@@ -6,7 +6,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public abstract class MbEntity : Item, IMbEntity {
+  internal abstract class MbEntity : Item, IMbEntity {
 
     #region XML Attributes
 

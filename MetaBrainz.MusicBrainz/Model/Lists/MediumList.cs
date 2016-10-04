@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class MediumList : ItemList, IMediumList {
+  internal sealed class MediumList : ItemList, IMediumList {
 
     [XmlElement("medium")]      public Medium[] Items;
     [XmlElement("track-count")] public uint     TrackCount;

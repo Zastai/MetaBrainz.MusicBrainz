@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   /// <summary>A generic item. Serves as a container for any otherwise unmatched attributes and elements.</summary>
   [Serializable]
-  public abstract class Item : IResource {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal abstract class Item : IResource {
 
     #region XML Attributes
 

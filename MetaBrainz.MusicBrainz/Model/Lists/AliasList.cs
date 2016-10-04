@@ -4,10 +4,12 @@ using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class AliasList : ItemList, IResourceList<IAlias> {
+  internal sealed class AliasList : ItemList, IResourceList<IAlias> {
 
     [XmlElement("alias")] public Alias[] Items;
 

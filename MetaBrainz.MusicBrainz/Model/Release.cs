@@ -5,10 +5,12 @@ using System.Xml.Serialization;
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Release : MbEntity, IRelease {
+  internal sealed class Release : MbEntity, IRelease {
 
     #region XML Elements
 

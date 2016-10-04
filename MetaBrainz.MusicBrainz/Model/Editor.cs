@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
+#pragma warning disable 649
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Editor : Item, IEditor {
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  internal sealed class Editor : Item, IEditor {
 
     #region XML Attributes
 
@@ -32,7 +36,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     #endregion
 
-    #region Implementation of IEditor
+    #region IEditor
 
     uint IEditor.Id => this.Id;
 
