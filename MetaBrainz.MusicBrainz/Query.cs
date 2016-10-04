@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading;
 using System.Xml.Serialization;
 
-using MetaBrainz.MusicBrainz.Model;
-using MetaBrainz.MusicBrainz.Model.Lists;
 using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz {
@@ -295,7 +293,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
-    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(Metadata));
+    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(InternalModel.Metadata));
 
     private static DateTime _lastRequestTime;
 
@@ -389,7 +387,7 @@ namespace MetaBrainz.MusicBrainz {
       return sb.ToString();
     }
 
-    private Metadata PerformDirectRequest(string entity, string id, string extra) {
+    private IMetadata PerformDirectRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri}");
       var firstTry = true;
@@ -408,7 +406,7 @@ namespace MetaBrainz.MusicBrainz {
         using (var response = (HttpWebResponse) req.GetResponse()) {
           using (var stream = response.GetResponseStream()) {
             if (stream != null)
-              return (Metadata) Query.Serializer.Deserialize(stream);
+              return (IMetadata) Query.Serializer.Deserialize(stream);
           }
         }
       }
@@ -434,7 +432,7 @@ namespace MetaBrainz.MusicBrainz {
       throw new QueryException("Query did not produce results.");
     }
 
-    private Metadata PerformRequest(string entity, string id, string extra) {
+    private IMetadata PerformRequest(string entity, string id, string extra) {
       if (id == null)
         throw new ArgumentNullException(nameof(id));
       id = id.Trim();
