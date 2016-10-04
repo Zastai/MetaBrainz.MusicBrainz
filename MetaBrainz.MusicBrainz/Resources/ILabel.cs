@@ -8,7 +8,7 @@
 
     string Ipi { get; }
 
-    IResourceList<ITextResource> IpiList { get; }
+    IStringList IpiList { get; }
 
     uint LabelCode { get; }
 
