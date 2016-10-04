@@ -2,7 +2,7 @@
 
   public interface IEvent : IMbEntity, IAnnotatedResource, INamedResource, IRatedResource, IRelatableResource, ITaggedResource, ITypedResource {
 
-    byte? Cancelled { get; }
+    bool? Cancelled { get; }
 
     ILifeSpan LifeSpan { get; }
 
