@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-using MetaBrainz.MusicBrainz.Model;
-using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -13,7 +12,7 @@ namespace MetaBrainz.MusicBrainz {
 
     /// <summary>Creates a new <see cref="DiscIdLookupResult"/> instance based on the specified metadata.</summary>
     /// <param name="metadata">The metadata to take the result from.</param>
-    public DiscIdLookupResult(Metadata metadata) {
+    public DiscIdLookupResult(IMetadata metadata) {
       if (metadata == null)
         throw new ArgumentNullException(nameof(metadata));
       this.Disc        = metadata.Disc;
@@ -22,13 +21,13 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     /// <summary>The disc returned by the lookup (if any was found).</summary>
-    public readonly Disc Disc;
+    public readonly IDisc Disc;
 
     /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
-    public readonly ReleaseList ReleaseList;
+    public readonly IResourceList<IRelease> ReleaseList;
 
     /// <summary>The CD stub returned by the lookup (if any was found).</summary>
-    public readonly CdStub Stub;
+    public readonly ICdStub Stub;
 
   }
 

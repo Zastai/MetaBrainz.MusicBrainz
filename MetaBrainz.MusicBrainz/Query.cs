@@ -96,7 +96,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The result of the lookup.</returns>
     /// <exception cref="QueryException">When the serb service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Metadata Lookup(string entity, Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup(entity, mbid.ToString("D"), inc, type, status);
+    public IMetadata Lookup(string entity, Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup(entity, mbid.ToString("D"), inc, type, status);
 
     /// <summary>Performs a generic identifier-based lookup for the specified entity type.</summary>
     /// <param name="entity">The type of entity to look up.</param>
@@ -109,7 +109,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The result of the lookup.</returns>
     /// <exception cref="QueryException">When the serb service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Metadata Lookup(string entity, string id, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.PerformRequest(entity, id, Query.BuildExtraText(inc, type: type, status: status));
+    public IMetadata Lookup(string entity, string id, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.PerformRequest(entity, id, Query.BuildExtraText(inc, type: type, status: status));
 
     /// <summary>Looks up the specified area.</summary>
     /// <param name="mbid">The MBID for the area to look up.</param>
@@ -129,7 +129,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested artist.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Artist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("artist", mbid, inc, type, status).Artist;
+    public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("artist", mbid, inc, type, status).Artist;
 
     /// <summary>Looks up the specified collection.</summary>
     /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -137,7 +137,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested collection.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Collection LookupCollection(Guid mbid, Include inc = Include.None) => this.Lookup("collection", mbid, inc).Collection;
+    public ICollection LookupCollection(Guid mbid, Include inc = Include.None) => this.Lookup("collection", mbid, inc).Collection;
 
     /// <summary>Looks up the specified disc ID.</summary>
     /// <param name="discid">The disc ID to look up.</param>
@@ -160,7 +160,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested event.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Event LookupEvent(Guid mbid, Include inc = Include.None) => this.Lookup("event", mbid, inc).Event;
+    public IEvent LookupEvent(Guid mbid, Include inc = Include.None) => this.Lookup("event", mbid, inc).Event;
 
     /// <summary>Looks up the specified instrument.</summary>
     /// <param name="mbid">The MBID for the instrument to look up.</param>
@@ -168,7 +168,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested instrument.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Instrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.Lookup("instrument", mbid, inc).Instrument;
+    public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.Lookup("instrument", mbid, inc).Instrument;
 
     /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
     /// <param name="isrc">The ISRC to look up.</param>
@@ -176,7 +176,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The recordings associated with the requested ISRC.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Isrc LookupIsrc(string isrc, Include inc = Include.None) => this.Lookup("isrc", isrc, inc).Isrc;
+    public IIsrc LookupIsrc(string isrc, Include inc = Include.None) => this.Lookup("isrc", isrc, inc).Isrc;
 
     /// <summary>Looks up the works associated with the specified ISWC.</summary>
     /// <param name="iswc">The ISWC to look up.</param>
@@ -184,7 +184,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The works associated with the requested ISWC.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public WorkList LookupIswc(string iswc, Include inc = Include.None) => this.Lookup("iswc", iswc, inc).WorkList;
+    public IResourceList<IWork> LookupIswc(string iswc, Include inc = Include.None) => this.Lookup("iswc", iswc, inc).WorkList;
 
     /// <summary>Looks up the specified label.</summary>
     /// <param name="mbid">The MBID for the label to look up.</param>
@@ -194,7 +194,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested label.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Label LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("label", mbid, inc, type, status).Label;
+    public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("label", mbid, inc, type, status).Label;
 
     /// <summary>Looks up the specified place.</summary>
     /// <param name="mbid">The MBID for the place to look up.</param>
@@ -202,7 +202,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested place.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Place LookupPlace(Guid mbid, Include inc = Include.None) => this.Lookup("place", mbid, inc).Place;
+    public IPlace LookupPlace(Guid mbid, Include inc = Include.None) => this.Lookup("place", mbid, inc).Place;
 
     /// <summary>Looks up the specified recording.</summary>
     /// <param name="mbid">The MBID for the recording to look up.</param>
@@ -212,7 +212,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested recording.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Recording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("recording", mbid, inc, type, status).Recording;
+    public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("recording", mbid, inc, type, status).Recording;
 
     /// <summary>Looks up the specified release.</summary>
     /// <param name="mbid">The MBID for the release to look up.</param>
@@ -220,7 +220,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested release.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Release LookupRelease(Guid mbid, Include inc = Include.None) => this.Lookup("release", mbid, inc).Release;
+    public IRelease LookupRelease(Guid mbid, Include inc = Include.None) => this.Lookup("release", mbid, inc).Release;
 
     /// <summary>Looks up the specified release group.</summary>
     /// <param name="mbid">The MBID for the release group to look up.</param>
@@ -229,7 +229,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested release group.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) => this.Lookup("release-group", mbid, inc, status: status).ReleaseGroup;
+    public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) => this.Lookup("release-group", mbid, inc, status: status).ReleaseGroup;
 
     /// <summary>Looks up the specified series.</summary>
     /// <param name="mbid">The MBID for the series to look up.</param>
@@ -237,7 +237,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested series.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Series LookupSeries(Guid mbid, Include inc = Include.None) => this.Lookup("series", mbid, inc).Series;
+    public ISeries LookupSeries(Guid mbid, Include inc = Include.None) => this.Lookup("series", mbid, inc).Series;
 
     /// <summary>Looks up the specified URL.</summary>
     /// <param name="mbid">The MBID for the URL to look up.</param>
@@ -253,7 +253,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested work.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public Work LookupWork(Guid mbid, Include inc = Include.None) => this.Lookup("work", mbid, inc).Work;
+    public IWork LookupWork(Guid mbid, Include inc = Include.None) => this.Lookup("work", mbid, inc).Work;
 
     #endregion
 
