@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Xml.Serialization;
 
+using MetaBrainz.MusicBrainz.Resources;
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class WorkAttribute : Item {
+  public class WorkAttribute : Item, IWorkAttribute {
 
     #region XML Attributes
 
@@ -19,6 +21,22 @@ namespace MetaBrainz.MusicBrainz.Model {
     #region XML Elements
 
     [XmlText] public string Text;
+
+    #endregion
+
+    #region ITypedResource
+
+    string ITypedResource.Type => this.Type;
+
+    Guid? ITypedResource.TypeId => this.TypeIdSpecified ? (Guid?) this.TypeId : null;
+
+    #endregion
+
+    #region IWorkAttribute
+
+    Guid? IWorkAttribute.ValueId => this.ValueIdSpecified ? (Guid?) this.ValueId : null;
+
+    string IWorkAttribute.Text => this.Text;
 
     #endregion
 

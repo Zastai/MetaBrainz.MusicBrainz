@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Event : MbEntity {
+  public class Event : MbEntity, IEvent {
 
     #region XML Elements
 
@@ -20,7 +22,7 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     [XmlElement("alias-list")]     public AliasList      AliasList;
     [XmlElement("annotation")]     public Annotation     Annotation;
-    [XmlElement("cancelled")]      public byte           Cancelled;
+    [XmlElement("cancelled")]      public bool           Cancelled;
     [XmlIgnore]                    public bool           CancelledSpecified;
     [XmlElement("disambiguation")] public string         Disambiguation;
     [XmlElement("life-span")]      public LifeSpan       LifeSpan;
@@ -33,6 +35,66 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("user-rating")]    public byte           UserRating;
     [XmlIgnore]                    public bool           UserRatingSpecified;
     [XmlElement("user-tag-list")]  public UserTagList    UserTagList;
+
+    #endregion
+
+    #region IAnnotatedResource
+
+    IAnnotation IAnnotatedResource.Annotation => this.Annotation;
+
+    #endregion
+
+    #region INamedResource
+
+    IResourceList<IAlias> INamedResource.AliasList => this.AliasList;
+
+    string INamedResource.Disambiguation => this.Disambiguation;
+
+    string INamedResource.Name => this.Name;
+
+    string INamedResource.SortName => this.Name;
+
+    #endregion
+
+    #region IRatedResource
+
+    IRating IRatedResource.Rating => this.Rating;
+
+    byte? IRatedResource.UserRating => this.UserRatingSpecified ? (byte?) this.UserRating : null;
+
+    #endregion
+
+    #region IRelatableResource
+
+    IEnumerable<IRelationList> IRelatableResource.RelationList => this.RelationList;
+
+    #endregion
+
+    #region ITaggedResource
+
+    IResourceList<ITag> ITaggedResource.TagList => this.TagList;
+
+    IResourceList<IUserTag> ITaggedResource.UserTagList => this.UserTagList;
+
+    #endregion
+
+    #region ITypedResource
+
+    string ITypedResource.Type => this.Type;
+
+    Guid? ITypedResource.TypeId => this.TypeIdSpecified ? (Guid?) this.TypeId : null;
+
+    #endregion
+
+    #region IEvent
+
+    bool? IEvent.Cancelled => this.CancelledSpecified ? (bool?) this.Cancelled : null;
+
+    ILifeSpan IEvent.LifeSpan => this.LifeSpan;
+
+    string IEvent.Setlist => this.Setlist;
+
+    string IEvent.Time => this.Time;
 
     #endregion
 

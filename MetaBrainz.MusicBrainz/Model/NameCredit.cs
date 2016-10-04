@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Xml.Serialization;
 
+using MetaBrainz.MusicBrainz.Resources;
+
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class NameCredit : Item {
+  public class NameCredit : Item, INameCredit {
 
     #region XML Attributes
 
@@ -16,6 +18,16 @@ namespace MetaBrainz.MusicBrainz.Model {
 
     [XmlElement("artist")] public Artist Artist;
     [XmlElement("name")]   public string Name;
+
+    #endregion
+
+    #region INameCredit
+
+    IArtist INameCredit.Artist => this.Artist;
+
+    string INameCredit.JoinPhrase => this.JoinPhrase;
+
+    string INameCredit.Name => this.Name;
 
     #endregion
 

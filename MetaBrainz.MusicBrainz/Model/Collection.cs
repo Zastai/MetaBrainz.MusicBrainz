@@ -2,11 +2,12 @@
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class Collection : MbEntity {
+  public class Collection : MbEntity, ICollection {
 
     #region XML Attributes
 
@@ -33,6 +34,46 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("release-group-list")] public ReleaseGroupList ReleaseGroupList;
     [XmlElement("series-list")]        public SeriesList       SeriesList;
     [XmlElement("work-list")]          public WorkList         WorkList;
+
+    #endregion
+
+    #region ITypedResource
+
+    string ITypedResource.Type => this.Type;
+
+    Guid? ITypedResource.TypeId => this.TypeIdSpecified ? (Guid?) this.TypeId : null;
+
+    #endregion
+
+    #region ICollection
+
+    string ICollection.Editor => this.Editor;
+
+    string ICollection.EntityType => this.EntityType;
+
+    string ICollection.Name => this.Name;
+
+    IResourceList<IArea> ICollection.Areas => this.AreaList;
+
+    IResourceList<IArtist> ICollection.Artists => this.ArtistList;
+
+    IResourceList<IEvent> ICollection.Events => this.EventList;
+
+    IResourceList<IInstrument> ICollection.Instruments => this.InstrumentList;
+
+    IResourceList<ILabel> ICollection.Labels => this.LabelList;
+
+    IResourceList<IPlace> ICollection.Places => this.PlaceList;
+
+    IResourceList<IRecording> ICollection.Recordings => this.RecordingList;
+
+    IResourceList<IRelease> ICollection.Releases => this.ReleaseList;
+
+    IResourceList<IReleaseGroup> ICollection.ReleaseGroups => this.ReleaseGroupList;
+
+    IResourceList<ISeries> ICollection.Series => this.SeriesList;
+
+    IResourceList<IWork> ICollection.Works => this.WorkList;
 
     #endregion
 

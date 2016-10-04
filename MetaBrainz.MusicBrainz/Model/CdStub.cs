@@ -2,11 +2,12 @@
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
-  public class CdStub : Entity {
+  public class CdStub : Entity, ICdStub {
 
     #region XML Elements
 
@@ -15,6 +16,20 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("disambiguation")] public string          Comment;
     [XmlElement("title")]          public string          Title;
     [XmlElement("track-list")]     public SimpleTrackList TrackList;
+
+    #endregion
+
+    #region ICdStub
+
+    string ICdStub.Artist => this.Artist;
+
+    string ICdStub.Barcode => this.Barcode;
+
+    string ICdStub.Comment => this.Comment;
+
+    string ICdStub.Title => this.Title;
+
+    IResourceList<ISimpleTrackInfo> ICdStub.TrackList => this.TrackList;
 
     #endregion
 

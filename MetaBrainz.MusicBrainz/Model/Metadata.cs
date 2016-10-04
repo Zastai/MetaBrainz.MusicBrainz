@@ -2,12 +2,13 @@
 using System.Xml.Serialization;
 
 using MetaBrainz.MusicBrainz.Model.Lists;
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model {
 
   [Serializable]
   [XmlRoot("metadata", Namespace = "http://musicbrainz.org/ns/mmd-2.0#", IsNullable = false)]
-  public sealed class Metadata : Item {
+  public sealed class Metadata : Item, IMetadata {
 
     #region XML Attributes
 
@@ -67,6 +68,96 @@ namespace MetaBrainz.MusicBrainz.Model {
     [XmlElement("url-list")]           public UrlList          UrlList;
     [XmlElement("user-tag-list")]      public UserTagList      UserTagList;
     [XmlElement("work-list")]          public WorkList         WorkList;
+
+    #endregion
+
+    #region IMetadata
+
+    string IMetadata.Generator => this.Generator;
+
+    DateTime? IMetadata.Created => this.CreatedSpecified ? (DateTime?) this.Created : null;
+
+    IArea IMetadata.Area => this.Area;
+
+    IArtist IMetadata.Artist => this.Artist;
+
+    ICdStub IMetadata.CdStub => this.CdStub;
+
+    ICollection IMetadata.Collection => this.Collection;
+
+    IDisc IMetadata.Disc => this.Disc;
+
+    IEditor IMetadata.Editor => this.Editor;
+
+    IEvent IMetadata.Event => this.Event;
+
+    IInstrument IMetadata.Instrument => this.Instrument;
+
+    IIsrc IMetadata.Isrc => this.Isrc;
+
+    ILabel IMetadata.Label => this.Label;
+
+    IPlace IMetadata.Place => this.Place;
+
+    IRating IMetadata.Rating => this.Rating;
+
+    IRecording IMetadata.Recording => this.Recording;
+
+    IRelease IMetadata.Release => this.Release;
+
+    IReleaseGroup IMetadata.ReleaseGroup => this.ReleaseGroup;
+
+    ISeries IMetadata.Series => this.Series;
+
+    IUrl IMetadata.Url => this.Url;
+
+    byte? IMetadata.UserRating => this.UserRating;
+
+    IWork IMetadata.Work => this.Work;
+
+    [Obsolete] IPuid IMetadata.Puid => this.Puid;
+
+    IResourceList<IAnnotation> IMetadata.AnnotationList => this.AnnotationList;
+
+    IResourceList<IArea> IMetadata.AreaList => this.AreaList;
+
+    IResourceList<IArtist> IMetadata.ArtistList => this.ArtistList;
+
+    IResourceList<ICdStub> IMetadata.CdStubList => this.CdStubList;
+
+    IResourceList<ICollection> IMetadata.CollectionList => this.CollectionList;
+
+    IResourceList<IEditor> IMetadata.EditorList => this.EditorList;
+
+    IResourceList<IMbEntity> IMetadata.EntityList => this.EntityList;
+
+    IResourceList<IEvent> IMetadata.EventList => this.EventList;
+
+    IResourceList<IFreeDbDisc> IMetadata.FreeDbDiscList => this.FreeDbDiscList;
+
+    IResourceList<IInstrument> IMetadata.InstrumentList => this.InstrumentList;
+
+    IResourceList<IIsrc> IMetadata.IsrcList => this.IsrcList;
+
+    IResourceList<ILabel> IMetadata.LabelList => this.LabelList;
+
+    IResourceList<IPlace> IMetadata.PlaceList => this.PlaceList;
+
+    IResourceList<IRecording> IMetadata.RecordingList => this.RecordingList;
+
+    IResourceList<IRelease> IMetadata.ReleaseList => this.ReleaseList;
+
+    IResourceList<IReleaseGroup> IMetadata.ReleaseGroupList => this.ReleaseGroupList;
+
+    IResourceList<ISeries> IMetadata.SeriesList => this.SeriesList;
+
+    IResourceList<ITag> IMetadata.TagList => this.TagList;
+
+    IResourceList<IUrl> IMetadata.UrlList => this.UrlList;
+
+    IResourceList<IUserTag> IMetadata.UserTagList => this.UserTagList;
+
+    IResourceList<IWork> IMetadata.WorkList => this.WorkList;
 
     #endregion
 
