@@ -1,8 +1,10 @@
-﻿namespace MetaBrainz.MusicBrainz.Resources {
+﻿using System.Collections.Generic;
+
+namespace MetaBrainz.MusicBrainz.Resources {
 
   public interface IArtistCredit : IResource {
 
-    IResourceList<INameCredit> NameCredits { get; }
+    IEnumerable<INameCredit> NameCredits { get; }
 
   }
 
