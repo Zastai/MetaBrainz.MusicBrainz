@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class RelationTarget : Entity, IRelationTarget {
+  public sealed class RelationTarget : Entity, IRelationTarget {
 
     #region XML Elements
 

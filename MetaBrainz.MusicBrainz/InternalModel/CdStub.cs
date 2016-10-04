@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class CdStub : Entity, ICdStub {
+  public sealed class CdStub : Entity, ICdStub {
 
     #region XML Elements
 

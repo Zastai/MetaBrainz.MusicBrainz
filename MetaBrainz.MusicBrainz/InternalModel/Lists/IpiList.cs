@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class IpiList : Item, IStringList {
+  public sealed class IpiList : Item, IStringList {
 
     [XmlElement("ipi")] public string[] Items;
 

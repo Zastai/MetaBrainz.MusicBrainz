@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class Event : MbEntity, IEvent {
+  public sealed class Event : MbEntity, IEvent {
 
     #region XML Elements
 

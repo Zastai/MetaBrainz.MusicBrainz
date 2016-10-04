@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Obsolete]
   [Serializable]
-  internal sealed class PuidList : ItemList, IResourceList<IPuid> {
+  public sealed class PuidList : ItemList, IResourceList<IPuid> {
 
     [XmlElement("puid")] public Puid[] Items;
 

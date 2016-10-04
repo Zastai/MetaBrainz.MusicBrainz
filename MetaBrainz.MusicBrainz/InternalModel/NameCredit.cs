@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class NameCredit : Item, INameCredit {
+  public sealed class NameCredit : Item, INameCredit {
 
     #region XML Attributes
 

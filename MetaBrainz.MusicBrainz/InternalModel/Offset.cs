@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Offset : Item, IOffset {
+  public sealed class Offset : Item, IOffset {
 
     #region XML Attributes
 

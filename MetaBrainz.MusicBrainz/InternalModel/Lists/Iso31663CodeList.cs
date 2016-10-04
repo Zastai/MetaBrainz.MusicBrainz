@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class Iso31663CodeList : Item, IStringList {
+  public sealed class Iso31663CodeList : Item, IStringList {
 
     [XmlElement("iso-3166-3-code")] public string[] Items;
 

@@ -8,7 +8,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal abstract class ItemList : Item {
+  public abstract class ItemList : Item {
 
     [XmlAttribute("count")]  public uint Count;
     [XmlIgnore]              public bool CountSpecified;

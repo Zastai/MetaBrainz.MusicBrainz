@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class CoverArtArchive : Item, ICoverArtArchive {
+  public sealed class CoverArtArchive : Item, ICoverArtArchive {
 
     #region XML Elements
 

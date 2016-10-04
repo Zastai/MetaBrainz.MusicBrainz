@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Tag : Item, ITag {
+  public sealed class Tag : Item, ITag {
 
     #region XML Attributes
 

@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Disc : Entity, IDisc {
+  public sealed class Disc : Entity, IDisc {
 
     #region XML Elements
 

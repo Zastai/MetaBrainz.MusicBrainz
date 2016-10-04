@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class WorkAttribute : Item, IWorkAttribute {
+  public sealed class WorkAttribute : Item, IWorkAttribute {
 
     #region XML Attributes
 

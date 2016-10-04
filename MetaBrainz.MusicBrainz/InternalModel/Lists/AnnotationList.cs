@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class AnnotationList : ItemList, IResourceList<IAnnotation> {
+  public sealed class AnnotationList : ItemList, IResourceList<IAnnotation> {
 
     [XmlElement("annotation")] public Annotation[] Items;
 

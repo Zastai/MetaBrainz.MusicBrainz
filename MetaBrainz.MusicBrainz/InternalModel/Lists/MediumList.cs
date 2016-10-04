@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class MediumList : ItemList, IMediumList {
+  public sealed class MediumList : ItemList, IMediumList {
 
     [XmlElement("medium")]      public Medium[] Items;
     [XmlElement("track-count")] public uint     TrackCount;

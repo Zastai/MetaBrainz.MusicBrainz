@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class AreaList : ItemList, IResourceList<IArea> {
+  public sealed class AreaList : ItemList, IResourceList<IArea> {
 
     [XmlElement("area")] public Area[] Items;
 

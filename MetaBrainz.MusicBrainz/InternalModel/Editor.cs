@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class Editor : Item, IEditor {
+  public sealed class Editor : Item, IEditor {
 
     #region XML Attributes
 

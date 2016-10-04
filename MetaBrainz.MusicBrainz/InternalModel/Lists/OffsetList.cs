@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class OffsetList : ItemList, IResourceList<IOffset> {
+  public sealed class OffsetList : ItemList, IResourceList<IOffset> {
 
     [XmlElement("offset")] public Offset[] Items;
 

@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Coordinates : Item, ICoordinates {
+  public sealed class Coordinates : Item, ICoordinates {
 
     #region XML Elements
 

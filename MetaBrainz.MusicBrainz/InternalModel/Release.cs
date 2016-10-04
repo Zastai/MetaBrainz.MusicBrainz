@@ -10,7 +10,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Release : MbEntity, IRelease {
+  public sealed class Release : MbEntity, IRelease {
 
     #region XML Elements
 

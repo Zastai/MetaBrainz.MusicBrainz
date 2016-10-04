@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class IswcList : ItemList, IResourceList<ITextResource> {
+  public sealed class IswcList : ItemList, IResourceList<ITextResource> {
 
     [XmlElement("iswc")] public Iswc[] Items;
 

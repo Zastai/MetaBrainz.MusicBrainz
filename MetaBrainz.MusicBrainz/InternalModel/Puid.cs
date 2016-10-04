@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Obsolete]
   [Serializable]
-  internal sealed class Puid : MbEntity, IPuid {
+  public sealed class Puid : MbEntity, IPuid {
 
     #region XML Elements
 

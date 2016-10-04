@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class ReleaseEvent : Item, IReleaseEvent {
+  public sealed class ReleaseEvent : Item, IReleaseEvent {
 
     #region XML Elements
 

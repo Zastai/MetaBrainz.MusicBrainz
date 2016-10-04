@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class SimpleTrackInfo : Item, ISimpleTrackInfo {
+  public sealed class SimpleTrackInfo : Item, ISimpleTrackInfo {
 
     #region XML Elements
 

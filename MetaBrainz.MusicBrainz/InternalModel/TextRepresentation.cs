@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class TextRepresentation : Item, ITextRepresentation {
+  public sealed class TextRepresentation : Item, ITextRepresentation {
 
     #region XML Elements
 

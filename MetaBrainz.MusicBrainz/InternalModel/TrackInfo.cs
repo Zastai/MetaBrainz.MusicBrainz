@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class TrackInfo : Entity, ITrackInfo {
+  public sealed class TrackInfo : Entity, ITrackInfo {
 
     #region XML Elements
 

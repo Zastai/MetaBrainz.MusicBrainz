@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class CdStubList : ItemList, IResourceList<ICdStub> {
+  public sealed class CdStubList : ItemList, IResourceList<ICdStub> {
 
     [XmlElement("cdstub")] public CdStub[] Items;
 

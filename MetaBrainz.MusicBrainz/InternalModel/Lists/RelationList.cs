@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class RelationList : ItemList, IRelationList {
+  public sealed class RelationList : ItemList, IRelationList {
 
     [XmlAttribute("target-type")] public string TargetType;
 

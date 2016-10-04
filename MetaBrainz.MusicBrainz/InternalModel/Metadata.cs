@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
   [Serializable]
   [XmlRoot("metadata", Namespace = "http://musicbrainz.org/ns/mmd-2.0#", IsNullable = false)]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class Metadata : Item, IMetadata {
+  public sealed class Metadata : Item, IMetadata {
 
     #region XML Attributes
 

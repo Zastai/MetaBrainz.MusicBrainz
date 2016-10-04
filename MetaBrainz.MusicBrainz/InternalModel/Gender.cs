@@ -3,6 +3,6 @@
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Gender : TextEntity { }
+  public sealed class Gender : TextEntity { }
 
 }

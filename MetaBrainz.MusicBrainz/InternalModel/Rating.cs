@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class Rating : Item, IRating {
+  public sealed class Rating : Item, IRating {
 
     #region XML Attributes
 

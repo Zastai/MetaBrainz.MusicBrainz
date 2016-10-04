@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class EditorList : ItemList, IResourceList<IEditor> {
+  public sealed class EditorList : ItemList, IResourceList<IEditor> {
 
     [XmlElement("editor")] public Editor[] Items;
 

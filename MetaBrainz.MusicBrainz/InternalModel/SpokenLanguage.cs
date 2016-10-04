@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class SpokenLanguage : Item, ISpokenLanguage {
+  public sealed class SpokenLanguage : Item, ISpokenLanguage {
 
     #region XML Attributes
 

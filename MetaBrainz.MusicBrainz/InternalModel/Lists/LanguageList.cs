@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class LanguageList : ItemList, IResourceList<ISpokenLanguage> {
+  public sealed class LanguageList : ItemList, IResourceList<ISpokenLanguage> {
 
     [XmlElement("language")] public SpokenLanguage[] Items;
 

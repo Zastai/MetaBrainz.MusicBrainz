@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
-  internal sealed class EditInformation : Item, IEditInformation {
+  public sealed class EditInformation : Item, IEditInformation {
 
     #region XML Elements
 

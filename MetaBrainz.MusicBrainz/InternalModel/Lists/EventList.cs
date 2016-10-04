@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class EventList : ItemList, IResourceList<IEvent> {
+  public sealed class EventList : ItemList, IResourceList<IEvent> {
 
     [XmlElement("event")] public Event[] Items;
 

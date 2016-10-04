@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
 
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal sealed class LifeSpan : Item, ILifeSpan {
+  public sealed class LifeSpan : Item, ILifeSpan {
 
     #region XML Elements
 

@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Resources;
 namespace MetaBrainz.MusicBrainz.InternalModel.Lists {
 
   [Serializable]
-  internal sealed class SecondaryTypeList : Item, IResourceList<ITextResource> {
+  public sealed class SecondaryTypeList : Item, IResourceList<ITextResource> {
 
     [XmlElement("secondary-type")] public SecondaryType[] Items;
 

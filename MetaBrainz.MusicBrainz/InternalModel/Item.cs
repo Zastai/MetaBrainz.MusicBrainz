@@ -13,7 +13,7 @@ namespace MetaBrainz.MusicBrainz.InternalModel {
   /// <summary>A generic item. Serves as a container for any otherwise unmatched attributes and elements.</summary>
   [Serializable]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  internal abstract class Item : IResource {
+  public abstract class Item : IResource {
 
     #region XML Attributes
 
