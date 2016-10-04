@@ -1,12 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
+
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class LabelInfoList : ItemList {
+  public class LabelInfoList : ItemList, IResourceList<ILabelInfo> {
 
     [XmlElement("label-info")] public LabelInfo[] Items;
+
+    #region IResourceList<ILabelInfo>
+
+    uint? IResourceList<ILabelInfo>.Count => this.ListCount;
+
+    uint? IResourceList<ILabelInfo>.Offset => this.ListOffset;
+
+    IEnumerable<ILabelInfo> IResourceList<ILabelInfo>.Items => this.Items;
+
+    #endregion
 
   }
 

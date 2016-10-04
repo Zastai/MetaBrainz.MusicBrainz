@@ -1,22 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Serialization;
+
+using MetaBrainz.MusicBrainz.Resources;
 
 namespace MetaBrainz.MusicBrainz.Model.Lists {
 
   [Serializable]
-  public class EntityList : ItemList {
+  public class EntityList : ItemList, IResourceList<IMbEntity> {
 
-    [XmlElement("area")]          public Area        [] Areas;
-    [XmlElement("artist")]        public Artist      [] Artists;
-    [XmlElement("event")]         public Event       [] Events;
-    [XmlElement("instrument")]    public Instrument  [] Instruments;
-    [XmlElement("label")]         public Label       [] Labels;
-    [XmlElement("place")]         public Place       [] Places;
-    [XmlElement("recording")]     public Recording   [] Recordings;
-    [XmlElement("release")]       public Release     [] Releases;
-    [XmlElement("release-group")] public ReleaseGroup[] ReleaseGroups;
-    [XmlElement("series")]        public Series      [] Series;
-    [XmlElement("work")]          public Work        [] Works;
+    [XmlElement("area",          typeof(Area))]
+    [XmlElement("artist",        typeof(Artist))]
+    [XmlElement("event",         typeof(Event))]
+    [XmlElement("instrument",    typeof(Instrument))]
+    [XmlElement("label",         typeof(Label))]
+    [XmlElement("place",         typeof(Place))]
+    [XmlElement("recording",     typeof(Recording))]
+    [XmlElement("release",       typeof(Release))]
+    [XmlElement("release-group", typeof(ReleaseGroup))]
+    [XmlElement("series",        typeof(Series))]
+    [XmlElement("work",          typeof(Work))]
+    public MbEntity[] Items;
+
+    #region IResourceList<IMbEntity>
+
+    uint? IResourceList<IMbEntity>.Count => this.ListCount;
+
+    uint? IResourceList<IMbEntity>.Offset => this.ListOffset;
+
+    IEnumerable<IMbEntity> IResourceList<IMbEntity>.Items => this.Items;
+
+    #endregion
 
   }
 
