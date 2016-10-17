@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class Release : IRelease {
+  internal sealed class Release : IRelease {
 
     public string Id => this.MbId.ToString("D");
 

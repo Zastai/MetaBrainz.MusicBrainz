@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class Disc : IDisc {
+  internal sealed class Disc : IDisc {
 
     public string Id => this._json.id;
 

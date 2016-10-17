@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class LifeSpan : ILifeSpan {
+  internal sealed class LifeSpan : ILifeSpan {
 
     public string Begin => this._json.begin;
 

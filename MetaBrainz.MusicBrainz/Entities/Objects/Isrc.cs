@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class Isrc : IIsrc {
+  internal sealed class Isrc : IIsrc {
 
     public IEnumerable<IRecording> Recordings => this._json.recordings.WrapArray(ref this._recordings, j => new Recording(j));
 

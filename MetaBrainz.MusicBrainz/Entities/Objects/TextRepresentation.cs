@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class TextRepresentation : ITextRepresentation {
+  internal sealed class TextRepresentation : ITextRepresentation {
 
     public string Language => this._json.language;
 

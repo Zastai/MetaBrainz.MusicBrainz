@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class CoverArtArchive : ICoverArtArchive {
+  internal sealed class CoverArtArchive : ICoverArtArchive {
 
     public bool Artwork => this._json.artwork;
 

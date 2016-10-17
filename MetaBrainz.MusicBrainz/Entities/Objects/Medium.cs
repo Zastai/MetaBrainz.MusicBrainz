@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class Medium : IMedium {
+  internal sealed class Medium : IMedium {
 
     public IEnumerable<ITrack> DataTracks => this._json.data_tracks.WrapArray(ref this._dataTracks, j => new Track(j));
 

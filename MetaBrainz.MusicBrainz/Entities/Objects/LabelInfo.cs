@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class LabelInfo : ILabelInfo {
+  internal sealed class LabelInfo : ILabelInfo {
 
     public string CatalogNumber => this._json.catalog_number;
 

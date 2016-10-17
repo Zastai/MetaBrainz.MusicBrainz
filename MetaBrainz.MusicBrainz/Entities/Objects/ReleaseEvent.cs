@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class ReleaseEvent : IReleaseEvent {
+  internal sealed class ReleaseEvent : IReleaseEvent {
 
     public IArea Area => this._json.area.WrapObject(ref this._area, j => new Area(j));
 

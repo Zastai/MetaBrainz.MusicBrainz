@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class SimpleTrack : ISimpleTrack {
+  internal sealed class SimpleTrack : ISimpleTrack {
 
     public string Artist => this._json.artist;
 

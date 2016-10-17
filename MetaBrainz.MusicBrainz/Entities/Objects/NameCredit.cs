@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class NameCredit : INameCredit {
+  internal sealed class NameCredit : INameCredit {
 
     public IArtist Artist => this._json.artist.WrapObject(ref this._artist, j => new Artist(j));
 

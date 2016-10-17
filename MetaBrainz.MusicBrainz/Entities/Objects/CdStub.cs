@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class CdStub : ICdStub {
+  internal sealed class CdStub : ICdStub {
 
     public string Id => this._json.id;
 

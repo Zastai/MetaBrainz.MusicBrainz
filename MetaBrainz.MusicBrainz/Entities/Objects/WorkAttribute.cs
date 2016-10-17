@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class WorkAttribute : IWorkAttribute {
+  internal sealed class WorkAttribute : IWorkAttribute {
 
     public string Type => this._json.type;
 

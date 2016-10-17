@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  public sealed class Coordinates : ICoordinates {
+  internal sealed class Coordinates : ICoordinates {
 
     public double Latitude => this._json.latitude;
 
