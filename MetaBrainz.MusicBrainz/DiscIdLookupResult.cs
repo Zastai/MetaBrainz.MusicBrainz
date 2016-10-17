@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using MetaBrainz.MusicBrainz.Resources;
+using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Entities.Objects;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -10,24 +15,39 @@ namespace MetaBrainz.MusicBrainz {
   [SuppressMessage("ReSharper", "NotAccessedField.Global")]
   public sealed class DiscIdLookupResult {
 
-    /// <summary>Creates a new <see cref="DiscIdLookupResult"/> instance based on the specified metadata.</summary>
-    /// <param name="metadata">The metadata to take the result from.</param>
-    public DiscIdLookupResult(IMetadata metadata) {
-      if (metadata == null)
-        throw new ArgumentNullException(nameof(metadata));
-      this.Disc        = metadata.Disc;
-      this.ReleaseList = metadata.ReleaseList;
-      this.Stub        = metadata.CdStub;
+    internal DiscIdLookupResult(string json, JsonSerializerSettings jss) {
+      // Currently this can return:
+      // - a serialized Disc (id + releases)
+      // - a serialized CD stub (id + tracks)
+      // - a list of releases (as a serialized object containing only a "releases" property)
+      // It would be nicer if the first two had a wrapper object with a disc and stub property, respectively.
+      var jobj = JsonConvert.DeserializeObject(json, jss) as JObject;
+      if (jobj == null)
+        throw new ArgumentException($"Disc ID lookup did not return a usable JSON result.\nContents: {json}");
+      var jid = jobj["id"];
+      if (jid != null && jobj["releases"] != null)
+        this.Disc = new Disc(JsonConvert.DeserializeObject<Disc.JSON>(json, jss));
+      else if (jid != null && jobj["tracks"] != null)
+        this.Stub = new CdStub(JsonConvert.DeserializeObject<CdStub.JSON>(json, jss));
+      else {
+        var jreleases = jobj["releases"];
+        if (jreleases == null)
+          throw new ArgumentException($"Disc ID lookup returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
+        var releases = JsonConvert.DeserializeObject<Release.JSON[]>(jreleases.ToString(), jss);
+        Release[] arr = null;
+        releases.WrapArray(ref arr, j => new Release(j));
+        this.Releases = arr;
+      }
     }
 
     /// <summary>The disc returned by the lookup (if any was found).</summary>
-    public readonly IDisc Disc;
+    public IDisc Disc { get; }
 
     /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
-    public readonly IResourceList<IRelease> ReleaseList;
+    public IEnumerable<IRelease> Releases { get; }
 
     /// <summary>The CD stub returned by the lookup (if any was found).</summary>
-    public readonly ICdStub Stub;
+    public ICdStub Stub { get; }
 
   }
 

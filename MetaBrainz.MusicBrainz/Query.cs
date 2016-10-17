@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Xml.Serialization;
 
-using MetaBrainz.MusicBrainz.Resources;
+using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Entities.Objects;
+
+using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -83,39 +87,16 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Lookup
 
-    /// <summary>Performs an MBID-based lookup for the specified entity type.</summary>
-    /// <param name="entity">The type of entity to look up.</param>
-    /// <param name="mbid">The MBID for the entity to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="type">
-    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
-    /// </param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The result of the lookup.</returns>
-    /// <exception cref="QueryException">When the serb service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IMetadata Lookup(string entity, Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup(entity, mbid.ToString("D"), inc, type, status);
-
-    /// <summary>Performs a generic identifier-based lookup for the specified entity type.</summary>
-    /// <param name="entity">The type of entity to look up.</param>
-    /// <param name="id">The identifier for the entity to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="type">
-    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
-    /// </param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The result of the lookup.</returns>
-    /// <exception cref="QueryException">When the serb service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IMetadata Lookup(string entity, string id, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.PerformRequest(entity, id, Query.BuildExtraText(inc, type: type, status: status));
-
     /// <summary>Looks up the specified area.</summary>
     /// <param name="mbid">The MBID for the area to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
     /// <returns>The requested area.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IArea LookupArea(Guid mbid, Include inc = Include.None) => this.Lookup("area", mbid, inc).Area;
+    public IArea LookupArea(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("area", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Area(JsonConvert.DeserializeObject<Area.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified artist.</summary>
     /// <param name="mbid">The MBID for the artist to look up.</param>
@@ -127,7 +108,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested artist.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("artist", mbid, inc, type, status).Artist;
+    public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+      var json = this.PerformRequest("artist", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      return new Artist(JsonConvert.DeserializeObject<Artist.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified collection.</summary>
     /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -135,7 +119,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested collection.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ICollection LookupCollection(Guid mbid, Include inc = Include.None) => this.Lookup("collection", mbid, inc).Collection;
+    public ICollection LookupCollection(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("collection", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Collection(JsonConvert.DeserializeObject<Collection.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified disc ID.</summary>
     /// <param name="discid">The disc ID to look up.</param>
@@ -150,7 +137,9 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) => new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)));
+    public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
+      return new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)), Query.SerializerSettings);
+    }
 
     /// <summary>Looks up the specified event.</summary>
     /// <param name="mbid">The MBID for the event to look up.</param>
@@ -158,7 +147,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested event.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IEvent LookupEvent(Guid mbid, Include inc = Include.None) => this.Lookup("event", mbid, inc).Event;
+    public IEvent LookupEvent(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("event", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Event(JsonConvert.DeserializeObject<Event.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified instrument.</summary>
     /// <param name="mbid">The MBID for the instrument to look up.</param>
@@ -166,7 +158,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested instrument.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) => this.Lookup("instrument", mbid, inc).Instrument;
+    public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("instrument", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Instrument(JsonConvert.DeserializeObject<Instrument.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
     /// <param name="isrc">The ISRC to look up.</param>
@@ -174,7 +169,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The recordings associated with the requested ISRC.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IIsrc LookupIsrc(string isrc, Include inc = Include.None) => this.Lookup("isrc", isrc, inc).Isrc;
+    public IIsrc LookupIsrc(string isrc, Include inc = Include.None) {
+      var json = this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc));
+      return new Isrc(JsonConvert.DeserializeObject<Isrc.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the works associated with the specified ISWC.</summary>
     /// <param name="iswc">The ISWC to look up.</param>
@@ -182,7 +180,16 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The works associated with the requested ISWC.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IResourceList<IWork> LookupIswc(string iswc, Include inc = Include.None) => this.Lookup("iswc", iswc, inc).WorkList;
+    public IEnumerable<IWork> LookupIswc(string iswc, Include inc = Include.None) {
+      var json = this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc));
+      var jobj = JsonConvert.DeserializeObject<BrowseWorksResult>(json);
+      if (jobj?.works == null)
+        return null;
+      var arr = new IWork[jobj.work_count];
+      for (var i = 0; i < jobj.work_count; ++i)
+        arr[i] = new Work(jobj.works[i]);
+      return arr;
+    }
 
     /// <summary>Looks up the specified label.</summary>
     /// <param name="mbid">The MBID for the label to look up.</param>
@@ -192,7 +199,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested label.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("label", mbid, inc, type, status).Label;
+    public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+      var json = this.PerformRequest("label", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      return new Label(JsonConvert.DeserializeObject<Label.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified place.</summary>
     /// <param name="mbid">The MBID for the place to look up.</param>
@@ -200,7 +210,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested place.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IPlace LookupPlace(Guid mbid, Include inc = Include.None) => this.Lookup("place", mbid, inc).Place;
+    public IPlace LookupPlace(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("place", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Place(JsonConvert.DeserializeObject<Place.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified recording.</summary>
     /// <param name="mbid">The MBID for the recording to look up.</param>
@@ -210,7 +223,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested recording.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) => this.Lookup("recording", mbid, inc, type, status).Recording;
+    public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+      var json = this.PerformRequest("recording", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      return new Recording(JsonConvert.DeserializeObject<Recording.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified release.</summary>
     /// <param name="mbid">The MBID for the release to look up.</param>
@@ -218,7 +234,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested release.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IRelease LookupRelease(Guid mbid, Include inc = Include.None) => this.Lookup("release", mbid, inc).Release;
+    public IRelease LookupRelease(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("release", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Release(JsonConvert.DeserializeObject<Release.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified release group.</summary>
     /// <param name="mbid">The MBID for the release group to look up.</param>
@@ -227,7 +246,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested release group.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) => this.Lookup("release-group", mbid, inc, status: status).ReleaseGroup;
+    public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
+      var json = this.PerformRequest("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status: status));
+      return new ReleaseGroup(JsonConvert.DeserializeObject<ReleaseGroup.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified series.</summary>
     /// <param name="mbid">The MBID for the series to look up.</param>
@@ -235,7 +257,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested series.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ISeries LookupSeries(Guid mbid, Include inc = Include.None) => this.Lookup("series", mbid, inc).Series;
+    public ISeries LookupSeries(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("series", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Series(JsonConvert.DeserializeObject<Series.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified URL.</summary>
     /// <param name="mbid">The MBID for the URL to look up.</param>
@@ -243,7 +268,10 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested URL.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IUrl LookupUrl(Guid mbid, Include inc = Include.None) => this.Lookup("url", mbid, inc).Url;
+    public IUrl LookupUrl(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("url", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Url(JsonConvert.DeserializeObject<Url.JSON>(json, Query.SerializerSettings));
+    }
 
     /// <summary>Looks up the specified work.</summary>
     /// <param name="mbid">The MBID for the work to look up.</param>
@@ -251,7 +279,28 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The requested work.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IWork LookupWork(Guid mbid, Include inc = Include.None) => this.Lookup("work", mbid, inc).Work;
+    public IWork LookupWork(Guid mbid, Include inc = Include.None) {
+      var json = this.PerformRequest("work", mbid.ToString("D"), Query.BuildExtraText(inc));
+      return new Work(JsonConvert.DeserializeObject<Work.JSON>(json, Query.SerializerSettings));
+    }
+
+    #endregion
+
+    #region Browse
+
+    #pragma warning disable 169
+    #pragma warning disable 649
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private sealed class BrowseWorksResult {
+      [JsonProperty] public Work.JSON[] works;
+      [JsonProperty("work-count")] public int work_count;
+      [JsonProperty("work-offset")] public int work_offset;
+    }
+
+    #pragma warning restore 169
+    #pragma warning restore 649
 
     #endregion
 
@@ -293,7 +342,10 @@ namespace MetaBrainz.MusicBrainz {
 
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
-    private static readonly XmlSerializer Serializer = new XmlSerializer(typeof(InternalModel.Metadata));
+    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
+      CheckAdditionalContent = true,
+      MissingMemberHandling  = MissingMemberHandling.Error
+    };
 
     private static DateTime _lastRequestTime;
 
@@ -387,7 +439,7 @@ namespace MetaBrainz.MusicBrainz {
       return sb.ToString();
     }
 
-    private IMetadata PerformDirectRequest(string entity, string id, string extra) {
+    private string PerformDirectRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri}");
       var firstTry = true;
@@ -396,7 +448,7 @@ namespace MetaBrainz.MusicBrainz {
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
       req.Method    = "GET";
-      req.Accept    = "application/xml";
+      req.Accept    = "application/json";
       req.UserAgent = this._fullUserAgent;
       if (this.BearerToken != null)
         req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
@@ -405,8 +457,17 @@ namespace MetaBrainz.MusicBrainz {
       try {
         using (var response = (HttpWebResponse) req.GetResponse()) {
           using (var stream = response.GetResponseStream()) {
-            if (stream != null)
-              return (IMetadata) Query.Serializer.Deserialize(stream);
+            if (stream != null) {
+              var encname = response.CharacterSet;
+              if (string.IsNullOrWhiteSpace(encname))
+                encname = "utf-8";
+              var enc = Encoding.GetEncoding(encname);
+              using (var sr = new StreamReader(stream, enc)) {
+                var json = sr.ReadToEnd();
+                //Console.WriteLine($"<<{JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented)}>>");
+                return json;
+              }
+            }
           }
         }
       }
@@ -432,7 +493,7 @@ namespace MetaBrainz.MusicBrainz {
       throw new QueryException("Query did not produce results.");
     }
 
-    private IMetadata PerformRequest(string entity, string id, string extra) {
+    private string PerformRequest(string entity, string id, string extra) {
       if (id == null)
         throw new ArgumentNullException(nameof(id));
       id = id.Trim();
