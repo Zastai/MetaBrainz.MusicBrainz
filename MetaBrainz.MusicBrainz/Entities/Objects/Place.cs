@@ -8,9 +8,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   public sealed class Place : IPlace {
 
-    public string ID => this.MBID.ToString("D");
+    public string Id => this.MbId.ToString("D");
 
-    public Guid MBID => this._json.id;
+    public Guid MbId => this._json.id;
 
     public string Address => this._json.address;
 

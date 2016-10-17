@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   public sealed class Disc : IDisc {
 
-    public string ID => this._json.id;
+    public string Id => this._json.id;
 
     public int OffsetCount => this._json.offset_count;
 

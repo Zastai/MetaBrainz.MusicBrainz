@@ -8,9 +8,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   public sealed class ReleaseGroup : IReleaseGroup {
 
-    public string ID => this.MBID.ToString("D");
+    public string Id => this.MbId.ToString("D");
 
-    public Guid MBID => this._json.id;
+    public Guid MbId => this._json.id;
 
     public IEnumerable<IAlias> Aliases => this._json.aliases.WrapArray(ref this._aliases, j => new Alias(j));
 

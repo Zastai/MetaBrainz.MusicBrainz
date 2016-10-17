@@ -4,7 +4,7 @@
   public interface IEntity {
 
     /// <summary>The identifier that identifies this entity.</summary>
-    string ID { get; }
+    string Id { get; }
 
   }
 

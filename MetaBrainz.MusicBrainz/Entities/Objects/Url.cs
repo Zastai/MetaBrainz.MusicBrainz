@@ -8,9 +8,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Url : IUrl {
 
-    public string ID => this.MBID.ToString("D");
+    public string Id => this.MbId.ToString("D");
 
-    public Guid MBID => this._json.id;
+    public Guid MbId => this._json.id;
 
     public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
 

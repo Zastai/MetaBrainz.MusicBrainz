@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   public sealed class CdStub : ICdStub {
 
-    public string ID => this._json.id;
+    public string Id => this._json.id;
 
     public string Artist => this._json.artist;
 

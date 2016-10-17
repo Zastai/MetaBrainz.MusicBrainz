@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface IMbEntity : IEntity {
 
     /// <summary>The MBID that identifies this entity.</summary>
-    Guid MBID { get; }
+    Guid MbId { get; }
 
   }
 

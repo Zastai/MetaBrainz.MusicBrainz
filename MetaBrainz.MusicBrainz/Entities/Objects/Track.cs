@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   public sealed class Track : ITrack {
 
-    public string ID => this._json.id;
+    public string Id => this._json.id;
 
     public IEnumerable<INameCredit> ArtistCredit => this._json.artist_credit.WrapArray(ref this._artistCredit, j => new NameCredit(j));
 
