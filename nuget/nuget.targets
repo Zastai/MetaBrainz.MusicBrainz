@@ -40,6 +40,9 @@
       <NuGetSpecLines Include="    &lt;summary&gt;$(NuGetPackageSummary)&lt;/summary&gt;" Condition=" '$(NuGetPackageSummary)' != '' " />
       <NuGetSpecLines Include="    &lt;tags&gt;$(NuGetPackageTags)&lt;/tags&gt;" Condition=" '$(NuGetPackageTags)' != '' " />
       <NuGetSpecLines Include="    &lt;title&gt;$(NuGetPackageTitle)&lt;/title&gt;" Condition=" '$(NuGetPackageTitle)' != '' " />
+      <NuGetSpecLines Include="    &lt;dependencies&gt;" />
+      <NuGetSpecLines Include="      &lt;dependency id=&quot;%(NuGetDependencies.Identity)&quot; version=&quot;%(NuGetDependencies.Version)&quot; /&gt;" Condition=" '@(NuGetDependencies)' != '' " />
+      <NuGetSpecLines Include="    &lt;/dependencies&gt;" />
       <NuGetSpecLines Include="  &lt;/metadata&gt;" />
       <NuGetSpecLines Include="  &lt;files&gt;" />
       <NuGetSpecLines Include="    &lt;file src=&quot;%(NuGetFilesToPackage.FullPath)&quot; target=&quot;lib\net40\%(NuGetFilesToPackage.Filename)%(NuGetFilesToPackage.Extension)&quot; /&gt;" />
