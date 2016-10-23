@@ -9,4 +9,9 @@
     <NuGetPackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</NuGetPackageTags>
     <NuGetPackageVersion>0.2.0-dev</NuGetPackageVersion>
   </PropertyGroup>
+  <ItemGroup>
+    <NuGetDependencies Include="Newtonsoft.Json">
+      <Version>[9,10)</Version>
+    </NuGetDependencies>
+  </ItemGroup>
 </Project>
