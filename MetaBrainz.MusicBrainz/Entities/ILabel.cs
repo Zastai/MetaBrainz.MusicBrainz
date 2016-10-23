@@ -10,6 +10,8 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     IEnumerable<string> Ipis { get; }
 
+    IEnumerable<string> Isnis { get; }
+
     int? LabelCode { get; }
 
     ILifeSpan LifeSpan { get; }

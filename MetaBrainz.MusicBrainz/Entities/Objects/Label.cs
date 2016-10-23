@@ -28,6 +28,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<string> Ipis => this._json.ipis;
 
+    public IEnumerable<string> Isnis => this._json.isnis;
+
     public int? LabelCode => this._json.label_code;
 
     public ILifeSpan LifeSpan => this._json.lifespan.WrapObject(ref this._lifeSpan, j => new LifeSpan(j));
@@ -86,6 +88,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public string disambiguation;
       [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty] public string[] ipis;
+      [JsonProperty] public string[] isnis;
       [JsonProperty("label-code")] public int? label_code;
       [JsonProperty("life-span")] public LifeSpan.JSON lifespan;
       [JsonProperty(Required = Required.Always)] public string name;
