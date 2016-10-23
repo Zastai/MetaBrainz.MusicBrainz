@@ -38,9 +38,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public Guid? GenderId => this._json.gender_id;
 
-    public IEnumerable<string> Ipis => this._json.ipis;
+    public IEnumerable<string> IpiCodes => this._json.ipis;
 
-    public IEnumerable<string> Isnis => this._json.isnis;
+    public IEnumerable<string> IsniCodes => this._json.isnis;
 
     public IEnumerable<ILabel> Labels => this._json.labels.WrapArray(ref this._labels, j => new Label(j));
 

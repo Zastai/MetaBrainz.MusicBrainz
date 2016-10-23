@@ -19,9 +19,9 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The artist's gender, expressed as an MBID.</summary>
     Guid? GenderId { get; }
 
-    IEnumerable<string> Ipis { get; }
+    IEnumerable<string> IpiCodes { get; }
 
-    IEnumerable<string> Isnis { get; }
+    IEnumerable<string> IsniCodes { get; }
 
     IEnumerable<ILabel> Labels { get; }
 

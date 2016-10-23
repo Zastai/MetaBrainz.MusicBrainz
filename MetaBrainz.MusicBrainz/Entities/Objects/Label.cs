@@ -26,9 +26,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Disambiguation => this._json.disambiguation;
 
-    public IEnumerable<string> Ipis => this._json.ipis;
+    public IEnumerable<string> IpiCodes => this._json.ipis;
 
-    public IEnumerable<string> Isnis => this._json.isnis;
+    public IEnumerable<string> IsniCodes => this._json.isnis;
 
     public int? LabelCode => this._json.label_code;
 

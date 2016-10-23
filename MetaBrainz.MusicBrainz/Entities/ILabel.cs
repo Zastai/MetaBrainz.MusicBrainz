@@ -8,9 +8,9 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     string Country { get; }
 
-    IEnumerable<string> Ipis { get; }
+    IEnumerable<string> IpiCodes { get; }
 
-    IEnumerable<string> Isnis { get; }
+    IEnumerable<string> IsniCodes { get; }
 
     int? LabelCode { get; }
 
