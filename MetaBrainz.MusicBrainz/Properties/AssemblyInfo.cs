@@ -11,8 +11,8 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(true)]
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion    ("0.2")]
-[assembly: AssemblyFileVersion("0.2.0")]
+[assembly: AssemblyVersion    ("0.3")]
+[assembly: AssemblyFileVersion("0.3.0")]
 
 // This should match AssemblyFileVersion, plus optional extra tags (such as a pre-release indicator).
-[assembly: AssemblyInformationalVersion("0.2.0")]
+[assembly: AssemblyInformationalVersion("0.3.0 (pre-release)")]

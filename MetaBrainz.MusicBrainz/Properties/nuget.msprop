@@ -7,7 +7,7 @@
     </NuGetPackageReleaseNotes>
     <NuGetPackageSummary>C# implementation of libmusicbrainz</NuGetPackageSummary>
     <NuGetPackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</NuGetPackageTags>
-    <NuGetPackageVersion>0.2.0</NuGetPackageVersion>
+    <NuGetPackageVersion>0.3.0-dev</NuGetPackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <NuGetDependencies Include="Newtonsoft.Json">
