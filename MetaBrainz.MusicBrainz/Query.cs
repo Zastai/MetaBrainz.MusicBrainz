@@ -401,7 +401,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private NetworkCredential _credential;
 
-    public readonly string _fullUserAgent;
+    private readonly string _fullUserAgent;
 
     private string _lastDigest;
 
