@@ -595,34 +595,32 @@ namespace MetaBrainz.MusicBrainz {
       if (noStubs)
         sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
       if (type.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("type=");
-        switch (type.Value) {
-          // Primary Types
-          case ReleaseType.Album:       sb.Append("album");          break;
-          case ReleaseType.Broadcast:   sb.Append("broadcast");      break;
-          case ReleaseType.EP:          sb.Append("ep");             break;
-          case ReleaseType.Other:       sb.Append("other");          break;
-          case ReleaseType.Single:      sb.Append("single");         break;
-          // Secondary Types
-          case ReleaseType.Audiobook:   sb.Append("audiobook");      break;
-          case ReleaseType.Compilation: sb.Append("compilation");    break;
-          case ReleaseType.DJMix:       sb.Append("dj-mix");         break;
-          case ReleaseType.Interview:   sb.Append("interview");      break;
-          case ReleaseType.Live:        sb.Append("live");           break;
-          case ReleaseType.MixTape:     sb.Append("mixtape/street"); break;
-          case ReleaseType.Remix:       sb.Append("remix");          break;
-          case ReleaseType.Soundtrack:  sb.Append("soundtrack");     break;
-          case ReleaseType.SpokenWord:  sb.Append("spokenwork");     break;
-        }
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
+        var letter = '=';
+        // Primary Types
+        if ((type & ReleaseType.Album)       != 0) { sb.Append(letter).Append("album");          letter = '|'; }
+        if ((type & ReleaseType.Broadcast)   != 0) { sb.Append(letter).Append("broadcast");      letter = '|'; }
+        if ((type & ReleaseType.EP)          != 0) { sb.Append(letter).Append("ep");             letter = '|'; }
+        if ((type & ReleaseType.Other)       != 0) { sb.Append(letter).Append("other");          letter = '|'; }
+        if ((type & ReleaseType.Single)      != 0) { sb.Append(letter).Append("single");         letter = '|'; }
+        // Secondary Types
+        if ((type & ReleaseType.Audiobook)   != 0) { sb.Append(letter).Append("audiobook");      letter = '|'; }
+        if ((type & ReleaseType.Compilation) != 0) { sb.Append(letter).Append("compilation");    letter = '|'; }
+        if ((type & ReleaseType.DJMix)       != 0) { sb.Append(letter).Append("dj-mix");         letter = '|'; }
+        if ((type & ReleaseType.Interview)   != 0) { sb.Append(letter).Append("interview");      letter = '|'; }
+        if ((type & ReleaseType.Live)        != 0) { sb.Append(letter).Append("live");           letter = '|'; }
+        if ((type & ReleaseType.MixTape)     != 0) { sb.Append(letter).Append("mixtape/street"); letter = '|'; }
+        if ((type & ReleaseType.Remix)       != 0) { sb.Append(letter).Append("remix");          letter = '|'; }
+        if ((type & ReleaseType.Soundtrack)  != 0) { sb.Append(letter).Append("soundtrack");     letter = '|'; }
+        if ((type & ReleaseType.SpokenWord)  != 0) { sb.Append(letter).Append("spokenword");     letter = '|'; }
       }
       if (status.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("status=");
-        switch (status.Value) {
-          case ReleaseStatus.Bootleg:       sb.Append("bootleg");        break;
-          case ReleaseStatus.Official:      sb.Append("official");       break;
-          case ReleaseStatus.Promotional:   sb.Append("promotion");      break; // Docs call it Promotional, UI & ws use "Promotion".
-          case ReleaseStatus.PseudoRelease: sb.Append("pseudo-release"); break;
-        }
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("status");
+        var letter = '=';
+        if ((status & ReleaseStatus.Bootleg)       != 0) { sb.Append(letter).Append("bootleg");        letter = '|'; }
+        if ((status & ReleaseStatus.Official)      != 0) { sb.Append(letter).Append("official");       letter = '|'; }
+        if ((status & ReleaseStatus.Promotion)     != 0) { sb.Append(letter).Append("promotion");      letter = '|'; }
+        if ((status & ReleaseStatus.PseudoRelease) != 0) { sb.Append(letter).Append("pseudo-release"); letter = '|'; }
       }
       return sb.ToString();
     }

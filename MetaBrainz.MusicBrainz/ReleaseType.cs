@@ -1,11 +1,13 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of the release type values (combines primary and secondary types).</summary>
   [SuppressMessage("ReSharper", "InconsistentNaming")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public enum ReleaseType : byte {
+  [Flags]
+  public enum ReleaseType {
 
     #region Primary Types
 
@@ -13,20 +15,20 @@ namespace MetaBrainz.MusicBrainz {
     /// An album, perhaps better defined as a "Long Play" (LP) release, generally consists of previously unreleased material (unless this type is combined with secondary
     /// types which change that, such as <see cref="Compilation"/>).
     /// </summary>
-    Album,
+    Album     = 1 << (0 + 0),
 
     /// <summary>An episodic release that was originally broadcast via radio, television, or the Internet, including podcasts.</summary>
-    Broadcast,
+    Broadcast = 1 << (0 + 1),
 
     /// <summary>
     /// An EP is a so-called "Extended Play" release and often contains the letters EP in the title. Generally an EP will be shorter than a full length release
     /// (an LP or "Long Play") and the tracks are usually exclusive to the EP, in other words the tracks don't come from a previously issued release. EP is fairly
     /// difficult to define; usually it should only be assumed that a release is an EP if the artist defines it as such.
     /// </summary>
-    EP,
+    EP        = 1 << (0 + 2),
 
     /// <summary>Any release that does not fit or can't decisively be placed in any of the categories above.</summary>
-    Other,
+    Other     = 1 << (0 + 3),
 
     /// <summary>
     /// A single has different definitions depending on the market it is released for.
@@ -53,14 +55,14 @@ namespace MetaBrainz.MusicBrainz {
     /// "B-Side" comes from the era when singles were released on 7 inch (or sometimes 12 inch) vinyl with a song on each side, and so side A is the track that the single
     /// is named for, and the other side -side B- would contain a bonus song, or sometimes even the same song. 
     /// </summary>
-    Single,
+    Single    = 1 << (0 + 4),
 
     #endregion
 
     #region Secondary Types
 
     /// <summary></summary>
-    Audiobook,
+    Audiobook   = 1 << (10 + 0),
 
     /// <summary>
     /// A compilation, for the purposes of the MusicBrainz database, covers the following types of releases:
@@ -83,20 +85,20 @@ namespace MetaBrainz.MusicBrainz {
     /// </description></item>
     /// </list>
     /// </summary>
-    Compilation,
+    Compilation = 1 << (10 + 1),
 
     /// <summary>
     /// A DJ-mix is a sequence of several recordings played one after the other, each one modified so that they blend together into a continuous flow of music. A DJ mix
     /// release requires that the recordings be modified in some manner, and the DJ who does this modification is usually (although not always) credited in a fairly
     /// prominent way.
     /// </summary>
-    DJMix,
+    DJMix       = 1 << (10 + 2),
 
     /// <summary>An interview release contains an interview, generally with an artist.</summary>
-    Interview,
+    Interview   = 1 << (10 + 3),
 
     /// <summary>A release that was recorded live.</summary>
-    Live,
+    Live        = 1 << (10 + 4),
 
     /// <summary>
     /// Promotional in nature (but not necessarily free), mixtapes and street albums are often released by artists to promote new artists, or upcoming studio albums
@@ -106,19 +108,19 @@ namespace MetaBrainz.MusicBrainz {
     /// new material, including original production or original vocals over top of other artists' instrumentals. They are distinct from demos in that they are designed
     /// for release directly to the public and fans; not to labels.
     /// </summary>
-    MixTape,
+    MixTape     = 1 << (10 + 5),
 
     /// <summary>A release that primarily contains remixed material.</summary>
-    Remix,
+    Remix       = 1 << (10 + 6),
 
     /// <summary>
     /// A soundtrack is the musical score to a movie, TV series, stage show, computer game etc. In the specific cases of computer games, a game CD with audio tracks
     /// should be classified as a soundtrack: the musical properties of the CD are more interesting to MusicBrainz than the data properties.
     /// </summary>
-    Soundtrack,
+    Soundtrack  = 1 << (10 + 7),
 
     /// <summary>Non-music spoken word releases.</summary>
-    SpokenWord,
+    SpokenWord  = 1 << (10 + 8),
 
     /// <summary>
     /// Promotional in nature (but not necessarily free), mixtapes and street albums are often released by artists to promote new artists, or upcoming studio albums
