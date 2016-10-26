@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -129,6 +129,10 @@
     <Compile Include="Entities\IWork.cs" />
     <Compile Include="Entities\IWorkAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Submissions\BarcodeSubmission.cs" />
+    <Compile Include="Submissions\IsrcSubmission.cs" />
+    <Compile Include="Submissions\ISubmission.cs" />
+    <Compile Include="Submissions\Submission.cs" />
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="BearerToken.cs" />
     <Compile Include="DiscIdLookupResult.cs" />

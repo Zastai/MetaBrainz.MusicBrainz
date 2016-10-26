@@ -1,4 +1,7 @@
-﻿using System;
+﻿// This will not work until https://github.com/metabrainz/musicbrainz-server/pull/385 is merged.
+//#define SUBMIT_ACCEPT_JSON
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -7,15 +10,19 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Xml;
+using System.Xml.XPath;
 
 using MetaBrainz.MusicBrainz.Entities;
 using MetaBrainz.MusicBrainz.Entities.Objects;
+using MetaBrainz.MusicBrainz.Submissions;
 
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class providing access to the MusicBrainz API.</summary>
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed class Query {
@@ -352,6 +359,40 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
+    #region Submissions
+
+    /// <summary>Creates a submission request for setting a barcode on one or more releases.</summary>
+    /// <param name="client">
+    ///   The ID of the client software submitting data.<br/>
+    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
+    ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
+    /// </param>
+    /// <returns>A new barcode submission request (to be executed via a call to <see cref="BarcodeSubmission.Submit()"/>).</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
+    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+    public BarcodeSubmission SubmitBarcodes(string client) {
+      if (client == null) throw new ArgumentNullException(nameof(client));
+      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      return new BarcodeSubmission(this, client);
+    }
+
+    /// <summary>Creates a submission request for adding one or more ISRCs to one or more recordings.</summary>
+    /// <param name="client">
+    ///   The ID of the client software submitting data.<br/>
+    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
+    ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
+    /// </param>
+    /// <returns>A new ISRC submission request (to be executed via a call to <see cref="IsrcSubmission.Submit()"/>).</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
+    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+    public IsrcSubmission SubmitIsrcs(string client) {
+      if (client == null) throw new ArgumentNullException(nameof(client));
+      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      return new IsrcSubmission(this, client);
+    }
+
+    #endregion
+
     #endregion
 
     #region Instance Fields / Properties
@@ -388,6 +429,104 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
+    #region Message / Error Handling
+
+    #pragma warning disable 649
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    private sealed class MessageOrError {
+      [JsonProperty] public string error;
+      [JsonProperty] public string message;
+    }
+
+    #pragma warning restore 649
+
+    private static string ExtractError(HttpWebResponse response) {
+      if (response == null || response.ContentLength == 0)
+        return null;
+      try {
+        using (var stream = response.GetResponseStream()) {
+          if (stream == null)
+            return null;
+          if (response.ContentType.StartsWith("application/xml")) {
+            StringBuilder sb = null;
+            var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
+            while (xpath.MoveNext()) {
+              if (sb == null)
+                sb = new StringBuilder();
+              else
+                sb.AppendLine();
+              sb.Append(xpath.Current.InnerXml);
+            }
+            Debug.Print($"[{DateTime.UtcNow}] => ERROR (XML): \"{sb}\"");
+            return sb?.ToString();
+          }
+          if (response.ContentType.StartsWith("application/json")) {
+            var encname = response.CharacterSet;
+            if (string.IsNullOrWhiteSpace(encname))
+              encname = "utf-8";
+            var enc = Encoding.GetEncoding(encname);
+            using (var sr = new StreamReader(stream, enc)) {
+              var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
+              Debug.Print($"[{DateTime.UtcNow}] => ERROR (JSON): \"{moe?.error}\"");
+              return moe?.error;
+            }
+          }
+        }
+      }
+      catch { /* keep calm and fall through */ }
+      return null;
+    }
+
+    private static string ExtractMessage(HttpWebResponse response) {
+      if (response == null)
+        return null;
+      if (response.ContentLength == 0)
+        return null;
+      try {
+        using (var stream = response.GetResponseStream()) {
+          if (stream == null)
+            return null;
+          if (response.ContentType.StartsWith("application/xml")) {
+            StringBuilder sb = null;
+            // Unlike an error, this is a <metadata> document with a namespace, requiring more effort to get the text out.
+            var nav = new XPathDocument(stream).CreateNavigator();
+            XmlNamespaceManager ns = null;
+            if (nav.NameTable != null) {
+              ns = new XmlNamespaceManager(nav.NameTable);
+              ns.AddNamespace("mb", "http://musicbrainz.org/ns/mmd-2.0#");
+            }
+            var xpath = nav.Select("/mb:metadata/mb:message/mb:text", ns);
+            while (xpath.MoveNext()) {
+              if (sb == null)
+                sb = new StringBuilder();
+              else
+                sb.AppendLine();
+              sb.Append(xpath.Current.InnerXml);
+            }
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (XML): \"{sb}\"");
+            return sb?.ToString();
+          }
+          if (response.ContentType.StartsWith("application/json")) {
+            var encname = response.CharacterSet;
+            if (string.IsNullOrWhiteSpace(encname))
+              encname = "utf-8";
+            var enc = Encoding.GetEncoding(encname);
+            using (var sr = new StreamReader(stream, enc)) {
+              var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
+              Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (JSON): \"{moe?.message}\"");
+              return moe?.message;
+            }
+          }
+        }
+      }
+      catch { /* keep calm and fall through */ }
+      return null;
+    }
+
+    #endregion
+
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
     private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
@@ -405,6 +544,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private string _lastDigest;
 
+    [SuppressMessage("ReSharper", "CyclomaticComplexity")]
     private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, ReleaseType? type = null, ReleaseStatus? status = null) {
       var sb = new StringBuilder();
       if (inc != Include.None) {
@@ -491,7 +631,7 @@ namespace MetaBrainz.MusicBrainz {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {uri}");
       var firstTry = true;
-      retry:
+    retry:
       var req = WebRequest.Create(uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
@@ -519,9 +659,8 @@ namespace MetaBrainz.MusicBrainz {
           }
         }
       }
-      catch (WebException we) {
-        var response = we.Response as HttpWebResponse;
-        if (response != null) {
+      catch (WebException we) when (we.Response is HttpWebResponse) {
+        using (var response = (HttpWebResponse) we.Response) {
           if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
             firstTry = false; // only retry authentication once
             var digest = HttpDigestHelper.GetDigest(response, this.Credential);
@@ -530,15 +669,61 @@ namespace MetaBrainz.MusicBrainz {
               goto retry;
             }
           }
-          // FIXME: Is there a better way to be sure it's an MB WS error response?
-          if (response.ContentType.StartsWith("application/xml"))
-            throw new QueryException(we);
+          var msg = Query.ExtractError(response);
+          if (msg != null)
+            throw new QueryException(msg, we);
         }
-        // If not handled in some way, just rethrow the WebException.
         throw;
       }
       // We got a response without any content (probably impossible).
       throw new QueryException("Query did not produce results.");
+    }
+
+    private string PerformDirectSubmission(ISubmission submission) {
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE SUBMISSION: {uri}");
+      var firstTry = true;
+    retry:
+      var req = WebRequest.Create(uri) as HttpWebRequest;
+      if (req == null)
+        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
+      req.Method      = submission.Method;
+#if SUBMIT_ACCEPT_JSON
+      req.Accept      = "application/json";
+#else
+      req.Accept      = "application/xml";
+#endif
+      req.ContentType = "application/xml; charset=utf-8";
+      if (this.BearerToken != null)
+        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
+      else if (this._lastDigest != null)
+        req.Headers.Add("Authorization", this._lastDigest);
+      var body = submission.RequestBody;
+      Debug.Print($"[{DateTime.UtcNow}] => BODY: {body}");
+      using (var rs = req.GetRequestStream()) {
+        using (var sw = new StreamWriter(rs, Encoding.UTF8))
+          sw.Write(body);
+      }
+      try {
+        using (var response = (HttpWebResponse) req.GetResponse())
+          return Query.ExtractMessage(response);
+      }
+      catch (WebException we) when (we.Response is HttpWebResponse) {
+        using (var response = (HttpWebResponse) we.Response) {
+          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
+            firstTry = false; // only retry authentication once
+            var digest = HttpDigestHelper.GetDigest(response, this.Credential);
+            if (digest != null && this._lastDigest != digest) {
+              this._lastDigest = digest;
+              goto retry;
+            }
+          }
+          var msg = Query.ExtractError(response);
+          if (msg != null)
+            throw new QueryException(msg, we);
+        }
+        throw;
+      }
     }
 
     private string PerformRequest(string entity, string id, string extra) {
@@ -555,6 +740,28 @@ namespace MetaBrainz.MusicBrainz {
           if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
             try {
               return this.PerformDirectRequest(entity, id, extra);
+            }
+            finally {
+              Query._lastRequestTime = DateTime.UtcNow;
+            }
+          }
+        }
+        finally {
+          Query.RequestLock.ExitWriteLock();
+        }
+        Thread.Sleep((int) (500 * Query._requestDelay));
+      }
+    }
+
+    internal string PerformSubmission(ISubmission submission) {
+      if (Query._requestDelay <= 0.0)
+        return this.PerformDirectSubmission(submission);
+      while (true) {
+        Query.RequestLock.EnterWriteLock();
+        try {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+            try {
+              return this.PerformDirectSubmission(submission);
             }
             finally {
               Query._lastRequestTime = DateTime.UtcNow;
