@@ -126,7 +126,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public Recording.JSON[] recordings;
       [JsonProperty] public Relation.JSON[] relations;
       [JsonProperty] public Release.JSON[] releases;
-      [JsonProperty] public ReleaseGroup.JSON[] release_groups;
+      [JsonProperty("release-groups")] public ReleaseGroup.JSON[] release_groups;
       [JsonProperty("sort-name")] public string sort_name;
       [JsonProperty] public Tag.JSON[] tags;
       [JsonProperty] public string type;
