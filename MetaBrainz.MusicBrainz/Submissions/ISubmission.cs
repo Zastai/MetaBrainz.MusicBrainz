@@ -10,8 +10,6 @@
 
     string RequestBody { get; }
 
-    string Submit();
-
   }
 
 }
