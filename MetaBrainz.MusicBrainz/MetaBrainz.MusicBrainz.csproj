@@ -132,6 +132,7 @@
     <Compile Include="Submissions\BarcodeSubmission.cs" />
     <Compile Include="Submissions\IsrcSubmission.cs" />
     <Compile Include="Submissions\ISubmission.cs" />
+    <Compile Include="Submissions\ModifyCollection.cs" />
     <Compile Include="Submissions\Submission.cs" />
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="BearerToken.cs" />
