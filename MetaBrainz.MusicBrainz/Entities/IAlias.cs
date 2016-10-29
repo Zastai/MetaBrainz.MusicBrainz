@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MetaBrainz.MusicBrainz.Entities {
+﻿namespace MetaBrainz.MusicBrainz.Entities {
 
   public interface IAlias : ITypedEntity {
 
