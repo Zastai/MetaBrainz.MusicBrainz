@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MetaBrainz.MusicBrainz.Entities {
+﻿namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A collection.</summary>
   public interface ICollection : IMbEntity, ITypedEntity {
@@ -8,8 +6,11 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The name of the editor who created the collection.</summary>
     string Editor { get; }
 
-    /// <summary>The type of entity stored in the collection.</summary>
-    string EntityType { get; }
+    /// <summary>The type of entity stored in the collection (as an enumeration value).</summary>
+    CollectionEntityType EntityType { get; }
+
+    /// <summary>The type of entity stored in the collection (as text).</summary>
+    string EntityTypeText { get; }
 
     /// <summary>The number of items in in the collection.</summary>
     int ItemCount { get; }

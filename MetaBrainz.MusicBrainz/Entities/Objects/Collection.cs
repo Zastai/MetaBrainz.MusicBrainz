@@ -13,7 +13,31 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Editor => this._json.editor;
 
-    public string EntityType => this._json.entity_type;
+    public CollectionEntityType EntityType {
+      get {
+        if (!this._entityType.HasValue) {
+          switch (this.EntityTypeText) {
+            case "area":          this._entityType = CollectionEntityType.Area;         break;
+            case "artist":        this._entityType = CollectionEntityType.Artist;       break;
+            case "event":         this._entityType = CollectionEntityType.Event;        break;
+            case "instrument":    this._entityType = CollectionEntityType.Instrument;   break;
+            case "label":         this._entityType = CollectionEntityType.Label;        break;
+            case "place":         this._entityType = CollectionEntityType.Place;        break;
+            case "recording":     this._entityType = CollectionEntityType.Recording;    break;
+            case "release":       this._entityType = CollectionEntityType.Release;      break;
+            case "release_group": this._entityType = CollectionEntityType.ReleaseGroup; break;
+            case "series":        this._entityType = CollectionEntityType.Series;       break;
+            case "work":          this._entityType = CollectionEntityType.Work;         break;
+            default:              this._entityType = CollectionEntityType.Unknown;      break;
+          }
+        }
+        return this._entityType.Value;
+      }
+    }
+
+    private CollectionEntityType? _entityType;
+
+    public string EntityTypeText => this._json.entity_type;
 
     public int ItemCount =>   this._json.area_count
                             + this._json.artist_count
