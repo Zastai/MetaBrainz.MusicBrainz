@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Rating : IRating {
 
-    public byte? Value => this._json.value;
+    public decimal Value => this._json.value;
 
     public int VoteCount => this._json.votes_count;
 
@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
-      [JsonProperty(Required = Required.AllowNull)] public byte? value;
+      [JsonProperty(Required = Required.Always)] public decimal value;
       [JsonProperty("votes-count", Required = Required.Always)] public int votes_count;
     }
 

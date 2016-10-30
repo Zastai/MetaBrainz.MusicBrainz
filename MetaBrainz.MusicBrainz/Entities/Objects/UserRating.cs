@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class UserRating : IUserRating {
 
-    public byte? Value => this._json.value;
+    public decimal Value => this._json.value;
 
     #region JSON-Based Construction
 
@@ -21,7 +21,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
-      [JsonProperty(Required = Required.AllowNull)] public byte? value;
+      [JsonProperty(Required = Required.Always)] public decimal value;
     }
 
     #endregion
