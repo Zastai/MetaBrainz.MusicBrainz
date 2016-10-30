@@ -7,37 +7,40 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Collection : ICollection {
 
+    public EntityType EntityType => EntityType.Collection;
+
     public string Id => this.MbId.ToString("D");
 
     public Guid MbId => this._json.id;
 
     public string Editor => this._json.editor;
 
-    public CollectionEntityType EntityType {
+    public EntityType ContentType {
       get {
-        if (!this._entityType.HasValue) {
-          switch (this.EntityTypeText) {
-            case "area":          this._entityType = CollectionEntityType.Area;         break;
-            case "artist":        this._entityType = CollectionEntityType.Artist;       break;
-            case "event":         this._entityType = CollectionEntityType.Event;        break;
-            case "instrument":    this._entityType = CollectionEntityType.Instrument;   break;
-            case "label":         this._entityType = CollectionEntityType.Label;        break;
-            case "place":         this._entityType = CollectionEntityType.Place;        break;
-            case "recording":     this._entityType = CollectionEntityType.Recording;    break;
-            case "release":       this._entityType = CollectionEntityType.Release;      break;
-            case "release_group": this._entityType = CollectionEntityType.ReleaseGroup; break;
-            case "series":        this._entityType = CollectionEntityType.Series;       break;
-            case "work":          this._entityType = CollectionEntityType.Work;         break;
-            default:              this._entityType = CollectionEntityType.Unknown;      break;
-          }
+        if (this._entityType.HasValue)
+          return this._entityType.Value;
+        switch (this._json.entity_type) {
+          case "area":          return (this._entityType = EntityType.Area        ).Value;
+          case "artist":        return (this._entityType = EntityType.Artist      ).Value;
+          case "collection":    return (this._entityType = EntityType.Collection  ).Value; // not currently possible
+          case "event":         return (this._entityType = EntityType.Event       ).Value;
+          case "instrument":    return (this._entityType = EntityType.Instrument  ).Value;
+          case "label":         return (this._entityType = EntityType.Label       ).Value;
+          case "place":         return (this._entityType = EntityType.Place       ).Value;
+          case "recording":     return (this._entityType = EntityType.Recording   ).Value;
+          case "release":       return (this._entityType = EntityType.Release     ).Value;
+          case "release_group": return (this._entityType = EntityType.ReleaseGroup).Value;
+          case "series":        return (this._entityType = EntityType.Series      ).Value;
+          case "url":           return (this._entityType = EntityType.Url         ).Value; // not currently possible
+          case "work":          return (this._entityType = EntityType.Work        ).Value;
+          default:              return (this._entityType = EntityType.Unknown     ).Value;
         }
-        return this._entityType.Value;
       }
     }
 
-    private CollectionEntityType? _entityType;
+    private EntityType? _entityType;
 
-    public string EntityTypeText => this._json.entity_type;
+    public string ContentTypeText => this._json.entity_type;
 
     public int ItemCount =>   this._json.area_count
                             + this._json.artist_count

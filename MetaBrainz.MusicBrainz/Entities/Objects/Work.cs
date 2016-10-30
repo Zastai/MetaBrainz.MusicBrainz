@@ -8,6 +8,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Work : IWork {
 
+    public EntityType EntityType => EntityType.Work;
+
     public string Id => this.MbId.ToString("D");
 
     public Guid MbId => this._json.id;

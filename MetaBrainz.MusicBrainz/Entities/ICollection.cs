@@ -7,10 +7,10 @@
     string Editor { get; }
 
     /// <summary>The type of entity stored in the collection (as an enumeration value).</summary>
-    CollectionEntityType EntityType { get; }
+    EntityType ContentType { get; }
 
     /// <summary>The type of entity stored in the collection (as text).</summary>
-    string EntityTypeText { get; }
+    string ContentTypeText { get; }
 
     /// <summary>The number of items in in the collection.</summary>
     int ItemCount { get; }

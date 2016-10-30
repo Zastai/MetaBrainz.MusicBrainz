@@ -8,6 +8,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Release : IRelease {
 
+    public EntityType EntityType => EntityType.Release;
+
     public string Id => this.MbId.ToString("D");
 
     public Guid MbId => this._json.id;

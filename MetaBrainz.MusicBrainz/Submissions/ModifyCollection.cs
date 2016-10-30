@@ -8,7 +8,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
 
   internal sealed class ModifyCollection : ISubmission {
 
-    public ModifyCollection(string method, string client, Guid collection, CollectionEntityType entityType) {
+    public ModifyCollection(string method, string client, Guid collection, EntityType entityType) {
       if (method == null) throw new ArgumentNullException(nameof(method));
       if (client == null) throw new ArgumentNullException(nameof(client));
       if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
@@ -42,20 +42,21 @@ namespace MetaBrainz.MusicBrainz.Submissions {
 
     string ISubmission.RequestBody => null;
 
-    private static string MapType(CollectionEntityType entityType) {
+    private static string MapType(EntityType entityType) {
       switch (entityType) {
-        case CollectionEntityType.Area:         return "areas";
-        case CollectionEntityType.Artist:       return "artists";
-        case CollectionEntityType.Event:        return "events";
-        case CollectionEntityType.Instrument:   return "instruments";
-        case CollectionEntityType.Label:        return "labels";
-        case CollectionEntityType.Place:        return "places";
-        case CollectionEntityType.Recording:    return "recordings";
-        case CollectionEntityType.Release:      return "releases";
-        case CollectionEntityType.ReleaseGroup: return "release-groups";
-        case CollectionEntityType.Series:       return "series";
-        case CollectionEntityType.Work:         return "works";
-        default:                                return "things";
+        case EntityType.Area:         return "areas";
+        case EntityType.Artist:       return "artists";
+        case EntityType.Event:        return "events";
+        case EntityType.Instrument:   return "instruments";
+        case EntityType.Label:        return "labels";
+        case EntityType.Place:        return "places";
+        case EntityType.Recording:    return "recordings";
+        case EntityType.Release:      return "releases";
+        case EntityType.ReleaseGroup: return "release-groups";
+        case EntityType.Series:       return "series";
+        case EntityType.Work:         return "works";
+        default:
+          throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "The specified entity type cannot be stored in a collection.");
       }
     }
 

@@ -8,6 +8,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Event : IEvent {
 
+    public EntityType EntityType => EntityType.Event;
+
     public string Id => this.MbId.ToString("D");
 
     public Guid MbId => this._json.id;
