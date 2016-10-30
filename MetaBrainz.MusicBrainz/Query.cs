@@ -809,6 +809,20 @@ namespace MetaBrainz.MusicBrainz {
       return new IsrcSubmission(this, client);
     }
 
+    /// <summary>Creates a submission request for rating one or more entities.</summary>
+    /// <param name="client">
+    ///   The ID of the client software submitting data.<br/>
+    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.
+    /// </param>
+    /// <returns>A new rating submission request (to be executed via a call to <see cref="RatingSubmission.Submit()"/>).</returns>
+    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
+    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+    public RatingSubmission SubmitRatings(string client) {
+      if (client == null) throw new ArgumentNullException(nameof(client));
+      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      return new RatingSubmission(this, client);
+    }
+
     #endregion
 
     #endregion

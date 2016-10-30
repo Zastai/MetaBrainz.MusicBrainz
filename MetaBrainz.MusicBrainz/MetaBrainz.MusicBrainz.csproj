@@ -133,6 +133,7 @@
     <Compile Include="Submissions\IsrcSubmission.cs" />
     <Compile Include="Submissions\ISubmission.cs" />
     <Compile Include="Submissions\ModifyCollection.cs" />
+    <Compile Include="Submissions\RatingSubmission.cs" />
     <Compile Include="Submissions\Submission.cs" />
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="BearerToken.cs" />
