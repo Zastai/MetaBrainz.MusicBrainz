@@ -87,71 +87,30 @@ namespace MetaBrainz.MusicBrainz.Submissions {
           using (var xml = XmlWriter.Create(sw)) {
             xml.WriteStartDocument();
             xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-            if (this._artRatings.Count > 0) {
-              xml.WriteStartElement("artist-list");
-              foreach (var entry in this._artRatings) {
-                xml.WriteStartElement("artist");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
-            if (this._evtRatings.Count > 0) {
-              xml.WriteStartElement("event-list");
-              foreach (var entry in this._evtRatings) {
-                xml.WriteStartElement("event");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
-            if (this._lblRatings.Count > 0) {
-              xml.WriteStartElement("label-list");
-              foreach (var entry in this._lblRatings) {
-                xml.WriteStartElement("label");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
-            if (this._recRatings.Count > 0) {
-              xml.WriteStartElement("recording-list");
-              foreach (var entry in this._recRatings) {
-                xml.WriteStartElement("recording");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
-            if (this._rlgRatings.Count > 0) {
-              xml.WriteStartElement("release-group-list");
-              foreach (var entry in this._rlgRatings) {
-                xml.WriteStartElement("release-group");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
-            if (this._wrkRatings.Count > 0) {
-              xml.WriteStartElement("work-list");
-              foreach (var entry in this._wrkRatings) {
-                xml.WriteStartElement("work");
-                xml.WriteAttributeString("id", entry.Key.ToString("D"));
-                xml.WriteElementString("user-rating", entry.Value.ToString());
-                xml.WriteEndElement();
-              }
-              xml.WriteEndElement();
-            }
+            RatingSubmission.Write(xml, this._artRatings, "artist");
+            RatingSubmission.Write(xml, this._evtRatings, "event");
+            RatingSubmission.Write(xml, this._lblRatings, "label");
+            RatingSubmission.Write(xml, this._recRatings, "recording");
+            RatingSubmission.Write(xml, this._rlgRatings, "release-group");
+            RatingSubmission.Write(xml, this._wrkRatings, "work");
             xml.WriteEndElement();
           }
           return sw.ToString();
         }
       }
+    }
+
+    private static void Write(XmlWriter xml, IDictionary<Guid, byte> items, string element) {
+      if (items == null || items.Count == 0)
+        return;
+      xml.WriteStartElement(element + "-list");
+      foreach (var entry in items) {
+        xml.WriteStartElement(element);
+        xml.WriteAttributeString("id", entry.Key.ToString("D"));
+        xml.WriteElementString("user-rating", entry.Value.ToString());
+        xml.WriteEndElement();
+      }
+      xml.WriteEndElement();
     }
 
     #endregion
