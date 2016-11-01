@@ -3,7 +3,7 @@
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A CD stub (information entered about a CD by someone without a MusicBrainz account).</summary>
-  public interface ICdStub : IEntity {
+  public interface ICdStub {
 
     /// <summary>The name of the artist for the CD.</summary>
     string Artist { get; }
@@ -13,6 +13,9 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     /// <summary>The disambiguation comment for the CD.</summary>
     string Disambiguation { get; }
+
+    /// <summary>The Musicbrainz disc ID for the CD.</summary>
+    string Id { get; }
 
     /// <summary>The title for the CD.</summary>
     string Title { get; }
