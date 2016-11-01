@@ -3,7 +3,7 @@
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>An item identified by an MBID.</summary>
-  public interface IMbEntity : IEntity {
+  public interface IMbEntity {
 
     /// <summary>The type of this entity.</summary>
     EntityType EntityType { get; }
