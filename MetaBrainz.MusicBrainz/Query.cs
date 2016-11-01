@@ -1172,42 +1172,19 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    private string PerformRequest(string entity, string id, string extra) {
-      if (id == null)
-        throw new ArgumentNullException(nameof(id));
-      id = id.Trim();
-      if (id.Length == 0)
-        throw new ArgumentException("An entity identifier must not be blank or empty.", nameof(id));
-      if (Query._requestDelay <= 0.0)
-        return this.PerformDirectRequest(entity, id, extra);
-      while (true) {
-        Query.RequestLock.EnterWriteLock();
-        try {
-          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
-            try {
-              return this.PerformDirectRequest(entity, id, extra);
-            }
-            finally {
-              Query._lastRequestTime = DateTime.UtcNow;
-            }
-          }
-        }
-        finally {
-          Query.RequestLock.ExitWriteLock();
-        }
-        Thread.Sleep((int) (500 * Query._requestDelay));
-      }
-    }
+    private string PerformRequest(string entity, string id, string extra) => this.ApplyDelay(() => this.PerformDirectRequest(entity, id, extra));
 
-    internal string PerformSubmission(ISubmission submission) {
+    internal string PerformSubmission(ISubmission submission) => this.ApplyDelay(() => this.PerformDirectSubmission(submission));
+
+    private string ApplyDelay(Func<string> request) {
       if (Query._requestDelay <= 0.0)
-        return this.PerformDirectSubmission(submission);
+        return request();
       while (true) {
         Query.RequestLock.EnterWriteLock();
         try {
           if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
             try {
-              return this.PerformDirectSubmission(submission);
+              return request();
             }
             finally {
               Query._lastRequestTime = DateTime.UtcNow;
