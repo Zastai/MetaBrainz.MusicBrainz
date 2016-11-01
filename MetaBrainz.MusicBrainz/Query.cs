@@ -328,6 +328,18 @@ namespace MetaBrainz.MusicBrainz {
       return new Url(JsonConvert.DeserializeObject<Url.JSON>(json, Query.SerializerSettings));
     }
 
+    /// <summary>Looks up the specified URL.</summary>
+    /// <param name="resource">The resource to look up.</param>
+    /// <param name="inc">Additional information to include in the result.</param>
+    /// <returns>The requested URL.</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
+      if (resource == null) throw new ArgumentNullException(nameof(resource));
+      var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource: resource));
+      return new Url(JsonConvert.DeserializeObject<Url.JSON>(json, Query.SerializerSettings));
+    }
+
     /// <summary>Looks up the specified work.</summary>
     /// <param name="mbid">The MBID for the work to look up.</param>
     /// <param name="inc">Additional information to include in the result.</param>
@@ -991,8 +1003,12 @@ namespace MetaBrainz.MusicBrainz {
     private string _lastDigest;
 
     [SuppressMessage("ReSharper", "CyclomaticComplexity")]
-    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, ReleaseType? type = null, ReleaseStatus? status = null) {
+    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, Uri resource = null, ReleaseType? type = null, ReleaseStatus? status = null) {
       var sb = new StringBuilder();
+      if (toc != null)
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=").Append(string.Join("+", toc));
+      if (resource != null)
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("resource=").Append(Uri.EscapeDataString(resource.ToString()));
       if (inc != Include.None) {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
         var letter = '=';
@@ -1034,8 +1050,6 @@ namespace MetaBrainz.MusicBrainz {
         if ((inc & Include.WorkLevelRelationships)      != 0) { sb.Append(letter).Append("work-level-rels");      letter = '+'; }
         if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
       }
-      if (toc != null)
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=").Append(string.Join("+", toc));
       if (allMedia)
         sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
       if (noStubs)
