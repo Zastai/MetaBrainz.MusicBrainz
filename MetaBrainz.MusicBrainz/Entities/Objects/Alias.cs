@@ -40,7 +40,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     internal sealed class JSON {
       [JsonProperty("begin-date")] public string begin_date;
       [JsonProperty("end-date")] public string end_date;
-      [JsonProperty("ended")] public bool? ended;
+      [JsonProperty] public bool? ended;
       [JsonProperty] public string locale;
       [JsonProperty(Required = Required.Always)] public string name;
       [JsonProperty] public bool? primary;
