@@ -3,7 +3,7 @@
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A typed entity.</summary>
-  public interface ITypedEntity {
+  public interface ITypedEntity : IMbEntity {
 
     /// <summary>The type of the entity, expressed as text.</summary>
     string Type { get; }
