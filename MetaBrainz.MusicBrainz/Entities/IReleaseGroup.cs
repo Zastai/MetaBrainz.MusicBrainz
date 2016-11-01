@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IReleaseGroup : IMbEntity, IAnnotatedEntity, IRatedEntity, IRelatableEntity, ITaggedEntity, ITitledEntity, ITypedEntity {
+  public interface IReleaseGroup : IMbEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
 
     IEnumerable<INameCredit> ArtistCredit { get; }
 

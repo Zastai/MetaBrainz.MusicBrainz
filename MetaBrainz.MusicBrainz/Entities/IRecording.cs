@@ -2,7 +2,7 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IRecording : IMbEntity, IAnnotatedEntity, IRatedEntity, IRelatableEntity, ITaggedEntity, ITitledEntity {
+  public interface IRecording : IMbEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     IEnumerable<INameCredit> ArtistCredit { get; }
 

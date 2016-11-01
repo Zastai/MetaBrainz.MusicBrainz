@@ -1,7 +1,7 @@
 ﻿namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>A rated entity.</summary>
-  public interface IRatedEntity : IMbEntity {
+  /// <summary>A entity that can be rated.</summary>
+  public interface IRatableEntity : IMbEntity {
 
     /// <summary>The rating for the entity.</summary>
     IRating Rating { get; }

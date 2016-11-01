@@ -29,7 +29,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <param name="vote">The vote to apply to the tags.</param>
     /// <param name="tags">The tags to vote for.</param>
     /// <returns>This submission request.</returns>
-    public TagSubmission Add(ITaggedEntity entity, TagVote vote, params string[] tags) {
+    public TagSubmission Add(ITaggableEntity entity, TagVote vote, params string[] tags) {
       if (entity == null) throw new ArgumentNullException(nameof(entity));
       if (tags   == null) throw new ArgumentNullException(nameof(tags));
       foreach (var tag in tags)
@@ -72,7 +72,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <param name="vote">The vote to apply to the tag.</param>
     /// <param name="entity">The entity to tag.</param>
     /// <returns>This submission request.</returns>
-    public TagSubmission Add(string tag, TagVote vote, ITaggedEntity entity) {
+    public TagSubmission Add(string tag, TagVote vote, ITaggableEntity entity) {
       if (tag    == null) throw new ArgumentNullException(nameof(tag));
       if (entity == null) throw new ArgumentNullException(nameof(entity));
       return this.Add(tag, vote, entity.EntityType, entity.MbId);
@@ -83,7 +83,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <param name="vote">The vote to apply to the tag.</param>
     /// <param name="entities">The entities to tag.</param>
     /// <returns>This submission request.</returns>
-    public TagSubmission Add(string tag, TagVote vote, params ITaggedEntity[] entities) {
+    public TagSubmission Add(string tag, TagVote vote, params ITaggableEntity[] entities) {
       if (tag      == null) throw new ArgumentNullException(nameof(tag));
       if (entities == null) throw new ArgumentNullException(nameof(entities));
       foreach (var item in entities) {

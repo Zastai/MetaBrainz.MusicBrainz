@@ -38,7 +38,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
     /// <param name="entity">The entity to rate.</param>
     /// <returns>This submission request.</returns>
-    public RatingSubmission Add(byte rating, IRatedEntity entity) {
+    public RatingSubmission Add(byte rating, IRatableEntity entity) {
       if (entity == null) throw new ArgumentNullException(nameof(entity));
       return this.Add(rating, entity.EntityType, entity.MbId);
     }
@@ -47,7 +47,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
     /// <param name="entities">The entities to rate.</param>
     /// <returns>This submission request.</returns>
-    public RatingSubmission Add(byte rating, params IRatedEntity[] entities) {
+    public RatingSubmission Add(byte rating, params IRatableEntity[] entities) {
       if (entities == null) throw new ArgumentNullException(nameof(entities));
       foreach (var entity in entities) {
         if (entity == null)

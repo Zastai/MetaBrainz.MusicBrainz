@@ -1,6 +1,6 @@
 ﻿namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IPlace : IMbEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggedEntity, ITypedEntity {
+  public interface IPlace : IMbEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     string Address { get; }
 

@@ -106,7 +106,7 @@
     <Compile Include="Entities\INameCredit.cs" />
     <Compile Include="Entities\INamedEntity.cs" />
     <Compile Include="Entities\IPlace.cs" />
-    <Compile Include="Entities\IRatedEntity.cs" />
+    <Compile Include="Entities\IRatableEntity.cs" />
     <Compile Include="Entities\IRating.cs" />
     <Compile Include="Entities\IRecording.cs" />
     <Compile Include="Entities\IRelatableEntity.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="Entities\ISeries.cs" />
     <Compile Include="Entities\ISimpleTrack.cs" />
     <Compile Include="Entities\ITag.cs" />
-    <Compile Include="Entities\ITaggedEntity.cs" />
+    <Compile Include="Entities\ITaggableEntity.cs" />
     <Compile Include="Entities\ITextRepresentation.cs" />
     <Compile Include="Entities\ITitledEntity.cs" />
     <Compile Include="Entities\ITrack.cs" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IArtist : IMbEntity, IAnnotatedEntity, INamedEntity, IRatedEntity, IRelatableEntity, ITaggedEntity, ITypedEntity {
+  public interface IArtist : IMbEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     IArea Area { get; }
 
