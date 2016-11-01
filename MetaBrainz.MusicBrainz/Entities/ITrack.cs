@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface ITrack : IEntity {
+  /// <summary>A track on a medium.</summary>
+  public interface ITrack {
+
+    /// <summary>The MBID for the track.</summary>
+    Guid Id { get; }
 
     IEnumerable<INameCredit> ArtistCredit { get; }
 

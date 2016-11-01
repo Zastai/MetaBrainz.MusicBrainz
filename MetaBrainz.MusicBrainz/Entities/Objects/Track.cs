@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Newtonsoft.Json;
@@ -7,7 +8,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Track : ITrack {
 
-    public string Id => this._json.id;
+    public Guid Id => this._json.id;
 
     public IEnumerable<INameCredit> ArtistCredit => this._json.artist_credit.WrapArray(ref this._artistCredit, j => new NameCredit(j));
 
@@ -39,7 +40,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
       [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
-      [JsonProperty] public string id;
+      [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty] public int? length;
       [JsonProperty] public string number;
       [JsonProperty] public int? position;
