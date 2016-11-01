@@ -135,6 +135,7 @@
     <Compile Include="Submissions\ModifyCollection.cs" />
     <Compile Include="Submissions\RatingSubmission.cs" />
     <Compile Include="Submissions\Submission.cs" />
+    <Compile Include="Submissions\TagSubmission.cs" />
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="BearerToken.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
@@ -146,6 +147,7 @@
     <Compile Include="QueryException.cs" />
     <Compile Include="ReleaseStatus.cs" />
     <Compile Include="ReleaseType.cs" />
+    <Compile Include="TagVote.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
