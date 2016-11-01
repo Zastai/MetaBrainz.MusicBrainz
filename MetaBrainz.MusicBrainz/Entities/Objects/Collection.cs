@@ -9,8 +9,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public EntityType EntityType => EntityType.Collection;
 
-    public string Id => this.MbId.ToString("D");
-
     public Guid MbId => this._json.id;
 
     public string Editor => this._json.editor;

@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface IRelatableEntity {
 
     /// <summary>The relationships associated with this entity.</summary>
-    IEnumerable<IRelation> Relations { get; }
+    IEnumerable<IRelationship> Relationships { get; }
 
   }
 

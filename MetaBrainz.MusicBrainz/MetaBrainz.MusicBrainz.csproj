@@ -71,7 +71,7 @@
     <Compile Include="Entities\Objects\Place.cs" />
     <Compile Include="Entities\Objects\Rating.cs" />
     <Compile Include="Entities\Objects\Recording.cs" />
-    <Compile Include="Entities\Objects\Relation.cs" />
+    <Compile Include="Entities\Objects\Relationship.cs" />
     <Compile Include="Entities\Objects\Release.cs" />
     <Compile Include="Entities\Objects\ReleaseEvent.cs" />
     <Compile Include="Entities\Objects\ReleaseGroup.cs" />
@@ -109,8 +109,7 @@
     <Compile Include="Entities\IRating.cs" />
     <Compile Include="Entities\IRecording.cs" />
     <Compile Include="Entities\IRelatableEntity.cs" />
-    <Compile Include="Entities\IRelation.cs" />
-    <Compile Include="Entities\IRelationAttribute.cs" />
+    <Compile Include="Entities\IRelationship.cs" />
     <Compile Include="Entities\IRelease.cs" />
     <Compile Include="Entities\IReleaseEvent.cs" />
     <Compile Include="Entities\IReleaseGroup.cs" />

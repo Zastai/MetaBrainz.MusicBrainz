@@ -7,10 +7,8 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Artist : IArtist {
-  
-    public EntityType EntityType => EntityType.Artist;
 
-    public string Id => this.MbId.ToString("D");
+    public EntityType EntityType => EntityType.Artist;
 
     public Guid MbId => this._json.id;
 
@@ -62,9 +60,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     private Recording[] _recordings;
 
-    public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
+    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
-    private Relation[] _relations;
+    private Relationship[] _relationships;
 
     public IEnumerable<IReleaseGroup> ReleaseGroups => this._json.release_groups.WrapArray(ref this._releaseGroups, j => new ReleaseGroup(j));
 
@@ -126,7 +124,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty(Required = Required.Always)] public string name;
       [JsonProperty] public Rating.JSON rating;
       [JsonProperty] public Recording.JSON[] recordings;
-      [JsonProperty] public Relation.JSON[] relations;
+      [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty] public Release.JSON[] releases;
       [JsonProperty("release-groups")] public ReleaseGroup.JSON[] release_groups;
       [JsonProperty("sort-name")] public string sort_name;

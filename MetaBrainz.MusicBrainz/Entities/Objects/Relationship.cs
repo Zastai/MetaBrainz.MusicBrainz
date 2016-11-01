@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
-  internal sealed class Relation : IRelation {
+  internal sealed class Relationship : IRelationship {
 
     public IEnumerable<string> Attributes => this._json.attributes;
 
@@ -20,33 +20,33 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public bool? Ended => this._json.ended;
 
-    public IMbEntity Item {
+    public int? OrderingKey => this._json.ordering_key;
+
+    public string SourceCredit => this._json.source_credit;
+
+    public IMbEntity Target {
       get {
-        if (this._item != null)
-          return this._item;
+        if (this._target != null)
+          return this._target;
         switch (this._json.target_type) {
-          case "area":          return this._json.area         .WrapObject(ref this._item, j => new Area        (j));
-          case "artist":        return this._json.artist       .WrapObject(ref this._item, j => new Artist      (j));
-          case "event":         return this._json.event_       .WrapObject(ref this._item, j => new Event       (j));
-          case "instrument":    return this._json.instrument   .WrapObject(ref this._item, j => new Instrument  (j));
-          case "label":         return this._json.label        .WrapObject(ref this._item, j => new Label       (j));
-          case "place":         return this._json.place        .WrapObject(ref this._item, j => new Place       (j));
-          case "recording":     return this._json.recording    .WrapObject(ref this._item, j => new Recording   (j));
-          case "release":       return this._json.release      .WrapObject(ref this._item, j => new Release     (j));
-          case "release_group": return this._json.release_group.WrapObject(ref this._item, j => new ReleaseGroup(j));
-          case "series":        return this._json.series       .WrapObject(ref this._item, j => new Series      (j));
-          case "url":           return this._json.url          .WrapObject(ref this._item, j => new Url         (j));
-          case "work":          return this._json.work         .WrapObject(ref this._item, j => new Work        (j));
+          case "area":          return this._json.area         .WrapObject(ref this._target, j => new Area        (j));
+          case "artist":        return this._json.artist       .WrapObject(ref this._target, j => new Artist      (j));
+          case "event":         return this._json.event_       .WrapObject(ref this._target, j => new Event       (j));
+          case "instrument":    return this._json.instrument   .WrapObject(ref this._target, j => new Instrument  (j));
+          case "label":         return this._json.label        .WrapObject(ref this._target, j => new Label       (j));
+          case "place":         return this._json.place        .WrapObject(ref this._target, j => new Place       (j));
+          case "recording":     return this._json.recording    .WrapObject(ref this._target, j => new Recording   (j));
+          case "release":       return this._json.release      .WrapObject(ref this._target, j => new Release     (j));
+          case "release_group": return this._json.release_group.WrapObject(ref this._target, j => new ReleaseGroup(j));
+          case "series":        return this._json.series       .WrapObject(ref this._target, j => new Series      (j));
+          case "url":           return this._json.url          .WrapObject(ref this._target, j => new Url         (j));
+          case "work":          return this._json.work         .WrapObject(ref this._target, j => new Work        (j));
         }
         return null;
       }
     }
 
-    private IMbEntity _item;
-
-    public int? OrderingKey => this._json.ordering_key;
-
-    public string SourceCredit => this._json.source_credit;
+    private IMbEntity _target;
 
     public string TargetCredit => this._json.target_credit;
 
@@ -62,7 +62,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     #region JSON-Based Construction
 
-    internal Relation(JSON json) {
+    internal Relationship(JSON json) {
       this._json = json;
     }
 

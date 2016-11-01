@@ -10,8 +10,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public EntityType EntityType => EntityType.Place;
 
-    public string Id => this.MbId.ToString("D");
-
     public Guid MbId => this._json.id;
 
     public string Address => this._json.address;
@@ -38,9 +36,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Name => this._json.name;
 
-    public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
+    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
-    private Relation[] _relations;
+    private Relationship[] _relationships;
 
     public string SortName  => this._json.sort_name;
 
@@ -78,7 +76,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty("life-span")] public LifeSpan.JSON lifespan;
       [JsonProperty(Required = Required.Always)] public string name;
-      [JsonProperty] public Relation.JSON[] relations;
+      [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty("sort-name")] public string sort_name;
       [JsonProperty] public Tag.JSON[] tags;
       [JsonProperty] public string type;

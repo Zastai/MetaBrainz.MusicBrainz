@@ -10,8 +10,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public EntityType EntityType => EntityType.ReleaseGroup;
 
-    public string Id => this.MbId.ToString("D");
-
     public Guid MbId => this._json.id;
 
     public IEnumerable<IAlias> Aliases => this._json.aliases.WrapArray(ref this._aliases, j => new Alias(j));
@@ -36,9 +34,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     private Rating _rating;
 
-    public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
+    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
-    private Relation[] _relations;
+    private Relationship[] _relationships;
 
     public IEnumerable<IRelease> Releases => this._json.releases.WrapArray(ref this._releases, j => new Release(j));
 
@@ -88,7 +86,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty("primary-type")] public string primary_type;
       [JsonProperty("primary-type-id")] public Guid? primary_type_id;
       [JsonProperty] public Rating.JSON rating;
-      [JsonProperty] public Relation.JSON[] relations;
+      [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty] public Release.JSON[] releases;
       [JsonProperty("secondary-types")] public string[] secondary_types;
       [JsonProperty("secondary-type-ids")] public Guid[] secondary_type_ids;

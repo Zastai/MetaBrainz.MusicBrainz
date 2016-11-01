@@ -10,8 +10,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public EntityType EntityType => EntityType.Work;
 
-    public string Id => this.MbId.ToString("D");
-
     public Guid MbId => this._json.id;
 
     public IEnumerable<IAlias> Aliases => this._json.aliases.WrapArray(ref this._aliases, j => new Alias(j));
@@ -33,9 +31,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     private Rating _rating;
 
-    public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
+    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
-    private Relation[] _relations;
+    private Relationship[] _relationships;
 
     public IEnumerable<ITag> Tags => this._json.tags.WrapArray(ref this._tags, j => new Tag(j));
 
@@ -76,7 +74,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public string[] iswcs;
       [JsonProperty] public string language;
       [JsonProperty] public Rating.JSON rating;
-      [JsonProperty] public Relation.JSON[] relations;
+      [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty] public Tag.JSON[] tags;
       [JsonProperty(Required = Required.Always)] public string title;
       [JsonProperty] public string type;

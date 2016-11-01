@@ -10,13 +10,11 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public EntityType EntityType => EntityType.Url;
 
-    public string Id => this.MbId.ToString("D");
-
     public Guid MbId => this._json.id;
 
-    public IEnumerable<IRelation> Relations => this._json.relations.WrapArray(ref this._relations, j => new Relation(j));
+    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
-    private Relation[] _relations;
+    private Relationship[] _relationships;
 
     public Uri Resource => this._json.resource;
 
@@ -34,7 +32,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
       [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty] public Relation.JSON[] relations;
+      [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty(Required = Required.Always)] public Uri resource;
     }
 

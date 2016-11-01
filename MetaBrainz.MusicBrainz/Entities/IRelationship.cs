@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IRelation : ITypedEntity {
+  public interface IRelationship {
 
     IEnumerable<string> Attributes { get; }
 
@@ -16,17 +17,21 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     bool? Ended { get; }
 
-    IMbEntity Item { get; }
-
     int? OrderingKey { get; }
 
     string SourceCredit { get; }
+
+    IMbEntity Target { get; }
 
     string TargetCredit { get; }
 
     EntityType TargetType { get; }
 
     string TargetTypeText { get; }
+
+    string Type { get; }
+
+    Guid? TypeId { get; }
 
   }
 
