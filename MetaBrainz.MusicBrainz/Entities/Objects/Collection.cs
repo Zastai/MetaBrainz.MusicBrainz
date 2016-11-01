@@ -15,28 +15,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Editor => this._json.editor;
 
-    public EntityType ContentType {
-      get {
-        if (this._entityType.HasValue)
-          return this._entityType.Value;
-        switch (this._json.entity_type) {
-          case "area":          return (this._entityType = EntityType.Area        ).Value;
-          case "artist":        return (this._entityType = EntityType.Artist      ).Value;
-          case "collection":    return (this._entityType = EntityType.Collection  ).Value; // not currently possible
-          case "event":         return (this._entityType = EntityType.Event       ).Value;
-          case "instrument":    return (this._entityType = EntityType.Instrument  ).Value;
-          case "label":         return (this._entityType = EntityType.Label       ).Value;
-          case "place":         return (this._entityType = EntityType.Place       ).Value;
-          case "recording":     return (this._entityType = EntityType.Recording   ).Value;
-          case "release":       return (this._entityType = EntityType.Release     ).Value;
-          case "release_group": return (this._entityType = EntityType.ReleaseGroup).Value;
-          case "series":        return (this._entityType = EntityType.Series      ).Value;
-          case "url":           return (this._entityType = EntityType.Url         ).Value; // not currently possible
-          case "work":          return (this._entityType = EntityType.Work        ).Value;
-          default:              return (this._entityType = EntityType.Unknown     ).Value;
-        }
-      }
-    }
+    public EntityType ContentType => this._entityType ?? HelperMethods.SetFrom(out this._entityType, this._json.entity_type);
 
     private EntityType? _entityType;
 

@@ -50,7 +50,11 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string TargetCredit => this._json.target_credit;
 
-    public string TargetType => this._json.target_type;
+    public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this._json.target_type);
+
+    private EntityType? _targetType;
+
+    public string TargetTypeText => this._json.target_type;
 
     public string Type => this._json.type;
 

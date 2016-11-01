@@ -24,7 +24,9 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     string TargetCredit { get; }
 
-    string TargetType { get; }
+    EntityType TargetType { get; }
+
+    string TargetTypeText { get; }
 
   }
 
