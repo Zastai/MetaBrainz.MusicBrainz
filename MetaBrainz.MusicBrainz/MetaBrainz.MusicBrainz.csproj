@@ -141,6 +141,7 @@
     <Compile Include="HttpDigestHelper.cs" />
     <Compile Include="Include.cs" />
     <Compile Include="OAuth2.cs" />
+    <Compile Include="PartialDate.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
     <Compile Include="ReleaseStatus.cs" />
