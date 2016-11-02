@@ -7,7 +7,8 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     IEnumerable<INameCredit> ArtistCredit { get; }
 
-    string FirstReleaseDate { get; }
+    /// <summary>The earliest date of release for the releases in the group.</summary>
+    PartialDate FirstReleaseDate { get; }
 
     string PrimaryType { get; }
 

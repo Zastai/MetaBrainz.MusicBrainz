@@ -12,13 +12,13 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IDictionary<string, string> AttributeValues => this._json.attribute_values;
 
-    public string Begin => this._json.begin;
+    public PartialDate Begin => this._json.begin;
 
     public string Direction => this._json.direction;
 
-    public string End => this._json.end;
+    public PartialDate End => this._json.end;
 
-    public bool? Ended => this._json.ended;
+    public bool Ended => this._json.ended;
 
     public int? OrderingKey => this._json.ordering_key;
 
@@ -77,10 +77,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public Artist.JSON artist;
       [JsonProperty] public string[] attributes;
       [JsonProperty("attribute-values")] public Dictionary<string, string> attribute_values;
-      [JsonProperty] public string begin;
+      [JsonProperty] public PartialDate begin;
       [JsonProperty(Required = Required.Always)] public string direction;
-      [JsonProperty] public string end;
-      [JsonProperty] public bool? ended;
+      [JsonProperty] public PartialDate end;
+      [JsonProperty] public bool ended;
       [JsonProperty("event")] public Event.JSON event_;
       [JsonProperty] public Instrument.JSON instrument;
       [JsonProperty] public Label.JSON label;

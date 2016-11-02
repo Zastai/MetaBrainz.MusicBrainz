@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     private Area _area;
 
-    public string Date => this._json.date;
+    public PartialDate Date => this._json.date;
 
     #region JSON-Based Construction
 
@@ -26,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
       [JsonProperty] public Area.JSON area;
-      [JsonProperty] public string date;
+      [JsonProperty] public PartialDate date;
     }
 
     #endregion

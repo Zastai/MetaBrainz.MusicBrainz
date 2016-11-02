@@ -6,11 +6,11 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class LifeSpan : ILifeSpan {
 
-    public string Begin => this._json.begin;
+    public PartialDate Begin => this._json.begin;
 
-    public string End => this._json.end;
+    public PartialDate End => this._json.end;
 
-    public bool? Ended => this._json.ended;
+    public bool Ended => this._json.ended;
 
     #region JSON-Based Construction
 
@@ -25,9 +25,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
-      [JsonProperty] public string begin;
-      [JsonProperty] public string end;
-      [JsonProperty] public bool? ended;
+      [JsonProperty] public PartialDate begin;
+      [JsonProperty] public PartialDate end;
+      [JsonProperty] public bool ended;
     }
 
     #endregion

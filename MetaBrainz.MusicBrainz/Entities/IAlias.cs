@@ -6,12 +6,16 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface IAlias {
 
     /// <summary>The date at which the alias became applicable.</summary>
-    string Begin { get; }
+    PartialDate Begin { get; }
 
     /// <summary>The date at which the alias ceased to be applicable.</summary>
-    string End { get; }
+    PartialDate End { get; }
 
     /// <summary>A flag indicating whether or not the alias has ceased to be applicable.</summary>
+    /// <remarks>
+    ///   This is only nullable because current versions of the MusicBrainz server do not serialize an alias' date information.
+    ///   Once <a href="https://github.com/metabrainz/musicbrainz-server/pull/373">PR 373</a> is merged, this will become a plain bool.
+    /// </remarks>
     bool? Ended { get; }
 
     /// <summary>The specific locale where the alias applies.</summary>

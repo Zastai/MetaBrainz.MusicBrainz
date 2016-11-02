@@ -13,16 +13,16 @@ namespace MetaBrainz.MusicBrainz.Entities {
     IDictionary<string, string> AttributeValues { get; }
 
     /// <summary>The date the relationship began.</summary>
-    string Begin { get; }
+    PartialDate Begin { get; }
 
     /// <summary>The direction of the relationship (forward/backward).</summary>
     string Direction { get; }
 
     /// <summary>The date the relationship ended.</summary>
-    string End { get; }
+    PartialDate End { get; }
 
     /// <summary>Flag indicating whether or not the relationship has ended.</summary>
-    bool? Ended { get; }
+    bool Ended { get; }
 
     /// <summary>An optional ordering key for the relationships.</summary>
     int? OrderingKey { get; }

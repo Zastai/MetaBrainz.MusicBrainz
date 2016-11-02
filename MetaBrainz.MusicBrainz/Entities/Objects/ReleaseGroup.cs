@@ -24,7 +24,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Disambiguation => this._json.disambiguation;
 
-    public string FirstReleaseDate => this._json.first_release_date;
+    public PartialDate FirstReleaseDate => this._json.first_release_date;
 
     public string PrimaryType => this._json.primary_type;
 
@@ -81,7 +81,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public string annotation;
       [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
       [JsonProperty] public string disambiguation;
-      [JsonProperty("first-release-date")] public string first_release_date;
+      [JsonProperty("first-release-date")] public PartialDate first_release_date;
       [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty("primary-type")] public string primary_type;
       [JsonProperty("primary-type-id")] public Guid? primary_type_id;

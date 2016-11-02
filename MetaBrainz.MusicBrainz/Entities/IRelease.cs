@@ -17,7 +17,8 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     ICoverArtArchive CoverArtArchive { get; }
 
-    string Date { get; }
+    /// <summary>The earliest release date for the release.</summary>
+    PartialDate Date { get; }
 
     IEnumerable<ILabelInfo> LabelInfo { get; }
 

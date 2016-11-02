@@ -36,7 +36,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     private CoverArtArchive _coverArtArchive;
 
-    public string Date => this._json.date;
+    public PartialDate Date => this._json.date;
 
     public string Disambiguation => this._json.disambiguation;
 
@@ -99,13 +99,13 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     internal sealed class JSON {
       [JsonProperty] public Alias.JSON[] aliases;
       [JsonProperty] public string annotation;
+      [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
       [JsonProperty] public string asin;
       [JsonProperty] public string barcode;
-      [JsonProperty("cover-art-archive")] public CoverArtArchive.JSON cover_art_archive;
-      [JsonProperty] public string date;
-      [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
       [JsonProperty] public Collection.JSON[] collections;
       [JsonProperty] public string country;
+      [JsonProperty("cover-art-archive")] public CoverArtArchive.JSON cover_art_archive;
+      [JsonProperty] public PartialDate date;
       [JsonProperty] public string disambiguation;
       [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty("label-info")] public LabelInfo.JSON[] label_info;
