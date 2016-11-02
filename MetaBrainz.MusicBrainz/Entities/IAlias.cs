@@ -6,10 +6,10 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface IAlias {
 
     /// <summary>The date at which the alias became applicable.</summary>
-    string BeginDate { get; }
+    string Begin { get; }
 
     /// <summary>The date at which the alias ceased to be applicable.</summary>
-    string EndDate { get; }
+    string End { get; }
 
     /// <summary>A flag indicating whether or not the alias has ceased to be applicable.</summary>
     bool? Ended { get; }

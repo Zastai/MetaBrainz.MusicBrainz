@@ -7,9 +7,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
   internal sealed class Alias : IAlias {
 
-    public string BeginDate => this._json.begin_date;
+    public string Begin => this._json.begin;
 
-    public string EndDate => this._json.end_date;
+    public string End => this._json.end;
 
     public bool? Ended => this._json.ended;
 
@@ -38,8 +38,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     internal sealed class JSON {
-      [JsonProperty("begin-date")] public string begin_date;
-      [JsonProperty("end-date")] public string end_date;
+      [JsonProperty] public string begin;
+      [JsonProperty] public string end;
       [JsonProperty] public bool? ended;
       [JsonProperty] public string locale;
       [JsonProperty(Required = Required.Always)] public string name;
