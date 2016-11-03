@@ -3,7 +3,7 @@
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A entity that can have tags applied to it.</summary>
-  public interface ITaggableEntity : IMbEntity {
+  public interface ITaggableEntity : IEntity {
 
     /// <summary>The tags associated with this entity.</summary>
     IEnumerable<ITag> Tags { get; }

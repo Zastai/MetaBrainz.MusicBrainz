@@ -2,7 +2,7 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IWork : IMbEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
+  public interface IWork : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
 
     IEnumerable<IWorkAttribute> Attributes { get; }
 

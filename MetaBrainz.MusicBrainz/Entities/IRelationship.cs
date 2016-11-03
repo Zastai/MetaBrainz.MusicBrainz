@@ -31,7 +31,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     string SourceCredit { get; }
 
     /// <summary>The target of the relationship.</summary>
-    IMbEntity Target { get; }
+    IEntity Target { get; }
 
     /// <summary>An optional alternate name for the target of the relationship.</summary>
     string TargetCredit { get; }

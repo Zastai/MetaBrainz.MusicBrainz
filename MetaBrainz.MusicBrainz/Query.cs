@@ -573,7 +573,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, ICollection collection, params IMbEntity[] items) {
+    public string AddToCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.EntityType).Add(items));
     }
@@ -780,7 +780,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, ICollection collection, params IMbEntity[] items) {
+    public string RemoveFromCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.EntityType).Add(items));
     }

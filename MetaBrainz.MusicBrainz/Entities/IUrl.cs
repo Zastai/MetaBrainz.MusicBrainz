@@ -2,7 +2,7 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IUrl : IMbEntity, IRelatableEntity {
+  public interface IUrl : IEntity, IRelatableEntity {
 
     Uri Resource { get; }
 

@@ -2,7 +2,7 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IArea : IMbEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+  public interface IArea : IEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     IEnumerable<string> Iso31661Codes { get; }
 

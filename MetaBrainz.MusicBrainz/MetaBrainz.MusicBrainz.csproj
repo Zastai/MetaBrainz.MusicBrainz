@@ -94,13 +94,13 @@
     <Compile Include="Entities\ICoordinates.cs" />
     <Compile Include="Entities\ICoverArtArchive.cs" />
     <Compile Include="Entities\IDisc.cs" />
+    <Compile Include="Entities\IEntity.cs" />
     <Compile Include="Entities\IEvent.cs" />
     <Compile Include="Entities\IInstrument.cs" />
     <Compile Include="Entities\IIsrc.cs" />
     <Compile Include="Entities\ILabel.cs" />
     <Compile Include="Entities\ILabelInfo.cs" />
     <Compile Include="Entities\ILifeSpan.cs" />
-    <Compile Include="Entities\IMbEntity.cs" />
     <Compile Include="Entities\IMedium.cs" />
     <Compile Include="Entities\INameCredit.cs" />
     <Compile Include="Entities\INamedEntity.cs" />

@@ -1,7 +1,7 @@
 ﻿namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A collection.</summary>
-  public interface ICollection : IMbEntity, ITypedEntity {
+  public interface ICollection : IEntity, ITypedEntity {
 
     /// <summary>The name of the editor who created the collection.</summary>
     string Editor { get; }

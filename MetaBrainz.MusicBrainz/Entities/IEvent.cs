@@ -1,6 +1,6 @@
 ﻿namespace MetaBrainz.MusicBrainz.Entities {
 
-  public interface IEvent : IMbEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+  public interface IEvent : IEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     bool? Cancelled { get; }
 

@@ -24,7 +24,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string SourceCredit => this._json.source_credit;
 
-    public IMbEntity Target {
+    public IEntity Target {
       get {
         if (this._target != null)
           return this._target;
@@ -46,7 +46,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       }
     }
 
-    private IMbEntity _target;
+    private IEntity _target;
 
     public string TargetCredit => this._json.target_credit;
 

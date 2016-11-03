@@ -2,8 +2,8 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>An item identified by an MBID.</summary>
-  public interface IMbEntity {
+  /// <summary>An MusicBrainz entity, identified by an MBID.</summary>
+  public interface IEntity {
 
     /// <summary>The type of this entity.</summary>
     EntityType EntityType { get; }
