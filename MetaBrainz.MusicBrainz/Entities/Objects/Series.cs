@@ -22,7 +22,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string Name => this._json.name;
 
-    public string OrderingAttribute => this._json.ordering_attribute;
+    public string OrderingType => this._json.ordering_type;
+
+    public Guid? OrderingTypeId => this._json.ordering_type_id;
 
     public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
 
@@ -60,7 +62,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty(Required = Required.Always)] public Guid id;
       [JsonProperty] public string disambiguation;
       [JsonProperty(Required = Required.Always)] public string name;
-      [JsonProperty("ordering-attribute")] public string ordering_attribute;
+      [JsonProperty("ordering-type")] public string ordering_type;
+      [JsonProperty("ordering-type-id")] public Guid? ordering_type_id;
       [JsonProperty] public Relationship.JSON[] relations;
       [JsonProperty("sort-name")] public string sort_name;
       [JsonProperty] public Tag.JSON[] tags;
