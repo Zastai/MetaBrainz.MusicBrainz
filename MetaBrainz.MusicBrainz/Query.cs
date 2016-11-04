@@ -1,5 +1,7 @@
 ﻿// This will not work until https://github.com/metabrainz/musicbrainz-server/pull/385 is merged.
 //#define SUBMIT_ACCEPT_JSON
+// This will cause the raw JSON response for lookups/browsed to be traced (debug builds only).
+//#define TRACE_JSON_RESPONSE
 
 using System;
 using System.Collections.Generic;
@@ -1110,7 +1112,9 @@ namespace MetaBrainz.MusicBrainz {
               var enc = Encoding.GetEncoding(encname);
               using (var sr = new StreamReader(stream, enc)) {
                 var json = sr.ReadToEnd();
-                //Console.WriteLine($"<<{JsonConvert.SerializeObject(JsonConvert.DeserializeObject(json), Formatting.Indented)}>>");
+#if TRACE_JSON_RESPONSE
+                Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
+#endif
                 return json;
               }
             }
