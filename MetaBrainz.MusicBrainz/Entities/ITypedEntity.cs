@@ -2,13 +2,13 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>A typed entity.</summary>
+  /// <summary>A typed MusicBrainz entity.</summary>
   public interface ITypedEntity : IEntity {
 
-    /// <summary>The type of the entity, expressed as text.</summary>
+    /// <summary>The type of the entity, if applicable, expressed as text.</summary>
     string Type { get; }
 
-    /// <summary>The type of the entity, expressed as an MBID.</summary>
+    /// <summary>The type of the entity, if applicable, expressed as an MBID.</summary>
     Guid? TypeId { get; }
 
   }

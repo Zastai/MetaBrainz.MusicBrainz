@@ -30,10 +30,10 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The sort name form of the alias, if applicable.</summary>
     string SortName { get; }
 
-    /// <summary>The type of the alias.</summary>
+    /// <summary>The type of the alias, expressed as text.</summary>
     string Type { get; }
 
-    /// <summary>The internal ID for the alias type.</summary>
+    /// <summary>The type of the alias, expressed as an MBID.</summary>
     Guid? TypeId { get; }
 
   }

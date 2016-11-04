@@ -9,16 +9,23 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The MBID for the track.</summary>
     Guid Id { get; }
 
+    /// <summary>The artist credit for the track.</summary>
     IEnumerable<INameCredit> ArtistCredit { get; }
 
+    /// <summary>The length of the track, in milliseconds.</summary>
     int? Length { get; }
 
+    /// <summary>The number of the track on its medium.</summary>
     string Number { get; }
 
+    /// <summary>The position of the track on its medium.</summary>
+    /// <remarks>This will only be set for requests where not all tracks of a medium get loaded.</remarks>
     int? Position { get; }
 
+    /// <summary>The recording associated with the track.</summary>
     IRecording Recording { get; }
 
+    /// <summary>The track title.</summary>
     string Title { get; }
 
   }

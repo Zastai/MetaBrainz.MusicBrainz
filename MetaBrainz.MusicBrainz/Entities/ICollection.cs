@@ -1,6 +1,6 @@
 ﻿namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>A collection.</summary>
+  /// <summary>A collection of MusicBrainz entities.</summary>
   public interface ICollection : IEntity, ITypedEntity {
 
     /// <summary>The name of the editor who created the collection.</summary>
@@ -12,7 +12,7 @@
     /// <summary>The type of entity stored in the collection (as text).</summary>
     string ContentTypeText { get; }
 
-    /// <summary>The number of items in in the collection.</summary>
+    /// <summary>The number of items in the collection.</summary>
     int ItemCount { get; }
 
     /// <summary>The name of the collection.</summary>

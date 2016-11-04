@@ -2,19 +2,19 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>An attribute set for a work (<see cref="IWork"/>).</summary>
+  /// <summary>An attribute for a work.</summary>
   public interface IWorkAttribute {
 
     /// <summary>The type of the attribute.</summary>
     string Type { get; }
 
-    /// <summary>The internal ID for the attribute type.</summary>
+    /// <summary>The MBID for the attribute type, if applicable.</summary>
     Guid? TypeId { get; }
 
     /// <summary>The value for the attribute.</summary>
     string Value { get; }
 
-    /// <summary>The internal ID for the value, if applicable.</summary>
+    /// <summary>The MBID for the value, if applicable.</summary>
     Guid? ValueId { get; }
 
   }

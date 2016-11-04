@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>A relationship between two entities.</summary>
+  /// <summary>A relationship between two MusicBrainz entities.</summary>
   public interface IRelationship {
 
     /// <summary>The attributes attached to the relationship (if any). These values are keys into <see cref="AttributeValues"/>.</summary>
@@ -45,7 +45,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The relationship type.</summary>
     string Type { get; }
 
-    /// <summary>The internal ID for the relationship type, if applicable.</summary>
+    /// <summary>The MBID for the relationship type, if applicable.</summary>
     Guid? TypeId { get; }
 
   }

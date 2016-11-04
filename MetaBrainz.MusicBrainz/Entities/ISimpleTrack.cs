@@ -6,7 +6,7 @@
     /// <summary>The artist for the track.</summary>
     string Artist { get; }
 
-    /// <summary>The length for the track (in seconds).</summary>
+    /// <summary>The length for the track, in milliseconds.</summary>
     int Length { get; }
 
     /// <summary>The title for the track.</summary>
