@@ -2,8 +2,8 @@
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>An entity that can be related to other entities.</summary>
-  public interface IRelatableEntity {
+  /// <summary>A MusicBrainz entity that can be related to other MusicBrainz entities.</summary>
+  public interface IRelatableEntity : IEntity {
 
     /// <summary>The relationships associated with this entity.</summary>
     IEnumerable<IRelationship> Relationships { get; }

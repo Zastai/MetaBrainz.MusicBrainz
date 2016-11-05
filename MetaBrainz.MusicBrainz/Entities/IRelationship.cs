@@ -6,10 +6,16 @@ namespace MetaBrainz.MusicBrainz.Entities {
   /// <summary>A relationship between two MusicBrainz entities.</summary>
   public interface IRelationship {
 
-    /// <summary>The attributes attached to the relationship (if any). These values are keys into <see cref="AttributeValues"/>.</summary>
+    /// <summary>
+    ///   The attributes attached to the relationship (if any).
+    ///   These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
+    /// </summary>
     IEnumerable<string> Attributes { get; }
 
-    /// <summary>The attribute values attached to the relationship (if any).</summary>
+    /// <summary>The credits attached to specified attributes of the relationship (if any).</summary>
+    IDictionary<string, string> AttributeCredits { get; }
+
+    /// <summary>The values attached to specified attributes of the relationship (if any).</summary>
     IDictionary<string, string> AttributeValues { get; }
 
     /// <summary>The date the relationship began.</summary>
@@ -31,7 +37,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     string SourceCredit { get; }
 
     /// <summary>The target of the relationship.</summary>
-    IEntity Target { get; }
+    IRelatableEntity Target { get; }
 
     /// <summary>An optional alternate name for the target of the relationship.</summary>
     string TargetCredit { get; }

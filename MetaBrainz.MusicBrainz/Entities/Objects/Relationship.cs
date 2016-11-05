@@ -10,6 +10,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<string> Attributes => this._json.attributes;
 
+    public IDictionary<string, string> AttributeCredits => this._json.attribute_credits;
+
     public IDictionary<string, string> AttributeValues => this._json.attribute_values;
 
     public PartialDate Begin => this._json.begin;
@@ -24,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public string SourceCredit => this._json.source_credit;
 
-    public IEntity Target {
+    public IRelatableEntity Target {
       get {
         if (this._target != null)
           return this._target;
@@ -46,7 +48,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       }
     }
 
-    private IEntity _target;
+    private IRelatableEntity _target;
 
     public string TargetCredit => this._json.target_credit;
 
@@ -76,6 +78,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       [JsonProperty] public Area.JSON area;
       [JsonProperty] public Artist.JSON artist;
       [JsonProperty] public string[] attributes;
+      [JsonProperty("attribute-credits")] public Dictionary<string, string> attribute_credits;
       [JsonProperty("attribute-values")] public Dictionary<string, string> attribute_values;
       [JsonProperty] public PartialDate begin;
       [JsonProperty(Required = Required.Always)] public string direction;
