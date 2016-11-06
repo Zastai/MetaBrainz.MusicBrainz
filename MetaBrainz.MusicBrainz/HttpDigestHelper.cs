@@ -47,8 +47,7 @@ namespace MetaBrainz.MusicBrainz {
         return null;
       }
       string opaque;
-      if (!properties.TryGetValue("opaque", out opaque))
-        opaque = null;
+      properties.TryGetValue("opaque", out opaque);
       string algorithm;
       if (!properties.TryGetValue("algorithm", out algorithm))
         algorithm = "MD5";

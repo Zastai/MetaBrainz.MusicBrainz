@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -8,6 +9,7 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>A partial date. Can contain any or all of year, month and day.</summary>
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
   [JsonConverter(typeof(Converter))]
   public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDate> {
 

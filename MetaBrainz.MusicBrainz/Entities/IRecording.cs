@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz recording.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IRecording : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
