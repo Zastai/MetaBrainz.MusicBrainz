@@ -13,7 +13,7 @@
     int Count { get; }
 
     /// <summary>Flag indicating that the CoverArt Archive has received a takedown request for this release (preventing further uploads).</summary>
-    bool? Darkened { get; }
+    bool Darkened { get; }
 
     /// <summary>Flag indicating that a front cover image is available.</summary>
     bool Front { get; }

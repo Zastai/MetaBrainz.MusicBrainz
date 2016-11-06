@@ -12,11 +12,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     PartialDate End { get; }
 
     /// <summary>A flag indicating whether or not the alias has ceased to be applicable.</summary>
-    /// <remarks>
-    ///   This is only nullable because current versions of the MusicBrainz server do not serialize an alias' date information.
-    ///   Once <a href="https://github.com/metabrainz/musicbrainz-server/pull/373">PR 373</a> is merged, this will become a plain bool.
-    /// </remarks>
-    bool? Ended { get; }
+    bool Ended { get; }
 
     /// <summary>The specific locale where the alias applies.</summary>
     string Locale { get; }

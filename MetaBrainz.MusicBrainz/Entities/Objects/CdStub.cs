@@ -11,27 +11,27 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class CdStub : ICdStub {
 
-    [JsonProperty("id")]
+    [JsonProperty("id", Required = Required.Always)]
     public string Id { get; private set; }
 
-    [JsonProperty("artist")]
+    [JsonProperty("artist", Required = Required.Always)]
     public string Artist { get; private set; }
 
-    [JsonProperty("barcode")]
+    [JsonProperty("barcode", Required = Required.AllowNull)]
     public string Barcode { get; private set; }
 
-    [JsonProperty("disambiguation")]
+    [JsonProperty("disambiguation", Required = Required.Always)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("title")]
+    [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    [JsonProperty("track-count")]
+    [JsonProperty("track-count", Required = Required.AllowNull)]
     public int? TrackCount { get; private set; }
 
     public IEnumerable<ISimpleTrack> Tracks => this._tracks;
 
-    [JsonProperty("tracks")]
+    [JsonProperty("tracks", Required = Required.Always)]
     private SimpleTrack[] _tracks = null;
 
     public override string ToString() {

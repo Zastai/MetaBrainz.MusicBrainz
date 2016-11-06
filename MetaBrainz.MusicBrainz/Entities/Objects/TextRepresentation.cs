@@ -9,13 +9,13 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class TextRepresentation : ITextRepresentation {
 
-    [JsonProperty("language")]
+    [JsonProperty("language", Required = Required.AllowNull)]
     public string Language { get; private set; }
 
-    [JsonProperty("script")]
+    [JsonProperty("script", Required = Required.AllowNull)]
     public string Script { get; private set; }
 
-    public override string ToString() => $"{this.Language} / {this.Script}";
+    public override string ToString() => $"{this.Language ?? "???"} / {this.Script ?? "????"}";
 
   }
 

@@ -30,9 +30,6 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this artist.</summary>
     IEnumerable<string> Isnis { get; }
 
-    /// <summary>The labels associated with the artist, if any.</summary>
-    IEnumerable<ILabel> Labels { get; }
-
     /// <summary>The artist's lifespan.</summary>
     ILifeSpan LifeSpan { get; }
 
@@ -44,6 +41,9 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     /// <summary>The releases associated with the artist, if any.</summary>
     IEnumerable<IRelease> Releases { get; }
+
+    /// <summary>The atist's sort name.</summary>
+    string SortName { get; }
 
     /// <summary>The works associated with the artist, if any.</summary>
     IEnumerable<IWork> Works { get; }

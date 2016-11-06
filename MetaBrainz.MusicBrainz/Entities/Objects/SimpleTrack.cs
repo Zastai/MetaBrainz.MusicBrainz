@@ -10,13 +10,13 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class SimpleTrack : ISimpleTrack {
 
-    [JsonProperty("artist")]
+    [JsonProperty("artist", Required = Required.AllowNull)]
     public string Artist { get; private set; }
 
-    [JsonProperty("length")]
+    [JsonProperty("length", Required = Required.Always)]
     public int Length { get; private set; }
 
-    [JsonProperty("title")]
+    [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
     public override string ToString() {

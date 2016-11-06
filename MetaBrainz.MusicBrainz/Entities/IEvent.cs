@@ -4,7 +4,7 @@
   public interface IEvent : IEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>A flag indicating whether or not the event was cancelled.</summary>
-    bool? Cancelled { get; }
+    bool Cancelled { get; }
 
     /// <summary>The event's lifespan.</summary>
     ILifeSpan LifeSpan { get; }

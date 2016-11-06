@@ -13,10 +13,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IRecording> Recordings => this._recordings;
 
-    [JsonProperty("recordings")]
+    [JsonProperty("recordings", Required = Required.Always)]
     private Recording[] _recordings = null;
 
-    [JsonProperty("isrc")]
+    [JsonProperty("isrc", Required = Required.Always)]
     public string Value { get; private set; }
 
     public override string ToString() => this.Value;

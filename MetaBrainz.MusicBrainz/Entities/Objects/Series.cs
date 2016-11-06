@@ -19,46 +19,43 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IAlias> Aliases => this._aliases;
 
-    [JsonProperty("aliases")]
+    [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
 
-    [JsonProperty("annotation")]
+    [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    [JsonProperty("disambiguation")]
+    [JsonProperty("disambiguation", Required = Required.Always)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("name", Required = Required.Always)]
     public string Name { get; private set; }
 
-    [JsonProperty("ordering-type")]
+    [JsonProperty("ordering-type", Required = Required.Default)]
     public string OrderingType { get; private set; }
 
-    [JsonProperty("ordering-type-id")]
+    [JsonProperty("ordering-type-id", Required = Required.Default)]
     public Guid? OrderingTypeId { get; private set; }
 
     public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations")]
+    [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
-
-    [JsonProperty("sort-name")]
-    public string SortName { get; private set; }
 
     public IEnumerable<ITag> Tags => this._tags;
 
-    [JsonProperty("tags")]
+    [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
-    [JsonProperty("type")]
+    [JsonProperty("type", Required = Required.Default)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id")]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    [JsonProperty("user-tags")]
+    [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
     public override string ToString() {

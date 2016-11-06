@@ -14,40 +14,40 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<ITrack> DataTracks => this._dataTracks;
 
-    [JsonProperty("data-tracks")]
+    [JsonProperty("data-tracks", Required = Required.DisallowNull)]
     private Track[] _dataTracks = null;
 
     public IEnumerable<IDisc> Discs => this._discs;
 
-    [JsonProperty("discs")]
+    [JsonProperty("discs", Required = Required.DisallowNull)]
     private Disc[] _discs = null;
 
-    [JsonProperty("format")]
+    [JsonProperty("format", Required = Required.AllowNull)]
     public string Format { get; private set; }
 
-    [JsonProperty("format-id")]
+    [JsonProperty("format-id", Required = Required.AllowNull)]
     public Guid? FormatId { get; private set; }
 
-    [JsonProperty("position")]
-    public int? Position { get; private set; }
+    [JsonProperty("position", Required = Required.Always)]
+    public int Position { get; private set; }
 
     public ITrack Pregap => this._pregap;
 
-    [JsonProperty("pregap")]
+    [JsonProperty("pregap", Required = Required.DisallowNull)]
     private Track _pregap = null;
 
-    [JsonProperty("title")]
+    [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    [JsonProperty("track-count")]
+    [JsonProperty("track-count", Required = Required.AllowNull)]
     public int TrackCount { get; private set; }
 
-    [JsonProperty("track-offset")]
-    public int TrackOffset { get; private set; }
+    [JsonProperty("track-offset", Required = Required.Default)]
+    public int? TrackOffset { get; private set; }
 
     public IEnumerable<ITrack> Tracks => this._tracks;
 
-    [JsonProperty("tracks")]
+    [JsonProperty("tracks", Required = Required.DisallowNull)]
     private Track[] _tracks = null;
 
     public override string ToString() {

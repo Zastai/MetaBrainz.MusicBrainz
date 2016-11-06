@@ -18,10 +18,6 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The number of the track on its medium.</summary>
     string Number { get; }
 
-    /// <summary>The position of the track on its medium.</summary>
-    /// <remarks>This will only be set for requests where not all tracks of a medium get loaded.</remarks>
-    int? Position { get; }
-
     /// <summary>The recording associated with the track.</summary>
     IRecording Recording { get; }
 

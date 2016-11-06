@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations")]
+    [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
     [JsonProperty("resource", Required = Required.Always)]

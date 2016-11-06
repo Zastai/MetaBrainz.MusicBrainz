@@ -12,61 +12,61 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Relationship : IRelationship {
 
-    [JsonProperty("area")]
+    [JsonProperty("area", Required = Required.DisallowNull)]
     private Area _area = null;
 
-    [JsonProperty("artist")]
+    [JsonProperty("artist", Required = Required.DisallowNull)]
     private Artist _artist = null;
 
-    [JsonProperty("attributes")]
+    [JsonProperty("attributes", Required = Required.Always)]
     public IEnumerable<string> Attributes { get; private set; }
 
-    [JsonProperty("attribute-credits")]
+    [JsonProperty("attribute-credits", Required = Required.DisallowNull)]
     public IDictionary<string, string> AttributeCredits { get; private set; }
 
-    [JsonProperty("attribute-values")]
+    [JsonProperty("attribute-values", Required = Required.Always)]
     public IDictionary<string, string> AttributeValues { get; private set; }
 
-    [JsonProperty("begin")]
+    [JsonProperty("begin", Required = Required.AllowNull)]
     public PartialDate Begin { get; private set; }
 
-    [JsonProperty("direction")]
+    [JsonProperty("direction", Required = Required.Always)]
     public string Direction { get; private set; }
 
-    [JsonProperty("end")]
+    [JsonProperty("end", Required = Required.AllowNull)]
     public PartialDate End { get; private set; }
 
-    [JsonProperty("ended")]
+    [JsonProperty("ended", Required = Required.Always)]
     public bool Ended { get; private set; }
 
-    [JsonProperty("event")]
+    [JsonProperty("event", Required = Required.DisallowNull)]
     private Event _event = null;
 
-    [JsonProperty("instrument")]
+    [JsonProperty("instrument", Required = Required.DisallowNull)]
     private Instrument _instrument = null;
 
-    [JsonProperty("label")]
+    [JsonProperty("label", Required = Required.DisallowNull)]
     private Label _label= null;
 
-    [JsonProperty("ordering-key")]
+    [JsonProperty("ordering-key", Required = Required.DisallowNull)]
     public int? OrderingKey { get; private set; }
 
-    [JsonProperty("place")]
+    [JsonProperty("place", Required = Required.DisallowNull)]
     private Place _place = null;
 
-    [JsonProperty("recording")]
+    [JsonProperty("recording", Required = Required.DisallowNull)]
     private Recording _recording = null;
 
-    [JsonProperty("release")]
+    [JsonProperty("release", Required = Required.DisallowNull)]
     private Release _release = null;
 
-    [JsonProperty("release_group")]
+    [JsonProperty("release_group", Required = Required.DisallowNull)]
     private ReleaseGroup _releaseGroup = null;
 
-    [JsonProperty("series")]
+    [JsonProperty("series", Required = Required.DisallowNull)]
     private Series _series = null;
 
-    [JsonProperty("source-credit")]
+    [JsonProperty("source-credit", Required = Required.Always)]
     public string SourceCredit { get; private set; }
 
     public IRelatableEntity Target {
@@ -89,7 +89,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       }
     }
 
-    [JsonProperty("target-credit")]
+    [JsonProperty("target-credit", Required = Required.Always)]
     public string TargetCredit { get; private set; }
 
     public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this.TargetTypeText);
@@ -99,16 +99,16 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("target-type", Required = Required.Always)]
     public string TargetTypeText { get; private set; }
 
-    [JsonProperty("type")]
+    [JsonProperty("type", Required = Required.Always)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id")]
+    [JsonProperty("type-id", Required = Required.Always)]
     public Guid? TypeId { get; private set; }
 
-    [JsonProperty("url")]
+    [JsonProperty("url", Required = Required.DisallowNull)]
     private Url _url = null;
 
-    [JsonProperty("work")]
+    [JsonProperty("work", Required = Required.DisallowNull)]
     private Work _work = null;
 
     public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";

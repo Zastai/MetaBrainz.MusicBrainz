@@ -14,9 +14,6 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>The entity's name.</summary>
     string Name { get; }
 
-    /// <summary>The entity's sort name.</summary>
-    string SortName { get; }
-
   }
 
 }

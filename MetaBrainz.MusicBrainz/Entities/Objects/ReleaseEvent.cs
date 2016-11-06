@@ -12,10 +12,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IArea Area => this._area;
 
-    [JsonProperty("area")]
+    [JsonProperty("area", Required = Required.AllowNull)]
     private Area _area = null;
 
-    [JsonProperty("date")]
+    [JsonProperty("date", Required = Required.AllowNull)]
     public PartialDate Date { get; private set; }
 
     public override string ToString() {

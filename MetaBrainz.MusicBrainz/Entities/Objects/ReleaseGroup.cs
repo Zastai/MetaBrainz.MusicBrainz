@@ -19,72 +19,66 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IAlias> Aliases => this._aliases;
 
-    [JsonProperty("aliases")]
+    [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
 
-    [JsonProperty("annotation")]
+    [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
     public IEnumerable<INameCredit> ArtistCredit => this._artistCredit;
 
-    [JsonProperty("artist-credit")]
+    [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
 
-    [JsonProperty("disambiguation")]
+    [JsonProperty("disambiguation", Required = Required.Always)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("first-release-date")]
+    [JsonProperty("first-release-date", Required = Required.AllowNull)]
     public PartialDate FirstReleaseDate { get; private set; }
 
-    [JsonProperty("primary-type")]
+    [JsonProperty("primary-type", Required = Required.AllowNull)]
     public string PrimaryType { get; private set; }
 
-    [JsonProperty("primary-type-id")]
+    [JsonProperty("primary-type-id", Required = Required.AllowNull)]
     public Guid? PrimaryTypeId { get; private set; }
 
     public IRating Rating => this._rating;
 
-    [JsonProperty("rating")]
+    [JsonProperty("rating", Required = Required.DisallowNull)]
     private Rating _rating = null;
 
     public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations")]
+    [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
     public IEnumerable<IRelease> Releases => this._releases;
 
-    [JsonProperty("releases")]
+    [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
 
-    [JsonProperty("secondary-types")]
+    [JsonProperty("secondary-types", Required = Required.Always)]
     public IEnumerable<string> SecondaryTypes { get; private set; }
 
-    [JsonProperty("secondary-type-ids")]
+    [JsonProperty("secondary-type-ids", Required = Required.Always)]
     public IEnumerable<Guid> SecondaryTypeIds { get; private set; }
 
     public IEnumerable<ITag> Tags => this._tags;
 
-    [JsonProperty("tags")]
+    [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
     [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    [JsonProperty("type")]
-    public string Type { get; private set; }
-
-    [JsonProperty("type-id")]
-    public Guid? TypeId { get; private set; }
-
     public IUserRating UserRating => this._userRating;
 
-    [JsonProperty("user-rating")]
+    [JsonProperty("user-rating", Required = Required.DisallowNull)]
     private UserRating _userRating = null;
 
     public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    [JsonProperty("user-tags")]
+    [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
     public override string ToString() {

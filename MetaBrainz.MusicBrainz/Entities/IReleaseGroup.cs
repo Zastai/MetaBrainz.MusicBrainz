@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz release group.</summary>
-  public interface IReleaseGroup : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
+  public interface IReleaseGroup : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     /// <summary>The artist credit for the release group.</summary>
     IEnumerable<INameCredit> ArtistCredit { get; }

@@ -19,35 +19,35 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IAlias> Aliases => this._aliases;
 
-    [JsonProperty("aliases")]
+    [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
 
-    [JsonProperty("annotation")]
+    [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
     public IArea Area => this._area;
 
-    [JsonProperty("area")]
+    [JsonProperty("area", Required = Required.Default)]
     private Area _area = null;
 
-    [JsonProperty("country")]
+    [JsonProperty("country", Required = Required.Default)]
     public string Country { get; private set; }
 
-    [JsonProperty("disambiguation")]
+    [JsonProperty("disambiguation", Required = Required.Always)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("ipis")]
+    [JsonProperty("ipis", Required = Required.DisallowNull)]
     public IEnumerable<string> Ipis { get; private set; }
 
-    [JsonProperty("isnis")]
+    [JsonProperty("isnis", Required = Required.DisallowNull)]
     public IEnumerable<string> Isnis { get; private set; }
 
-    [JsonProperty("label-code")]
+    [JsonProperty("label-code", Required = Required.AllowNull)]
     public int? LabelCode { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
 
-    [JsonProperty("life-span")]
+    [JsonProperty("life-span", Required = Required.DisallowNull)]
     private LifeSpan _lifeSpan = null;
 
     [JsonProperty("name", Required = Required.Always)]
@@ -55,41 +55,38 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IRating Rating => this._rating;
 
-    [JsonProperty("rating")]
+    [JsonProperty("rating", Required = Required.DisallowNull)]
     private Rating _rating = null;
 
     public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations")]
+    [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
     public IEnumerable<IRelease> Releases => this._releases;
 
-    [JsonProperty("releases")]
+    [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
-
-    [JsonProperty("sort-name")]
-    public string SortName { get; private set; }
 
     public IEnumerable<ITag> Tags => this._tags;
 
-    [JsonProperty("tags")]
+    [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
-    [JsonProperty("type")]
+    [JsonProperty("type", Required = Required.Default)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id")]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public IUserRating UserRating => this._userRating;
 
-    [JsonProperty("user-rating")]
+    [JsonProperty("user-rating", Required = Required.DisallowNull)]
     private UserRating _userRating = null;
 
     public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    [JsonProperty("user-tags")]
+    [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
     public override string ToString() {
@@ -100,6 +97,11 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
         text += " (" + this.Type + ")";
       return text;
     }
+
+    // The name is serialized as 'sort-name' too, probably for historical reasons. Ignore it.
+    #pragma warning disable 169
+    [JsonProperty("sort-name")] private string _sortName;
+    #pragma warning restore 169
 
   }
 

@@ -17,24 +17,21 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<INameCredit> ArtistCredit => this._artistCredit;
 
-    [JsonProperty("artist-credit")] 
+    [JsonProperty("artist-credit", Required = Required.DisallowNull)] 
     private NameCredit[] _artistCredit = null;
 
-    [JsonProperty("length")] 
+    [JsonProperty("length", Required = Required.AllowNull)] 
     public int? Length { get; private set; }
 
-    [JsonProperty("number")] 
+    [JsonProperty("number", Required = Required.AllowNull)] 
     public string Number { get; private set; }
-
-    [JsonProperty("position")] 
-    public int? Position { get; private set; }
 
     public IRecording Recording => this._recording;
 
-    [JsonProperty("recording")]
+    [JsonProperty("recording", Required = Required.DisallowNull)]
     private Recording _recording = null;
 
-    [JsonProperty("title")] 
+    [JsonProperty("title", Required = Required.Always)] 
     public string Title { get; private set; }
 
     public override string ToString() {

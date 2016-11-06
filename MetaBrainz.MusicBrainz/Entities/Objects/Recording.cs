@@ -19,44 +19,44 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IEnumerable<IAlias> Aliases => this._aliases;
 
-    [JsonProperty("aliases")]
+    [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
 
-    [JsonProperty("annotation")]
+    [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
     public IEnumerable<INameCredit> ArtistCredit => this._artistCredit;
 
-    [JsonProperty("artist-credit")]
+    [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
 
-    [JsonProperty("disambiguation")]
+    [JsonProperty("disambiguation", Required = Required.Always)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("isrcs")]
+    [JsonProperty("isrcs", Required = Required.DisallowNull)]
     public IEnumerable<string> Isrcs { get; private set; }
 
-    [JsonProperty("length")]
+    [JsonProperty("length", Required = Required.AllowNull)]
     public int? Length { get; private set; }
 
     public IRating Rating => this._rating;
 
-    [JsonProperty("rating")]
+    [JsonProperty("rating", Required = Required.DisallowNull)]
     private Rating _rating = null;
 
     public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations")]
+    [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
     public IEnumerable<IRelease> Releases => this._releases;
 
-    [JsonProperty("releases")]
+    [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
 
     public IEnumerable<ITag> Tags => this._tags;
 
-    [JsonProperty("tags")]
+    [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
     [JsonProperty("title", Required = Required.Always)]
@@ -64,16 +64,16 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IUserRating UserRating => this._userRating;
 
-    [JsonProperty("user-rating")]
+    [JsonProperty("user-rating", Required = Required.DisallowNull)]
     private UserRating _userRating = null;
 
     public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    [JsonProperty("user-tags")]
+    [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
-    [JsonProperty("video")]
-    public bool? Video { get; private set; }
+    [JsonProperty("video", Required = Required.Always)]
+    public bool Video { get; private set; }
 
     public override string ToString() {
       var text = string.Empty;

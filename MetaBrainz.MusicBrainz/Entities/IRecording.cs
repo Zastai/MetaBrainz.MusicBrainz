@@ -18,7 +18,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     IEnumerable<IRelease> Releases { get; }
 
     /// <summary>Flag indicating whether or not this recording includes visual content.</summary>
-    bool? Video { get; }
+    bool Video { get; }
 
   }
 

@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     Guid? FormatId { get; }
 
     /// <summary>The position of the medium in its release's medium list.</summary>
-    int? Position { get; }
+    int Position { get; }
 
     /// <summary>The pre-gap track on the medium, if any.</summary>
     ITrack Pregap { get; }
@@ -31,7 +31,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     int TrackCount { get; }
 
     /// <summary>The first track present in <see cref="Tracks"/>, if not all tracks were loaded by this request.</summary>
-    int TrackOffset { get; }
+    int? TrackOffset { get; }
 
     /// <summary>The normal (audio) tracks on the medium, if any.</summary>
     IEnumerable<ITrack> Tracks { get; }

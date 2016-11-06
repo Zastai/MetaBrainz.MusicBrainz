@@ -10,12 +10,12 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class LabelInfo : ILabelInfo {
 
-    [JsonProperty("catalog-number")]
+    [JsonProperty("catalog-number", Required = Required.AllowNull)]
     public string CatalogNumber { get; private set; }
 
     public ILabel Label => this._label;
 
-    [JsonProperty("label")]
+    [JsonProperty("label", Required = Required.AllowNull)]
     private Label _label = null;
 
     public override string ToString() {
