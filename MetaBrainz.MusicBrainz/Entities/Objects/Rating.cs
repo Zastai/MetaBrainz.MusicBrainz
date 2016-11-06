@@ -5,11 +5,16 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Rating : IRating {
 
-    public decimal? Value => this._json.value;
+    [JsonProperty("value", Required = Required.AllowNull)]
+    public decimal? Value { get; private set; }
 
-    public int VoteCount => this._json.votes_count;
+    [JsonProperty("votes-count", Required = Required.Always)]
+    public int VoteCount { get; private set; }
 
     public override string ToString() {
       var text = string.Empty;
@@ -21,25 +26,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       }
       return text;
     }
-
-    #region JSON-Based Construction
-
-    internal Rating(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.AllowNull)] public decimal? value;
-      [JsonProperty("votes-count", Required = Required.Always)] public int votes_count;
-    }
-
-    #endregion
 
   }
 

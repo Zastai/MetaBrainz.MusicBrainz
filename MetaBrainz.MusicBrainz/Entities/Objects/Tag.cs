@@ -4,30 +4,18 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Tag : ITag {
 
-    public string Name => this._json.name;
+    [JsonProperty("name", Required = Required.Always)]
+    public string Name { get; private set; }
 
-    public int VoteCount => this._json.count;
+    [JsonProperty("count", Required = Required.Always)]
+    public int VoteCount { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Tag(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.Always)] public int count;
-      [JsonProperty(Required = Required.Always)] public string name;
-    }
-
-    #endregion
+    public override string ToString() => $"{this.Name} (votes: {this.VoteCount})";
 
   }
 

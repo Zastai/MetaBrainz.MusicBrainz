@@ -5,51 +5,44 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Alias : IAlias {
 
-    public PartialDate Begin => this._json.begin;
+    [JsonProperty("begin")]
+    public PartialDate Begin { get; private set; }
 
-    public PartialDate End => this._json.end;
+    [JsonProperty("end")]
+    public PartialDate End { get; private set; }
 
-    public bool? Ended => this._json.ended;
+    [JsonProperty("ended")]
+    public bool? Ended { get; private set; }
 
-    public string Locale => this._json.locale;
+    [JsonProperty("locale")]
+    public string Locale { get; private set; }
 
-    public string Name => this._json.name;
+    [JsonProperty("name", Required = Required.Always)]
+    public string Name { get; private set; }
 
-    public bool? Primary => this._json.primary;
+    [JsonProperty("primary")]
+    public bool? Primary { get; private set; }
 
-    public string SortName => this._json.sort_name;
+    [JsonProperty("sort-name")]
+    public string SortName { get; private set; }
 
-    public string Type => this._json.type;
+    [JsonProperty("type")]
+    public string Type { get; private set; }
 
-    public Guid? TypeId => this._json.type_id;
+    [JsonProperty("type-id")]
+    public Guid? TypeId { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Alias(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = this.Name;
+      if (!string.IsNullOrEmpty(this.Type))
+        text += " (" + this.Type + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public PartialDate begin;
-      [JsonProperty] public PartialDate end;
-      [JsonProperty] public bool? ended;
-      [JsonProperty] public string locale;
-      [JsonProperty(Required = Required.Always)] public string name;
-      [JsonProperty] public bool? primary;
-      [JsonProperty("sort-name")] public string sort_name;
-      [JsonProperty] public string type;
-      [JsonProperty("type-id")] public Guid? type_id;
-    }
-
-    #endregion
 
   }
 

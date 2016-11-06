@@ -5,9 +5,13 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class UserRating : IUserRating {
 
-    public decimal? Value => this._json.value;
+    [JsonProperty("value", Required = Required.AllowNull)]
+    public decimal? Value { get; private set; }
 
     public override string ToString() {
       var text = string.Empty;
@@ -18,24 +22,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
       }
       return text;
     }
-
-    #region JSON-Based Construction
-
-    internal UserRating(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.AllowNull)] public decimal? value;
-    }
-
-    #endregion
 
   }
 

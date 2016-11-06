@@ -6,49 +6,51 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Track : ITrack {
 
-    public Guid Id => this._json.id;
+    [JsonProperty("id", Required = Required.Always)]
+    public Guid Id { get; private set; }
 
-    public IEnumerable<INameCredit> ArtistCredit => this._json.artist_credit.WrapArray(ref this._artistCredit, j => new NameCredit(j));
+    public IEnumerable<INameCredit> ArtistCredit => this._artistCredit;
 
-    private NameCredit[] _artistCredit;
+    [JsonProperty("artist-credit")] 
+    private NameCredit[] _artistCredit = null;
 
-    public int? Length => this._json.length;
+    [JsonProperty("length")] 
+    public int? Length { get; private set; }
 
-    public string Number => this._json.number;
+    [JsonProperty("number")] 
+    public string Number { get; private set; }
 
-    public int? Position => this._json.position;
+    [JsonProperty("position")] 
+    public int? Position { get; private set; }
 
-    public IRecording Recording => this._json.recording.WrapObject(ref this._recording, j => new Recording(j));
+    public IRecording Recording => this._recording;
 
-    private Recording _recording;
+    [JsonProperty("recording")]
+    private Recording _recording = null;
 
-    public string Title => this._json.title;
+    [JsonProperty("title")] 
+    public string Title { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Track(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = string.Empty;
+      if (this.Number != null)
+        text += $"{this.Number}. ";
+      if (this.ArtistCredit != null) {
+        foreach (var nc in this.ArtistCredit)
+          text += nc.ToString();
+        text += " / ";
+      }
+      text += this.Title;
+      if (this.Length.HasValue)
+        text += $" ({new TimeSpan(0, 0, 0, 0, this.Length.Value)})";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
-      [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty] public int? length;
-      [JsonProperty] public string number;
-      [JsonProperty] public int? position;
-      [JsonProperty] public string title;
-      [JsonProperty] public Recording.JSON recording;
-    }
-
-    #endregion
 
   }
 

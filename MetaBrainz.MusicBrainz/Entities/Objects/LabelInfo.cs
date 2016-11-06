@@ -4,32 +4,31 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class LabelInfo : ILabelInfo {
 
-    public string CatalogNumber => this._json.catalog_number;
+    [JsonProperty("catalog-number")]
+    public string CatalogNumber { get; private set; }
 
-    public ILabel Label => this._json.label.WrapObject(ref this._label, j => new Label(j));
+    public ILabel Label => this._label;
 
-    private Label _label;
+    [JsonProperty("label")]
+    private Label _label = null;
 
-    #region JSON-Based Construction
-
-    internal LabelInfo(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = string.Empty;
+      if (this.Label != null) {
+        text += this.Label;
+        if (this.CatalogNumber != null)
+          text += ": ";
+      }
+      if (this.CatalogNumber != null)
+        text += this.CatalogNumber;
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty("catalog-number")] public string catalog_number;
-      [JsonProperty] public Label.JSON label;
-    }
-
-    #endregion
 
   }
 

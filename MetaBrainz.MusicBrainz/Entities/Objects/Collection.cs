@@ -5,71 +5,61 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Collection : ICollection {
 
     public EntityType EntityType => EntityType.Collection;
 
-    public Guid MbId => this._json.id;
+    [JsonProperty("id", Required = Required.Always)]
+    public Guid MbId { get; private set; }
 
-    public string Editor => this._json.editor;
+    [JsonProperty("editor")]
+    public string Editor { get; private set; }
 
-    public EntityType ContentType => this._entityType ?? HelperMethods.SetFrom(out this._entityType, this._json.entity_type);
+    public EntityType ContentType => this._entityType ?? HelperMethods.SetFrom(out this._entityType, this.ContentTypeText);
 
     private EntityType? _entityType;
 
-    public string ContentTypeText => this._json.entity_type;
+    [JsonProperty("entity-type")]
+    public string ContentTypeText { get; private set; }
 
-    public int ItemCount =>   this._json.area_count
-                            + this._json.artist_count
-                            + this._json.event_count
-                            + this._json.instrument_count
-                            + this._json.label_count
-                            + this._json.place_count
-                            + this._json.recording_count
-                            + this._json.release_count
-                            + this._json.release_group_count
-                            + this._json.series_count
-                            + this._json.work_count;
+    public int ItemCount => this._areaCount
+                          + this._artistCount
+                          + this._eventCount
+                          + this._instrumentCount
+                          + this._labelCount
+                          + this._placeCount
+                          + this._recordingCount
+                          + this._releaseCount
+                          + this._release_groupCount
+                          + this._seriesCount
+                          + this._workCount;
 
-    public string Name => this._json.name;
+    [JsonProperty("area-count")]          private int _areaCount          = 0;
+    [JsonProperty("artist-count")]        private int _artistCount        = 0;
+    [JsonProperty("event-count")]         private int _eventCount         = 0;
+    [JsonProperty("instrument-count")]    private int _instrumentCount    = 0;
+    [JsonProperty("label-count")]         private int _labelCount         = 0;
+    [JsonProperty("place-count")]         private int _placeCount         = 0;
+    [JsonProperty("recording-count")]     private int _recordingCount     = 0;
+    [JsonProperty("release-count")]       private int _releaseCount       = 0;
+    [JsonProperty("release-group-count")] private int _release_groupCount = 0;
+    [JsonProperty("series-count")]        private int _seriesCount        = 0;
+    [JsonProperty("work-count")]          private int _workCount          = 0;
 
-    public string Type => this._json.type;
+    [JsonProperty("name")]
+    public string Name { get; private set; }
 
-    public Guid? TypeId => this._json.type_id;
+    [JsonProperty("type")]
+    public string Type { get; private set; }
 
-    #region JSON-Based Construction
+    [JsonProperty("type-id")]
+    public Guid? TypeId { get; private set; }
 
-    internal Collection(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty("area-count")] public int area_count;
-      [JsonProperty("artist-count")] public int artist_count;
-      [JsonProperty] public string editor;
-      [JsonProperty("entity-type")] public string entity_type;
-      [JsonProperty("event-count")] public int event_count;
-      [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty("instrument-count")] public int instrument_count;
-      [JsonProperty("label-count")] public int label_count;
-      [JsonProperty] public string name;
-      [JsonProperty("place-count")] public int place_count;
-      [JsonProperty("recording-count")] public int recording_count;
-      [JsonProperty("release-count")] public int release_count;
-      [JsonProperty("release-group-count")] public int release_group_count;
-      [JsonProperty("series-count")] public int series_count;
-      [JsonProperty] public string type;
-      [JsonProperty("type-id")] public Guid? type_id;
-      [JsonProperty("work-count")] public int work_count;
-    }
-
-    #endregion
+    public override string ToString() => $"{this.Name} ({this.Type}) ({this.ItemCount} item(s))";
 
   }
 

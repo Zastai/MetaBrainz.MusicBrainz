@@ -1,45 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Disc : IDisc {
 
-    public string Id => this._json.id;
+    [JsonProperty("id")]
+    public string Id { get; private set; }
 
-    public int OffsetCount => this._json.offset_count;
+    [JsonProperty("offset-count")]
+    public int OffsetCount { get; private set; }
 
-    public IEnumerable<int> Offsets => this._json.offsets;
+    [JsonProperty("offsets")]
+    public IEnumerable<int> Offsets { get; private set; }
 
-    public IEnumerable<IRelease> Releases => this._json.releases.WrapArray(ref this._releases, j => new Release(j));
+    public IEnumerable<IRelease> Releases => this._releases;
 
-    private Release[] _releases;
+    [JsonProperty("releases")]
+    private Release[] _releases = null;
 
-    public int Sectors => this._json.sectors;
+    [JsonProperty("sectors")]
+    public int Sectors { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Disc(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public string id;
-      [JsonProperty] public int[] offsets;
-      [JsonProperty("offset-count")] public int offset_count;
-      [JsonProperty] public Release.JSON[] releases;
-      [JsonProperty] public int sectors;
-    }
-
-    #endregion
+    public override string ToString() => $"{this.Id} ({this.OffsetCount} track(s), {new TimeSpan(0, 0, 0, 0, (int) ((double) this.Sectors / 75 * 1000)),2})";
 
   }
 

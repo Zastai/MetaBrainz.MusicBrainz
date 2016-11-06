@@ -4,30 +4,18 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Coordinates : ICoordinates {
 
-    public double Latitude => this._json.latitude;
+    [JsonProperty("latitude", Required = Required.Always)]
+    public double Latitude { get; private set; }
 
-    public double Longitude => this._json.longitude;
+    [JsonProperty("longitude", Required = Required.Always)]
+    public double Longitude { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Coordinates(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public double latitude;
-      [JsonProperty] public double longitude;
-    }
-
-    #endregion
+    public override string ToString() => $"({this.Latitude:F6}, {this.Longitude:F6})";
 
   }
 

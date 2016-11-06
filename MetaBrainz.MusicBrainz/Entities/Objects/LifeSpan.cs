@@ -1,36 +1,36 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class LifeSpan : ILifeSpan {
 
-    public PartialDate Begin => this._json.begin;
+    [JsonProperty("begin", Required = Required.AllowNull)]
+    public PartialDate Begin { get; private set; }
 
-    public PartialDate End => this._json.end;
+    [JsonProperty("end", Required = Required.AllowNull)]
+    public PartialDate End { get; private set; }
 
-    public bool Ended => this._json.ended;
+    [JsonProperty("ended", Required = Required.Always)]
+    public bool Ended { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal LifeSpan(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = this.Begin?.ToString() ?? "????";
+      if (!object.ReferenceEquals(this.End, null)) {
+        if (this.End != this.Begin)
+          text += $" – {this.End}";
+      }
+      else if (this.Ended)
+        text += " – ????";
+      else
+        text += " –";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public PartialDate begin;
-      [JsonProperty] public PartialDate end;
-      [JsonProperty] public bool ended;
-    }
-
-    #endregion
 
   }
 

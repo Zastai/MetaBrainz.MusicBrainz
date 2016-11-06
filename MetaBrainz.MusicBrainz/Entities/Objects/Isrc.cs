@@ -5,33 +5,21 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Isrc : IIsrc {
 
-    public IEnumerable<IRecording> Recordings => this._json.recordings.WrapArray(ref this._recordings, j => new Recording(j));
+    public IEnumerable<IRecording> Recordings => this._recordings;
 
-    private Recording[] _recordings;
+    [JsonProperty("recordings")]
+    private Recording[] _recordings = null;
 
-    public string Value => this._json.isrc;
+    [JsonProperty("isrc")]
+    public string Value { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Isrc(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 169
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public string isrc;
-      [JsonProperty] public Recording.JSON[] recordings;
-    }
-
-    #endregion
+    public override string ToString() => this.Value;
 
   }
 

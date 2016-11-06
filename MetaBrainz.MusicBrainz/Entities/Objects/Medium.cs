@@ -6,62 +6,57 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Medium : IMedium {
 
-    public IEnumerable<ITrack> DataTracks => this._json.data_tracks.WrapArray(ref this._dataTracks, j => new Track(j));
+    public IEnumerable<ITrack> DataTracks => this._dataTracks;
 
-    private Track[] _dataTracks;
+    [JsonProperty("data-tracks")]
+    private Track[] _dataTracks = null;
 
-    public IEnumerable<IDisc> Discs => this._json.discs.WrapArray(ref this._discs, j => new Disc(j));
+    public IEnumerable<IDisc> Discs => this._discs;
 
-    private Disc[] _discs;
+    [JsonProperty("discs")]
+    private Disc[] _discs = null;
 
-    public string Format => this._json.format;
+    [JsonProperty("format")]
+    public string Format { get; private set; }
 
-    public Guid? FormatId => this._json.format_id;
+    [JsonProperty("format-id")]
+    public Guid? FormatId { get; private set; }
 
-    public int? Position => this._json.position;
+    [JsonProperty("position")]
+    public int? Position { get; private set; }
 
-    public ITrack Pregap => this._json.pregap.WrapObject(ref this._pregap, j => new Track(j));
+    public ITrack Pregap => this._pregap;
 
-    private Track _pregap;
+    [JsonProperty("pregap")]
+    private Track _pregap = null;
 
-    public string Title => this._json.title;
+    [JsonProperty("title")]
+    public string Title { get; private set; }
 
-    public int TrackCount => this._json.track_count;
+    [JsonProperty("track-count")]
+    public int TrackCount { get; private set; }
 
-    public int TrackOffset => this._json.track_offset;
+    [JsonProperty("track-offset")]
+    public int TrackOffset { get; private set; }
 
-    public IEnumerable<ITrack> Tracks => this._json.tracks.WrapArray(ref this._tracks, j => new Track(j));
+    public IEnumerable<ITrack> Tracks => this._tracks;
 
-    private Track[] _tracks;
+    [JsonProperty("tracks")]
+    private Track[] _tracks = null;
 
-    #region JSON-Based Construction
-
-    internal Medium(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = this.Format ?? "Medium";
+      if (!string.IsNullOrEmpty(this.Title))
+        text += " “" + this.Title + "”";
+      text += $" ({this.TrackCount} track(s))";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty("data-tracks")] public Track.JSON[] data_tracks;
-      [JsonProperty] public Disc.JSON[] discs;
-      [JsonProperty] public string format;
-      [JsonProperty("format-id")] public Guid? format_id;
-      [JsonProperty] public int? position;
-      [JsonProperty] public Track.JSON pregap;
-      [JsonProperty] public string title;
-      [JsonProperty] public Track.JSON[] tracks;
-      [JsonProperty("track-count")] public int track_count;
-      [JsonProperty("track-offset")] public int track_offset;
-    }
-
-    #endregion
 
   }
 

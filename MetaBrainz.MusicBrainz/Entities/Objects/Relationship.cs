@@ -6,103 +6,112 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Relationship : IRelationship {
 
-    public IEnumerable<string> Attributes => this._json.attributes;
+    [JsonProperty("area")]
+    private Area _area = null;
 
-    public IDictionary<string, string> AttributeCredits => this._json.attribute_credits;
+    [JsonProperty("artist")]
+    private Artist _artist = null;
 
-    public IDictionary<string, string> AttributeValues => this._json.attribute_values;
+    [JsonProperty("attributes")]
+    public IEnumerable<string> Attributes { get; private set; }
 
-    public PartialDate Begin => this._json.begin;
+    [JsonProperty("attribute-credits")]
+    public IDictionary<string, string> AttributeCredits { get; private set; }
 
-    public string Direction => this._json.direction;
+    [JsonProperty("attribute-values")]
+    public IDictionary<string, string> AttributeValues { get; private set; }
 
-    public PartialDate End => this._json.end;
+    [JsonProperty("begin")]
+    public PartialDate Begin { get; private set; }
 
-    public bool Ended => this._json.ended;
+    [JsonProperty("direction")]
+    public string Direction { get; private set; }
 
-    public int? OrderingKey => this._json.ordering_key;
+    [JsonProperty("end")]
+    public PartialDate End { get; private set; }
 
-    public string SourceCredit => this._json.source_credit;
+    [JsonProperty("ended")]
+    public bool Ended { get; private set; }
+
+    [JsonProperty("event")]
+    private Event _event = null;
+
+    [JsonProperty("instrument")]
+    private Instrument _instrument = null;
+
+    [JsonProperty("label")]
+    private Label _label= null;
+
+    [JsonProperty("ordering-key")]
+    public int? OrderingKey { get; private set; }
+
+    [JsonProperty("place")]
+    private Place _place = null;
+
+    [JsonProperty("recording")]
+    private Recording _recording = null;
+
+    [JsonProperty("release")]
+    private Release _release = null;
+
+    [JsonProperty("release_group")]
+    private ReleaseGroup _releaseGroup = null;
+
+    [JsonProperty("series")]
+    private Series _series = null;
+
+    [JsonProperty("source-credit")]
+    public string SourceCredit { get; private set; }
 
     public IRelatableEntity Target {
       get {
-        if (this._target != null)
-          return this._target;
-        switch (this._json.target_type) {
-          case "area":          return this._json.area         .WrapObject(ref this._target, j => new Area        (j));
-          case "artist":        return this._json.artist       .WrapObject(ref this._target, j => new Artist      (j));
-          case "event":         return this._json.event_       .WrapObject(ref this._target, j => new Event       (j));
-          case "instrument":    return this._json.instrument   .WrapObject(ref this._target, j => new Instrument  (j));
-          case "label":         return this._json.label        .WrapObject(ref this._target, j => new Label       (j));
-          case "place":         return this._json.place        .WrapObject(ref this._target, j => new Place       (j));
-          case "recording":     return this._json.recording    .WrapObject(ref this._target, j => new Recording   (j));
-          case "release":       return this._json.release      .WrapObject(ref this._target, j => new Release     (j));
-          case "release_group": return this._json.release_group.WrapObject(ref this._target, j => new ReleaseGroup(j));
-          case "series":        return this._json.series       .WrapObject(ref this._target, j => new Series      (j));
-          case "url":           return this._json.url          .WrapObject(ref this._target, j => new Url         (j));
-          case "work":          return this._json.work         .WrapObject(ref this._target, j => new Work        (j));
+        switch (this.TargetType) {
+          case EntityType.Area:         return this._area;
+          case EntityType.Artist:       return this._artist;
+          case EntityType.Event:        return this._event;
+          case EntityType.Instrument:   return this._instrument;
+          case EntityType.Label:        return this._label;
+          case EntityType.Place:        return this._place;
+          case EntityType.Recording:    return this._recording;
+          case EntityType.Release:      return this._release;
+          case EntityType.ReleaseGroup: return this._releaseGroup;
+          case EntityType.Series:       return this._series;
+          case EntityType.Url:          return this._url;
+          case EntityType.Work:         return this._work;
+          default:                      return null;
         }
-        return null;
       }
     }
 
-    private IRelatableEntity _target;
+    [JsonProperty("target-credit")]
+    public string TargetCredit { get; private set; }
 
-    public string TargetCredit => this._json.target_credit;
-
-    public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this._json.target_type);
+    public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this.TargetTypeText);
 
     private EntityType? _targetType;
 
-    public string TargetTypeText => this._json.target_type;
+    [JsonProperty("target-type", Required = Required.Always)]
+    public string TargetTypeText { get; private set; }
 
-    public string Type => this._json.type;
+    [JsonProperty("type")]
+    public string Type { get; private set; }
 
-    public Guid? TypeId  => this._json.type_id;
+    [JsonProperty("type-id")]
+    public Guid? TypeId { get; private set; }
 
-    #region JSON-Based Construction
+    [JsonProperty("url")]
+    private Url _url = null;
 
-    internal Relationship(JSON json) {
-      this._json = json;
-    }
+    [JsonProperty("work")]
+    private Work _work = null;
 
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public Area.JSON area;
-      [JsonProperty] public Artist.JSON artist;
-      [JsonProperty] public string[] attributes;
-      [JsonProperty("attribute-credits")] public Dictionary<string, string> attribute_credits;
-      [JsonProperty("attribute-values")] public Dictionary<string, string> attribute_values;
-      [JsonProperty] public PartialDate begin;
-      [JsonProperty(Required = Required.Always)] public string direction;
-      [JsonProperty] public PartialDate end;
-      [JsonProperty] public bool ended;
-      [JsonProperty("event")] public Event.JSON event_;
-      [JsonProperty] public Instrument.JSON instrument;
-      [JsonProperty] public Label.JSON label;
-      [JsonProperty("ordering-key")] public int? ordering_key;
-      [JsonProperty] public Place.JSON place;
-      [JsonProperty] public Recording.JSON recording;
-      [JsonProperty] public Release.JSON release;
-      [JsonProperty] public ReleaseGroup.JSON release_group;
-      [JsonProperty] public Series.JSON series;
-      [JsonProperty("source-credit")] public string source_credit;
-      [JsonProperty("target-credit")] public string target_credit;
-      [JsonProperty("target-type", Required = Required.Always)] public string target_type;
-      [JsonProperty] public string type;
-      [JsonProperty("type-id")] public Guid? type_id;
-      [JsonProperty] public Url.JSON url;
-      [JsonProperty] public Work.JSON work;
-    }
-
-    #endregion
+    public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
 
   }
 

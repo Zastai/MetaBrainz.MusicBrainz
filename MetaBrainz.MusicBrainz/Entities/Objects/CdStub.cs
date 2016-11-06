@@ -5,47 +5,41 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class CdStub : ICdStub {
 
-    public string Id => this._json.id;
+    [JsonProperty("id")]
+    public string Id { get; private set; }
 
-    public string Artist => this._json.artist;
+    [JsonProperty("artist")]
+    public string Artist { get; private set; }
 
-    public string Barcode => this._json.barcode;
+    [JsonProperty("barcode")]
+    public string Barcode { get; private set; }
 
-    public string Disambiguation => this._json.disambiguation;
+    [JsonProperty("disambiguation")]
+    public string Disambiguation { get; private set; }
 
-    public string Title => this._json.title;
+    [JsonProperty("title")]
+    public string Title { get; private set; }
 
-    public int? TrackCount => this._json.track_count;
+    [JsonProperty("track-count")]
+    public int? TrackCount { get; private set; }
 
-    public IEnumerable<ISimpleTrack> Tracks => this._json.tracks.WrapArray(ref this._tracks, j => new SimpleTrack(j));
+    public IEnumerable<ISimpleTrack> Tracks => this._tracks;
 
-    private SimpleTrack[] _tracks;
+    [JsonProperty("tracks")]
+    private SimpleTrack[] _tracks = null;
 
-    #region JSON-Based Construction
-
-    internal CdStub(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = this.Artist + " / " + this.Title;
+      if (!string.IsNullOrEmpty(this.Disambiguation))
+        text += " (" + this.Disambiguation + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public string artist;
-      [JsonProperty] public string barcode;
-      [JsonProperty] public string disambiguation;
-      [JsonProperty] public string id;
-      [JsonProperty] public string title;
-      [JsonProperty] public SimpleTrack.JSON[] tracks;
-      [JsonProperty("track-count")] public int? track_count;
-    }
-
-    #endregion
 
   }
 

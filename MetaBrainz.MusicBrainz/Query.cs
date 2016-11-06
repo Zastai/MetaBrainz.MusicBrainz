@@ -152,7 +152,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IArea LookupArea(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("area", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Area(JsonConvert.DeserializeObject<Area.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Area>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified artist.</summary>
@@ -167,7 +167,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("artist", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return new Artist(JsonConvert.DeserializeObject<Artist.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Artist>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified collection.</summary>
@@ -178,7 +178,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ICollection LookupCollection(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("collection", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Collection(JsonConvert.DeserializeObject<Collection.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Collection>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified disc ID.</summary>
@@ -195,7 +195,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
-      return new DiscIdLookupResult(this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)), Query.SerializerSettings);
+      return new DiscIdLookupResult(discid, this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)), Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified event.</summary>
@@ -206,7 +206,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IEvent LookupEvent(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("event", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Event(JsonConvert.DeserializeObject<Event.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Event>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified instrument.</summary>
@@ -217,7 +217,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("instrument", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Instrument(JsonConvert.DeserializeObject<Instrument.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Instrument>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
@@ -228,7 +228,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IIsrc LookupIsrc(string isrc, Include inc = Include.None) {
       var json = this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc));
-      return new Isrc(JsonConvert.DeserializeObject<Isrc.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Isrc>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the works associated with the specified ISWC.</summary>
@@ -239,13 +239,8 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IEnumerable<IWork> LookupIswc(string iswc, Include inc = Include.None) {
       var json = this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc));
-      var jobj = JsonConvert.DeserializeObject<BrowseWorksResult>(json);
-      if (jobj?.works == null)
-        return null;
-      var arr = new IWork[jobj.work_count];
-      for (var i = 0; i < jobj.work_count; ++i)
-        arr[i] = new Work(jobj.works[i]);
-      return arr;
+      // While this lookup is returned as if it was a browse request for works, the offset/limit options don't work, so just return the results directly.
+      return JsonConvert.DeserializeObject<BrowseWorksResult>(json)?.works;
     }
 
     /// <summary>Looks up the specified label.</summary>
@@ -258,7 +253,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("label", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return new Label(JsonConvert.DeserializeObject<Label.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Label>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified place.</summary>
@@ -269,7 +264,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IPlace LookupPlace(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("place", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Place(JsonConvert.DeserializeObject<Place.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Place>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified recording.</summary>
@@ -282,7 +277,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("recording", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return new Recording(JsonConvert.DeserializeObject<Recording.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Recording>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified release.</summary>
@@ -293,7 +288,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IRelease LookupRelease(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("release", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Release(JsonConvert.DeserializeObject<Release.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Release>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified release group.</summary>
@@ -305,7 +300,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
       var json = this.PerformRequest("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status: status));
-      return new ReleaseGroup(JsonConvert.DeserializeObject<ReleaseGroup.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<ReleaseGroup>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified series.</summary>
@@ -316,7 +311,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ISeries LookupSeries(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("series", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Series(JsonConvert.DeserializeObject<Series.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Series>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -327,7 +322,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IUrl LookupUrl(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("url", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Url(JsonConvert.DeserializeObject<Url.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -339,7 +334,7 @@ namespace MetaBrainz.MusicBrainz {
     public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
       if (resource == null) throw new ArgumentNullException(nameof(resource));
       var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource: resource));
-      return new Url(JsonConvert.DeserializeObject<Url.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified work.</summary>
@@ -350,7 +345,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IWork LookupWork(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("work", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return new Work(JsonConvert.DeserializeObject<Work.JSON>(json, Query.SerializerSettings));
+      return JsonConvert.DeserializeObject<Work>(json, Query.SerializerSettings);
     }
 
     #endregion
@@ -363,7 +358,7 @@ namespace MetaBrainz.MusicBrainz {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private sealed class BrowseWorksResult {
-      [JsonProperty] public Work.JSON[] works;
+      [JsonProperty("works")] public IEnumerable<Work> works;
       [JsonProperty("work-count")] public int work_count;
       [JsonProperty("work-offset")] public int work_offset;
     }

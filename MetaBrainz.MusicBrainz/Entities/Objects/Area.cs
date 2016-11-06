@@ -6,81 +6,77 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Area : IArea {
 
     public EntityType EntityType => EntityType.Area;
 
-    public Guid MbId => this._json.id;
+    [JsonProperty("id", Required = Required.Always)]
+    public Guid MbId { get; private set; }
 
-    public IEnumerable<IAlias> Aliases => this._json.aliases.WrapArray(ref this._aliases, j => new Alias(j));
+    public IEnumerable<IAlias> Aliases => this._aliases;
 
-    private Alias[] _aliases;
+    [JsonProperty("aliases")]
+    private Alias[] _aliases = null;
 
-    public string Annotation => this._json.annotation;
+    [JsonProperty("annotation")]
+    public string Annotation { get; private set; }
 
-    public string Disambiguation => this._json.disambiguation;
+    [JsonProperty("disambiguation")]
+    public string Disambiguation { get; private set; }
 
-    public IEnumerable<string> Iso31661Codes => this._json.iso_3166_1_codes;
+    [JsonProperty("iso-3166-1-codes")]
+    public IEnumerable<string> Iso31661Codes { get; private set; }
 
-    public IEnumerable<string> Iso31662Codes => this._json.iso_3166_2_codes;
+    [JsonProperty("iso-3166-2-codes")]
+    public IEnumerable<string> Iso31662Codes { get; private set; }
 
-    public IEnumerable<string> Iso31663Codes => this._json.iso_3166_3_codes;
+    [JsonProperty("iso-3166-3-codes")]
+    public IEnumerable<string> Iso31663Codes { get; private set; }
 
-    public ILifeSpan LifeSpan => this._json.lifespan.WrapObject(ref this._lifeSpan, j => new LifeSpan(j));
+    public ILifeSpan LifeSpan => this._lifeSpan;
 
-    private LifeSpan _lifeSpan;
+    [JsonProperty("life-span")]
+    private LifeSpan _lifeSpan = null;
 
-    public string Name => this._json.name;
+    [JsonProperty("name")]
+    public string Name { get; private set; }
 
-    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
+    public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    private Relationship[] _relationships;
+    [JsonProperty("relations")]
+    private Relationship[] _relationships = null;
 
-    public string SortName  => this._json.sort_name;
+    [JsonProperty("sort-name")]
+    public string SortName { get; private set; }
 
-    public IEnumerable<ITag> Tags => this._json.tags.WrapArray(ref this._tags, j => new Tag(j));
+    public IEnumerable<ITag> Tags => this._tags;
 
-    private Tag[] _tags;
+    [JsonProperty("tags")]
+    private Tag[] _tags = null;
 
-    public string Type => this._json.type;
+    [JsonProperty("type")]
+    public string Type { get; private set; }
 
-    public Guid? TypeId => this._json.type_id;
+    [JsonProperty("type-id")]
+    public Guid? TypeId { get; private set; }
 
-    public IEnumerable<IUserTag> UserTags => this._json.user_tags.WrapArray(ref this._userTags, j => new UserTag(j));
+    public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    private UserTag[] _userTags;
+    [JsonProperty("user-tags")]
+    private UserTag[] _userTags = null;
 
-    #region JSON-Based Construction
-
-    internal Area(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = this.Name ?? string.Empty;
+      if (!string.IsNullOrEmpty(this.Disambiguation))
+        text += " (" + this.Disambiguation + ")";
+      if (this.Type != null)
+        text += " (" + this.Type + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public Alias.JSON[] aliases;
-      [JsonProperty] public string annotation;
-      [JsonProperty] public string disambiguation;
-      [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty("iso-3166-1-codes")] public string[] iso_3166_1_codes;
-      [JsonProperty("iso-3166-2-codes")] public string[] iso_3166_2_codes;
-      [JsonProperty("iso-3166-3-codes")] public string[] iso_3166_3_codes;
-      [JsonProperty("life-span")] public LifeSpan.JSON lifespan;
-      [JsonProperty(Required = Required.Always)] public string name;
-      [JsonProperty] public Relationship.JSON[] relations;
-      [JsonProperty("sort-name")] public string sort_name;
-      [JsonProperty] public Tag.JSON[] tags;
-      [JsonProperty] public string type;
-      [JsonProperty("type-id")] public Guid? type_id;
-      [JsonProperty("user-tags")] public UserTag.JSON[] user_tags;
-    }
-
-    #endregion
 
   }
 

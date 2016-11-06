@@ -4,35 +4,24 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class NameCredit : INameCredit {
 
-    public IArtist Artist => this._json.artist.WrapObject(ref this._artist, j => new Artist(j));
+    public IArtist Artist => this._artist;
 
-    private Artist _artist;
+    [JsonProperty("artist", Required = Required.Always)]
+    private Artist _artist = null;
 
-    public string JoinPhrase => this._json.joinphrase;
+    [JsonProperty("joinphrase", Required = Required.Always)] 
+    public string JoinPhrase { get; private set; }
 
-    public string Name => this._json.name;
+    [JsonProperty("name", Required = Required.Always)] 
+    public string Name { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal NameCredit(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.Always)] public Artist.JSON artist;
-      [JsonProperty(Required = Required.Always)] public string joinphrase;
-      [JsonProperty(Required = Required.Always)] public string name;
-    }
-
-    #endregion
+    public override string ToString() => this.Name + this.JoinPhrase;
 
   }
 

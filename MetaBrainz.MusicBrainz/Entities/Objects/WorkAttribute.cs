@@ -5,36 +5,24 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class WorkAttribute : IWorkAttribute {
 
-    public string Type => this._json.type;
+    [JsonProperty("type")]
+    public string Type { get; private set; }
 
-    public Guid? TypeId => this._json.type_id;
+    [JsonProperty("type-id")]
+    public Guid? TypeId { get; private set; }
 
-    public string Value => this._json.value;
+    [JsonProperty("value")]
+    public string Value { get; private set; }
 
-    public Guid? ValueId => this._json.value_id;
+    [JsonProperty("value-id")]
+    public Guid? ValueId { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal WorkAttribute(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public string type;
-      [JsonProperty("type-id")] public Guid? type_id;
-      [JsonProperty(Required = Required.Always)] public string value;
-      [JsonProperty("value-id")] public Guid? value_id;
-    }
-
-    #endregion
+    public override string ToString() => $"{this.Type}: {this.Value}";
 
   }
 

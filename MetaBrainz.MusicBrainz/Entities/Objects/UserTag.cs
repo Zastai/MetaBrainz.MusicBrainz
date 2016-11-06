@@ -4,28 +4,17 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class UserTag : IUserTag {
 
-    public string Name => this._json.name;
+    [JsonProperty("name", Required = Required.Always)]
+    public string Name { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal UserTag(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.Always)] public string name;
-    }
-
-    #endregion
+    public override string ToString() => this.Name;
 
   }
 
 }
+  

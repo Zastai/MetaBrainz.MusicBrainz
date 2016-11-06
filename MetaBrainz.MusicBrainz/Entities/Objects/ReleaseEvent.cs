@@ -4,32 +4,28 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class ReleaseEvent : IReleaseEvent {
 
-    public IArea Area => this._json.area.WrapObject(ref this._area, j => new Area(j));
+    public IArea Area => this._area;
 
-    private Area _area;
+    [JsonProperty("area")]
+    private Area _area = null;
 
-    public PartialDate Date => this._json.date;
+    [JsonProperty("date")]
+    public PartialDate Date { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal ReleaseEvent(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      if (this.Date == null)
+        return this._area?.ToString() ?? string.Empty;
+      var text = this.Date.ToString();
+      if (this.Area != null)
+        text += " (" + this.Area + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public Area.JSON area;
-      [JsonProperty] public PartialDate date;
-    }
-
-    #endregion
 
   }
 

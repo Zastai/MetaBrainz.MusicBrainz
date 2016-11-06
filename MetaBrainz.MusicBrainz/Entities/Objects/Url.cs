@@ -6,37 +6,26 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Url : IUrl {
 
     public EntityType EntityType => EntityType.Url;
 
-    public Guid MbId => this._json.id;
+    [JsonProperty("id", Required = Required.Always)]
+    public Guid MbId { get; private set; }
 
-    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
+    public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    private Relationship[] _relationships;
+    [JsonProperty("relations")]
+    private Relationship[] _relationships = null;
 
-    public Uri Resource => this._json.resource;
+    [JsonProperty("resource", Required = Required.Always)]
+    public Uri Resource { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal Url(JSON json) {
-      this._json = json;
-    }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty] public Relationship.JSON[] relations;
-      [JsonProperty(Required = Required.Always)] public Uri resource;
-    }
-
-    #endregion
+    public override string ToString() => this.Resource.ToString();
 
   }
 

@@ -4,39 +4,31 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class CoverArtArchive : ICoverArtArchive {
 
-    public bool Artwork => this._json.artwork;
+    [JsonProperty("artwork")]
+    public bool Artwork { get; private set; }
 
-    public bool Back => this._json.back;
+    [JsonProperty("back")]
+    public bool Back { get; private set; }
 
-    public int Count => this._json.count;
+    [JsonProperty("count")]
+    public int Count { get; private set; }
 
-    public bool? Darkened => this._json.darkened;
+    [JsonProperty("darkened")]
+    public bool? Darkened { get; private set; }
 
-    public bool Front => this._json.front;
+    [JsonProperty("front")]
+    public bool Front { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal CoverArtArchive(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      if (this.Darkened.GetValueOrDefault())
+        return "<cover art taken down>";
+      return (this.Count == 0) ? "<no cover art>" : $"{this.Count} item(s)";
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public bool artwork;
-      [JsonProperty] public bool back;
-      [JsonProperty] public int count;
-      [JsonProperty] public bool? darkened;
-      [JsonProperty] public bool front;
-    }
-
-    #endregion
 
   }
 

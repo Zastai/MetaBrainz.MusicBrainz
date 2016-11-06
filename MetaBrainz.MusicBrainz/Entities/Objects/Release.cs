@@ -6,125 +6,125 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Release : IRelease {
 
     public EntityType EntityType => EntityType.Release;
 
-    public Guid MbId => this._json.id;
+    [JsonProperty("id", Required = Required.Always)]
+    public Guid MbId { get; private set; }
 
-    public IEnumerable<IAlias> Aliases => this._json.aliases.WrapArray(ref this._aliases, j => new Alias(j));
+    public IEnumerable<IAlias> Aliases => this._aliases;
 
-    private Alias[] _aliases;
+    [JsonProperty("aliases")]
+    private Alias[] _aliases = null;
 
-    public string Annotation => this._json.annotation;
+    [JsonProperty("annotation")]
+    public string Annotation { get; private set; }
 
-    public IEnumerable<INameCredit> ArtistCredit => this._json.artist_credit.WrapArray(ref this._artistCredit, j => new NameCredit(j));
+    public IEnumerable<INameCredit> ArtistCredit => this._artistCredit;
 
-    private NameCredit[] _artistCredit;
+    [JsonProperty("artist-credit")]
+    private NameCredit[] _artistCredit = null;
 
-    public string Asin => this._json.asin;
+    [JsonProperty("asin")]
+    public string Asin { get; private set; }
 
-    public string BarCode => this._json.barcode;
+    [JsonProperty("barcode")]
+    public string BarCode { get; private set; }
 
-    public IEnumerable<ICollection> Collections => this._json.collections.WrapArray(ref this._collections, j => new Collection(j));
+    public IEnumerable<ICollection> Collections => this._collections;
 
-    private Collection[] _collections;
+    [JsonProperty("collections")]
+    private Collection[] _collections = null;
 
-    public string Country => this._json.country;
+    [JsonProperty("country")]
+    public string Country { get; private set; }
 
-    public ICoverArtArchive CoverArtArchive => this._json.cover_art_archive.WrapObject(ref this._coverArtArchive, j => new CoverArtArchive(j));
+    public ICoverArtArchive CoverArtArchive => this._coverArtArchive;
 
-    private CoverArtArchive _coverArtArchive;
+    [JsonProperty("cover-art-archive")]
+    private CoverArtArchive _coverArtArchive = null;
 
-    public PartialDate Date => this._json.date;
+    [JsonProperty("date")]
+    public PartialDate Date { get; private set; }
 
-    public string Disambiguation => this._json.disambiguation;
+    [JsonProperty("disambiguation")]
+    public string Disambiguation { get; private set; }
 
-    public IEnumerable<ILabelInfo> LabelInfo => this._json.label_info.WrapArray(ref this._labelInfo, j => new LabelInfo(j));
+    public IEnumerable<ILabelInfo> LabelInfo => this._labelInfo;
 
-    private LabelInfo[] _labelInfo;
+    [JsonProperty("label-info")]
+    private LabelInfo[] _labelInfo = null;
 
-    public IEnumerable<IMedium> Media => this._json.media.WrapArray(ref this._media, j => new Medium(j));
+    public IEnumerable<IMedium> Media => this._media;
 
-    private Medium[] _media;
+    [JsonProperty("media")]
+    private Medium[] _media = null;
 
-    public string Packaging => this._json.packaging;
+    [JsonProperty("packaging")]
+    public string Packaging { get; private set; }
 
-    public Guid? PackagingId => this._json.packaging_id;
+    [JsonProperty("packaging-id")]
+    public Guid? PackagingId { get; private set; }
 
-    public string Quality => this._json.quality;
+    [JsonProperty("quality")]
+    public string Quality { get; private set; }
 
-    public IEnumerable<IRelationship> Relationships => this._json.relations.WrapArray(ref this._relationships, j => new Relationship(j));
+    public IEnumerable<IRelationship> Relationships => this._relationships;
 
-    private Relationship[] _relationships;
+    [JsonProperty("relations")]
+    private Relationship[] _relationships = null;
 
-    public IEnumerable<IReleaseEvent> ReleaseEvents => this._json.release_events.WrapArray(ref this._releaseEvents, j => new ReleaseEvent(j));
+    public IEnumerable<IReleaseEvent> ReleaseEvents => this._releaseEvents;
 
-    private ReleaseEvent[] _releaseEvents;
+    [JsonProperty("release-events")]
+    private ReleaseEvent[] _releaseEvents = null;
 
-    public IReleaseGroup ReleaseGroup => this._json.release_group.WrapObject(ref this._releaseGroup, j => new ReleaseGroup(j));
+    public IReleaseGroup ReleaseGroup => this._releaseGroup;
 
-    private ReleaseGroup _releaseGroup;
+    [JsonProperty("release-group")]
+    private ReleaseGroup _releaseGroup = null;
 
-    public string Status => this._json.status;
+    [JsonProperty("status")]
+    public string Status { get; private set; }
 
-    public Guid? StatusId => this._json.status_id;
+    [JsonProperty("status-id")]
+    public Guid? StatusId { get; private set; }
 
-    public IEnumerable<ITag> Tags => this._json.tags.WrapArray(ref this._tags, j => new Tag(j));
+    public IEnumerable<ITag> Tags => this._tags;
 
-    private Tag[] _tags;
+    [JsonProperty("tags")]
+    private Tag[] _tags = null;
 
-    public ITextRepresentation TextRepresentation => this._json.text_representation.WrapObject(ref this._textRepresentation, j => new TextRepresentation(j));
+    public ITextRepresentation TextRepresentation => this._textRepresentation;
 
-    private TextRepresentation _textRepresentation;
+    [JsonProperty("text-representation")]
+    private TextRepresentation _textRepresentation = null;
 
-    public string Title => this._json.title;
+    [JsonProperty("title", Required = Required.Always)]
+    public string Title { get; private set; }
 
-    public IEnumerable<IUserTag> UserTags => this._json.user_tags.WrapArray(ref this._userTags, j => new UserTag(j));
+    public IEnumerable<IUserTag> UserTags => this._userTags;
 
-    private UserTag[] _userTags;
+    [JsonProperty("user-tags")]
+    private UserTag[] _userTags = null;
 
-    #region JSON-Based Construction
-
-    internal Release(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = string.Empty;
+      if (this.ArtistCredit != null) {
+        foreach (var nc in this.ArtistCredit)
+          text += nc.ToString();
+        text += " / ";
+      }
+      text += this.Title;
+      if (!string.IsNullOrEmpty(this.Disambiguation))
+        text += " (" + this.Disambiguation + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public Alias.JSON[] aliases;
-      [JsonProperty] public string annotation;
-      [JsonProperty("artist-credit")] public NameCredit.JSON[] artist_credit;
-      [JsonProperty] public string asin;
-      [JsonProperty] public string barcode;
-      [JsonProperty] public Collection.JSON[] collections;
-      [JsonProperty] public string country;
-      [JsonProperty("cover-art-archive")] public CoverArtArchive.JSON cover_art_archive;
-      [JsonProperty] public PartialDate date;
-      [JsonProperty] public string disambiguation;
-      [JsonProperty(Required = Required.Always)] public Guid id;
-      [JsonProperty("label-info")] public LabelInfo.JSON[] label_info;
-      [JsonProperty] public Medium.JSON[] media;
-      [JsonProperty] public string packaging;
-      [JsonProperty("packaging-id")] public Guid? packaging_id;
-      [JsonProperty] public string quality;
-      [JsonProperty] public Relationship.JSON[] relations;
-      [JsonProperty("release-events")] public ReleaseEvent.JSON[] release_events;
-      [JsonProperty("release-group")] public ReleaseGroup.JSON release_group;
-      [JsonProperty] public string status;
-      [JsonProperty("status-id")] public Guid? status_id;
-      [JsonProperty("text-representation")] public TextRepresentation.JSON text_representation;
-      [JsonProperty(Required = Required.Always)] public string title;
-      [JsonProperty] public Tag.JSON[] tags;
-      [JsonProperty("user-tags")] public UserTag.JSON[] user_tags;
-    }
-
-    #endregion
 
   }
 

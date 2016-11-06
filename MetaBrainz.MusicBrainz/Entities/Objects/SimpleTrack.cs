@@ -1,36 +1,31 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [JsonObject(MemberSerialization.OptIn)]
   internal sealed class SimpleTrack : ISimpleTrack {
 
-    public string Artist => this._json.artist;
+    [JsonProperty("artist")]
+    public string Artist { get; private set; }
 
-    public int Length => this._json.length;
+    [JsonProperty("length")]
+    public int Length { get; private set; }
 
-    public string Title => this._json.title;
+    [JsonProperty("title")]
+    public string Title { get; private set; }
 
-    #region JSON-Based Construction
-
-    internal SimpleTrack(JSON json) {
-      this._json = json;
+    public override string ToString() {
+      var text = string.Empty;
+      if (this.Artist != null)
+        text += this.Artist + " / ";
+      text += this.Title + " (" + new TimeSpan(0, 0, 0, 0, this.Length) + ")";
+      return text;
     }
-
-    private readonly JSON _json;
-
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    internal sealed class JSON {
-      [JsonProperty] public string artist;
-      [JsonProperty] public int length;
-      [JsonProperty] public string title;
-    }
-
-    #endregion
 
   }
 
