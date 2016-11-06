@@ -135,7 +135,7 @@
     <Compile Include="Submissions\Submission.cs" />
     <Compile Include="Submissions\TagSubmission.cs" />
     <Compile Include="AuthorizationScope.cs" />
-    <Compile Include="BearerToken.cs" />
+    <Compile Include="AuthorizationToken.cs" />
     <Compile Include="DiscIdLookupResult.cs" />
     <Compile Include="EntityType.cs" />
     <Compile Include="HttpDigestHelper.cs" />
