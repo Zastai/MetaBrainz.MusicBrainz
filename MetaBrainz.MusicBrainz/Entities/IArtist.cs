@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz artist.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public interface IArtist : IEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The main area associated with the artist.</summary>

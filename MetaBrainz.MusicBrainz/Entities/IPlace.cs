@@ -1,6 +1,10 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz place.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public interface IPlace : IEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The address for the place.</summary>

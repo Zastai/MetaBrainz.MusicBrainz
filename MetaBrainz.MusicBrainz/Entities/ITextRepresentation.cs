@@ -1,6 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>Information about a release's textual representation.</summary>
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ITextRepresentation {
 
     /// <summary>The ISO 363-2 language code for the release, if set.</summary>

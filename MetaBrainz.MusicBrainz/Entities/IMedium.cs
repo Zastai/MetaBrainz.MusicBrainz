@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A medium associated with a release.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IMedium {
 
     /// <summary>The data tracks on the medium, if any.</summary>

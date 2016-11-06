@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz label.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public interface ILabel : IEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The main area associated with the label.</summary>

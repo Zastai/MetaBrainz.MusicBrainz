@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>An attribute for a work.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IWorkAttribute {
 
     /// <summary>The type of the attribute.</summary>

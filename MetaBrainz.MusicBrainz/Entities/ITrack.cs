@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A track on a medium.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ITrack {
 
     /// <summary>The MBID for the track.</summary>

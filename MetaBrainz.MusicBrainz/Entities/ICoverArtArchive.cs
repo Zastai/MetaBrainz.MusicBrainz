@@ -1,6 +1,10 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>Information about available CoverArt Archive items.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ICoverArtArchive {
 
     /// <summary>Flag indicating that artwork is available.</summary>

@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>An entity with a title.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ITitledEntity {
 
     /// <summary>The aliases for this entity.</summary>

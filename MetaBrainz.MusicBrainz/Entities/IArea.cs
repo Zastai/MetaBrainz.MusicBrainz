@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz area.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public interface IArea : IEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The ISO 3166-1 codes associated with this area, if any.</summary>

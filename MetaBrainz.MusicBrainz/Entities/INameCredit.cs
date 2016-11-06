@@ -1,6 +1,10 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A named credit for an artist.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface INameCredit {
 
     /// <summary>The artist being credited.</summary>

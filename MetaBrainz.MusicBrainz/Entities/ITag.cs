@@ -1,6 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A tag attached to an entity.</summary>
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ITag {
 
     /// <summary>The name of the tag.</summary>

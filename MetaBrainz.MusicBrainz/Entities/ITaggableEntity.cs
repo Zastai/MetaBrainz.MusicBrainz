@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A entity that can have tags applied to it.</summary>
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public interface ITaggableEntity : IEntity {
 
     /// <summary>The tags associated with this entity.</summary>

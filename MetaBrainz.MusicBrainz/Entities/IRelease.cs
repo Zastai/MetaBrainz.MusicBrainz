@@ -1,11 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>A MusicBrainz release.</summary>
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IRelease : IEntity, IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
+    /// <summary>The artist credit for the release.</summary>
     IEnumerable<INameCredit> ArtistCredit { get; }
 
     /// <summary>The Amazon Standard Identification Number (ASIN) associated with the release.</summary>

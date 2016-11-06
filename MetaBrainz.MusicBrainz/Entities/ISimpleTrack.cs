@@ -1,6 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>Simple information about a track on a CD.</summary>
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ISimpleTrack {
 
     /// <summary>The artist for the track.</summary>

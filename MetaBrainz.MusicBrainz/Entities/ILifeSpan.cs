@@ -1,6 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace MetaBrainz.MusicBrainz.Entities {
 
   /// <summary>The lifespan of an entity.</summary>
+  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface ILifeSpan {
 
     /// <summary>The starting date of the lifespan.</summary>
