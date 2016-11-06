@@ -7,6 +7,8 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 
+using Newtonsoft.Json;
+
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
@@ -99,13 +101,13 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public BearerToken GetBearerToken(string code, string clientSecret, Uri redirectUri) => new BearerToken(this.TokenRequest("bearer", code, clientSecret, redirectUri, false));
+    public AuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri) => this.TokenRequest("bearer", code, clientSecret, redirectUri, false);
 
     /// <summary>Refreshes a bearer token.</summary>
     /// <param name="refreshToken">The refresh token to use.</param>
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public BearerToken RefreshBearerToken(string refreshToken, string clientSecret) => new BearerToken(this.TokenRequest("bearer", refreshToken, clientSecret, null, true));
+    public AuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret) => this.TokenRequest("bearer", refreshToken, clientSecret, null, true);
 
     #endregion
 
@@ -138,7 +140,7 @@ namespace MetaBrainz.MusicBrainz {
       if ((scope & AuthorizationScope.Tag)           != 0) yield return "tag";
     }
 
-    private string TokenRequest(string type, string codeOrToken, string clientSecret, Uri redirectUri, bool refresh) {
+    private AuthorizationToken TokenRequest(string type, string codeOrToken, string clientSecret, Uri redirectUri, bool refresh) {
       if (type         == null) throw new ArgumentNullException(nameof(type));
       if (codeOrToken  == null) throw new ArgumentNullException(nameof(codeOrToken));
       if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
@@ -183,8 +185,12 @@ namespace MetaBrainz.MusicBrainz {
           var encoding = Encoding.UTF8;
           if (!string.IsNullOrWhiteSpace(response.CharacterSet))
             encoding = Encoding.GetEncoding(response.CharacterSet);
-          using (var sr = new StreamReader(stream, encoding))
-            return sr.ReadToEnd();
+          using (var sr = new StreamReader(stream, encoding)) {
+            var at = JsonConvert.DeserializeObject<AuthorizationToken>(sr.ReadToEnd());
+            if (at.TokenType != type)
+              throw new InvalidOperationException($"Token request returned a token of the wrong type (\"{at.TokenType}\" != \"{type}\").");
+            return at;
+          }
         }
       }
       return null;

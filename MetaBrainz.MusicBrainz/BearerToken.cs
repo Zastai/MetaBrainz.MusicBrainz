@@ -1,47 +1,36 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Web.Script.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+
+using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
-  /// <summary>Class representing an OAuth2 bearer token.</summary>
+  /// <summary>Class representing an OAuth2 authorization token.</summary>
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-  public sealed class BearerToken {
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [JsonObject(MemberSerialization.OptIn)]
+  public sealed class AuthorizationToken {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
-    public string AccessToken { get; }
+    [JsonProperty("access_token", Required = Required.Always)]
+    public string AccessToken { get; private set; }
 
-    /// <summary>The lifetime of the token, in seconds.</summary>
-    public int Lifetime { get; }
+    /// <summary>The lifetime of the token, in seconds (typically one hour).</summary>
+    [JsonProperty("expires_in", Required = Required.Always)]
+    public int Lifetime { get; private set; }
 
-    /// <summary>The refresh token (i.e. the one you use to get a new access token, via <see cref="OAuth2.RefreshBearerToken"/>).</summary>
-    public string RefreshToken { get; }
+    /// <summary>The refresh token (i.e. the one you use to get a new access token).</summary>
+    [JsonProperty("refresh_token", Required = Required.Always)]
+    public string RefreshToken { get; private set; }
 
-    #region JSON-Based Construction
+    /// <summary>The type of this authorization token.</summary>
+    [JsonProperty("token_type", Required = Required.Always)]
+    public string TokenType { get; private set; }
 
-    internal BearerToken(string responseText) {
-      var json = new JavaScriptSerializer().Deserialize<JSON>(responseText);
-      if (json?.token_type != "bearer")
-        throw new InvalidOperationException("No bearer token data found in the response text.");
-      this.AccessToken  = json.access_token;
-      this.Lifetime     = json.expires_in;
-      this.RefreshToken = json.refresh_token;
-    }
-
-    // The following class is created by a deserializer, so there's no point in complaining that its fields are uninitialized.
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    private sealed class JSON {
-      public string access_token;
-      public int    expires_in;
-      public string refresh_token;
-      public string token_type;
-    }
-
-    #endregion
+    /// <summary>Gets the textual representation of this authorization token.</summary>
+    /// <returns><see cref="AccessToken"/>.</returns>
+    public override string ToString() => this.AccessToken;
 
   }
 
