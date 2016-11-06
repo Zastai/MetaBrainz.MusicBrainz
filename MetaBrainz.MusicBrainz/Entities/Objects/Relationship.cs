@@ -12,8 +12,12 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Relationship : IRelationship {
 
+    public IArea Area => this._area;
+
     [JsonProperty("area", Required = Required.DisallowNull)]
     private Area _area = null;
+
+    public IArtist Artist => this._artist;
 
     [JsonProperty("artist", Required = Required.DisallowNull)]
     private Artist _artist = null;
@@ -39,11 +43,17 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("ended", Required = Required.Always)]
     public bool Ended { get; private set; }
 
+    public IEvent Event => this._event;
+
     [JsonProperty("event", Required = Required.DisallowNull)]
     private Event _event = null;
 
+    public IInstrument Instrument => this._instrument;
+
     [JsonProperty("instrument", Required = Required.DisallowNull)]
     private Instrument _instrument = null;
+
+    public ILabel Label => this._label;
 
     [JsonProperty("label", Required = Required.DisallowNull)]
     private Label _label= null;
@@ -51,17 +61,27 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("ordering-key", Required = Required.DisallowNull)]
     public int? OrderingKey { get; private set; }
 
+    public IPlace Place => this._place;
+
     [JsonProperty("place", Required = Required.DisallowNull)]
     private Place _place = null;
+
+    public IRecording Recording => this._recording;
 
     [JsonProperty("recording", Required = Required.DisallowNull)]
     private Recording _recording = null;
 
+    public IRelease Release => this._release;
+
     [JsonProperty("release", Required = Required.DisallowNull)]
     private Release _release = null;
 
+    public IReleaseGroup ReleaseGroup => this._releaseGroup;
+
     [JsonProperty("release_group", Required = Required.DisallowNull)]
     private ReleaseGroup _releaseGroup = null;
+
+    public ISeries Series => this._series;
 
     [JsonProperty("series", Required = Required.DisallowNull)]
     private Series _series = null;
@@ -105,8 +125,12 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("type-id", Required = Required.Always)]
     public Guid? TypeId { get; private set; }
 
+    public IUrl Url => this._url;
+
     [JsonProperty("url", Required = Required.DisallowNull)]
     private Url _url = null;
+
+    public IWork Work => this._work;
 
     [JsonProperty("work", Required = Required.DisallowNull)]
     private Work _work = null;

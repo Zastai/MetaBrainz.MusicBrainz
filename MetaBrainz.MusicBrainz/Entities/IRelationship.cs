@@ -9,6 +9,12 @@ namespace MetaBrainz.MusicBrainz.Entities {
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IRelationship {
 
+    /// <summary>The target area of the relationship, if applicable.</summary>
+    IArea Area { get; }
+
+    /// <summary>The target artist of the relationship, if applicable.</summary>
+    IArtist Artist { get; }
+
     /// <summary>
     ///   The attributes attached to the relationship (if any).
     ///   These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
@@ -33,8 +39,32 @@ namespace MetaBrainz.MusicBrainz.Entities {
     /// <summary>Flag indicating whether or not the relationship has ended.</summary>
     bool Ended { get; }
 
+    /// <summary>The target event of the relationship, if applicable.</summary>
+    IEvent Event { get; }
+
+    /// <summary>The target instrument of the relationship, if applicable.</summary>
+    IInstrument Instrument { get; }
+
+    /// <summary>The target label of the relationship, if applicable.</summary>
+    ILabel Label { get; }
+
     /// <summary>An optional ordering key for the relationships.</summary>
     int? OrderingKey { get; }
+
+    /// <summary>The target place of the relationship, if applicable.</summary>
+    IPlace Place { get; }
+
+    /// <summary>The target recording of the relationship, if applicable.</summary>
+    IRecording Recording { get; }
+
+    /// <summary>The target release of the relationship, if applicable.</summary>
+    IRelease Release { get; }
+
+    /// <summary>The target release group of the relationship, if applicable.</summary>
+    IReleaseGroup ReleaseGroup { get; }
+
+    /// <summary>The target series of the relationship, if applicable.</summary>
+    ISeries Series { get; }
 
     /// <summary>An optional alternate name for the source of the relationship.</summary>
     string SourceCredit { get; }
@@ -56,6 +86,12 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     /// <summary>The MBID for the relationship type, if applicable.</summary>
     Guid? TypeId { get; }
+
+    /// <summary>The target URL of the relationship, if applicable.</summary>
+    IUrl Url { get; }
+
+    /// <summary>The target work of the relationship, if applicable.</summary>
+    IWork Work { get; }
 
   }
 
