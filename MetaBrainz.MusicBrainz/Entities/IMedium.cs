@@ -4,16 +4,24 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using DiscList  = IEnumerable<IDisc>;
+  using TrackList = IEnumerable<ITrack>;
+  #else
+  using DiscList  = IReadOnlyList<IDisc>;
+  using TrackList = IReadOnlyList<ITrack>;
+  #endif
+
   /// <summary>A medium associated with a release.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
   public interface IMedium {
 
     /// <summary>The data tracks on the medium, if any.</summary>
-    IEnumerable<ITrack> DataTracks { get; }
+    TrackList DataTracks { get; }
 
     /// <summary>The physical discs associated with the medium, if any.</summary>
-    IEnumerable<IDisc> Discs { get; }
+    DiscList Discs { get; }
 
     /// <summary>The medium's format, expressed as text.</summary>
     string Format { get; }
@@ -37,7 +45,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     int? TrackOffset { get; }
 
     /// <summary>The normal (audio) tracks on the medium, if any.</summary>
-    IEnumerable<ITrack> Tracks { get; }
+    TrackList Tracks { get; }
 
   }
 

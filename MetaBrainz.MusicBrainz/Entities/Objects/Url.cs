@@ -6,6 +6,12 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  #if NETFX_LT_4_5
+  using RelationshipList = IEnumerable<IRelationship>;
+  #else
+  using RelationshipList = IReadOnlyList<IRelationship>;
+  #endif
+
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -17,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public IEnumerable<IRelationship> Relationships => this._relationships;
+    public RelationshipList Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;

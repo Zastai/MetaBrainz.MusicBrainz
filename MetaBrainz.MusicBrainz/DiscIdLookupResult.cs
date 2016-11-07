@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 using MetaBrainz.MusicBrainz.Entities;
 using MetaBrainz.MusicBrainz.Entities.Objects;
@@ -11,10 +10,16 @@ using Newtonsoft.Json.Linq;
 
 namespace MetaBrainz.MusicBrainz {
 
+  #if NETFX_LT_4_5
+  using ReleaseList = IEnumerable<IRelease>;
+  #else
+  using ReleaseList = IReadOnlyList<IRelease>;
+  #endif
+
   /// <summary>Class representing the result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "NotAccessedField.Global")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed class DiscIdLookupResult {
 
     internal DiscIdLookupResult(string discid, string json, JsonSerializerSettings jss) {
@@ -35,7 +40,7 @@ namespace MetaBrainz.MusicBrainz {
         var jreleases = jobj["releases"];
         if (jreleases == null)
           throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
-        this.Releases = JsonConvert.DeserializeObject<Release[]>(jreleases.ToString(), jss);
+        this._releases = JsonConvert.DeserializeObject<Release[]>(jreleases.ToString(), jss);
       }
       this.Id = discid;
     }
@@ -47,7 +52,9 @@ namespace MetaBrainz.MusicBrainz {
     public IDisc Disc { get; }
 
     /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
-    public IEnumerable<IRelease> Releases { get; }
+    public ReleaseList Releases => this._releases;
+
+    private readonly Release[] _releases;
 
     /// <summary>The CD stub returned by the lookup (if any was found).</summary>
     public ICdStub Stub { get; }
@@ -59,8 +66,8 @@ namespace MetaBrainz.MusicBrainz {
         return "Disc: " + this.Disc;
       if (this.Stub != null)
         return "CD Stub: " + this.Stub;
-      if (this.Releases != null)
-        return $"{this.Releases.Count()} Release(s)";
+      if (this._releases != null)
+        return $"{this._releases.Length} Release(s)";
       return string.Empty; // should be impossible
     }
 

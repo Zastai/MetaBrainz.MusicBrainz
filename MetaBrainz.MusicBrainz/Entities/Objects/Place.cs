@@ -6,6 +6,18 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  #if NETFX_LT_4_5
+  using AliasList        = IEnumerable<IAlias>;
+  using RelationshipList = IEnumerable<IRelationship>;
+  using TagList          = IEnumerable<ITag>;
+  using UserTagList      = IEnumerable<IUserTag>;
+  #else
+  using AliasList        = IReadOnlyList<IAlias>;
+  using RelationshipList = IReadOnlyList<IRelationship>;
+  using TagList          = IReadOnlyList<ITag>;
+  using UserTagList      = IReadOnlyList<IUserTag>;
+  #endif
+
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -20,7 +32,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("address", Required = Required.AllowNull)]
     public string Address { get; private set; }
 
-    public IEnumerable<IAlias> Aliases => this._aliases;
+    public AliasList Aliases => this._aliases;
 
     [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
@@ -49,12 +61,12 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("name", Required = Required.Always)]
     public string Name { get; private set; }
 
-    public IEnumerable<IRelationship> Relationships => this._relationships;
+    public RelationshipList Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    public IEnumerable<ITag> Tags => this._tags;
+    public TagList Tags => this._tags;
 
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
@@ -65,7 +77,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("type-id", Required = Required.AllowNull)]
     public Guid? TypeId { get; private set; }
 
-    public IEnumerable<IUserTag> UserTags => this._userTags;
+    public UserTagList UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;

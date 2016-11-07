@@ -23,6 +23,12 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
+  #if NETFX_LT_4_5
+  using WorkList = IEnumerable<IWork>;
+  #else
+  using WorkList = IReadOnlyList<IWork>;
+  #endif
+
   /// <summary>Class providing access to the MusicBrainz API.</summary>
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
@@ -237,7 +243,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The works associated with the requested ISWC.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IEnumerable<IWork> LookupIswc(string iswc, Include inc = Include.None) {
+    public WorkList LookupIswc(string iswc, Include inc = Include.None) {
       var json = this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc));
       // While this lookup is returned as if it was a browse request for works, the offset/limit options don't work, so just return the results directly.
       return JsonConvert.DeserializeObject<BrowseWorksResult>(json)?.works;
@@ -358,9 +364,9 @@ namespace MetaBrainz.MusicBrainz {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private sealed class BrowseWorksResult {
-      [JsonProperty("works")] public IEnumerable<Work> works;
-      [JsonProperty("work-count")] public int work_count;
-      [JsonProperty("work-offset")] public int work_offset;
+      [JsonProperty("works",       Required = Required.Always)] public List<Work> works;
+      [JsonProperty("work-count",  Required = Required.Always)] public int        work_count;
+      [JsonProperty("work-offset", Required = Required.Always)] public int        work_offset;
     }
 
     #pragma warning restore 169

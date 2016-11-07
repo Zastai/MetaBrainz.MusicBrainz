@@ -3,6 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using Int32List   = IEnumerable<int>;
+  using ReleaseList = IEnumerable<IRelease>;
+  #else
+  using Int32List   = IReadOnlyList<int>;
+  using ReleaseList = IReadOnlyList<IRelease>;
+  #endif
+
   /// <summary>A compact disc.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
@@ -15,10 +23,10 @@ namespace MetaBrainz.MusicBrainz.Entities {
     int OffsetCount { get; }
 
     /// <summary>The offsets (Red Book sector addresses) for this disc.</summary>
-    IEnumerable<int> Offsets { get; }
+    Int32List Offsets { get; }
 
     /// <summary>The releases that include this disc.</summary>
-    IEnumerable<IRelease> Releases { get; }
+    ReleaseList Releases { get; }
 
     /// <summary>The total size of this disc, in Red Book sectors.</summary>
     int Sectors { get; }

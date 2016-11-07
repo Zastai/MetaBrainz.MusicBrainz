@@ -4,6 +4,20 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using RecordingList    = IEnumerable<IRecording>;
+  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
+  using ReleaseList      = IEnumerable<IRelease>;
+  using StringList       = IEnumerable<string>;
+  using WorkList         = IEnumerable<IWork>;
+  #else
+  using RecordingList    = IReadOnlyList<IRecording>;
+  using ReleaseGroupList = IReadOnlyList<IReleaseGroup>;
+  using ReleaseList      = IReadOnlyList<IRelease>;
+  using StringList       = IReadOnlyList<string>;
+  using WorkList         = IReadOnlyList<IWork>;
+  #endif
+
   /// <summary>A MusicBrainz artist.</summary>
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -28,28 +42,28 @@ namespace MetaBrainz.MusicBrainz.Entities {
     Guid? GenderId { get; }
 
     /// <summary>The IPI (Interested Parties Information) codes associated with this artist.</summary>
-    IEnumerable<string> Ipis { get; }
+    StringList Ipis { get; }
 
     /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this artist.</summary>
-    IEnumerable<string> Isnis { get; }
+    StringList Isnis { get; }
 
     /// <summary>The artist's lifespan.</summary>
     ILifeSpan LifeSpan { get; }
 
     /// <summary>The labels associated with the artist, if any.</summary>
-    IEnumerable<IRecording> Recordings { get; }
+    RecordingList Recordings { get; }
 
     /// <summary>The release groups associated with the artist, if any.</summary>
-    IEnumerable<IReleaseGroup> ReleaseGroups { get; }
+    ReleaseGroupList ReleaseGroups { get; }
 
     /// <summary>The releases associated with the artist, if any.</summary>
-    IEnumerable<IRelease> Releases { get; }
+    ReleaseList Releases { get; }
 
     /// <summary>The atist's sort name.</summary>
     string SortName { get; }
 
     /// <summary>The works associated with the artist, if any.</summary>
-    IEnumerable<IWork> Works { get; }
+    WorkList Works { get; }
 
   }
 

@@ -3,6 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using SimpleTrackList = IEnumerable<ISimpleTrack>;
+  #else
+  using SimpleTrackList = IReadOnlyList<ISimpleTrack>;
+  #endif
+
   /// <summary>A CD stub (information entered about a CD by someone without a MusicBrainz account).</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
@@ -27,7 +33,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
     int? TrackCount { get; }
 
     /// <summary>The track list for the CD.</summary>
-    IEnumerable<ISimpleTrack> Tracks { get; }
+    SimpleTrackList Tracks { get; }
 
   }
 

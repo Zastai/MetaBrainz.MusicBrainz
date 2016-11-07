@@ -6,18 +6,26 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  #if NETFX_LT_4_5
+  using DiscList  = IEnumerable<IDisc>;
+  using TrackList = IEnumerable<ITrack>;
+  #else
+  using DiscList  = IReadOnlyList<IDisc>;
+  using TrackList = IReadOnlyList<ITrack>;
+  #endif
+
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Medium : IMedium {
 
-    public IEnumerable<ITrack> DataTracks => this._dataTracks;
+    public TrackList DataTracks => this._dataTracks;
 
     [JsonProperty("data-tracks", Required = Required.DisallowNull)]
     private Track[] _dataTracks = null;
 
-    public IEnumerable<IDisc> Discs => this._discs;
+    public DiscList Discs => this._discs;
 
     [JsonProperty("discs", Required = Required.DisallowNull)]
     private Disc[] _discs = null;
@@ -45,7 +53,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("track-offset", Required = Required.Default)]
     public int? TrackOffset { get; private set; }
 
-    public IEnumerable<ITrack> Tracks => this._tracks;
+    public TrackList Tracks => this._tracks;
 
     [JsonProperty("tracks", Required = Required.DisallowNull)]
     private Track[] _tracks = null;

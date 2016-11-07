@@ -6,6 +6,28 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  #if NETFX_LT_4_5
+  using AliasList        = IEnumerable<IAlias>;
+  using RecordingList    = IEnumerable<IRecording>;
+  using RelationshipList = IEnumerable<IRelationship>;
+  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
+  using ReleaseList      = IEnumerable<IRelease>;
+  using StringList       = IEnumerable<string>;
+  using TagList          = IEnumerable<ITag>;
+  using UserTagList      = IEnumerable<IUserTag>;
+  using WorkList         = IEnumerable<IWork>;
+  #else
+  using AliasList        = IReadOnlyList<IAlias>;
+  using RecordingList    = IReadOnlyList<IRecording>;
+  using RelationshipList = IReadOnlyList<IRelationship>;
+  using ReleaseGroupList = IReadOnlyList<IReleaseGroup>;
+  using ReleaseList      = IReadOnlyList<IRelease>;
+  using StringList       = IReadOnlyList<string>;
+  using TagList          = IReadOnlyList<ITag>;
+  using UserTagList      = IReadOnlyList<IUserTag>;
+  using WorkList         = IReadOnlyList<IWork>;
+  #endif
+
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -17,7 +39,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public IEnumerable<IAlias> Aliases => this._aliases;
+    public AliasList Aliases => this._aliases;
 
     [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
@@ -53,10 +75,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     public Guid? GenderId { get; private set; }
 
     [JsonProperty("ipis", Required = Required.DisallowNull)]
-    public IEnumerable<string> Ipis { get; private set; }
+    public StringList Ipis { get; private set; }
 
     [JsonProperty("isnis", Required = Required.DisallowNull)]
-    public IEnumerable<string> Isnis { get; private set; }
+    public StringList Isnis { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
 
@@ -71,22 +93,22 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("rating", Required = Required.DisallowNull)]
     private Rating _rating = null;
 
-    public IEnumerable<IRecording> Recordings => this._recordings;
+    public RecordingList Recordings => this._recordings;
 
     [JsonProperty("recordings", Required = Required.DisallowNull)]
     private Recording[] _recordings = null;
 
-    public IEnumerable<IRelationship> Relationships => this._relationships;
+    public RelationshipList Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    public IEnumerable<IReleaseGroup> ReleaseGroups => this._releaseGroups;
+    public ReleaseGroupList ReleaseGroups => this._releaseGroups;
 
     [JsonProperty("release-groups", Required = Required.DisallowNull)]
     private ReleaseGroup[] _releaseGroups = null;
 
-    public IEnumerable<IRelease> Releases => this._releases;
+    public ReleaseList Releases => this._releases;
 
     [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
@@ -94,7 +116,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("sort-name", Required = Required.AllowNull)]
     public string SortName { get; private set; }
 
-    public IEnumerable<ITag> Tags => this._tags;
+    public TagList Tags => this._tags;
 
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
@@ -110,12 +132,12 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("user-rating", Required = Required.DisallowNull)]
     private UserRating _userRating = null;
 
-    public IEnumerable<IUserTag> UserTags => this._userTags;
+    public UserTagList UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
-    public IEnumerable<IWork> Works => this._works;
+    public WorkList Works => this._works;
 
     [JsonProperty("works", Required = Required.DisallowNull)]
     private Work[] _works = null;

@@ -4,6 +4,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using GuidList       = IEnumerable<Guid>;
+  using NameCreditList = IEnumerable<INameCredit>;
+  using ReleaseList    = IEnumerable<IRelease>;
+  using StringList     = IEnumerable<string>;
+  #else
+  using GuidList       = IReadOnlyList<Guid>;
+  using NameCreditList = IReadOnlyList<INameCredit>;
+  using ReleaseList    = IReadOnlyList<IRelease>;
+  using StringList     = IReadOnlyList<string>;
+  #endif
+
   /// <summary>A MusicBrainz release group.</summary>
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -11,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface IReleaseGroup : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     /// <summary>The artist credit for the release group.</summary>
-    IEnumerable<INameCredit> ArtistCredit { get; }
+    NameCreditList ArtistCredit { get; }
 
     /// <summary>The earliest date of release for the releases in the group.</summary>
     PartialDate FirstReleaseDate { get; }
@@ -23,13 +35,13 @@ namespace MetaBrainz.MusicBrainz.Entities {
     Guid? PrimaryTypeId { get; }
 
     /// <summary>The releases associated with the release group.</summary>
-    IEnumerable<IRelease> Releases { get; }
+    ReleaseList Releases { get; }
 
     /// <summary>The secondary types of the release group (if any), expressed as text.</summary>
-    IEnumerable<string> SecondaryTypes { get; }
+    StringList SecondaryTypes { get; }
 
     /// <summary>The secondary types of the release group (if any), expressed as MBIDs.</summary>
-    IEnumerable<Guid> SecondaryTypeIds { get; }
+    GuidList SecondaryTypeIds { get; }
 
   }
 

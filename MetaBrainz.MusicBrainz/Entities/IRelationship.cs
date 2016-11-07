@@ -4,6 +4,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
+  #if NETFX_LT_4_5
+  using StringList = IEnumerable<string>;
+  using StringMap  = IDictionary<string, string>; // FIXME: This should also be a read-only dictionary of some sort.
+  #else
+  using StringList = IReadOnlyList<string>;
+  using StringMap  = IReadOnlyDictionary<string, string>;
+  #endif
+
   /// <summary>A relationship between two MusicBrainz entities.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
@@ -19,13 +27,13 @@ namespace MetaBrainz.MusicBrainz.Entities {
     ///   The attributes attached to the relationship (if any).
     ///   These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
     /// </summary>
-    IEnumerable<string> Attributes { get; }
+    StringList Attributes { get; }
 
     /// <summary>The credits attached to specified attributes of the relationship (if any).</summary>
-    IDictionary<string, string> AttributeCredits { get; }
+    StringMap AttributeCredits { get; }
 
     /// <summary>The values attached to specified attributes of the relationship (if any).</summary>
-    IDictionary<string, string> AttributeValues { get; }
+    StringMap AttributeValues { get; }
 
     /// <summary>The date the relationship began.</summary>
     PartialDate Begin { get; }

@@ -6,6 +6,14 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
+  #if NETFX_LT_4_5
+  using Int32List   = IEnumerable<int>;
+  using ReleaseList = IEnumerable<IRelease>;
+  #else
+  using Int32List   = IReadOnlyList<int>;
+  using ReleaseList = IReadOnlyList<IRelease>;
+  #endif
+
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -19,9 +27,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     public int OffsetCount { get; private set; }
 
     [JsonProperty("offsets", Required = Required.DisallowNull)]
-    public IEnumerable<int> Offsets { get; private set; }
+    public Int32List Offsets { get; private set; }
 
-    public IEnumerable<IRelease> Releases => this._releases;
+    public ReleaseList Releases => this._releases;
 
     [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
