@@ -800,7 +800,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
     ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
     /// </param>
-    /// <returns>A new barcode submission request (to be executed via a call to <see cref="BarcodeSubmission.Submit()"/>).</returns>
+    /// <returns>A new barcode submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public BarcodeSubmission SubmitBarcodes(string client) {
@@ -815,7 +815,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
     ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
     /// </param>
-    /// <returns>A new ISRC submission request (to be executed via a call to <see cref="IsrcSubmission.Submit()"/>).</returns>
+    /// <returns>A new ISRC submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public IsrcSubmission SubmitIsrcs(string client) {
@@ -829,7 +829,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   The ID of the client software submitting data.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.
     /// </param>
-    /// <returns>A new rating submission request (to be executed via a call to <see cref="RatingSubmission.Submit()"/>).</returns>
+    /// <returns>A new rating submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public RatingSubmission SubmitRatings(string client) {
@@ -843,7 +843,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   The ID of the client software submitting data.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.
     /// </param>
-    /// <returns>A new tag submission request (to be executed via a call to <see cref="TagSubmission.Submit()"/>).</returns>
+    /// <returns>A new tag submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public TagSubmission SubmitTags(string client) {
