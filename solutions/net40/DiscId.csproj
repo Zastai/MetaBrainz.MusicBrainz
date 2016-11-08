@@ -41,8 +41,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\$(ProjectName)\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\$(ProjectName)\Program.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="MetaBrainz.MusicBrainz.DiscId.csproj">

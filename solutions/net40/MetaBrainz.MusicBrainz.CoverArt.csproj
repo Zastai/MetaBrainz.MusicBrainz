@@ -51,17 +51,17 @@
     <Content Include="Properties\nuget.msprop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\$(ProjectName)\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\$(ProjectName)\CoverArt.cs" />
-    <Compile Include="..\..\$(ProjectName)\CoverArtType.cs" />
-    <Compile Include="..\..\$(ProjectName)\Image.cs" />
-    <Compile Include="..\..\$(ProjectName)\ImageSize.cs" />
-    <Compile Include="..\..\$(ProjectName)\RawImage.cs" />
-    <Compile Include="..\..\$(ProjectName)\Release.cs" />
-    <Compile Include="..\..\$(ProjectName)\Thumbnails.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\CoverArt.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\CoverArtType.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Image.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\ImageSize.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\RawImage.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Release.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Thumbnails.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.$(ProjectName).config" />
+    <None Include="packages.$(MSBuildProjectName).config" />
   </ItemGroup>
   <Import Project="..\FrameworkVersion.DefineConstants.msprop" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -73,6 +73,6 @@
   </Target>
   -->
   <Import Project="..\..\nuget\nuget.msprop" />
-  <Import Project="..\..\$(ProjectName)\Properties\nuget.msprop" />
+  <Import Project="..\..\$(MSBuildProjectName)\Properties\nuget.msprop" />
   <Import Project="..\..\nuget\nuget.targets" />
 </Project>

@@ -43,38 +43,38 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\$(ProjectName)\Properties\nuget.msprop" />
+    <Content Include="..\..\$(MSBuildProjectName)\Properties\nuget.msprop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\$(ProjectName)\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Bsd.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Darwin.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\FreeBsd.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Linux.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\NetBsd.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\NetOrOpenBsd.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\OpenBsd.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Solaris.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Unix.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\UnixException.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\UnixFileDescriptor.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Unsupported.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platforms\Windows.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\BlueBook.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\EBU.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\MMC.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\RedBook.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\SAM.cs" />
-    <Compile Include="..\..\$(ProjectName)\Standards\SPC.cs" />
-    <Compile Include="..\..\$(ProjectName)\AlbumText.cs" />
-    <Compile Include="..\..\$(ProjectName)\DiscReadFeature.cs" />
-    <Compile Include="..\..\$(ProjectName)\IPlatform.cs" />
-    <Compile Include="..\..\$(ProjectName)\Platform.cs" />
-    <Compile Include="..\..\$(ProjectName)\ScsiException.cs" />
-    <Compile Include="..\..\$(ProjectName)\TableOfContents.cs" />
-    <Compile Include="..\..\$(ProjectName)\Track.cs" />
-    <Compile Include="..\..\$(ProjectName)\TrackText.cs" />
-    <Compile Include="..\..\$(ProjectName)\Util.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Bsd.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Darwin.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\FreeBsd.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Linux.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\NetBsd.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\NetOrOpenBsd.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\OpenBsd.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Solaris.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Unix.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\UnixException.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\UnixFileDescriptor.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Unsupported.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platforms\Windows.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\BlueBook.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\EBU.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\MMC.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\RedBook.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\SAM.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Standards\SPC.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\AlbumText.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\DiscReadFeature.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\IPlatform.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Platform.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\ScsiException.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\TableOfContents.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Track.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\TrackText.cs" />
+    <Compile Include="..\..\$(MSBuildProjectName)\Util.cs" />
   </ItemGroup>
   <Import Project="..\FrameworkVersion.DefineConstants.msprop" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
@@ -86,6 +86,6 @@
   </Target>
   -->
   <Import Project="..\..\nuget\nuget.msprop" />
-  <Import Project="..\..\$(ProjectName)\Properties\nuget.msprop" />
+  <Import Project="..\..\$(MSBuildProjectName)\Properties\nuget.msprop" />
   <Import Project="..\..\nuget\nuget.targets" />
 </Project>
