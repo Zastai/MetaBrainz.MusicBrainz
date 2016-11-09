@@ -49,10 +49,13 @@ namespace MetaBrainz.MusicBrainz {
     ///   Should be in the same form as produced by <see cref="ToString()"/>, i.e. <code>YYYY[-MM[-DD]]</code>, with question marks used for unspecified parts.
     /// </param>
     public PartialDate(string text) {
-      if (string.IsNullOrWhiteSpace(text))
+      if (text == null)
+        return; // ok, null
+      text = text.Trim();
+      if (text.Length == 0)
         return; // ok, empty
       if (PartialDate._format == null)
-        PartialDate._format = new Regex(@"\A\s*([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\s*\Z");
+        PartialDate._format = new Regex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
       var match = PartialDate._format.Match(text);
       var ok = match.Success;
       if (ok) {

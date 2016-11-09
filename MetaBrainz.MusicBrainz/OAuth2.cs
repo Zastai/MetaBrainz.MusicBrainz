@@ -77,22 +77,32 @@ namespace MetaBrainz.MusicBrainz {
         throw new ArgumentNullException(nameof(redirectUri));
       if (scope == AuthorizationScope.None)
         throw new ArgumentException("At least one authorization scope must be selected.", nameof(scope));
-      if (string.IsNullOrWhiteSpace(this.WebSite))  throw new InvalidOperationException("No website has been set.");
-      if (string.IsNullOrWhiteSpace(this.ClientId)) throw new InvalidOperationException("No client ID has been set.");
+      if (this.WebSite  == null || this.WebSite .Trim().Length == 0) throw new InvalidOperationException("No website has been set.");
+      if (this.ClientId == null || this.ClientId.Trim().Length == 0) throw new InvalidOperationException("No client ID has been set.");
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, OAuth2.AuthorizationEndPoint);
-      var queryparts = new List<string>(7) {
-        "response_type=code",
-        $"client_id={Uri.EscapeDataString(this.ClientId)}",
-        $"redirect_uri={Uri.EscapeDataString(redirectUri.ToString())}",
-        $"scope={string.Join("+", OAuth2.ScopeStrings(scope))}",
-      };
+      var query = new StringBuilder();
+      query.Append("response_type=code");
+      query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
+      query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
+#if NETFX_LT_4_0
+      query.Append("&scope");
+      {
+        var plus = '=';
+        foreach (var ss in OAuth2.ScopeStrings(scope)) {
+          query.Append(plus).Append(ss);
+          plus = '+';
+        }
+      }
+#else
+      query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
+#endif
       if (state != null)
-        queryparts.Add($"state={Uri.EscapeDataString(state)}");
+        query.Append("&state=").Append(Uri.EscapeDataString(state));
       if (offlineAccess)
-        queryparts.Add("access_type=offline");
+        query.Append("&access_type=offline");
       if (forcePrompt)
-        queryparts.Add("approval_prompt=force");
-      uri.Query = string.Join("&", queryparts);
+        query.Append("&approval_prompt=force");
+      uri.Query = query.ToString();
       return uri.Uri;
     }
 
@@ -145,8 +155,8 @@ namespace MetaBrainz.MusicBrainz {
       if (codeOrToken  == null) throw new ArgumentNullException(nameof(codeOrToken));
       if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
       if (redirectUri  == null && !refresh) throw new ArgumentNullException(nameof(redirectUri));
-      if (string.IsNullOrWhiteSpace(this.WebSite))  throw new InvalidOperationException("No website has been set.");
-      if (string.IsNullOrWhiteSpace(this.ClientId)) throw new InvalidOperationException("No client ID has been set.");
+      if (this.WebSite .Trim().Length == 0) throw new InvalidOperationException("No website has been set.");
+      if (this.ClientId.Trim().Length == 0) throw new InvalidOperationException("No client ID has been set.");
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, OAuth2.TokenEndPoint);
       Debug.Print($"[{DateTime.UtcNow}] OAUTH2 REQUEST: {uri.Uri}");
       var req = WebRequest.Create(uri.Uri) as HttpWebRequest;
@@ -156,26 +166,24 @@ namespace MetaBrainz.MusicBrainz {
       req.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
       {
         var an = Assembly.GetExecutingAssembly().GetName();
-        req.UserAgent = $"{an.Name}/v{an.Version}";
+        req.UserAgent = $"{an.Name}/{an.Version}";
       }
       {
-        var queryparts = new List<string>(6) {
-          $"client_id={Uri.EscapeDataString(this.ClientId)}",
-          $"client_secret={Uri.EscapeDataString(clientSecret)}",
-          $"token_type={Uri.EscapeDataString(type)}",
-        };
+        var body = new StringBuilder();
+        body.Append("client_id=")     .Append(Uri.EscapeDataString(this.ClientId));
+        body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
+        body.Append("&token_type=")   .Append(Uri.EscapeDataString(type));
         if (refresh) {
-          queryparts.Add("grant_type=refresh_token");
-          queryparts.Add($"refresh_token={Uri.EscapeDataString(codeOrToken)}");
+          body.Append("&grant_type=refresh_token");
+          body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
         }
         else {
-          queryparts.Add("grant_type=authorization_code");
-          queryparts.Add($"code={Uri.EscapeDataString(codeOrToken)}");
-          queryparts.Add($"redirect_uri={Uri.EscapeDataString(redirectUri.ToString())}");
+          body.Append("&grant_type=authorization_code");
+          body.Append("&code=")        .Append(Uri.EscapeDataString(codeOrToken));
+          body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
         }
         using (var rs = req.GetRequestStream()) {
-          var query = string.Join("&", queryparts);
-          var bytes = Encoding.UTF8.GetBytes(query);
+          var bytes = Encoding.UTF8.GetBytes(body.ToString());
           rs.Write(bytes, 0, bytes.Length);
         }
       }
@@ -183,7 +191,7 @@ namespace MetaBrainz.MusicBrainz {
         var stream = response.GetResponseStream();
         if (stream != null) {
           var encoding = Encoding.UTF8;
-          if (!string.IsNullOrWhiteSpace(response.CharacterSet))
+          if (response.CharacterSet != null && response.CharacterSet.Trim().Length > 0)
             encoding = Encoding.GetEncoding(response.CharacterSet);
           using (var sr = new StreamReader(stream, encoding)) {
             var at = JsonConvert.DeserializeObject<AuthorizationToken>(sr.ReadToEnd());
