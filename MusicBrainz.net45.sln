@@ -1,27 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{250A2512-E131-4C44-A759-3D9D9E91A3A6}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{8828B4DF-D0C9-4685-BC9C-E09C0FC90045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscId", "..\..\DiscId\DiscId.net45.csproj", "{401FF06E-8724-4976-9946-DE3424A1C8AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscId.net45", "DiscId\DiscId.net45.csproj", "{401FF06E-8724-4976-9946-DE3424A1C845}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{7FE34DD4-C6DC-455A-8824-258DB46E58E2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D8123B46-C027-4749-BB82-0196D058B845}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz", "..\..\MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.net45.csproj", "{662BD624-2529-405F-9AC5-925C4401FB7E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.net45", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.net45.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.CoverArt", "..\..\MetaBrainz.MusicBrainz.CoverArt\MetaBrainz.MusicBrainz.CoverArt.net45.csproj", "{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.CoverArt.net45", "MetaBrainz.MusicBrainz.CoverArt\MetaBrainz.MusicBrainz.CoverArt.net45.csproj", "{59B631FF-FF1E-40B6-BA82-12FEB35C2A45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.DiscId", "..\..\MetaBrainz.MusicBrainz.DiscId\MetaBrainz.MusicBrainz.DiscId.net45.csproj", "{0686B2DB-E960-4602-B2FC-6747C6AB48B0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.DiscId.net45", "MetaBrainz.MusicBrainz.DiscId\MetaBrainz.MusicBrainz.DiscId.net45.csproj", "{0686B2DB-E960-4602-B2FC-6747C6AB4845}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\.travis.yml = ..\..\.travis.yml
-		..\..\README.md = ..\..\README.md
-		..\..\FrameworkVersion.DefineConstants.msprop = ..\..\FrameworkVersion.DefineConstants.msprop
-		..\..\nuget\nuget.msprop = ..\..\nuget\nuget.msprop
-		..\..\nuget\nuget.targets = ..\..\nuget\nuget.targets
+		.travis.yml = .travis.yml
+		build\Common.msprop = build\Common.msprop
+		build\FrameworkVersion.DefineConstants.msprop = build\FrameworkVersion.DefineConstants.msprop
+		nuget\nuget.msprop = nuget\nuget.msprop
+		nuget\nuget.targets = nuget\nuget.targets
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
@@ -30,30 +31,30 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{401FF06E-8724-4976-9946-DE3424A1C8AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{401FF06E-8724-4976-9946-DE3424A1C8AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{401FF06E-8724-4976-9946-DE3424A1C8AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{401FF06E-8724-4976-9946-DE3424A1C8AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{662BD624-2529-405F-9AC5-925C4401FB7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{662BD624-2529-405F-9AC5-925C4401FB7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{662BD624-2529-405F-9AC5-925C4401FB7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{662BD624-2529-405F-9AC5-925C4401FB7E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0686B2DB-E960-4602-B2FC-6747C6AB48B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0686B2DB-E960-4602-B2FC-6747C6AB48B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0686B2DB-E960-4602-B2FC-6747C6AB48B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0686B2DB-E960-4602-B2FC-6747C6AB48B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{401FF06E-8724-4976-9946-DE3424A1C845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{401FF06E-8724-4976-9946-DE3424A1C845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{401FF06E-8724-4976-9946-DE3424A1C845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{401FF06E-8724-4976-9946-DE3424A1C845}.Release|Any CPU.Build.0 = Release|Any CPU
+		{662BD624-2529-405F-9AC5-925C4401FB45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{662BD624-2529-405F-9AC5-925C4401FB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{662BD624-2529-405F-9AC5-925C4401FB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{662BD624-2529-405F-9AC5-925C4401FB45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59B631FF-FF1E-40B6-BA82-12FEB35C2A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59B631FF-FF1E-40B6-BA82-12FEB35C2A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59B631FF-FF1E-40B6-BA82-12FEB35C2A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59B631FF-FF1E-40B6-BA82-12FEB35C2A45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0686B2DB-E960-4602-B2FC-6747C6AB4845}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0686B2DB-E960-4602-B2FC-6747C6AB4845}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0686B2DB-E960-4602-B2FC-6747C6AB4845}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0686B2DB-E960-4602-B2FC-6747C6AB4845}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{401FF06E-8724-4976-9946-DE3424A1C8AE} = {250A2512-E131-4C44-A759-3D9D9E91A3A6}
-		{662BD624-2529-405F-9AC5-925C4401FB7E} = {7FE34DD4-C6DC-455A-8824-258DB46E58E2}
-		{59B631FF-FF1E-40B6-BA82-12FEB35C2A5C} = {7FE34DD4-C6DC-455A-8824-258DB46E58E2}
-		{0686B2DB-E960-4602-B2FC-6747C6AB48B0} = {7FE34DD4-C6DC-455A-8824-258DB46E58E2}
+		{401FF06E-8724-4976-9946-DE3424A1C845} = {8828B4DF-D0C9-4685-BC9C-E09C0FC90045}
+		{662BD624-2529-405F-9AC5-925C4401FB45} = {D8123B46-C027-4749-BB82-0196D058B845}
+		{59B631FF-FF1E-40B6-BA82-12FEB35C2A45} = {D8123B46-C027-4749-BB82-0196D058B845}
+		{0686B2DB-E960-4602-B2FC-6747C6AB4845} = {D8123B46-C027-4749-BB82-0196D058B845}
 	EndGlobalSection
 EndGlobal

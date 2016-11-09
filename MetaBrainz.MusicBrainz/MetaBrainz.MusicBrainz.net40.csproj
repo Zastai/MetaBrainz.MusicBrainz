@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{662BD624-2529-405F-9AC5-925C4401FB7E}</ProjectGuid>
+    <ProjectGuid>{662BD624-2529-405F-9AC5-925C4401FB40}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MetaBrainz.MusicBrainz</RootNamespace>
@@ -17,141 +17,133 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
-    <DocumentationFile>$(OutputPath)$(AssemblyName).xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\..\MusicBrainz.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+  <Import Project="..\build\Common.msprop" />
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\..\$(MSBuildProjectName)\Properties\nuget.msprop" />
+    <Content Include="Properties\nuget.msprop" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Alias.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Area.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Artist.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\CdStub.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Collection.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Coordinates.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\CoverArtArchive.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Disc.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Event.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\HelperMethods.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Instrument.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Isrc.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Label.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\LabelInfo.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\LifeSpan.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Medium.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\NameCredit.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Place.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Rating.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Recording.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Relationship.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Release.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\ReleaseEvent.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\ReleaseGroup.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Series.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\SimpleTrack.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Tag.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\TextRepresentation.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Track.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Url.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\UserRating.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\UserTag.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\Work.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\Objects\WorkAttribute.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IAlias.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IAnnotatedEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IArea.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IArtist.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ICdStub.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ICollection.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ICoordinates.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ICoverArtArchive.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IDisc.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IEvent.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IInstrument.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IIsrc.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ILabel.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ILabelInfo.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ILifeSpan.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IMedium.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\INameCredit.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\INamedEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IPlace.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRatableEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRating.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRecording.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRelatableEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRelationship.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IRelease.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IReleaseEvent.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IReleaseGroup.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ISeries.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ISimpleTrack.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITag.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITaggableEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITextRepresentation.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITitledEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITrack.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\ITypedEntity.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IUrl.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IUserRating.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IUserTag.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IWork.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Entities\IWorkAttribute.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Properties\AssemblyInfo.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\BarcodeSubmission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\IsrcSubmission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\ISubmission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\ModifyCollection.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\RatingSubmission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\Submission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Submissions\TagSubmission.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\AuthorizationScope.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\AuthorizationToken.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\DiscIdLookupResult.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\EntityType.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\HttpDigestHelper.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Include.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\OAuth2.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\PartialDate.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\Query.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\QueryException.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\ReleaseStatus.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\ReleaseType.cs" />
-    <Compile Include="..\..\$(MSBuildProjectName)\TagVote.cs" />
+    <Compile Include="Entities\Objects\Alias.cs" />
+    <Compile Include="Entities\Objects\Area.cs" />
+    <Compile Include="Entities\Objects\Artist.cs" />
+    <Compile Include="Entities\Objects\CdStub.cs" />
+    <Compile Include="Entities\Objects\Collection.cs" />
+    <Compile Include="Entities\Objects\Coordinates.cs" />
+    <Compile Include="Entities\Objects\CoverArtArchive.cs" />
+    <Compile Include="Entities\Objects\Disc.cs" />
+    <Compile Include="Entities\Objects\Event.cs" />
+    <Compile Include="Entities\Objects\HelperMethods.cs" />
+    <Compile Include="Entities\Objects\Instrument.cs" />
+    <Compile Include="Entities\Objects\Isrc.cs" />
+    <Compile Include="Entities\Objects\Label.cs" />
+    <Compile Include="Entities\Objects\LabelInfo.cs" />
+    <Compile Include="Entities\Objects\LifeSpan.cs" />
+    <Compile Include="Entities\Objects\Medium.cs" />
+    <Compile Include="Entities\Objects\NameCredit.cs" />
+    <Compile Include="Entities\Objects\Place.cs" />
+    <Compile Include="Entities\Objects\Rating.cs" />
+    <Compile Include="Entities\Objects\Recording.cs" />
+    <Compile Include="Entities\Objects\Relationship.cs" />
+    <Compile Include="Entities\Objects\Release.cs" />
+    <Compile Include="Entities\Objects\ReleaseEvent.cs" />
+    <Compile Include="Entities\Objects\ReleaseGroup.cs" />
+    <Compile Include="Entities\Objects\Series.cs" />
+    <Compile Include="Entities\Objects\SimpleTrack.cs" />
+    <Compile Include="Entities\Objects\Tag.cs" />
+    <Compile Include="Entities\Objects\TextRepresentation.cs" />
+    <Compile Include="Entities\Objects\Track.cs" />
+    <Compile Include="Entities\Objects\Url.cs" />
+    <Compile Include="Entities\Objects\UserRating.cs" />
+    <Compile Include="Entities\Objects\UserTag.cs" />
+    <Compile Include="Entities\Objects\Work.cs" />
+    <Compile Include="Entities\Objects\WorkAttribute.cs" />
+    <Compile Include="Entities\IAlias.cs" />
+    <Compile Include="Entities\IAnnotatedEntity.cs" />
+    <Compile Include="Entities\IArea.cs" />
+    <Compile Include="Entities\IArtist.cs" />
+    <Compile Include="Entities\ICdStub.cs" />
+    <Compile Include="Entities\ICollection.cs" />
+    <Compile Include="Entities\ICoordinates.cs" />
+    <Compile Include="Entities\ICoverArtArchive.cs" />
+    <Compile Include="Entities\IDisc.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\IEvent.cs" />
+    <Compile Include="Entities\IInstrument.cs" />
+    <Compile Include="Entities\IIsrc.cs" />
+    <Compile Include="Entities\ILabel.cs" />
+    <Compile Include="Entities\ILabelInfo.cs" />
+    <Compile Include="Entities\ILifeSpan.cs" />
+    <Compile Include="Entities\IMedium.cs" />
+    <Compile Include="Entities\INameCredit.cs" />
+    <Compile Include="Entities\INamedEntity.cs" />
+    <Compile Include="Entities\IPlace.cs" />
+    <Compile Include="Entities\IRatableEntity.cs" />
+    <Compile Include="Entities\IRating.cs" />
+    <Compile Include="Entities\IRecording.cs" />
+    <Compile Include="Entities\IRelatableEntity.cs" />
+    <Compile Include="Entities\IRelationship.cs" />
+    <Compile Include="Entities\IRelease.cs" />
+    <Compile Include="Entities\IReleaseEvent.cs" />
+    <Compile Include="Entities\IReleaseGroup.cs" />
+    <Compile Include="Entities\ISeries.cs" />
+    <Compile Include="Entities\ISimpleTrack.cs" />
+    <Compile Include="Entities\ITag.cs" />
+    <Compile Include="Entities\ITaggableEntity.cs" />
+    <Compile Include="Entities\ITextRepresentation.cs" />
+    <Compile Include="Entities\ITitledEntity.cs" />
+    <Compile Include="Entities\ITrack.cs" />
+    <Compile Include="Entities\ITypedEntity.cs" />
+    <Compile Include="Entities\IUrl.cs" />
+    <Compile Include="Entities\IUserRating.cs" />
+    <Compile Include="Entities\IUserTag.cs" />
+    <Compile Include="Entities\IWork.cs" />
+    <Compile Include="Entities\IWorkAttribute.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Submissions\BarcodeSubmission.cs" />
+    <Compile Include="Submissions\IsrcSubmission.cs" />
+    <Compile Include="Submissions\ISubmission.cs" />
+    <Compile Include="Submissions\ModifyCollection.cs" />
+    <Compile Include="Submissions\RatingSubmission.cs" />
+    <Compile Include="Submissions\Submission.cs" />
+    <Compile Include="Submissions\TagSubmission.cs" />
+    <Compile Include="AuthorizationScope.cs" />
+    <Compile Include="AuthorizationToken.cs" />
+    <Compile Include="DiscIdLookupResult.cs" />
+    <Compile Include="EntityType.cs" />
+    <Compile Include="HttpDigestHelper.cs" />
+    <Compile Include="Include.cs" />
+    <Compile Include="OAuth2.cs" />
+    <Compile Include="PartialDate.cs" />
+    <Compile Include="Query.cs" />
+    <Compile Include="QueryException.cs" />
+    <Compile Include="ReleaseStatus.cs" />
+    <Compile Include="ReleaseType.cs" />
+    <Compile Include="TagVote.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.$(MSBuildProjectName).config" />
   </ItemGroup>
-  <Import Project="..\FrameworkVersion.DefineConstants.msprop" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -160,7 +152,7 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\..\nuget\nuget.msprop" />
-  <Import Project="..\..\$(MSBuildProjectName)\Properties\nuget.msprop" />
-  <Import Project="..\..\nuget\nuget.targets" />
+  <Import Project="..\nuget\nuget.msprop" />
+  <Import Project="Properties\nuget.msprop" />
+  <Import Project="..\nuget\nuget.targets" />
 </Project>

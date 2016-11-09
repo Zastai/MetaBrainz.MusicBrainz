@@ -1,2 +1,2 @@
 language: csharp
-solution: solutions/net45/MusicBrainz.sln
+solution: MusicBrainz.all.sln
