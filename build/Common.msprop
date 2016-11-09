@@ -10,7 +10,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(OutputRoot)MusicBrainz.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)MusicBrainz.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="FrameworkVersion.DefineConstants.msprop" />
 </Project>
