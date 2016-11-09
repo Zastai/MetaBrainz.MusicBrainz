@@ -152,7 +152,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-  <Import Project="..\nuget\nuget.msprop" />
-  <Import Project="Properties\nuget.msprop" />
-  <Import Project="..\nuget\nuget.targets" />
 </Project>

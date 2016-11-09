@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- NuGet Package Settings (Project-Specific) -->
+  <PropertyGroup>
+    <NuGetPackageDescription>This package provides classes for accessing the CoverArt Archive (CAA), enabling the retrieval of cover art for music releases based on their MusicBrainz ID.</NuGetPackageDescription>
+    <NuGetPackageReleaseNotes>
+    </NuGetPackageReleaseNotes>
+    <NuGetPackageSummary>C# implementation of libcoverart</NuGetPackageSummary>
+    <NuGetPackageTags>MusicBrainz album cover art archive CAA libcoverart</NuGetPackageTags>
+    <NuGetPackageVersion>0.3.0-dev</NuGetPackageVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <NuGetDependencies Include="Newtonsoft.Json">
+      <Version>[9,10)</Version>
+    </NuGetDependencies>
+  </ItemGroup>
+</Project>
