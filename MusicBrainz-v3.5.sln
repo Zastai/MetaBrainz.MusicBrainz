@@ -5,15 +5,15 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{8828B4DF-D0C9-4685-BC9C-E09C0FC90035}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscId.net35", "DiscId\DiscId.net35.csproj", "{401FF06E-8724-4976-9946-DE3424A1C835}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscId-v3.5", "DiscId\DiscId-v3.5.csproj", "{401FF06E-8724-4976-9946-DE3424A1C835}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D8123B46-C027-4749-BB82-0196D058B835}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.net35", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.net35.csproj", "{662BD624-2529-405F-9AC5-925C4401FB35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz-v3.5", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz-v3.5.csproj", "{662BD624-2529-405F-9AC5-925C4401FB35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.CoverArt.net35", "MetaBrainz.MusicBrainz.CoverArt\MetaBrainz.MusicBrainz.CoverArt.net35.csproj", "{59B631FF-FF1E-40B6-BA82-12FEB35C2A35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.CoverArt-v3.5", "MetaBrainz.MusicBrainz.CoverArt\MetaBrainz.MusicBrainz.CoverArt-v3.5.csproj", "{59B631FF-FF1E-40B6-BA82-12FEB35C2A35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.DiscId.net35", "MetaBrainz.MusicBrainz.DiscId\MetaBrainz.MusicBrainz.DiscId.net35.csproj", "{0686B2DB-E960-4602-B2FC-6747C6AB4835}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.DiscId-v3.5", "MetaBrainz.MusicBrainz.DiscId\MetaBrainz.MusicBrainz.DiscId-v3.5.csproj", "{0686B2DB-E960-4602-B2FC-6747C6AB4835}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
