@@ -4,7 +4,6 @@
 //#define TRACE_JSON_RESPONSE
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -15,35 +14,19 @@ using System.Threading;
 using System.Xml;
 using System.Xml.XPath;
 
-using MetaBrainz.MusicBrainz.Entities;
-using MetaBrainz.MusicBrainz.Entities.Objects;
 using MetaBrainz.MusicBrainz.Submissions;
 
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
-
-  #if NETFX_LT_4_5
-  using WorkList = IEnumerable<IWork>;
-  #else
-  using WorkList = IReadOnlyList<IWork>;
-  #endif
-
-  #if NETFX_LT_3_5 // No Func<T>
-
-  /// <summary>A function taking no arguments.</summary>
-  /// <typeparam name="TResult">The type for the function's result.</typeparam>
-  /// <returns>The result of the function.</returns>
-  internal delegate TResult Func<out TResult>();
-  
-  #endif
-
   /// <summary>Class providing access to the MusicBrainz API.</summary>
+  [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public sealed class Query {
+  public sealed partial class Query {
 
     #region Static Fields / Properties
 
@@ -156,649 +139,25 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
-    #region Public Methods
+    #region Instance Fields / Properties
 
-    #region Lookup
+    /// <summary>The OAuth2 bearer token to use for authenticated requests.</summary>
+    public string BearerToken { get; set; }
 
-    /// <summary>Looks up the specified area.</summary>
-    /// <param name="mbid">The MBID for the area to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested area.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IArea LookupArea(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("area", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Area>(json, Query.SerializerSettings);
-    }
+    /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
+    public int Port { get; set; }
 
-    /// <summary>Looks up the specified artist.</summary>
-    /// <param name="mbid">The MBID for the artist to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="type">
-    /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.ReleaseGroups"/> and/or <see cref="Include.Releases"/>.
-    /// </param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The requested artist.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("artist", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return JsonConvert.DeserializeObject<Artist>(json, Query.SerializerSettings);
-    }
+    /// <summary>The internet access protocol to use for requests.</summary>
+    public string UrlScheme { get; set; }
 
-    /// <summary>Looks up the specified collection.</summary>
-    /// <param name="mbid">The MBID for the collection to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested collection.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ICollection LookupCollection(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("collection", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Collection>(json, Query.SerializerSettings);
-    }
+    /// <summary>The user agent to use for requests.</summary>
+    public string UserAgent { get; }
 
-    /// <summary>Looks up the specified disc ID.</summary>
-    /// <param name="discid">The disc ID to look up.</param>
-    /// <param name="toc">
-    ///   The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
-    ///   The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
-    ///   followed by the start address of each track (in sectors).
-    /// </param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
-    /// <param name="noStubs">If true, CD stubs are not returned.</param>
-    /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
-      return new DiscIdLookupResult(discid, this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)), Query.SerializerSettings);
-    }
+    /// <summary>The web site to use for requests.</summary>
+    public string WebSite { get; set; }
 
-    /// <summary>Looks up the specified event.</summary>
-    /// <param name="mbid">The MBID for the event to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested event.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IEvent LookupEvent(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("event", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Event>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified instrument.</summary>
-    /// <param name="mbid">The MBID for the instrument to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested instrument.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("instrument", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Instrument>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
-    /// <param name="isrc">The ISRC to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The recordings associated with the requested ISRC.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IIsrc LookupIsrc(string isrc, Include inc = Include.None) {
-      var json = this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Isrc>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the works associated with the specified ISWC.</summary>
-    /// <param name="iswc">The ISWC to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The works associated with the requested ISWC.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public WorkList LookupIswc(string iswc, Include inc = Include.None) {
-      var json = this.PerformRequest("iswc", iswc, Query.BuildExtraText(inc));
-      // While this lookup is returned as if it was a browse request for works, the offset/limit options don't work, so just return the results directly.
-      return JsonConvert.DeserializeObject<BrowseWorksResult>(json)?.works;
-    }
-
-    /// <summary>Looks up the specified label.</summary>
-    /// <param name="mbid">The MBID for the label to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The requested label.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("label", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return JsonConvert.DeserializeObject<Label>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified place.</summary>
-    /// <param name="mbid">The MBID for the place to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested place.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IPlace LookupPlace(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("place", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Place>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified recording.</summary>
-    /// <param name="mbid">The MBID for the recording to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The requested recording.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("recording", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
-      return JsonConvert.DeserializeObject<Recording>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified release.</summary>
-    /// <param name="mbid">The MBID for the release to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested release.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IRelease LookupRelease(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("release", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Release>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified release group.</summary>
-    /// <param name="mbid">The MBID for the release group to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-    /// <returns>The requested release group.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status: status));
-      return JsonConvert.DeserializeObject<ReleaseGroup>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified series.</summary>
-    /// <param name="mbid">The MBID for the series to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested series.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public ISeries LookupSeries(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("series", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Series>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified URL.</summary>
-    /// <param name="mbid">The MBID for the URL to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested URL.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IUrl LookupUrl(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("url", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified URL.</summary>
-    /// <param name="resource">The resource to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested URL.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
-      if (resource == null) throw new ArgumentNullException(nameof(resource));
-      var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource: resource));
-      return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
-    }
-
-    /// <summary>Looks up the specified work.</summary>
-    /// <param name="mbid">The MBID for the work to look up.</param>
-    /// <param name="inc">Additional information to include in the result.</param>
-    /// <returns>The requested work.</returns>
-    /// <exception cref="QueryException">When the web service reports an error.</exception>
-    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IWork LookupWork(Guid mbid, Include inc = Include.None) {
-      var json = this.PerformRequest("work", mbid.ToString("D"), Query.BuildExtraText(inc));
-      return JsonConvert.DeserializeObject<Work>(json, Query.SerializerSettings);
-    }
-
-    #endregion
-
-    #region Browse
-
-    #pragma warning disable 169
-    #pragma warning disable 649
-
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class BrowseWorksResult {
-      [JsonProperty("works",       Required = Required.Always)] public Work[] works;
-      [JsonProperty("work-count",  Required = Required.Always)] public int    work_count;
-      [JsonProperty("work-offset", Required = Required.Always)] public int    work_offset;
-    }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    #endregion
-
-    #region Collection Management
-
-    #region Adding Items
-
-    /// <summary>Adds the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-    /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, entityType).Add(items));
-
-    /// <summary>Adds the specified areas to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The areas to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Area).Add(items));
-
-    /// <summary>Adds the specified artists to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The artists to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Artist).Add(items));
-
-    /// <summary>Adds the specified events to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The events to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Event).Add(items));
-
-    /// <summary>Adds the specified instruments to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The instruments to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Instrument).Add(items));
-
-    /// <summary>Adds the specified labels to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The labels to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Label).Add(items));
-
-    /// <summary>Adds the specified places to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The places to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Place).Add(items));
-
-    /// <summary>Adds the specified recordings to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The recordings to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Recording).Add(items));
-
-    /// <summary>Adds the specified releases to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The releases to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Release).Add(items));
-
-    /// <summary>Adds the specified release groups to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The release groups to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.ReleaseGroup).Add( items));
-
-    /// <summary>Adds the specified series to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The series to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Series).Add(items));
-
-    /// <summary>Adds the specified works to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The works to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Work).Add(items));
-
-    /// <summary>Adds the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> and/or <paramref name="collection"/> are null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, ICollection collection, params Guid[] items) {
-      if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
-    }
-
-    /// <summary>Adds the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-    /// <param name="items">The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> and/or <paramref name="collection"/> are null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, ICollection collection, params IEntity[] items) {
-      if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
-    }
-
-    #endregion
-
-    #region Removing Items
-
-    /// <summary>Removes the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-    /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, entityType).Add(items));
-
-    /// <summary>Removes the specified areas to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The areas to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Area).Add(items));
-
-    /// <summary>Removes the specified artists to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The artists to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Artist).Add(items));
-
-    /// <summary>Removes the specified events to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The events to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Event).Add(items));
-
-    /// <summary>Removes the specified instruments to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The instruments to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Instrument).Add(items));
-
-    /// <summary>Removes the specified labels to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The labels to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Label).Add(items));
-
-    /// <summary>Removes the specified places to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The places to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Place).Add(items));
-
-    /// <summary>Removes the specified recordings to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The recordings to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Recording).Add(items));
-
-    /// <summary>Removes the specified releases to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The releases to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Release).Add(items));
-
-    /// <summary>Removes the specified release groups to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The release groups to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.ReleaseGroup).Add( items));
-
-    /// <summary>Removes the specified series to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The series to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Series).Add(items));
-
-    /// <summary>Removes the specified works to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The works to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Work).Add(items));
-
-    /// <summary>Removes the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> and/or <paramref name="collection"/> are null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, ICollection collection, params Guid[] items) {
-      if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
-    }
-
-    /// <summary>Removes the specified items to the specified collection.</summary>
-    /// <param name="client">
-    ///   The ID of the client software making this request.<br/>
-    ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
-    /// </param>
-    /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-    /// <param name="items">The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
-    /// <returns>A message describing the result (usually "OK").</returns>
-    /// <exception cref="ArgumentNullException">When <paramref name="client"/> and/or <paramref name="collection"/> are null.</exception>
-    /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-    /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-    /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, ICollection collection, params IEntity[] items) {
-      if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
-    }
-
-    #endregion
+    /// <summary>The base URI for all requests.</summary>
+    public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
 
     #endregion
 
@@ -861,40 +220,6 @@ namespace MetaBrainz.MusicBrainz {
       if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       return new TagSubmission(this, client);
     }
-
-    #endregion
-
-    #endregion
-
-    #region Instance Fields / Properties
-
-    /// <summary>The OAuth2 bearer token to use for authenticated requests; takes precedence over <see cref="Credential"/>.</summary>
-    public string BearerToken { get; set; }
-
-    /// <summary>The credential to use for authenticated requests; not used if <see cref="BearerToken"/> is also set.</summary>
-    /// <remarks>The user name is <em>case sensitive</em> (unlike the logon on the MusicBrainz website).</remarks>
-    public NetworkCredential Credential {
-      get { return this._credential; }
-      set {
-        this._credential = value;
-        this._lastDigest = null;
-      }
-    }
-
-    /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
-    public int Port { get; set; }
-
-    /// <summary>The internet access protocol to use for requests.</summary>
-    public string UrlScheme { get; set; }
-
-    /// <summary>The user agent to use for requests.</summary>
-    public string UserAgent { get; }
-
-    /// <summary>The web site to use for requests.</summary>
-    public string WebSite { get; set; }
-
-    /// <summary>The base URI for all requests.</summary>
-    public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
 
     #endregion
 
@@ -1028,20 +353,46 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
-    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
-      CheckAdditionalContent = true,
-      MissingMemberHandling  = MissingMemberHandling.Error
-    };
+    #region Delay Processing
 
     private static DateTime _lastRequestTime;
 
     private static double _requestDelay = 1.0;
 
-    private NetworkCredential _credential;
+    #if NETFX_LT_3_5 // No Func<T>
 
-    private readonly string _fullUserAgent;
+    /// <summary>A function taking no arguments.</summary>
+    /// <typeparam name="TResult">The type for the function's result.</typeparam>
+    /// <returns>The result of the function.</returns>
+    private delegate TResult Func<out TResult>();
 
-    private string _lastDigest;
+    #endif
+
+    private string ApplyDelay(Func<string> request) {
+      if (Query._requestDelay <= 0.0)
+        return request();
+      while (true) {
+        Query.Lock();
+        try {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+            try {
+              return request();
+            }
+            finally {
+              Query._lastRequestTime = DateTime.UtcNow;
+            }
+          }
+        }
+        finally {
+          Query.Unlock();
+        }
+        Thread.Sleep((int) (500 * Query._requestDelay));
+      }
+    }
+
+    #endregion
+
+    #region Query String Processing
 
     [SuppressMessage("ReSharper", "CyclomaticComplexity")]
     private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, Uri resource = null, ReleaseType? type = null, ReleaseStatus? status = null) {
@@ -1131,6 +482,17 @@ namespace MetaBrainz.MusicBrainz {
       return sb.ToString();
     }
 
+    #endregion
+
+    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
+      CheckAdditionalContent = true,
+      MissingMemberHandling  = MissingMemberHandling.Error
+    };
+
+    private readonly string _fullUserAgent;
+
+    private string _lastDigest;
+
     private string PerformDirectRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: GET {uri}");
@@ -1169,7 +531,7 @@ namespace MetaBrainz.MusicBrainz {
         using (var response = (HttpWebResponse) we.Response) {
           if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
             firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, this.Credential);
+            var digest = HttpDigestHelper.GetDigest(response, null);
             if (digest != null && this._lastDigest != digest) {
               this._lastDigest = digest;
               goto retry;
@@ -1220,7 +582,7 @@ namespace MetaBrainz.MusicBrainz {
         using (var response = (HttpWebResponse) we.Response) {
           if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
             firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, this.Credential);
+            var digest = HttpDigestHelper.GetDigest(response, null);
             if (digest != null && this._lastDigest != digest) {
               this._lastDigest = digest;
               goto retry;
@@ -1237,28 +599,6 @@ namespace MetaBrainz.MusicBrainz {
     private string PerformRequest(string entity, string id, string extra) => this.ApplyDelay(() => this.PerformDirectRequest(entity, id, extra));
 
     internal string PerformSubmission(ISubmission submission) => this.ApplyDelay(() => this.PerformDirectSubmission(submission));
-
-    private string ApplyDelay(Func<string> request) {
-      if (Query._requestDelay <= 0.0)
-        return request();
-      while (true) {
-        Query.Lock();
-        try {
-          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
-            try {
-              return request();
-            }
-            finally {
-              Query._lastRequestTime = DateTime.UtcNow;
-            }
-          }
-        }
-        finally {
-          Query.Unlock();
-        }
-        Thread.Sleep((int) (500 * Query._requestDelay));
-      }
-    }
 
     #endregion
 
