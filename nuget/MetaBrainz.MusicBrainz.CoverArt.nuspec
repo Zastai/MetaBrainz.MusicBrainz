@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MetaBrainz.MusicBrainz.CoverArt</id>
+    <title>MetaBrainz.MusicBrainz.CoverArt</title>
+    <version>0.3.0-dev</version>
+    <summary>C# implementation of libcoverart</summary>
+    <description>This package provides classes for accessing the CoverArt Archive (CAA), enabling the retrieval of cover art for music releases based on their MusicBrainz ID.</description>
+    <tags>MusicBrainz album cover art archive CAA libcoverart</tags>
+    <authors>Tim Van Holder</authors>
+    <owners>Tim Van Holder</owners>
+    <copyright>Copyright © 2016 Tim Van Holder</copyright>
+    <iconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</iconUrl>
+    <licenseUrl>https://opensource.org/licenses/ms-pl</licenseUrl>
+    <projectUrl>https://github.com/Zastai/MusicBrainz</projectUrl>
+    <releaseNotes></releaseNotes>
+    <dependencies>
+      <dependency id="Newtonsoft.Json" version="[9,10)" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net45" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net45" />
+  </files>
+</package>

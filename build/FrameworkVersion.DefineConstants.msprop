@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+  	<NETFX_VERSION>000000000</NETFX_VERSION>
+  </PropertyGroup>
+  <PropertyGroup Condition="$(TargetFrameworkVersion.StartsWith('v'))">
+  	<!-- Construct a text-comparable version string: MMMmmmbbb -->
+  	<NETFX_VERSION_MAJOR>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Major.ToString('000'))</NETFX_VERSION_MAJOR>
+  	<NETFX_VERSION_MAJOR Condition=" '$(NETFX_VERSION_MAJOR)' == '-001' ">000</NETFX_VERSION_MAJOR>
+  	<NETFX_VERSION_MINOR>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Minor.ToString('000'))</NETFX_VERSION_MINOR>
+  	<NETFX_VERSION_MINOR Condition=" '$(NETFX_VERSION_MINOR)' == '-001' ">000</NETFX_VERSION_MINOR>
+  	<NETFX_VERSION_BUILD>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Build.ToString('000'))</NETFX_VERSION_BUILD>
+  	<NETFX_VERSION_BUILD Condition=" '$(NETFX_VERSION_BUILD)' == '-001' ">000</NETFX_VERSION_BUILD>
+  	<NETFX_VERSION>$(NETFX_VERSION_MAJOR)$(NETFX_VERSION_MINOR)$(NETFX_VERSION_BUILD)</NETFX_VERSION>
+  </PropertyGroup>
+  <PropertyGroup>
+  	<!-- Definitions vs v2.0 -->
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 002000000 ">$(DefineConstants);NETFX_EQ_2_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 002000000 ">$(DefineConstants);NETFX_NE_2_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  002000000 ">$(DefineConstants);NETFX_LT_2_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 002000000 ">$(DefineConstants);NETFX_LE_2_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 002000000 ">$(DefineConstants);NETFX_GE_2_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  002000000 ">$(DefineConstants);NETFX_GT_2_0</DefineConstants>
+  	<!-- Definitions vs v3.5 -->
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 003005000 ">$(DefineConstants);NETFX_EQ_3_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 003005000 ">$(DefineConstants);NETFX_NE_3_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  003005000 ">$(DefineConstants);NETFX_LT_3_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 003005000 ">$(DefineConstants);NETFX_LE_3_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 003005000 ">$(DefineConstants);NETFX_GE_3_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  003005000 ">$(DefineConstants);NETFX_GT_3_5</DefineConstants>
+  	<!-- Definitions vs v4.0 -->
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 004000000 ">$(DefineConstants);NETFX_EQ_4_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 004000000 ">$(DefineConstants);NETFX_NE_4_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  004000000 ">$(DefineConstants);NETFX_LT_4_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 004000000 ">$(DefineConstants);NETFX_LE_4_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 004000000 ">$(DefineConstants);NETFX_GE_4_0</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  004000000 ">$(DefineConstants);NETFX_GT_4_0</DefineConstants>
+  	<!-- Definitions vs v4.5 -->
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 004005000 ">$(DefineConstants);NETFX_EQ_4_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 004005000 ">$(DefineConstants);NETFX_NE_4_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  004005000 ">$(DefineConstants);NETFX_LT_4_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 004005000 ">$(DefineConstants);NETFX_LE_4_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 004005000 ">$(DefineConstants);NETFX_GE_4_5</DefineConstants>
+  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  004005000 ">$(DefineConstants);NETFX_GT_4_5</DefineConstants>
+  </PropertyGroup>
+</Project>

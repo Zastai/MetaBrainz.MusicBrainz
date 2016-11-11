@@ -23,10 +23,20 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
+
   #if NETFX_LT_4_5
   using WorkList = IEnumerable<IWork>;
   #else
   using WorkList = IReadOnlyList<IWork>;
+  #endif
+
+  #if NETFX_LT_3_5 // No Func<T>
+
+  /// <summary>A function taking no arguments.</summary>
+  /// <typeparam name="TResult">The type for the function's result.</typeparam>
+  /// <returns>The result of the function.</returns>
+  internal delegate TResult Func<out TResult>();
+  
   #endif
 
   /// <summary>Class providing access to the MusicBrainz API.</summary>
@@ -87,7 +97,7 @@ namespace MetaBrainz.MusicBrainz {
       // libmusicbrainz does not validate/change the user agent in any way, so neither do we
       this.UserAgent = userAgent ?? Query.DefaultUserAgent;
       if (this.UserAgent == null) throw new ArgumentNullException(nameof(userAgent));
-      if (string.IsNullOrWhiteSpace(userAgent)) throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
+      if (this.UserAgent.Trim().Length == 0) throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
       // Simple Defaults
       this.Port      = Query.DefaultPort;
       this.UrlScheme = Query.DefaultUrlScheme;
@@ -108,7 +118,7 @@ namespace MetaBrainz.MusicBrainz {
       if (application == null) throw new ArgumentNullException(nameof(application));
       if (version     == null) throw new ArgumentNullException(nameof(version));
       if (contact     == null) throw new ArgumentNullException(nameof(contact));
-      if (string.IsNullOrWhiteSpace(application)) throw new ArgumentException("The application name must not be blank.", nameof(application));
+      if (application.Trim().Length == 0) throw new ArgumentException("The application name must not be blank.", nameof(application));
       this.UserAgent = $"{application}/{version} ({contact})";
       // Simple Defaults
       this.Port      = Query.DefaultPort;
@@ -130,9 +140,9 @@ namespace MetaBrainz.MusicBrainz {
       if (application == null) throw new ArgumentNullException(nameof(application));
       if (version     == null) throw new ArgumentNullException(nameof(version));
       if (contact     == null) throw new ArgumentNullException(nameof(contact));
-      if (string.IsNullOrWhiteSpace(application)) throw new ArgumentException("The application name must not be blank.", nameof(application));
-      if (string.IsNullOrWhiteSpace(version    )) throw new ArgumentException("The version number must not be blank.",   nameof(version));
-      if (string.IsNullOrWhiteSpace(contact    )) throw new ArgumentException("The contact address must not be blank.",  nameof(contact));
+      if (application.Trim().Length == 0) throw new ArgumentException("The application name must not be blank.", nameof(application));
+      if (version    .Trim().Length == 0) throw new ArgumentException("The version number must not be blank.",   nameof(version));
+      if (contact    .Trim().Length == 0) throw new ArgumentException("The contact address must not be blank.",  nameof(contact));
       this.UserAgent = $"{application}/{version} ({contact})";
       // Simple Defaults
       this.Port      = Query.DefaultPort;
@@ -364,9 +374,9 @@ namespace MetaBrainz.MusicBrainz {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private sealed class BrowseWorksResult {
-      [JsonProperty("works",       Required = Required.Always)] public List<Work> works;
-      [JsonProperty("work-count",  Required = Required.Always)] public int        work_count;
-      [JsonProperty("work-offset", Required = Required.Always)] public int        work_offset;
+      [JsonProperty("works",       Required = Required.Always)] public Work[] works;
+      [JsonProperty("work-count",  Required = Required.Always)] public int    work_count;
+      [JsonProperty("work-offset", Required = Required.Always)] public int    work_offset;
     }
 
     #pragma warning restore 169
@@ -800,12 +810,12 @@ namespace MetaBrainz.MusicBrainz {
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
     ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
     /// </param>
-    /// <returns>A new barcode submission request (to be executed via a call to <see cref="BarcodeSubmission.Submit()"/>).</returns>
+    /// <returns>A new barcode submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public BarcodeSubmission SubmitBarcodes(string client) {
       if (client == null) throw new ArgumentNullException(nameof(client));
-      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       return new BarcodeSubmission(this, client);
     }
 
@@ -815,12 +825,12 @@ namespace MetaBrainz.MusicBrainz {
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
     ///   It will be included in the edit(s) registered by the MusicBrainz server for this submission.
     /// </param>
-    /// <returns>A new ISRC submission request (to be executed via a call to <see cref="IsrcSubmission.Submit()"/>).</returns>
+    /// <returns>A new ISRC submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public IsrcSubmission SubmitIsrcs(string client) {
       if (client == null) throw new ArgumentNullException(nameof(client));
-      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       return new IsrcSubmission(this, client);
     }
 
@@ -829,12 +839,12 @@ namespace MetaBrainz.MusicBrainz {
     ///   The ID of the client software submitting data.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.
     /// </param>
-    /// <returns>A new rating submission request (to be executed via a call to <see cref="RatingSubmission.Submit()"/>).</returns>
+    /// <returns>A new rating submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public RatingSubmission SubmitRatings(string client) {
       if (client == null) throw new ArgumentNullException(nameof(client));
-      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       return new RatingSubmission(this, client);
     }
 
@@ -843,12 +853,12 @@ namespace MetaBrainz.MusicBrainz {
     ///   The ID of the client software submitting data.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.
     /// </param>
-    /// <returns>A new tag submission request (to be executed via a call to <see cref="TagSubmission.Submit()"/>).</returns>
+    /// <returns>A new tag submission request.</returns>
     /// <exception cref="ArgumentNullException">When <paramref name="client"/> is null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     public TagSubmission SubmitTags(string client) {
       if (client == null) throw new ArgumentNullException(nameof(client));
-      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       return new TagSubmission(this, client);
     }
 
@@ -925,7 +935,7 @@ namespace MetaBrainz.MusicBrainz {
           }
           if (response.ContentType.StartsWith("application/json")) {
             var encname = response.CharacterSet;
-            if (string.IsNullOrWhiteSpace(encname))
+            if (encname == null || encname.Trim().Length == 0)
               encname = "utf-8";
             var enc = Encoding.GetEncoding(encname);
             using (var sr = new StreamReader(stream, enc)) {
@@ -971,7 +981,7 @@ namespace MetaBrainz.MusicBrainz {
           }
           if (response.ContentType.StartsWith("application/json")) {
             var encname = response.CharacterSet;
-            if (string.IsNullOrWhiteSpace(encname))
+            if (encname == null || encname.Trim().Length == 0)
               encname = "utf-8";
             var enc = Encoding.GetEncoding(encname);
             using (var sr = new StreamReader(stream, enc)) {
@@ -988,7 +998,35 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
+    #region Locking
+
+    #if NETFX_LT_3_5
+
+    private static readonly ReaderWriterLock RequestLock = new ReaderWriterLock();
+
+    private static void Lock() {
+      Query.RequestLock.AcquireWriterLock(-1);
+    }
+
+    private static void Unlock() {
+      Query.RequestLock.ReleaseWriterLock();
+    }
+
+    #else
+
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+
+    private static void Lock() {
+      Query.RequestLock.EnterWriteLock();
+    }
+
+    private static void Unlock() {
+      Query.RequestLock.ExitWriteLock();
+    }
+
+    #endif
+
+    #endregion
 
     private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
       CheckAdditionalContent = true,
@@ -1008,8 +1046,13 @@ namespace MetaBrainz.MusicBrainz {
     [SuppressMessage("ReSharper", "CyclomaticComplexity")]
     private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, Uri resource = null, ReleaseType? type = null, ReleaseStatus? status = null) {
       var sb = new StringBuilder();
-      if (toc != null)
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=").Append(string.Join("+", toc));
+      if (toc != null) {
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
+        for (var i = 0; i < toc.Length; ++i) {
+          if (i > 0) sb.Append('+');
+          sb.Append(toc[i]);
+        }
+      }
       if (resource != null)
         sb.Append((sb.Length == 0) ? '?' : '&').Append("resource=").Append(Uri.EscapeDataString(resource.ToString()));
       if (inc != Include.None) {
@@ -1108,7 +1151,7 @@ namespace MetaBrainz.MusicBrainz {
           using (var stream = response.GetResponseStream()) {
             if (stream != null) {
               var encname = response.CharacterSet;
-              if (string.IsNullOrWhiteSpace(encname))
+              if (encname == null || encname.Trim().Length == 0)
                 encname = "utf-8";
               var enc = Encoding.GetEncoding(encname);
               using (var sr = new StreamReader(stream, enc)) {
@@ -1199,7 +1242,7 @@ namespace MetaBrainz.MusicBrainz {
       if (Query._requestDelay <= 0.0)
         return request();
       while (true) {
-        Query.RequestLock.EnterWriteLock();
+        Query.Lock();
         try {
           if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
             try {
@@ -1211,7 +1254,7 @@ namespace MetaBrainz.MusicBrainz {
           }
         }
         finally {
-          Query.RequestLock.ExitWriteLock();
+          Query.Unlock();
         }
         Thread.Sleep((int) (500 * Query._requestDelay));
       }

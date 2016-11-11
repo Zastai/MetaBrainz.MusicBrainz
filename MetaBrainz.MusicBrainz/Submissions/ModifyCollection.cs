@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     public ModifyCollection(string method, string client, Guid collection, EntityType entityType) {
       if (method == null) throw new ArgumentNullException(nameof(method));
       if (client == null) throw new ArgumentNullException(nameof(client));
-      if (string.IsNullOrWhiteSpace(client)) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       this._method = method;
       this._client = client;
       this._request = new StringBuilder(16 * 1024);
