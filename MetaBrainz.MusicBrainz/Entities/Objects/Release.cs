@@ -79,7 +79,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public LabelInfoList LabelInfo => this._labelInfo;
 
-    [JsonProperty("label-info", Required = Required.Always)]
+    [JsonProperty("label-info", Required = Required.DisallowNull)]
     private LabelInfo[] _labelInfo = null;
 
     public MediumList Media => this._media;
