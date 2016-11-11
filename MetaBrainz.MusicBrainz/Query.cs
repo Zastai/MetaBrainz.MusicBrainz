@@ -571,7 +571,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string AddToCollection(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.EntityType).Add(items));
+      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Adds the specified items to the specified collection.</summary>
@@ -588,7 +588,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string AddToCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.EntityType).Add(items));
+      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion
@@ -778,7 +778,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.EntityType).Add(items));
+      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Removes the specified items to the specified collection.</summary>
@@ -795,7 +795,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.EntityType).Add(items));
+      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion
