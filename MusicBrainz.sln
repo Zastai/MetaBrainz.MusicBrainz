@@ -64,8 +64,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Fi
 		.travis.yml = .travis.yml
 		build\Common.msprop = build\Common.msprop
 		build\FrameworkVersion.DefineConstants.msprop = build\FrameworkVersion.DefineConstants.msprop
+		nuget\MetaBrainz.MusicBrainz.nuspec = nuget\MetaBrainz.MusicBrainz.nuspec
+		nuget\MetaBrainz.MusicBrainz.CoverArt.nuspec = nuget\MetaBrainz.MusicBrainz.CoverArt.nuspec
+		nuget\MetaBrainz.MusicBrainz.DiscId.nuspec = nuget\MetaBrainz.MusicBrainz.DiscId.nuspec
 		nuget\nuget.msprop = nuget\nuget.msprop
-		nuget\nuget.targets = nuget\nuget.targets
+		nuget\nuget.proj = nuget\nuget.proj
 		README.md = README.md
 	EndProjectSection
 EndProject
