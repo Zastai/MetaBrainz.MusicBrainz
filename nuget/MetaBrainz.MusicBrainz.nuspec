@@ -19,13 +19,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MetaBrainz.MusicBrainz-v2.0\MetaBrainz.MusicBrainz.dll" target="lib\net20" />
-    <file src="MetaBrainz.MusicBrainz-v2.0\MetaBrainz.MusicBrainz.xml" target="lib\net20" />
-    <file src="MetaBrainz.MusicBrainz-v3.5\MetaBrainz.MusicBrainz.dll" target="lib\net35" />
-    <file src="MetaBrainz.MusicBrainz-v3.5\MetaBrainz.MusicBrainz.xml" target="lib\net35" />
-    <file src="MetaBrainz.MusicBrainz-v4.0\MetaBrainz.MusicBrainz.dll" target="lib\net40" />
-    <file src="MetaBrainz.MusicBrainz-v4.0\MetaBrainz.MusicBrainz.xml" target="lib\net40" />
-    <file src="MetaBrainz.MusicBrainz-v4.5\MetaBrainz.MusicBrainz.dll" target="lib\net45" />
-    <file src="MetaBrainz.MusicBrainz-v4.5\MetaBrainz.MusicBrainz.xml" target="lib\net45" />
+    <file src="MetaBrainz.MusicBrainz-v2.0/MetaBrainz.MusicBrainz.dll" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz-v2.0/MetaBrainz.MusicBrainz.xml" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz-v3.5/MetaBrainz.MusicBrainz.dll" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz-v3.5/MetaBrainz.MusicBrainz.xml" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz-v4.0/MetaBrainz.MusicBrainz.dll" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz-v4.0/MetaBrainz.MusicBrainz.xml" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz-v4.5/MetaBrainz.MusicBrainz.dll" target="lib/net45" />
+    <file src="MetaBrainz.MusicBrainz-v4.5/MetaBrainz.MusicBrainz.xml" target="lib/net45" />
   </files>
 </package>

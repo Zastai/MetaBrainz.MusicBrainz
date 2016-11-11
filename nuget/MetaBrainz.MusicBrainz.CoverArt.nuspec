@@ -19,13 +19,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0\MetaBrainz.MusicBrainz.CoverArt.dll" target="lib\net20" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0\MetaBrainz.MusicBrainz.CoverArt.xml" target="lib\net20" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5\MetaBrainz.MusicBrainz.CoverArt.dll" target="lib\net35" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5\MetaBrainz.MusicBrainz.CoverArt.xml" target="lib\net35" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0\MetaBrainz.MusicBrainz.CoverArt.dll" target="lib\net40" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0\MetaBrainz.MusicBrainz.CoverArt.xml" target="lib\net40" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5\MetaBrainz.MusicBrainz.CoverArt.dll" target="lib\net45" />
-    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5\MetaBrainz.MusicBrainz.CoverArt.xml" target="lib\net45" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v2.0/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net20" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v3.5/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net35" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.0/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net40" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5/MetaBrainz.MusicBrainz.CoverArt.dll" target="lib/net45" />
+    <file src="MetaBrainz.MusicBrainz.CoverArt-v4.5/MetaBrainz.MusicBrainz.CoverArt.xml" target="lib/net45" />
   </files>
 </package>
