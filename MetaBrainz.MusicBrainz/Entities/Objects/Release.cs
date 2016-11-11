@@ -108,7 +108,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     public IReleaseGroup ReleaseGroup => this._releaseGroup;
 
-    [JsonProperty("release-group", Required = Required.DisallowNull)]
+    [JsonProperty("release-group", Required = Required.Default)]
     private ReleaseGroup _releaseGroup = null;
 
     [JsonProperty("status", Required = Required.AllowNull)]
