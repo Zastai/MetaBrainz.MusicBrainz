@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!-- NuGet Package Settings (Solution-Wide) -->
+	<PropertyGroup>
+		<NuGetBuildConfiguration>Release</NuGetBuildConfiguration>
+		<NuGetBuildDirectory>build</NuGetBuildDirectory>
+		<NuGetPackageDirectory>packages</NuGetPackageDirectory>
+	</PropertyGroup>
   <PropertyGroup>
-    <NuGetPackageAuthors>Tim Van Holder</NuGetPackageAuthors>
+    <NuGetPackageAuthors></NuGetPackageAuthors>
     <NuGetPackageCopyright>Copyright © 2016 $(NuGetPackageAuthors)</NuGetPackageCopyright>
     <NuGetPackageDescription />
     <NuGetPackageIcon>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</NuGetPackageIcon>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MetaBrainz.MusicBrainz.DiscId</id>
+    <title>MetaBrainz.MusicBrainz.DiscId</title>
+    <version>0.2.0-dev</version>
+    <summary>C# implementation of libdiscid</summary>
+    <description>This package provides classes for accessing information about a CD (its MusicBrainz Disc ID, EAN/ISRC values, CD-TEXT info, ...).</description>
+    <tags>MusicBrainz discid audio cd cd-text isrc upc ean libdiscid</tags>
+    <authors>Tim Van Holder</authors>
+    <owners>Tim Van Holder</owners>
+    <copyright>Copyright © 2016 Tim Van Holder</copyright>
+    <iconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</iconUrl>
+    <licenseUrl>https://opensource.org/licenses/ms-pl</licenseUrl>
+    <projectUrl>https://github.com/Zastai/MusicBrainz</projectUrl>
+    <releaseNotes/>
+    <dependencies/>
+  </metadata>
+  <files>
+    <file src="MetaBrainz.MusicBrainz.DiscId-v2.0\MetaBrainz.MusicBrainz.DiscId.dll" target="lib\net20" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v2.0\MetaBrainz.MusicBrainz.DiscId.xml" target="lib\net20" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v3.5\MetaBrainz.MusicBrainz.DiscId.dll" target="lib\net35" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v3.5\MetaBrainz.MusicBrainz.DiscId.xml" target="lib\net35" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v4.0\MetaBrainz.MusicBrainz.DiscId.dll" target="lib\net40" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v4.0\MetaBrainz.MusicBrainz.DiscId.xml" target="lib\net40" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v4.5\MetaBrainz.MusicBrainz.DiscId.dll" target="lib\net45" />
+    <file src="MetaBrainz.MusicBrainz.DiscId-v4.5\MetaBrainz.MusicBrainz.DiscId.xml" target="lib\net45" />
+  </files>
+</package>
