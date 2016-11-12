@@ -14,6 +14,10 @@ using System.Threading;
 using System.Xml;
 using System.Xml.XPath;
 
+#if NETFX_GE_4_5 // HttpWebRequest only has GetResponseAsync in v4.5 and up
+using System.Threading.Tasks;
+#endif
+
 using MetaBrainz.MusicBrainz.Submissions;
 
 using Newtonsoft.Json;
@@ -225,6 +229,15 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
+    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
+      CheckAdditionalContent = true,
+      MissingMemberHandling  = MissingMemberHandling.Error
+    };
+
+    private readonly string _fullUserAgent;
+
+    private string _lastDigest;
+
     #region Message / Error Handling
 
     #pragma warning disable 649
@@ -368,7 +381,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #endif
 
-    private string ApplyDelay(Func<string> request) {
+    private static HttpWebResponse ApplyDelay(Func<HttpWebResponse> request) {
       if (Query._requestDelay <= 0.0)
         return request();
       while (true) {
@@ -389,6 +402,34 @@ namespace MetaBrainz.MusicBrainz {
         Thread.Sleep((int) (500 * Query._requestDelay));
       }
     }
+
+    #if NETFX_GE_4_5
+
+    private static async Task<HttpWebResponse> ApplyDelayAsync(Func<Task<HttpWebResponse>> request) {
+      if (Query._requestDelay <= 0.0)
+        return await request().ConfigureAwait(false);
+      Task<HttpWebResponse> task = null;
+      while (task == null) {
+        Query.Lock();
+        try {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+            try {
+              task = request();
+            }
+            finally {
+              Query._lastRequestTime = DateTime.UtcNow;
+            }
+          }
+        }
+        finally {
+          Query.Unlock();
+        }
+        await Task.Delay((int) (500 * Query._requestDelay)).ConfigureAwait(false);
+      }
+      return await task.ConfigureAwait(false);
+    }
+
+    #endif
 
     #endregion
 
@@ -484,99 +525,33 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
-    private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
-      CheckAdditionalContent = true,
-      MissingMemberHandling  = MissingMemberHandling.Error
-    };
+    #region Synchronous Requests
 
-    private readonly string _fullUserAgent;
-
-    private string _lastDigest;
-
-    private string PerformDirectRequest(string entity, string id, string extra) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: GET {uri}");
+    private HttpWebResponse PerformRequest(Uri uri, string method, string accept, string contentType = null, string body = null) {
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {uri}");
       var firstTry = true;
     retry:
       var req = WebRequest.Create(uri) as HttpWebRequest;
       if (req == null)
         throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method    = "GET";
-      req.Accept    = "application/json";
-      req.UserAgent = this._fullUserAgent;
-      if (this.BearerToken != null)
-        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
-      else if (this._lastDigest != null)
-        req.Headers.Add("Authorization", this._lastDigest);
-      try {
-        using (var response = (HttpWebResponse) req.GetResponse()) {
-          using (var stream = response.GetResponseStream()) {
-            if (stream != null) {
-              var encname = response.CharacterSet;
-              if (encname == null || encname.Trim().Length == 0)
-                encname = "utf-8";
-              var enc = Encoding.GetEncoding(encname);
-              using (var sr = new StreamReader(stream, enc)) {
-                var json = sr.ReadToEnd();
-#if TRACE_JSON_RESPONSE
-                Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
-#endif
-                return json;
-              }
-            }
-          }
-        }
-      }
-      catch (WebException we) when (we.Response is HttpWebResponse) {
-        using (var response = (HttpWebResponse) we.Response) {
-          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
-            firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, null);
-            if (digest != null && this._lastDigest != digest) {
-              this._lastDigest = digest;
-              goto retry;
-            }
-          }
-          var msg = Query.ExtractError(response);
-          if (msg != null)
-            throw new QueryException(msg, we);
-        }
-        throw;
-      }
-      // We got a response without any content (probably impossible).
-      throw new QueryException("Query did not produce results.");
-    }
-
-    private string PerformDirectSubmission(ISubmission submission) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE SUBMISSION: {submission.Method} {uri}");
-      var firstTry = true;
-    retry:
-      var req = WebRequest.Create(uri) as HttpWebRequest;
-      if (req == null)
-        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method      = submission.Method;
-#if SUBMIT_ACCEPT_JSON
-      req.Accept      = "application/json";
-#else
-      req.Accept      = "application/xml";
-#endif
-      req.ContentType = "application/xml; charset=utf-8";
-      if (this.BearerToken != null)
-        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
-      else if (this._lastDigest != null)
-        req.Headers.Add("Authorization", this._lastDigest);
-      var body = submission.RequestBody;
+      req.Method      = method;
+      req.Accept      = accept;
+      req.UserAgent   = this._fullUserAgent;
+      if (contentType != null)
+        req.ContentType = contentType;
       if (body != null) {
-        Debug.Print($"[{DateTime.UtcNow}] => BODY: {body}");
+        Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
         using (var rs = req.GetRequestStream()) {
           using (var sw = new StreamWriter(rs, Encoding.UTF8))
             sw.Write(body);
         }
       }
+      if (this.BearerToken != null)
+        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
+      else if (this._lastDigest != null)
+        req.Headers.Add("Authorization", this._lastDigest);
       try {
-        using (var response = (HttpWebResponse) req.GetResponse())
-          return Query.ExtractMessage(response);
+        return (HttpWebResponse) req.GetResponse();
       }
       catch (WebException we) when (we.Response is HttpWebResponse) {
         using (var response = (HttpWebResponse) we.Response) {
@@ -596,9 +571,125 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    private string PerformRequest(string entity, string id, string extra) => this.ApplyDelay(() => this.PerformDirectRequest(entity, id, extra));
+    private string PerformRequest(string entity, string id, string extra) {
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, "GET", "application/json"))) {
+        using (var stream = response.GetResponseStream()) {
+          if (stream == null)
+            return string.Empty;
+          var encname = response.CharacterSet;
+          if (encname == null || encname.Trim().Length == 0)
+            encname = "utf-8";
+          var enc = Encoding.GetEncoding(encname);
+          using (var sr = new StreamReader(stream, enc)) {
+            var json = sr.ReadToEnd();
+#if TRACE_JSON_RESPONSE
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
+#endif
+            return json;
+          }
+        }
+      }
+    }
 
-    internal string PerformSubmission(ISubmission submission) => this.ApplyDelay(() => this.PerformDirectSubmission(submission));
+    internal string PerformSubmission(ISubmission submission) {
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
+#if SUBMIT_ACCEPT_JSON
+      const string accept = "application/json";
+#else
+      const string accept = "application/xml";
+#endif
+      const string contentType = "application/xml; charset=utf-8";
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, accept, contentType, submission.RequestBody)))
+        return Query.ExtractMessage(response);
+    }
+
+    #endregion
+
+    #region Asynchronous Requests
+
+    #if NETFX_GE_4_5
+
+    private async Task<HttpWebResponse> PerformRequestAsync(Uri uri, string method, string accept, string contentType = null, string body = null) {
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {uri}");
+      var firstTry = true;
+    retry:
+      var req = WebRequest.Create(uri) as HttpWebRequest;
+      if (req == null)
+        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
+      req.Method      = method;
+      req.Accept      = accept;
+      req.UserAgent   = this._fullUserAgent;
+      if (contentType != null)
+        req.ContentType = contentType;
+      if (body != null) {
+        Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+        using (var rs = await req.GetRequestStreamAsync().ConfigureAwait(false)) {
+          using (var sw = new StreamWriter(rs, Encoding.UTF8))
+            sw.Write(body);
+        }
+      }
+      if (this.BearerToken != null)
+        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
+      else if (this._lastDigest != null)
+        req.Headers.Add("Authorization", this._lastDigest);
+      try {
+        return (HttpWebResponse) await req.GetResponseAsync().ConfigureAwait(false);
+      }
+      catch (WebException we) when (we.Response is HttpWebResponse) {
+        using (var response = (HttpWebResponse) we.Response) {
+          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
+            firstTry = false; // only retry authentication once
+            var digest = HttpDigestHelper.GetDigest(response, null);
+            if (digest != null && this._lastDigest != digest) {
+              this._lastDigest = digest;
+              goto retry;
+            }
+          }
+          var msg = Query.ExtractError(response);
+          if (msg != null)
+            throw new QueryException(msg, we);
+        }
+        throw;
+      }
+    }
+
+    private async Task<string> PerformRequestAsync(string entity, string id, string extra) {
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
+      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", "application/json"))) {
+        using (var stream = response.GetResponseStream()) {
+          if (stream == null)
+            return string.Empty;
+          var encname = response.CharacterSet;
+          if (encname == null || encname.Trim().Length == 0)
+            encname = "utf-8";
+          var enc = Encoding.GetEncoding(encname);
+          using (var sr = new StreamReader(stream, enc)) {
+            var json = sr.ReadToEnd();
+#if TRACE_JSON_RESPONSE
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
+#endif
+            return json;
+          }
+        }
+      }
+    }
+
+    internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
+      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
+#if SUBMIT_ACCEPT_JSON
+      const string accept = "application/json";
+#else
+      const string accept = "application/xml";
+#endif
+      const string contentType = "application/xml; charset=utf-8";
+      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, contentType, submission.RequestBody)))
+        return Query.ExtractMessage(response);
+    }
+
+    #endif
+
+    #endregion
 
     #endregion
 
