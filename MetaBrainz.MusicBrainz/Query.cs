@@ -554,19 +554,20 @@ namespace MetaBrainz.MusicBrainz {
         return (HttpWebResponse) req.GetResponse();
       }
       catch (WebException we) when (we.Response is HttpWebResponse) {
-        using (var response = (HttpWebResponse) we.Response) {
-          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
-            firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, null);
-            if (digest != null && this._lastDigest != digest) {
-              this._lastDigest = digest;
-              goto retry;
-            }
+        var response = (HttpWebResponse) we.Response;
+        if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
+          firstTry = false; // only retry authentication once
+          var digest = HttpDigestHelper.GetDigest(response, null);
+          if (digest != null && this._lastDigest != digest) {
+            // Before .NET 4.5, (Http)WebResponse used an explicit implementation of IDisposable, requiring this cast.
+            ((IDisposable) response).Dispose();
+            this._lastDigest = digest;
+            goto retry;
           }
-          var msg = Query.ExtractError(response);
-          if (msg != null)
-            throw new QueryException(msg, we);
         }
+        var msg = Query.ExtractError(response);
+        if (msg != null)
+          throw new QueryException(msg, we);
         throw;
       }
     }
@@ -636,19 +637,20 @@ namespace MetaBrainz.MusicBrainz {
         return (HttpWebResponse) await req.GetResponseAsync().ConfigureAwait(false);
       }
       catch (WebException we) when (we.Response is HttpWebResponse) {
-        using (var response = (HttpWebResponse) we.Response) {
-          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
-            firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, null);
-            if (digest != null && this._lastDigest != digest) {
-              this._lastDigest = digest;
-              goto retry;
-            }
+        var response = (HttpWebResponse) we.Response;
+        if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
+          firstTry = false; // only retry authentication once
+          var digest = HttpDigestHelper.GetDigest(response, null);
+          if (digest != null && this._lastDigest != digest) {
+            // Before .NET 4.5, (Http)WebResponse used an explicit implementation of IDisposable, requiring this cast.
+            ((IDisposable) response).Dispose();
+            this._lastDigest = digest;
+            goto retry;
           }
-          var msg = Query.ExtractError(response);
-          if (msg != null)
-            throw new QueryException(msg, we);
         }
+        var msg = Query.ExtractError(response);
+        if (msg != null)
+          throw new QueryException(msg, we);
         throw;
       }
     }
