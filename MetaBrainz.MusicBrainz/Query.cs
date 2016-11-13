@@ -1,7 +1,5 @@
 ﻿// This will not work until https://github.com/metabrainz/musicbrainz-server/pull/385 is merged.
 //#define SUBMIT_ACCEPT_JSON
-// This will cause the raw JSON response for lookups/browsed to be traced (debug builds only).
-//#define TRACE_JSON_RESPONSE
 
 using System;
 using System.Diagnostics;
@@ -268,7 +266,7 @@ namespace MetaBrainz.MusicBrainz {
                 sb.AppendLine();
               sb.Append(xpath.Current.InnerXml);
             }
-            Debug.Print($"[{DateTime.UtcNow}] => ERROR (XML): \"{sb}\"");
+            Debug.Print($"[{DateTime.UtcNow}] => ERROR ({response.ContentType}): \"{sb}\"");
             return sb?.ToString();
           }
           if (response.ContentType.StartsWith("application/json")) {
@@ -278,10 +276,11 @@ namespace MetaBrainz.MusicBrainz {
             var enc = Encoding.GetEncoding(encname);
             using (var sr = new StreamReader(stream, enc)) {
               var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
-              Debug.Print($"[{DateTime.UtcNow}] => ERROR (JSON): \"{moe?.error}\"");
+              Debug.Print($"[{DateTime.UtcNow}] => ERROR ({response.ContentType}): \"{moe?.error}\"");
               return moe?.error;
             }
           }
+          Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR ({response.ContentType})");
         }
       }
       catch { /* keep calm and fall through */ }
@@ -314,7 +313,7 @@ namespace MetaBrainz.MusicBrainz {
                 sb.AppendLine();
               sb.Append(xpath.Current.InnerXml);
             }
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (XML): \"{sb}\"");
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{sb}\"");
             return sb?.ToString();
           }
           if (response.ContentType.StartsWith("application/json")) {
@@ -324,10 +323,11 @@ namespace MetaBrainz.MusicBrainz {
             var enc = Encoding.GetEncoding(encname);
             using (var sr = new StreamReader(stream, enc)) {
               var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
-              Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (JSON): \"{moe?.message}\"");
+              Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{moe?.message}\"");
               return moe?.message;
             }
           }
+          Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED RESPONSE ({response.ContentType})");
         }
       }
       catch { /* keep calm and fall through */ }
@@ -584,9 +584,7 @@ namespace MetaBrainz.MusicBrainz {
           var enc = Encoding.GetEncoding(encname);
           using (var sr = new StreamReader(stream, enc)) {
             var json = sr.ReadToEnd();
-#if TRACE_JSON_RESPONSE
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
-#endif
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <<\n{JsonConvert.DeserializeObject(json)}\n>>");
             return json;
           }
         }
@@ -667,9 +665,7 @@ namespace MetaBrainz.MusicBrainz {
           var enc = Encoding.GetEncoding(encname);
           using (var sr = new StreamReader(stream, enc)) {
             var json = sr.ReadToEnd();
-#if TRACE_JSON_RESPONSE
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
-#endif
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <<\n{JsonConvert.DeserializeObject(json)}\n>>");
             return json;
           }
         }
@@ -683,7 +679,6 @@ namespace MetaBrainz.MusicBrainz {
 #else
       const string accept = "application/xml";
 #endif
-      const string contentType = "application/xml; charset=utf-8";
       using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, submission.ContentType, submission.RequestBody)))
         return Query.ExtractMessage(response);
     }
