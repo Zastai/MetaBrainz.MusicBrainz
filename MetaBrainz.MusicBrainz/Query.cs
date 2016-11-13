@@ -599,8 +599,7 @@ namespace MetaBrainz.MusicBrainz {
 #else
       const string accept = "application/xml";
 #endif
-      const string contentType = "application/xml; charset=utf-8";
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, accept, contentType, submission.RequestBody)))
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, accept, submission.ContentType, submission.RequestBody)))
         return Query.ExtractMessage(response);
     }
 
@@ -683,7 +682,7 @@ namespace MetaBrainz.MusicBrainz {
       const string accept = "application/xml";
 #endif
       const string contentType = "application/xml; charset=utf-8";
-      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, contentType, submission.RequestBody)))
+      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, submission.ContentType, submission.RequestBody)))
         return Query.ExtractMessage(response);
     }
 
