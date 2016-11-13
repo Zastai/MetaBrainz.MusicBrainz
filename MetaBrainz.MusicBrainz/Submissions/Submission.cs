@@ -47,6 +47,8 @@ namespace MetaBrainz.MusicBrainz.Submissions {
 
     string ISubmission.Client => this._client;
 
+    string ISubmission.ContentType => "application/xml; charset=utf-8";
+
     string ISubmission.Entity => this._entity;
 
     string ISubmission.Method => this._method;

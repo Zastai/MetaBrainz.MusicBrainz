@@ -4,6 +4,8 @@
 
     string Client { get; }
 
+    string ContentType { get; }
+
     string Entity { get; }
 
     string Method { get; }
