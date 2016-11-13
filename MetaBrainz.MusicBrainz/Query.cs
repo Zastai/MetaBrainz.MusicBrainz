@@ -655,7 +655,8 @@ namespace MetaBrainz.MusicBrainz {
 
     private async Task<string> PerformRequestAsync(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", "application/json"))) {
+      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", "application/json"));
+      using (var response = await task.ConfigureAwait(false)) {
         using (var stream = response.GetResponseStream()) {
           if (stream == null)
             return string.Empty;
@@ -679,7 +680,8 @@ namespace MetaBrainz.MusicBrainz {
 #else
       const string accept = "application/xml";
 #endif
-      using (var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, submission.ContentType, submission.RequestBody)))
+      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, submission.ContentType, submission.RequestBody));
+      using (var response = await task.ConfigureAwait(false))
         return Query.ExtractMessage(response);
     }
 
