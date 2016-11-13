@@ -96,6 +96,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("quality", Required = Required.Always)]
     public string Quality { get; private set; }
 
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [JsonProperty("rating")] // MBS-9129: Serialized erroneously
+    private Rating Rating { get; set; }
+
     public RelationshipList Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
@@ -129,6 +133,10 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
 
     [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
+
+    [SuppressMessage("ReSharper", "UnusedMember.Local")]
+    [JsonProperty("user-rating")] // MBS-9129: Serialized erroneously
+    private UserRating UserRating { get; set; }
 
     public UserTagList UserTags => this._userTags;
 
