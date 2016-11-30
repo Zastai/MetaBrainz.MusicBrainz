@@ -43,12 +43,6 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
     [JsonProperty("name", Required = Required.Always)]
     public string Name { get; private set; }
 
-    [JsonProperty("ordering-type", Required = Required.Default)]
-    public string OrderingType { get; private set; }
-
-    [JsonProperty("ordering-type-id", Required = Required.Default)]
-    public Guid? OrderingTypeId { get; private set; }
-
     public RelationshipList Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
