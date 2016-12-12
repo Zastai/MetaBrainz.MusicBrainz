@@ -40,7 +40,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = await this.PerformRequestAsync("artist", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status)).ConfigureAwait(false);
+      var json = await this.PerformRequestAsync("artist", mbid.ToString("D"), Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
       return JsonConvert.DeserializeObject<Artist>(json, Query.SerializerSettings);
     }
 
@@ -63,13 +63,13 @@ namespace MetaBrainz.MusicBrainz {
     ///   followed by the start address of each track (in sectors).
     /// </param>
     /// <param name="inc">Additional information to include in the result.</param>
-    /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
+    /// <param name="allMediaFormats">If true, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
     /// <param name="noStubs">If true, CD stubs are not returned.</param>
     /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public async Task<DiscIdLookupResult> LookupDiscIdAsync(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
-      var json = await this.PerformRequestAsync("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)).ConfigureAwait(false);
+    public async Task<DiscIdLookupResult> LookupDiscIdAsync(string discid, int[] toc = null, Include inc = Include.None, bool allMediaFormats = false, bool noStubs = false) {
+      var json = await this.PerformRequestAsync("discid", discid, Query.BuildExtraText(inc, toc, allMediaFormats, noStubs)).ConfigureAwait(false);
       return new DiscIdLookupResult(discid, json, Query.SerializerSettings);
     }
 
@@ -127,7 +127,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = await this.PerformRequestAsync("label", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status)).ConfigureAwait(false);
+      var json = await this.PerformRequestAsync("label", mbid.ToString("D"), Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
       return JsonConvert.DeserializeObject<Label>(json, Query.SerializerSettings);
     }
 
@@ -151,7 +151,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = await this.PerformRequestAsync("recording", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status)).ConfigureAwait(false);
+      var json = await this.PerformRequestAsync("recording", mbid.ToString("D"), Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
       return JsonConvert.DeserializeObject<Recording>(json, Query.SerializerSettings);
     }
 
@@ -174,7 +174,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
-      var json = await this.PerformRequestAsync("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status: status)).ConfigureAwait(false);
+      var json = await this.PerformRequestAsync("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status)).ConfigureAwait(false);
       return JsonConvert.DeserializeObject<ReleaseGroup>(json, Query.SerializerSettings);
     }
 
@@ -208,7 +208,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None) {
       if (resource == null) throw new ArgumentNullException(nameof(resource));
-      var json = await this.PerformRequestAsync("url", null, Query.BuildExtraText(inc, resource: resource)).ConfigureAwait(false);
+      var json = await this.PerformRequestAsync("url", null, Query.BuildExtraText(inc, resource)).ConfigureAwait(false);
       return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
     }
 

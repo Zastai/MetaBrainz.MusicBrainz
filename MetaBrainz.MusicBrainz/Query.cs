@@ -435,8 +435,99 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Query String Processing
 
-    [SuppressMessage("ReSharper", "CyclomaticComplexity")]
-    private static string BuildExtraText(Include inc, int[] toc = null, bool allMedia = false, bool noStubs = false, Uri resource = null, ReleaseType? type = null, ReleaseStatus? status = null) {
+    private static void AddIncludeText(StringBuilder sb, Include inc) {
+      if (inc == Include.None)
+        return;
+      sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
+      var letter = '=';
+      // Linked Entities
+      if ((inc & Include.Artists)       != 0) { sb.Append(letter).Append("artists");        letter = '+'; }
+      if ((inc & Include.Collections)   != 0) { sb.Append(letter).Append("collections");    letter = '+'; }
+      if ((inc & Include.Labels)        != 0) { sb.Append(letter).Append("labels");         letter = '+'; }
+      if ((inc & Include.Recordings)    != 0) { sb.Append(letter).Append("recordings");     letter = '+'; }
+      if ((inc & Include.ReleaseGroups) != 0) { sb.Append(letter).Append("release-groups"); letter = '+'; }
+      if ((inc & Include.Releases)      != 0) { sb.Append(letter).Append("releases");       letter = '+'; }
+      if ((inc & Include.Works)         != 0) { sb.Append(letter).Append("works");          letter = '+'; }
+      // Special Cases
+      if ((inc & Include.ArtistCredits)   != 0) { sb.Append(letter).Append("artist-credits");   letter = '+'; }
+      if ((inc & Include.DiscIds)         != 0) { sb.Append(letter).Append("discids");          letter = '+'; }
+      if ((inc & Include.Isrcs)           != 0) { sb.Append(letter).Append("isrcs");            letter = '+'; }
+      if ((inc & Include.Media)           != 0) { sb.Append(letter).Append("media");            letter = '+'; }
+      if ((inc & Include.UserCollections) != 0) { sb.Append(letter).Append("user-collections"); letter = '+'; }
+      if ((inc & Include.VariousArtists)  != 0) { sb.Append(letter).Append("various-artists");  letter = '+'; }
+      // Optional Info
+      if ((inc & Include.Aliases)     != 0) { sb.Append(letter).Append("aliases");      letter = '+'; }
+      if ((inc & Include.Annotation)  != 0) { sb.Append(letter).Append("annotation");   letter = '+'; }
+      if ((inc & Include.Ratings)     != 0) { sb.Append(letter).Append("ratings");      letter = '+'; }
+      if ((inc & Include.Tags)        != 0) { sb.Append(letter).Append("tags");         letter = '+'; }
+      if ((inc & Include.UserRatings) != 0) { sb.Append(letter).Append("user-ratings"); letter = '+'; }
+      if ((inc & Include.UserTags)    != 0) { sb.Append(letter).Append("user-tags");    letter = '+'; }
+      // Relationships
+      if ((inc & Include.AreaRelationships)           != 0) { sb.Append(letter).Append("area-rels");            letter = '+'; }
+      if ((inc & Include.ArtistRelationships)         != 0) { sb.Append(letter).Append("artist-rels");          letter = '+'; }
+      if ((inc & Include.EventRelationships)          != 0) { sb.Append(letter).Append("event-rels");           letter = '+'; }
+      if ((inc & Include.InstrumentRelationships)     != 0) { sb.Append(letter).Append("instrument-rels");      letter = '+'; }
+      if ((inc & Include.LabelRelationships)          != 0) { sb.Append(letter).Append("label-rels");           letter = '+'; }
+      if ((inc & Include.PlaceRelationships)          != 0) { sb.Append(letter).Append("place-rels");           letter = '+'; }
+      if ((inc & Include.RecordingLevelRelationships) != 0) { sb.Append(letter).Append("recording-level-rels"); letter = '+'; }
+      if ((inc & Include.RecordingRelationships)      != 0) { sb.Append(letter).Append("recording-rels");       letter = '+'; }
+      if ((inc & Include.ReleaseGroupRelationships)   != 0) { sb.Append(letter).Append("release-group-rels");   letter = '+'; }
+      if ((inc & Include.ReleaseRelationships)        != 0) { sb.Append(letter).Append("release-rels");         letter = '+'; }
+      if ((inc & Include.SeriesRelationships)         != 0) { sb.Append(letter).Append("series-rels");          letter = '+'; }
+      if ((inc & Include.UrlRelationships)            != 0) { sb.Append(letter).Append("url-rels");             letter = '+'; }
+      if ((inc & Include.WorkLevelRelationships)      != 0) { sb.Append(letter).Append("work-level-rels");      letter = '+'; }
+      if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
+    }
+
+    private static string BuildExtraText(Include inc) {
+      var sb = new StringBuilder();
+      Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, Uri resource) {
+      var sb = new StringBuilder();
+      if (resource != null)
+        sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
+      Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
+      var sb = new StringBuilder();
+      if (type.HasValue) {
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("type=");
+        var letter = '=';
+        // Primary Types
+        if ((type.Value & ReleaseType.Album)       != 0) { sb.Append(letter).Append("album");          letter = '|'; }
+        if ((type.Value & ReleaseType.Broadcast)   != 0) { sb.Append(letter).Append("broadcast");      letter = '|'; }
+        if ((type.Value & ReleaseType.EP)          != 0) { sb.Append(letter).Append("ep");             letter = '|'; }
+        if ((type.Value & ReleaseType.Other)       != 0) { sb.Append(letter).Append("other");          letter = '|'; }
+        if ((type.Value & ReleaseType.Single)      != 0) { sb.Append(letter).Append("single");         letter = '|'; }
+        // Secondary Types
+        if ((type.Value & ReleaseType.Audiobook)   != 0) { sb.Append(letter).Append("audiobook");      letter = '|'; }
+        if ((type.Value & ReleaseType.Compilation) != 0) { sb.Append(letter).Append("compilation");    letter = '|'; }
+        if ((type.Value & ReleaseType.DJMix)       != 0) { sb.Append(letter).Append("dj-mix");         letter = '|'; }
+        if ((type.Value & ReleaseType.Interview)   != 0) { sb.Append(letter).Append("interview");      letter = '|'; }
+        if ((type.Value & ReleaseType.Live)        != 0) { sb.Append(letter).Append("live");           letter = '|'; }
+        if ((type.Value & ReleaseType.MixTape)     != 0) { sb.Append(letter).Append("mixtape/street"); letter = '|'; }
+        if ((type.Value & ReleaseType.Remix)       != 0) { sb.Append(letter).Append("remix");          letter = '|'; }
+        if ((type.Value & ReleaseType.Soundtrack)  != 0) { sb.Append(letter).Append("soundtrack");     letter = '|'; }
+        if ((type.Value & ReleaseType.SpokenWord)  != 0) { sb.Append(letter).Append("spokenword");     letter = '|'; }
+      }
+      if (status.HasValue) {
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("status=");
+        var letter = '=';
+        if ((status.Value & ReleaseStatus.Bootleg)       != 0) { sb.Append(letter).Append("bootleg");        letter = '|'; }
+        if ((status.Value & ReleaseStatus.Official)      != 0) { sb.Append(letter).Append("official");       letter = '|'; }
+        if ((status.Value & ReleaseStatus.Promotion)     != 0) { sb.Append(letter).Append("promotion");      letter = '|'; }
+        if ((status.Value & ReleaseStatus.PseudoRelease) != 0) { sb.Append(letter).Append("pseudo-release"); letter = '|'; }
+      }
+      Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, int[] toc, bool allMediaFormats, bool noStubs) {
       var sb = new StringBuilder();
       if (toc != null) {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
@@ -445,81 +536,9 @@ namespace MetaBrainz.MusicBrainz {
           sb.Append(toc[i]);
         }
       }
-      if (resource != null)
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("resource=").Append(Uri.EscapeDataString(resource.ToString()));
-      if (inc != Include.None) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
-        var letter = '=';
-        // Linked Entities
-        if ((inc & Include.Artists)       != 0) { sb.Append(letter).Append("artists");        letter = '+'; }
-        if ((inc & Include.Collections)   != 0) { sb.Append(letter).Append("collections");    letter = '+'; }
-        if ((inc & Include.Labels)        != 0) { sb.Append(letter).Append("labels");         letter = '+'; }
-        if ((inc & Include.Recordings)    != 0) { sb.Append(letter).Append("recordings");     letter = '+'; }
-        if ((inc & Include.ReleaseGroups) != 0) { sb.Append(letter).Append("release-groups"); letter = '+'; }
-        if ((inc & Include.Releases)      != 0) { sb.Append(letter).Append("releases");       letter = '+'; }
-        if ((inc & Include.Works)         != 0) { sb.Append(letter).Append("works");          letter = '+'; }
-        // Special Cases
-        if ((inc & Include.ArtistCredits)   != 0) { sb.Append(letter).Append("artist-credits");   letter = '+'; }
-        if ((inc & Include.DiscIds)         != 0) { sb.Append(letter).Append("discids");          letter = '+'; }
-        if ((inc & Include.Isrcs)           != 0) { sb.Append(letter).Append("isrcs");            letter = '+'; }
-        if ((inc & Include.Media)           != 0) { sb.Append(letter).Append("media");            letter = '+'; }
-        if ((inc & Include.UserCollections) != 0) { sb.Append(letter).Append("user-collections"); letter = '+'; }
-        if ((inc & Include.VariousArtists)  != 0) { sb.Append(letter).Append("various-artists");  letter = '+'; }
-        // Optional Info
-        if ((inc & Include.Aliases)     != 0) { sb.Append(letter).Append("aliases");      letter = '+'; }
-        if ((inc & Include.Annotation)  != 0) { sb.Append(letter).Append("annotation");   letter = '+'; }
-        if ((inc & Include.Ratings)     != 0) { sb.Append(letter).Append("ratings");      letter = '+'; }
-        if ((inc & Include.Tags)        != 0) { sb.Append(letter).Append("tags");         letter = '+'; }
-        if ((inc & Include.UserRatings) != 0) { sb.Append(letter).Append("user-ratings"); letter = '+'; }
-        if ((inc & Include.UserTags)    != 0) { sb.Append(letter).Append("user-tags");    letter = '+'; }
-        // Relationships
-        if ((inc & Include.AreaRelationships)           != 0) { sb.Append(letter).Append("area-rels");            letter = '+'; }
-        if ((inc & Include.ArtistRelationships)         != 0) { sb.Append(letter).Append("artist-rels");          letter = '+'; }
-        if ((inc & Include.EventRelationships)          != 0) { sb.Append(letter).Append("event-rels");           letter = '+'; }
-        if ((inc & Include.InstrumentRelationships)     != 0) { sb.Append(letter).Append("instrument-rels");      letter = '+'; }
-        if ((inc & Include.LabelRelationships)          != 0) { sb.Append(letter).Append("label-rels");           letter = '+'; }
-        if ((inc & Include.PlaceRelationships)          != 0) { sb.Append(letter).Append("place-rels");           letter = '+'; }
-        if ((inc & Include.RecordingLevelRelationships) != 0) { sb.Append(letter).Append("recording-level-rels"); letter = '+'; }
-        if ((inc & Include.RecordingRelationships)      != 0) { sb.Append(letter).Append("recording-rels");       letter = '+'; }
-        if ((inc & Include.ReleaseGroupRelationships)   != 0) { sb.Append(letter).Append("release-group-rels");   letter = '+'; }
-        if ((inc & Include.ReleaseRelationships)        != 0) { sb.Append(letter).Append("release-rels");         letter = '+'; }
-        if ((inc & Include.SeriesRelationships)         != 0) { sb.Append(letter).Append("series-rels");          letter = '+'; }
-        if ((inc & Include.UrlRelationships)            != 0) { sb.Append(letter).Append("url-rels");             letter = '+'; }
-        if ((inc & Include.WorkLevelRelationships)      != 0) { sb.Append(letter).Append("work-level-rels");      letter = '+'; }
-        if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
-      }
-      if (allMedia)
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
-      if (noStubs)
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
-      if (type.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
-        var letter = '=';
-        // Primary Types
-        if ((type & ReleaseType.Album)       != 0) { sb.Append(letter).Append("album");          letter = '|'; }
-        if ((type & ReleaseType.Broadcast)   != 0) { sb.Append(letter).Append("broadcast");      letter = '|'; }
-        if ((type & ReleaseType.EP)          != 0) { sb.Append(letter).Append("ep");             letter = '|'; }
-        if ((type & ReleaseType.Other)       != 0) { sb.Append(letter).Append("other");          letter = '|'; }
-        if ((type & ReleaseType.Single)      != 0) { sb.Append(letter).Append("single");         letter = '|'; }
-        // Secondary Types
-        if ((type & ReleaseType.Audiobook)   != 0) { sb.Append(letter).Append("audiobook");      letter = '|'; }
-        if ((type & ReleaseType.Compilation) != 0) { sb.Append(letter).Append("compilation");    letter = '|'; }
-        if ((type & ReleaseType.DJMix)       != 0) { sb.Append(letter).Append("dj-mix");         letter = '|'; }
-        if ((type & ReleaseType.Interview)   != 0) { sb.Append(letter).Append("interview");      letter = '|'; }
-        if ((type & ReleaseType.Live)        != 0) { sb.Append(letter).Append("live");           letter = '|'; }
-        if ((type & ReleaseType.MixTape)     != 0) { sb.Append(letter).Append("mixtape/street"); letter = '|'; }
-        if ((type & ReleaseType.Remix)       != 0) { sb.Append(letter).Append("remix");          letter = '|'; }
-        if ((type & ReleaseType.Soundtrack)  != 0) { sb.Append(letter).Append("soundtrack");     letter = '|'; }
-        if ((type & ReleaseType.SpokenWord)  != 0) { sb.Append(letter).Append("spokenword");     letter = '|'; }
-      }
-      if (status.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("status");
-        var letter = '=';
-        if ((status & ReleaseStatus.Bootleg)       != 0) { sb.Append(letter).Append("bootleg");        letter = '|'; }
-        if ((status & ReleaseStatus.Official)      != 0) { sb.Append(letter).Append("official");       letter = '|'; }
-        if ((status & ReleaseStatus.Promotion)     != 0) { sb.Append(letter).Append("promotion");      letter = '|'; }
-        if ((status & ReleaseStatus.PseudoRelease) != 0) { sb.Append(letter).Append("pseudo-release"); letter = '|'; }
-      }
+      if (allMediaFormats) sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
+      if (noStubs)         sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
+      Query.AddIncludeText(sb, inc);
       return sb.ToString();
     }
 

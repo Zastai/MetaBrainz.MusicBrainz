@@ -43,7 +43,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("artist", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      var json = this.PerformRequest("artist", mbid.ToString("D"), Query.BuildExtraText(inc, status, type));
       return JsonConvert.DeserializeObject<Artist>(json, Query.SerializerSettings);
     }
 
@@ -72,7 +72,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
-      return new DiscIdLookupResult(discid, this.PerformRequest("discid", discid, Query.BuildExtraText(inc, allMedia: allMedia, noStubs: noStubs, toc: toc)), Query.SerializerSettings);
+      return new DiscIdLookupResult(discid, this.PerformRequest("discid", discid, Query.BuildExtraText(inc, toc, allMedia, noStubs)), Query.SerializerSettings);
     }
 
     /// <summary>Looks up the specified event.</summary>
@@ -129,7 +129,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("label", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      var json = this.PerformRequest("label", mbid.ToString("D"), Query.BuildExtraText(inc, status, type));
       return JsonConvert.DeserializeObject<Label>(json, Query.SerializerSettings);
     }
 
@@ -153,7 +153,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("recording", mbid.ToString("D"), Query.BuildExtraText(inc, type: type, status: status));
+      var json = this.PerformRequest("recording", mbid.ToString("D"), Query.BuildExtraText(inc, status, type));
       return JsonConvert.DeserializeObject<Recording>(json, Query.SerializerSettings);
     }
 
@@ -176,7 +176,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
-      var json = this.PerformRequest("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status: status));
+      var json = this.PerformRequest("release-group", mbid.ToString("D"), Query.BuildExtraText(inc, status));
       return JsonConvert.DeserializeObject<ReleaseGroup>(json, Query.SerializerSettings);
     }
 
@@ -210,7 +210,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
       if (resource == null) throw new ArgumentNullException(nameof(resource));
-      var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource: resource));
+      var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource));
       return JsonConvert.DeserializeObject<Url>(json, Query.SerializerSettings);
     }
 
