@@ -1,6 +1,4 @@
-﻿#if NETFX_GE_4_5 // HttpWebRequest only has GetResponseAsync in v4.5 and up
-
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
@@ -480,5 +478,3 @@ namespace MetaBrainz.MusicBrainz {
   }
 
 }
-
-#endif
