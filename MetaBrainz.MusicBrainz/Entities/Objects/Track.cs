@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   internal sealed class Track : ITrack {
 
     [JsonProperty("id", Required = Required.Always)]
-    public Guid Id { get; private set; }
+    public Guid MbId { get; private set; }
 
     public NameCreditList ArtistCredit => this._artistCredit;
 
