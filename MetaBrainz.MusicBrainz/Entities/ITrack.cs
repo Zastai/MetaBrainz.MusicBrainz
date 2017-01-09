@@ -16,7 +16,7 @@ namespace MetaBrainz.MusicBrainz.Entities {
   public interface ITrack {
 
     /// <summary>The MBID for the track.</summary>
-    Guid Id { get; }
+    Guid MbId { get; }
 
     /// <summary>The artist credit for the track.</summary>
     NameCreditList ArtistCredit { get; }
