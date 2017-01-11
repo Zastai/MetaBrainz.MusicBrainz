@@ -41,6 +41,21 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\Browses\BrowseAreas.cs" />
+    <Compile Include="Entities\Browses\BrowseArtists.cs" />
+    <Compile Include="Entities\Browses\BrowseCollections.cs" />
+    <Compile Include="Entities\Browses\BrowseEntities.cs" />
+    <Compile Include="Entities\Browses\BrowseEvents.cs" />
+    <Compile Include="Entities\Browses\BrowseInstruments.cs" />
+    <Compile Include="Entities\Browses\BrowseLabels.cs" />
+    <Compile Include="Entities\Browses\BrowsePlaces.cs" />
+    <Compile Include="Entities\Browses\BrowseRecordings.cs" />
+    <Compile Include="Entities\Browses\BrowseReleaseGroups.cs" />
+    <Compile Include="Entities\Browses\BrowseReleases.cs" />
+    <Compile Include="Entities\Browses\BrowseSeries.cs" />
+    <Compile Include="Entities\Browses\BrowseWorks.cs" />
+    <Compile Include="Entities\Browses\BrowseWorksBase.cs" />
+    <Compile Include="Entities\Browses\IswcLookup.cs" />
     <Compile Include="Entities\Objects\Alias.cs" />
     <Compile Include="Entities\Objects\Area.cs" />
     <Compile Include="Entities\Objects\Artist.cs" />
@@ -79,6 +94,7 @@
     <Compile Include="Entities\IAnnotatedEntity.cs" />
     <Compile Include="Entities\IArea.cs" />
     <Compile Include="Entities\IArtist.cs" />
+    <Compile Include="Entities\IBrowseEntities.cs" />
     <Compile Include="Entities\ICdStub.cs" />
     <Compile Include="Entities\ICollection.cs" />
     <Compile Include="Entities\ICoordinates.cs" />

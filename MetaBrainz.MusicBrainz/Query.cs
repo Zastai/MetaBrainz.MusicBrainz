@@ -436,6 +436,7 @@ namespace MetaBrainz.MusicBrainz {
     #region Query String Processing
 
     private static void AddIncludeText(StringBuilder sb, Include inc) {
+      if (sb == null) throw new ArgumentNullException(nameof(sb));
       if (inc == Include.None)
         return;
       sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
@@ -479,22 +480,8 @@ namespace MetaBrainz.MusicBrainz {
       if ((inc & Include.WorkRelationships)           != 0) { sb.Append(letter).Append("work-rels");            letter = '+'; }
     }
 
-    private static string BuildExtraText(Include inc) {
-      var sb = new StringBuilder();
-      Query.AddIncludeText(sb, inc);
-      return sb.ToString();
-    }
-
-    private static string BuildExtraText(Include inc, Uri resource) {
-      var sb = new StringBuilder();
-      if (resource != null)
-        sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
-      Query.AddIncludeText(sb, inc);
-      return sb.ToString();
-    }
-
-    private static string BuildExtraText(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
-      var sb = new StringBuilder();
+    private static void AddReleaseFilter(StringBuilder sb, ReleaseType? type, ReleaseStatus? status) {
+      if (sb == null) throw new ArgumentNullException(nameof(sb));
       if (type.HasValue) {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("type=");
         var letter = '=';
@@ -523,7 +510,26 @@ namespace MetaBrainz.MusicBrainz {
         if ((status.Value & ReleaseStatus.Promotion)     != 0) { sb.Append(letter).Append("promotion");      letter = '|'; }
         if ((status.Value & ReleaseStatus.PseudoRelease) != 0) { sb.Append(letter).Append("pseudo-release"); letter = '|'; }
       }
+    }
+
+    private static string BuildExtraText(Include inc) {
+      var sb = new StringBuilder();
       Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, Uri resource) {
+      var sb = new StringBuilder();
+      if (resource != null)
+        sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
+      Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
+      var sb = new StringBuilder();
+      Query.AddIncludeText(sb, inc);
+      Query.AddReleaseFilter(sb, type, status);
       return sb.ToString();
     }
 
@@ -539,6 +545,16 @@ namespace MetaBrainz.MusicBrainz {
       if (allMediaFormats) sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
       if (noStubs)         sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
       Query.AddIncludeText(sb, inc);
+      return sb.ToString();
+    }
+
+    private static string BuildExtraText(Include inc, string query, ReleaseType? type = null, ReleaseStatus? status = null) {
+      if (query == null) throw new ArgumentNullException(nameof(query));
+      if (query.Trim().Length == 0) throw new ArgumentException("A browse or search query must not be blank.", nameof(query));
+      var sb = new StringBuilder();
+      sb.Append('?').Append(query);
+      Query.AddIncludeText(sb, inc);
+      Query.AddReleaseFilter(sb, type, status);
       return sb.ToString();
     }
 
@@ -591,7 +607,7 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    private string PerformRequest(string entity, string id, string extra) {
+    internal string PerformRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, "GET", "application/json"))) {
         using (var stream = response.GetResponseStream()) {
@@ -672,7 +688,7 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    private async Task<string> PerformRequestAsync(string entity, string id, string extra) {
+    internal async Task<string> PerformRequestAsync(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
       var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", "application/json"));
       using (var response = await task.ConfigureAwait(false)) {

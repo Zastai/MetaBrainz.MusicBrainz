@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Entities.Browses;
 using MetaBrainz.MusicBrainz.Entities.Objects;
 
 using Newtonsoft.Json;
@@ -111,9 +112,8 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IReadOnlyList<IWork>> LookupIswcAsync(string iswc, Include inc = Include.None) {
-      var json = await this.PerformRequestAsync("iswc", iswc, Query.BuildExtraText(inc)).ConfigureAwait(false);
-      // While this lookup is returned as if it was a browse request for works, the offset/limit options don't work, so just return the results directly.
-      return JsonConvert.DeserializeObject<BrowseWorksResult>(json)?.works;
+      var il = await new IswcLookup(this, iswc, Query.BuildExtraText(inc)).NextAsync().ConfigureAwait(false);
+      return il.Results;
     }
 
     /// <summary>Looks up the specified label.</summary>
