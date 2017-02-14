@@ -10,19 +10,14 @@ namespace MetaBrainz.MusicBrainz.Entities.Objects {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Alias : IAlias {
 
-    // TODO: Should become Required.AllowNull once https://github.com/metabrainz/musicbrainz-server/pull/373 is merged.
-    [JsonProperty("begin", Required = Required.Default)]
+    [JsonProperty("begin", Required = Required.AllowNull)]
     public PartialDate Begin { get; private set; }
 
-    // TODO: Should become Required.AllowNull once https://github.com/metabrainz/musicbrainz-server/pull/373 is merged.
-    [JsonProperty("end", Required = Required.Default)]
+    [JsonProperty("end", Required = Required.AllowNull)]
     public PartialDate End { get; private set; }
 
-    // TODO: Make this a normal bool (and Required.Always) once https://github.com/metabrainz/musicbrainz-server/pull/373 is merged.
-    public bool Ended => this._ended.GetValueOrDefault();
-
-    [JsonProperty("ended", Required = Required.DisallowNull)]
-    private bool? _ended = null;
+    [JsonProperty("ended", Required = Required.Always)]
+    public bool Ended { get; private set; }
 
     [JsonProperty("locale", Required = Required.AllowNull)]
     public string Locale { get; private set; }
