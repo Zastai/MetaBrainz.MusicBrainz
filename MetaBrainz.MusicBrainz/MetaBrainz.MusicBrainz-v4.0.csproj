@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -55,6 +55,7 @@
     <Compile Include="Entities\Browses\BrowseSeries.cs" />
     <Compile Include="Entities\Browses\BrowseWorks.cs" />
     <Compile Include="Entities\Browses\BrowseWorksBase.cs" />
+    <Compile Include="Entities\Browses\IBrowseEntities.cs" />
     <Compile Include="Entities\Browses\IswcLookup.cs" />
     <Compile Include="Entities\Objects\Alias.cs" />
     <Compile Include="Entities\Objects\Area.cs" />
@@ -94,7 +95,6 @@
     <Compile Include="Entities\IAnnotatedEntity.cs" />
     <Compile Include="Entities\IArea.cs" />
     <Compile Include="Entities\IArtist.cs" />
-    <Compile Include="Entities\IBrowseEntities.cs" />
     <Compile Include="Entities\ICdStub.cs" />
     <Compile Include="Entities\ICollection.cs" />
     <Compile Include="Entities\ICoordinates.cs" />
