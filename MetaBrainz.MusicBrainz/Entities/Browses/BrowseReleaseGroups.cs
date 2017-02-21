@@ -11,14 +11,14 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Browses {
 
-  using Interface = IBrowseEntities<IReleaseGroup>;
+  using Interface = IBrowseResults<IReleaseGroup>;
   #if NETFX_LT_4_5
   using Results = IEnumerable<IReleaseGroup>;
   #else
   using Results = IReadOnlyList<IReleaseGroup>;
   #endif
 
-  internal sealed class BrowseReleaseGroups : BrowseEntities<IReleaseGroup> {
+  internal sealed class BrowseReleaseGroups : BrowseResults<IReleaseGroup> {
 
     public BrowseReleaseGroups(Query query, string extra, int? limit = null, int? offset = null) : base(query, "release-group", null, extra, limit, offset) { }
 

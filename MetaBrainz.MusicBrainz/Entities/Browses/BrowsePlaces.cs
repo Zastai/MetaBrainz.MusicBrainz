@@ -11,14 +11,14 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Entities.Browses {
 
-  using Interface = IBrowseEntities<IPlace>;
+  using Interface = IBrowseResults<IPlace>;
   #if NETFX_LT_4_5
   using Results = IEnumerable<IPlace>;
   #else
   using Results = IReadOnlyList<IPlace>;
   #endif
 
-  internal sealed class BrowsePlaces : BrowseEntities<IPlace> {
+  internal sealed class BrowsePlaces : BrowseResults<IPlace> {
 
     public BrowsePlaces(Query query, string extra, int? limit = null, int? offset = null) : base(query, "place", null, extra, limit, offset) { }
 

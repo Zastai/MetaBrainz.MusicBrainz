@@ -5,17 +5,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 #endif
 
-namespace MetaBrainz.MusicBrainz.Entities.Browses {
+namespace MetaBrainz.MusicBrainz.Entities {
 
-  internal abstract class BrowseEntities<T> : IBrowseEntities<T> where T : IEntity {
+  internal abstract class PagedQueryResults<TInterface, TItem> : IPagedQueryResults<TInterface, TItem> {
 
-    protected BrowseEntities(Query query, string endpoint, string value, string extra, int? limit = null, int? offset = null) {
+    protected PagedQueryResults(Query query, string endpoint, string value, int? limit = null, int? offset = null) {
       if (query    == null) throw new ArgumentNullException(nameof(query));
       if (endpoint == null) throw new ArgumentNullException(nameof(endpoint));
       this._query     = query;
       this._endpoint  = endpoint;
       this._value     = value;
-      this._extra     = extra;
       this.Limit      = limit;
       this.Offset     = 0;
       this.NextOffset = offset;
@@ -23,26 +22,26 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
 
     public int? Limit { get; set; }
 
-    public abstract IBrowseEntities<T> Next();
+    public abstract TInterface Next();
 
 #if NETFX_GE_4_5
-    public abstract Task<IBrowseEntities<T>> NextAsync();
+    public abstract Task<TInterface> NextAsync();
 #endif
 
     public int? NextOffset { get; set; }
 
     public int Offset { get; private set; }
 
-    public abstract IBrowseEntities<T> Previous();
+    public abstract TInterface Previous();
 
 #if NETFX_GE_4_5
-    public abstract Task<IBrowseEntities<T>> PreviousAsync();
+    public abstract Task<TInterface> PreviousAsync();
 #endif
 
 #if NETFX_LT_4_5
-    public abstract IEnumerable<T> Results { get; }
+    public abstract IEnumerable<TItem> Results { get; }
 #else
-    public abstract IReadOnlyList<T> Results { get; }
+    public abstract IReadOnlyList<TItem> Results { get; }
 #endif
 
     public abstract int TotalResults { get; }
@@ -50,18 +49,8 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     private readonly Query  _query;
     private readonly string _endpoint;
     private readonly string _value;
-    private readonly string _extra;
 
-    private string FullExtraText() {
-      var extra = this._extra;
-      if (string.IsNullOrEmpty(extra))
-        extra = $"?offset={this.Offset}";
-      else
-        extra += $"&offset={this.Offset}";
-      if (this.Limit.HasValue)
-        extra += $"&limit={this.Limit}";
-      return extra;
-    }
+    protected abstract string FullExtraText();
 
     protected string NextResponse(int lastResultCount) {
       this.UpdateOffset(lastResultCount);
@@ -93,9 +82,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
         this.NextOffset = null;
       }
       else {
-        var limit = Math.Min(this.Limit.GetValueOrDefault(Query.DefaultBrowseLimit), Query.MaximumBrowseLimit);
+        var limit = Math.Min(this.Limit.GetValueOrDefault(Query.DefaultPageSize), Query.MaximumPageSize);
         if (limit < 1)
-          limit = Query.DefaultBrowseLimit;
+          limit = Query.DefaultPageSize;
         this.Offset -= limit;
       }
       if (this.Offset < 0)

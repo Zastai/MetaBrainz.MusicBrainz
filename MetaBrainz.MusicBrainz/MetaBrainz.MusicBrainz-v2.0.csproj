@@ -44,7 +44,6 @@
     <Compile Include="Entities\Browses\BrowseAreas.cs" />
     <Compile Include="Entities\Browses\BrowseArtists.cs" />
     <Compile Include="Entities\Browses\BrowseCollections.cs" />
-    <Compile Include="Entities\Browses\BrowseEntities.cs" />
     <Compile Include="Entities\Browses\BrowseEvents.cs" />
     <Compile Include="Entities\Browses\BrowseInstruments.cs" />
     <Compile Include="Entities\Browses\BrowseLabels.cs" />
@@ -52,10 +51,11 @@
     <Compile Include="Entities\Browses\BrowseRecordings.cs" />
     <Compile Include="Entities\Browses\BrowseReleaseGroups.cs" />
     <Compile Include="Entities\Browses\BrowseReleases.cs" />
+    <Compile Include="Entities\Browses\BrowseResults.cs" />
     <Compile Include="Entities\Browses\BrowseSeries.cs" />
     <Compile Include="Entities\Browses\BrowseWorks.cs" />
     <Compile Include="Entities\Browses\BrowseWorksBase.cs" />
-    <Compile Include="Entities\Browses\IBrowseEntities.cs" />
+    <Compile Include="Entities\Browses\IBrowseResults.cs" />
     <Compile Include="Entities\Browses\IswcLookup.cs" />
     <Compile Include="Entities\Objects\Alias.cs" />
     <Compile Include="Entities\Objects\Area.cs" />
@@ -110,6 +110,7 @@
     <Compile Include="Entities\IMedium.cs" />
     <Compile Include="Entities\INameCredit.cs" />
     <Compile Include="Entities\INamedEntity.cs" />
+    <Compile Include="Entities\IPagedQueryResults.cs" />
     <Compile Include="Entities\IPlace.cs" />
     <Compile Include="Entities\IRatableEntity.cs" />
     <Compile Include="Entities\IRating.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Entities\IUserTag.cs" />
     <Compile Include="Entities\IWork.cs" />
     <Compile Include="Entities\IWorkAttribute.cs" />
+    <Compile Include="Entities\PagedQueryResults.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Submissions\BarcodeSubmission.cs" />
     <Compile Include="Submissions\IsrcSubmission.cs" />

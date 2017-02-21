@@ -21,7 +21,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -34,7 +34,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArea> BrowseCollectionAreas(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArea> BrowseCollectionAreas(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -50,7 +50,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseAreaArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseAreaArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).Next();
     }
 
@@ -62,7 +62,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
     }
@@ -75,7 +75,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -88,7 +88,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (recording == null) throw new ArgumentNullException(nameof(recording));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}"), limit, offset).Next();
     }
@@ -101,7 +101,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (release == null) throw new ArgumentNullException(nameof(release));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
     }
@@ -114,7 +114,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (releaseGroup == null) throw new ArgumentNullException(nameof(releaseGroup));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}"), limit, offset).Next();
     }
@@ -127,7 +127,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseArtists(IWork work, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseArtists(IWork work, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (work == null) throw new ArgumentNullException(nameof(work));
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.MbId:D}"), limit, offset).Next();
     }
@@ -140,7 +140,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -152,7 +152,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={mbid:D}"), limit, offset).Next();
     }
 
@@ -164,7 +164,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseReleaseArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseReleaseArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).Next();
     }
 
@@ -176,7 +176,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={mbid:D}"), limit, offset).Next();
     }
 
@@ -188,7 +188,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IArtist> BrowseWorkArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IArtist> BrowseWorkArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseArtists(this, Query.BuildExtraText(inc, $"work={mbid:D}"), limit, offset).Next();
     }
 
@@ -203,7 +203,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseAreaCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseAreaCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?area={mbid:D}", limit, offset).Next();
     }
 
@@ -214,7 +214,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseArtistCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseArtistCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?artist={mbid:D}", limit, offset).Next();
     }
 
@@ -225,7 +225,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IArea area, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IArea area, int? limit = null, int? offset = null) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowseCollections(this, $"?area={area.MbId:D}", limit, offset).Next();
     }
@@ -237,7 +237,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IArtist artist, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IArtist artist, int? limit = null, int? offset = null) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseCollections(this, $"?artist={artist.MbId:D}", limit, offset).Next();
     }
@@ -249,7 +249,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IEvent @event, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IEvent @event, int? limit = null, int? offset = null) {
       if (@event == null) throw new ArgumentNullException(nameof(@event));
       return new BrowseCollections(this, $"?event={@event.MbId:D}", limit, offset).Next();
     }
@@ -261,7 +261,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IInstrument instrument, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IInstrument instrument, int? limit = null, int? offset = null) {
       if (instrument == null) throw new ArgumentNullException(nameof(instrument));
       return new BrowseCollections(this, $"?instrument={instrument.MbId:D}", limit, offset).Next();
     }
@@ -273,7 +273,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(ILabel label, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(ILabel label, int? limit = null, int? offset = null) {
       if (label == null) throw new ArgumentNullException(nameof(label));
       return new BrowseCollections(this, $"?label={label.MbId:D}", limit, offset).Next();
     }
@@ -285,7 +285,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IPlace place, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IPlace place, int? limit = null, int? offset = null) {
       if (place == null) throw new ArgumentNullException(nameof(place));
       return new BrowseCollections(this, $"?place={place.MbId:D}", limit, offset).Next();
     }
@@ -297,7 +297,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IRecording recording, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IRecording recording, int? limit = null, int? offset = null) {
       if (recording == null) throw new ArgumentNullException(nameof(recording));
       return new BrowseCollections(this, $"?recording={recording.MbId:D}", limit, offset).Next();
     }
@@ -309,7 +309,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IRelease release, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IRelease release, int? limit = null, int? offset = null) {
       if (release == null) throw new ArgumentNullException(nameof(release));
       return new BrowseCollections(this, $"?release={release.MbId:D}", limit, offset).Next();
     }
@@ -321,7 +321,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IReleaseGroup releaseGroup, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IReleaseGroup releaseGroup, int? limit = null, int? offset = null) {
       if (releaseGroup == null) throw new ArgumentNullException(nameof(releaseGroup));
       return new BrowseCollections(this, $"?release-group={releaseGroup.MbId:D}", limit, offset).Next();
     }
@@ -333,7 +333,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(ISeries series, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(ISeries series, int? limit = null, int? offset = null) {
       if (series == null) throw new ArgumentNullException(nameof(series));
       return new BrowseCollections(this, $"?series={series.MbId:D}", limit, offset).Next();
     }
@@ -345,7 +345,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseCollections(IWork work, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseCollections(IWork work, int? limit = null, int? offset = null) {
       if (work == null) throw new ArgumentNullException(nameof(work));
       return new BrowseCollections(this, $"?work={work.MbId:D}", limit, offset).Next();
     }
@@ -357,7 +357,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseEditorCollections(string editor, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseEditorCollections(string editor, int? limit = null, int? offset = null) {
       if (editor == null) throw new ArgumentNullException(nameof(editor));
       return new BrowseCollections(this, $"?editor={editor}", limit, offset).Next();
     }
@@ -369,7 +369,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseEventCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseEventCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?event={mbid:D}", limit, offset).Next();
     }
 
@@ -380,7 +380,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseInstrumentCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseInstrumentCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?instrument={mbid:D}", limit, offset).Next();
     }
 
@@ -391,7 +391,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseLabelCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseLabelCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?label={mbid:D}", limit, offset).Next();
     }
 
@@ -402,7 +402,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowsePlaceCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowsePlaceCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?place={mbid:D}", limit, offset).Next();
     }
 
@@ -413,7 +413,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseRecordingCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseRecordingCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?recording={mbid:D}", limit, offset).Next();
     }
 
@@ -424,7 +424,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseReleaseCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseReleaseCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?release={mbid:D}", limit, offset).Next();
     }
 
@@ -435,7 +435,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseReleaseGroupCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseReleaseGroupCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?release-group={mbid:D}", limit, offset).Next();
     }
 
@@ -446,7 +446,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseSeriesCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseSeriesCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?series={mbid:D}", limit, offset).Next();
     }
 
@@ -457,7 +457,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ICollection> BrowseWorkCollections(Guid mbid, int? limit = null, int? offset = null) {
+    public IBrowseResults<ICollection> BrowseWorkCollections(Guid mbid, int? limit = null, int? offset = null) {
       return new BrowseCollections(this, $"?work={mbid:D}", limit, offset).Next();
     }
 
@@ -473,7 +473,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseAreaEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseAreaEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).Next();
     }
 
@@ -485,7 +485,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseArtistEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseArtistEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).Next();
     }
 
@@ -497,7 +497,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseCollectionEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseCollectionEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -509,7 +509,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseEvents(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseEvents(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
     }
@@ -522,7 +522,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseEvents(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseEvents(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
     }
@@ -535,7 +535,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseEvents(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseEvents(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -548,7 +548,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowseEvents(IPlace place, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowseEvents(IPlace place, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (place == null) throw new ArgumentNullException(nameof(place));
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.MbId:D}"), limit, offset).Next();
     }
@@ -561,7 +561,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IEvent> BrowsePlaceEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IEvent> BrowsePlaceEvents(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseEvents(this, Query.BuildExtraText(inc, $"place={mbid:D}"), limit, offset).Next();
     }
 
@@ -577,7 +577,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -590,7 +590,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -606,7 +606,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseAreaLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseAreaLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).Next();
     }
 
@@ -618,7 +618,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseCollectionLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseCollectionLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -630,7 +630,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseReleaseLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseReleaseLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).Next();
     }
 
@@ -642,7 +642,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseLabels(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseLabels(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
     }
@@ -655,7 +655,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -668,7 +668,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ILabel> BrowseLabels(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ILabel> BrowseLabels(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (release == null) throw new ArgumentNullException(nameof(release));
       return new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
     }
@@ -685,7 +685,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IPlace> BrowseAreaPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IPlace> BrowseAreaPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).Next();
     }
 
@@ -697,7 +697,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IPlace> BrowseCollectionPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IPlace> BrowseCollectionPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -709,7 +709,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IPlace> BrowsePlaces(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IPlace> BrowsePlaces(IArea area, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
     }
@@ -722,7 +722,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -739,7 +739,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseArtistRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseArtistRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).Next();
     }
 
@@ -751,7 +751,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseCollectionRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseCollectionRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -763,7 +763,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseReleaseRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseReleaseRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).Next();
     }
 
@@ -775,7 +775,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
     }
@@ -788,7 +788,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -801,7 +801,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (release == null) throw new ArgumentNullException(nameof(release));
       return new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
     }
@@ -820,7 +820,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"area={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -834,7 +834,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -848,7 +848,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -862,7 +862,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"label={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -876,7 +876,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -890,7 +890,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -904,7 +904,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (area == null) throw new ArgumentNullException(nameof(area));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.MbId:D}", type, status), limit, offset).Next();
     }
@@ -919,7 +919,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type, status), limit, offset).Next();
     }
@@ -934,7 +934,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type, status), limit, offset).Next();
     }
@@ -949,7 +949,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (label == null) throw new ArgumentNullException(nameof(label));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.MbId:D}", type, status), limit, offset).Next();
     }
@@ -964,7 +964,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (recording == null) throw new ArgumentNullException(nameof(recording));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}", type, status), limit, offset).Next();
     }
@@ -979,7 +979,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (releaseGroup == null) throw new ArgumentNullException(nameof(releaseGroup));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}", type, status), limit, offset).Next();
     }
@@ -994,7 +994,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (track == null) throw new ArgumentNullException(nameof(track));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.MbId:D}", type, status), limit, offset).Next();
     }
@@ -1009,7 +1009,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"track={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -1023,7 +1023,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={mbid:D}", type, status), limit, offset).Next();
     }
 
@@ -1037,7 +1037,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+    public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.MbId:D}", type, status), limit, offset).Next();
     }
@@ -1055,7 +1055,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type), limit, offset).Next();
     }
 
@@ -1068,7 +1068,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type), limit, offset).Next();
     }
 
@@ -1084,7 +1084,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <remarks>
     ///   Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should always return exactly one result.
     /// </remarks>
-    public IBrowseEntities<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={mbid:D}", type), limit, offset).Next();
     }
 
@@ -1097,7 +1097,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type), limit, offset).Next();
     }
@@ -1111,7 +1111,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type), limit, offset).Next();
     }
@@ -1126,7 +1126,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
-    public IBrowseEntities<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
+    public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null) {
       if (release == null) throw new ArgumentNullException(nameof(release));
       return new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.MbId:D}", type), limit, offset).Next();
     }
@@ -1143,7 +1143,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }
@@ -1156,7 +1156,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -1172,7 +1172,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IWork> BrowseArtistWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IWork> BrowseArtistWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).Next();
     }
 
@@ -1184,7 +1184,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IWork> BrowseCollectionWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IWork> BrowseCollectionWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None) {
       return new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
     }
 
@@ -1196,7 +1196,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IWork> BrowseWorks(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IWork> BrowseWorks(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (artist == null) throw new ArgumentNullException(nameof(artist));
       return new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
     }
@@ -1209,7 +1209,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The browse request, including the initial results.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public IBrowseEntities<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
+    public IBrowseResults<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
       return new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
     }

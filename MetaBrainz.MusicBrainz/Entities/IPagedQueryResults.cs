@@ -6,16 +6,18 @@ using System.Net;
 using System.Threading.Tasks;
 #endif
 
-namespace MetaBrainz.MusicBrainz.Entities.Browses {
+namespace MetaBrainz.MusicBrainz.Entities {
 
-  /// <summary>The result of a browse request for a specific entity type.</summary>
-  /// <typeparam name="T">The type of entity being browsed.</typeparam>
+  /// <summary>The results for a query that supports paging (i.e. search or browse).</summary>
+  /// <typeparam name="TInterface">The specific type of query result.</typeparam>
+  /// <typeparam name="TItem">The type of item being returned.</typeparam>
+  [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface IBrowseEntities<T> where T : IEntity {
+  public interface IPagedQueryResults<TInterface, TItem> {
 
     /// <summary>
-    ///   The maximum number of results to be returned from a single web request for this browse (i.e. the maximum number of elements in <see cref="Results"/>).
+    ///   The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in <see cref="Results"/>).
     ///   Valid range is 1-100; if not specifically set, the server's default (normally 25) is used.
     /// </summary>
     /// <remarks>Setting this only affects further web requests made via calls to <see cref="Next()"/> and/or <see cref="Previous()"/>.</remarks>
@@ -24,19 +26,19 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     /// <summary>
     ///   Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
     /// </summary>
-    /// <returns>This browse request (with updated values).</returns>
+    /// <returns>This result set (with updated values).</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    IBrowseEntities<T> Next();
+    TInterface Next();
 
 #if NETFX_GE_4_5
     /// <summary>
     ///   Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
     /// </summary>
-    /// <returns>An asynchronous task returning this browse request (with updated values).</returns>
+    /// <returns>An asynchronous task returning this result set (with updated values).</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    Task<IBrowseEntities<T>> NextAsync();
+    Task<TInterface> NextAsync();
 #endif
 
     /// <summary>
@@ -51,29 +53,29 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     /// <summary>
     ///   Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
     /// </summary>
-    /// <returns>This browse request (with updated values).</returns>
+    /// <returns>This result set (with updated values).</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    IBrowseEntities<T> Previous();
+    TInterface Previous();
 
 #if NETFX_GE_4_5
     /// <summary>
     ///   Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
     /// </summary>
-    /// <returns>An asynchronous task returning this browse request (with updated values).</returns>
+    /// <returns>An asynchronous task returning this result set (with updated values).</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    Task<IBrowseEntities<T>> PreviousAsync();
+    Task<TInterface> PreviousAsync();
 #endif
 
-    /// <summary>The current results of the browse.</summary>
+    /// <summary>The current results.</summary>
 #if NETFX_LT_4_5
-    IEnumerable<T> Results { get; }
+    IEnumerable<TItem> Results { get; }
 #else
-    IReadOnlyList<T> Results { get; }
+    IReadOnlyList<TItem> Results { get; }
 #endif
 
-    /// <summary>The total number of matches for the browse request.</summary>
+    /// <summary>The total number of matches.</summary>
     int TotalResults { get; }
 
   }
