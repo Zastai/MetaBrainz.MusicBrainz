@@ -1,7 +1,4 @@
-﻿// This will not work until https://github.com/metabrainz/musicbrainz-server/pull/385 is merged.
-//#define SUBMIT_ACCEPT_JSON
-
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -306,26 +303,6 @@ namespace MetaBrainz.MusicBrainz {
         using (var stream = response.GetResponseStream()) {
           if (stream == null)
             return null;
-          if (response.ContentType.StartsWith("application/xml")) {
-            StringBuilder sb = null;
-            // Unlike an error, this is a <metadata> document with a namespace, requiring more effort to get the text out.
-            var nav = new XPathDocument(stream).CreateNavigator();
-            XmlNamespaceManager ns = null;
-            if (nav.NameTable != null) {
-              ns = new XmlNamespaceManager(nav.NameTable);
-              ns.AddNamespace("mb", "http://musicbrainz.org/ns/mmd-2.0#");
-            }
-            var xpath = nav.Select("/mb:metadata/mb:message/mb:text", ns);
-            while (xpath.MoveNext()) {
-              if (sb == null)
-                sb = new StringBuilder();
-              else
-                sb.AppendLine();
-              sb.Append(xpath.Current.InnerXml);
-            }
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{sb}\"");
-            return sb?.ToString();
-          }
           if (response.ContentType.StartsWith("application/json")) {
             var encname = response.CharacterSet;
             if (encname == null || encname.Trim().Length == 0)
@@ -638,12 +615,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal string PerformSubmission(ISubmission submission) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-#if SUBMIT_ACCEPT_JSON
-      const string accept = "application/json";
-#else
-      const string accept = "application/xml";
-#endif
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, accept, submission.ContentType, submission.RequestBody)))
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, "application/json", submission.ContentType, submission.RequestBody)))
         return Query.ExtractMessage(response);
     }
 
@@ -720,12 +692,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-#if SUBMIT_ACCEPT_JSON
-      const string accept = "application/json";
-#else
-      const string accept = "application/xml";
-#endif
-      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, accept, submission.ContentType, submission.RequestBody));
+      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, "application/json", submission.ContentType, submission.RequestBody));
       using (var response = await task.ConfigureAwait(false))
         return Query.ExtractMessage(response);
     }
