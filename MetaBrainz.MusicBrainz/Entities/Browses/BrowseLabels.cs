@@ -27,7 +27,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     public override int TotalResults => this._currentResult?.count ?? 0;
 
     public override Interface Next() {
-      var json = base.NextResponse();
+      var json = base.NextResponse(this._currentResult?.results.Length ?? 0);
       this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
       return this;
     }
@@ -41,7 +41,7 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
 #if NETFX_GE_4_5
 
     public override async Task<Interface> NextAsync() {
-      var json = await base.NextResponseAsync().ConfigureAwait(false);
+      var json = await base.NextResponseAsync(this._currentResult?.results.Length ?? 0).ConfigureAwait(false);
       this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
       return this;
     }

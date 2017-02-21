@@ -12,12 +12,13 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     protected BrowseEntities(Query query, string endpoint, string value, string extra, int? limit = null, int? offset = null) {
       if (query    == null) throw new ArgumentNullException(nameof(query));
       if (endpoint == null) throw new ArgumentNullException(nameof(endpoint));
-      this._query    = query;
-      this._endpoint = endpoint;
-      this._value    = value;
-      this._extra    = extra;
-      this.Limit     = limit;
-      this.Offset    = offset.GetValueOrDefault(0);
+      this._query     = query;
+      this._endpoint  = endpoint;
+      this._value     = value;
+      this._extra     = extra;
+      this.Limit      = limit;
+      this.Offset     = 0;
+      this.NextOffset = offset;
     }
 
     public int? Limit { get; set; }
@@ -28,7 +29,9 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
     public abstract Task<IBrowseEntities<T>> NextAsync();
 #endif
 
-    public int Offset { get; set; }
+    public int? NextOffset { get; set; }
+
+    public int Offset { get; private set; }
 
     public abstract IBrowseEntities<T> Previous();
 
@@ -60,30 +63,55 @@ namespace MetaBrainz.MusicBrainz.Entities.Browses {
       return extra;
     }
 
-    protected string NextResponse() {
-      // TODO: Maybe adjust offset
+    protected string NextResponse(int lastResultCount) {
+      this.UpdateOffset(lastResultCount);
       return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
     }
 
     protected string PreviousResponse() {
-      // TODO: Maybe adjust offset
+      this.UpdateOffset();
       return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
     }
 
 #if NETFX_GE_4_5
 
-
-    protected Task<string> NextResponseAsync() {
-      // TODO: Maybe adjust offset
+    protected Task<string> NextResponseAsync(int lastResultCount) {
+      this.UpdateOffset(lastResultCount);
       return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
     }
 
     protected Task<string> PreviousResponseAsync() {
-      // TODO: Maybe adjust offset
+      this.UpdateOffset();
       return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
     }
 
 #endif
+
+    private void UpdateOffset() {
+      if (this.NextOffset.HasValue) {
+        this.Offset = this.NextOffset.Value;
+        this.NextOffset = null;
+      }
+      else {
+        var limit = Math.Min(this.Limit.GetValueOrDefault(Query.DefaultBrowseLimit), Query.MaximumBrowseLimit);
+        if (limit < 1)
+          limit = Query.DefaultBrowseLimit;
+        this.Offset -= limit;
+      }
+      if (this.Offset < 0)
+        this.Offset = 0;
+    }
+
+    private void UpdateOffset(int lastResultCount) {
+      if (this.NextOffset.HasValue) {
+        this.Offset = this.NextOffset.Value;
+        this.NextOffset = null;
+      }
+      else
+        this.Offset += lastResultCount;
+      if (this.Offset < 0)
+        this.Offset = 0;
+    }
 
   }
 

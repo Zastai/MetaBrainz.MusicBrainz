@@ -30,6 +30,22 @@ namespace MetaBrainz.MusicBrainz {
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed partial class Query {
 
+    #region Constants
+
+    /// <summary>The number of items returned by a browse request when no limit (or a limit smaller than 1) is specified.</summary>
+    public const int DefaultBrowseLimit = 25;
+
+    /// <summary>The maximum number of items returned by a single browse request.</summary>
+    public const int MaximumBrowseLimit = 100;
+
+    /// <summary>The URL included in the user agent for requests as part of this library's information.</summary>
+    public const string UserAgentUrl = "https://github.com/Zastai/MusicBrainz";
+
+    /// <summary>The root location of the web service.</summary>
+    public const string WebServiceRoot = "/ws/2";
+
+    #endregion
+
     #region Static Fields / Properties
 
     static Query() {
@@ -63,12 +79,6 @@ namespace MetaBrainz.MusicBrainz {
         Query._requestDelay = value;
       }
     }
-
-    /// <summary>The URL included in the user agent for requests as part of this library's information.</summary>
-    public const string UserAgentUrl = "https://github.com/Zastai/MusicBrainz";
-
-    /// <summary>The root location of the web service.</summary>
-    public const string WebServiceRoot = "/ws/2";
 
     #endregion
 
