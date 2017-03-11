@@ -157,8 +157,12 @@
     <Compile Include="Query.Browse.net45.cs" />
     <Compile Include="Query.Collections.cs" />
     <Compile Include="Query.Collections.net45.cs" />
+    <Compile Include="Query.Internals.cs" />
+    <Compile Include="Query.Internals.net35.cs" />
+    <Compile Include="Query.Internals.net45.cs" />
     <Compile Include="Query.Lookup.cs" />
     <Compile Include="Query.Lookup.net45.cs" />
+    <Compile Include="Query.Submit.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
     <Compile Include="ReleaseStatus.cs" />

@@ -153,7 +153,10 @@
     <Compile Include="PartialDate.cs" />
     <Compile Include="Query.Browse.cs" />
     <Compile Include="Query.Collections.cs" />
+    <Compile Include="Query.Internals.cs" />
+    <Compile Include="Query.Internals.net35.cs" />
     <Compile Include="Query.Lookup.cs" />
+    <Compile Include="Query.Submit.cs" />
     <Compile Include="Query.cs" />
     <Compile Include="QueryException.cs" />
     <Compile Include="ReleaseStatus.cs" />
