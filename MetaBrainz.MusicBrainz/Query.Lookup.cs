@@ -72,7 +72,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-    public DiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
+    public IDiscIdLookupResult LookupDiscId(string discid, int[] toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
       return new DiscIdLookupResult(discid, this.PerformRequest("discid", discid, Query.BuildExtraText(inc, toc, allMedia, noStubs)), Query.SerializerSettings);
     }
 

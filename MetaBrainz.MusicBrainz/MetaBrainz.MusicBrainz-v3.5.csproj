@@ -85,6 +85,7 @@
     <Compile Include="Interfaces\Entities\IWork.cs" />
     <Compile Include="Interfaces\Entities\IWorkAttribute.cs" />
     <Compile Include="Interfaces\Submissions\ISubmission.cs" />
+    <Compile Include="Interfaces\IDiscIdLookupResult.cs" />
     <Compile Include="Interfaces\IPagedQueryResults.cs" />
     <Compile Include="Objects\Browses\BrowseAreas.cs" />
     <Compile Include="Objects\Browses\BrowseArtists.cs" />

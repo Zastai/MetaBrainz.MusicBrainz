@@ -16,11 +16,10 @@ namespace MetaBrainz.MusicBrainz {
   using ReleaseList = IReadOnlyList<IRelease>;
   #endif
 
-  /// <summary>Class representing the result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public sealed class DiscIdLookupResult {
+  internal sealed class DiscIdLookupResult : IDiscIdLookupResult {
 
     internal DiscIdLookupResult(string discid, string json, JsonSerializerSettings jss) {
       // Currently this can return:
@@ -45,18 +44,14 @@ namespace MetaBrainz.MusicBrainz {
       this.Id = discid;
     }
 
-    /// <summary>The MusicBrainz disc ID that was looked up (or "-" for a fuzzy lookup).</summary>
     public string Id { get; }
 
-    /// <summary>The disc returned by the lookup (if any was found).</summary>
     public IDisc Disc { get; }
 
-    /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
     public ReleaseList Releases => this._releases;
 
     private readonly Release[] _releases;
 
-    /// <summary>The CD stub returned by the lookup (if any was found).</summary>
     public ICdStub Stub { get; }
 
     /// <summary>Gets the textual representation of the disc ID lookup result.</summary>
