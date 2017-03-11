@@ -6,7 +6,6 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using System.Xml;
 using System.Xml.XPath;
 
 #if NETFX_GE_4_5 // HttpWebRequest only has GetResponseAsync in v4.5 and up
