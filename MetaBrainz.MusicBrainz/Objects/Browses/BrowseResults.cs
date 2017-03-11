@@ -1,4 +1,7 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities.Browses {
+﻿using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Browses;
+
+namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   internal abstract class BrowseResults<T> : PagedQueryResults<IBrowseResults<T>, T>, IBrowseResults<T> where T : IEntity {
 

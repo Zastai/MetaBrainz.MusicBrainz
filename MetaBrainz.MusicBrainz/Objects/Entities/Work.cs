@@ -2,24 +2,26 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz.Entities.Objects {
+namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
   #if NETFX_LT_4_5
-  using AliasList = IEnumerable<IAlias>;
-  using AttributeList = IEnumerable<IWorkAttribute>;
+  using AliasList        = IEnumerable<IAlias>;
+  using AttributeList    = IEnumerable<IWorkAttribute>;
   using RelationshipList = IEnumerable<IRelationship>;
-  using StringList    = IEnumerable<string>;
-  using TagList = IEnumerable<ITag>;
-  using UserTagList = IEnumerable<IUserTag>;
+  using StringList       = IEnumerable<string>;
+  using TagList          = IEnumerable<ITag>;
+  using UserTagList      = IEnumerable<IUserTag>;
   #else
-  using AliasList = IReadOnlyList<IAlias>;
-  using AttributeList = IReadOnlyList<IWorkAttribute>;
+  using AliasList        = IReadOnlyList<IAlias>;
+  using AttributeList    = IReadOnlyList<IWorkAttribute>;
   using RelationshipList = IReadOnlyList<IRelationship>;
-  using StringList    = IReadOnlyList<string>;
-  using TagList = IReadOnlyList<ITag>;
-  using UserTagList = IReadOnlyList<IUserTag>;
+  using StringList       = IReadOnlyList<string>;
+  using TagList          = IReadOnlyList<ITag>;
+  using UserTagList      = IReadOnlyList<IUserTag>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

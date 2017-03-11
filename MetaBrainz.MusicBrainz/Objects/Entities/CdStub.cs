@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz.Entities.Objects {
+namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
   #if NETFX_LT_4_5
   using SimpleTrackList = IEnumerable<ISimpleTrack>;

@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces {
 
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]

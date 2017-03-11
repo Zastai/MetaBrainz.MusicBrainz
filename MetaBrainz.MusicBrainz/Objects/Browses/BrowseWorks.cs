@@ -1,4 +1,4 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities.Browses {
+﻿namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   internal sealed class BrowseWorks : BrowseWorksBase {
 

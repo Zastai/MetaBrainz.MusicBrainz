@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A tag set by the authenticated user.</summary>
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]

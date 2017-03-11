@@ -2,8 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
-using MetaBrainz.MusicBrainz.Entities;
-using MetaBrainz.MusicBrainz.Submissions;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz {
 

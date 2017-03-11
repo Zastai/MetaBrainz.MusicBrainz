@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A entity that can be rated.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]

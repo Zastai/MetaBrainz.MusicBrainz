@@ -1,6 +1,7 @@
 ﻿using System;
 
-using MetaBrainz.MusicBrainz.Submissions;
+using MetaBrainz.MusicBrainz.Interfaces.Submissions;
+using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz {
 

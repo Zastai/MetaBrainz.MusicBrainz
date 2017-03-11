@@ -3,8 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 
-using MetaBrainz.MusicBrainz.Entities;
-using MetaBrainz.MusicBrainz.Entities.Browses;
+using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects.Browses;
 
 namespace MetaBrainz.MusicBrainz {
 

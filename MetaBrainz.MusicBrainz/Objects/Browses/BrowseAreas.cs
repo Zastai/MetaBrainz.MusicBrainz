@@ -5,17 +5,19 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 #endif
 
-using MetaBrainz.MusicBrainz.Entities.Objects;
+using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects.Entities;
 
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz.Entities.Browses {
+namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   using Interface = IBrowseResults<IArea>;
   #if NETFX_LT_4_5
-  using Results = IEnumerable<IArea>;
+  using Results   = IEnumerable<IArea>;
   #else
-  using Results = IReadOnlyList<IArea>;
+  using Results   = IReadOnlyList<IArea>;
   #endif
 
   internal sealed class BrowseAreas : BrowseResults<IArea> {

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz.Entities.Objects {
+namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

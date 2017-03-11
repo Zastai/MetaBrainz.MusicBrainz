@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Xml;
 
-using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Submissions {
+namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
   /// <summary>A submission request for adding ratings to various entities.</summary>
   public sealed class RatingSubmission : Submission {

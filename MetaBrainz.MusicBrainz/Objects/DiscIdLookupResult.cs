@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using MetaBrainz.MusicBrainz.Entities;
-using MetaBrainz.MusicBrainz.Entities.Objects;
+using MetaBrainz.MusicBrainz.Interfaces;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects.Entities;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace MetaBrainz.MusicBrainz {
+namespace MetaBrainz.MusicBrainz.Objects {
 
   #if NETFX_LT_4_5
   using ReleaseList = IEnumerable<IRelease>;

@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces {
 
   /// <summary>The results for a query that supports paging (i.e. search or browse).</summary>
   /// <typeparam name="TInterface">The specific type of query result.</typeparam>

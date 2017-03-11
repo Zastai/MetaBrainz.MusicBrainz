@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Information about available CoverArt Archive items.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]

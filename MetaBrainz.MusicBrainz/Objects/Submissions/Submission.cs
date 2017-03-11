@@ -2,7 +2,9 @@
 using System.IO;
 using System.Text;
 
-namespace MetaBrainz.MusicBrainz.Submissions {
+using MetaBrainz.MusicBrainz.Interfaces.Submissions;
+
+namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
   /// <summary>Base class for the submission request classes.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -22,7 +24,7 @@ namespace MetaBrainz.MusicBrainz.Submissions {
     /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public async System.Threading.Tasks.Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this);
+    public async System.Threading.Tasks.Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this).ConfigureAwait(false);
 
     #endif
 

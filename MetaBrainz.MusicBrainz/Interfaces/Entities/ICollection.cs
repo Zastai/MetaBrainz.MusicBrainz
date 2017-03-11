@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A collection of MusicBrainz entities.</summary>
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]

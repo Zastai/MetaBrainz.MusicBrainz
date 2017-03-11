@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz {
+namespace MetaBrainz.MusicBrainz.Interfaces {
 
   #if NETFX_LT_4_5
   using ReleaseList = IEnumerable<IRelease>;

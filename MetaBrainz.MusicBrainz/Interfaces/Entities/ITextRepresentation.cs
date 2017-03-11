@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Information about a release's textual representation.</summary>
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Simple information about a track on a CD.</summary>
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]

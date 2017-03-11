@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Xml;
+
 #if NETFX_GE_4_5
 using System.Threading.Tasks;
 #endif
 
-using MetaBrainz.MusicBrainz.Entities.Objects;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using MetaBrainz.MusicBrainz.Objects.Entities;
 
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz.Entities.Browses {
+namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   using Interface = IBrowseResults<IWork>;
   #if NETFX_LT_4_5

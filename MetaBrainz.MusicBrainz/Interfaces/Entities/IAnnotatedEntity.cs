@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An entity that can have an associated annotation.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]

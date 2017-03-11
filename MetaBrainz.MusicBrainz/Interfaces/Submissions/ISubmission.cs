@@ -1,4 +1,4 @@
-﻿namespace MetaBrainz.MusicBrainz.Submissions {
+﻿namespace MetaBrainz.MusicBrainz.Interfaces.Submissions {
 
   internal interface ISubmission {
 

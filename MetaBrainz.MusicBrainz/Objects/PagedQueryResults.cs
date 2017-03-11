@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+using MetaBrainz.MusicBrainz.Interfaces;
+
+namespace MetaBrainz.MusicBrainz.Objects {
 
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   internal abstract partial class PagedQueryResults<TInterface, TItem> : IPagedQueryResults<TInterface, TItem> {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An MusicBrainz entity, identified by an MBID.</summary>
   public interface IEntity {

@@ -4,9 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 
-using MetaBrainz.MusicBrainz.Entities;
-using MetaBrainz.MusicBrainz.Entities.Browses;
-using MetaBrainz.MusicBrainz.Entities.Objects;
+using MetaBrainz.MusicBrainz.Interfaces;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Objects.Browses;
+using MetaBrainz.MusicBrainz.Objects.Entities;
 
 using Newtonsoft.Json;
 

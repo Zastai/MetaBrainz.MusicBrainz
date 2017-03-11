@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>The lifespan of an entity.</summary>
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]

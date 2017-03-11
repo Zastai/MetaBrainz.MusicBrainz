@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-using MetaBrainz.MusicBrainz.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
-namespace MetaBrainz.MusicBrainz.Submissions {
+namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
   internal sealed class ModifyCollection : ISubmission {
 

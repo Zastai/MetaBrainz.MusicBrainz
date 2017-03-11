@@ -1,4 +1,4 @@
-﻿namespace MetaBrainz.MusicBrainz.Entities.Objects {
+﻿namespace MetaBrainz.MusicBrainz.Objects {
 
   internal static class HelperMethods {
 
