@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-
-#if NETFX_GE_4_5
-using System.Threading.Tasks;
-#endif
+using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Entities {
 
-  internal abstract class PagedQueryResults<TInterface, TItem> : IPagedQueryResults<TInterface, TItem> {
+  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
+  internal abstract partial class PagedQueryResults<TInterface, TItem> : IPagedQueryResults<TInterface, TItem> {
 
     protected PagedQueryResults(Query query, string endpoint, string value, int? limit = null, int? offset = null) {
       if (query    == null) throw new ArgumentNullException(nameof(query));
@@ -24,19 +22,11 @@ namespace MetaBrainz.MusicBrainz.Entities {
 
     public abstract TInterface Next();
 
-#if NETFX_GE_4_5
-    public abstract Task<TInterface> NextAsync();
-#endif
-
     public int? NextOffset { get; set; }
 
     public int Offset { get; private set; }
 
     public abstract TInterface Previous();
-
-#if NETFX_GE_4_5
-    public abstract Task<TInterface> PreviousAsync();
-#endif
 
 #if NETFX_LT_4_5
     public abstract IEnumerable<TItem> Results { get; }
@@ -61,20 +51,6 @@ namespace MetaBrainz.MusicBrainz.Entities {
       this.UpdateOffset();
       return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
     }
-
-#if NETFX_GE_4_5
-
-    protected Task<string> NextResponseAsync(int lastResultCount) {
-      this.UpdateOffset(lastResultCount);
-      return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
-    }
-
-    protected Task<string> PreviousResponseAsync() {
-      this.UpdateOffset();
-      return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
-    }
-
-#endif
 
     private void UpdateOffset() {
       if (this.NextOffset.HasValue) {

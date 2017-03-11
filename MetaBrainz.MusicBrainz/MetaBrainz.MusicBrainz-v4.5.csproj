@@ -87,6 +87,7 @@
     <Compile Include="Interfaces\Submissions\ISubmission.cs" />
     <Compile Include="Interfaces\IDiscIdLookupResult.cs" />
     <Compile Include="Interfaces\IPagedQueryResults.cs" />
+    <Compile Include="Interfaces\IPagedQueryResults.net45.cs" />
     <Compile Include="Objects\Browses\BrowseAreas.cs" />
     <Compile Include="Objects\Browses\BrowseArtists.cs" />
     <Compile Include="Objects\Browses\BrowseCollections.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Objects\Submissions\TagSubmission.cs" />
     <Compile Include="Objects\HelperMethods.cs" />
     <Compile Include="Objects\PagedQueryResults.cs" />
+    <Compile Include="Objects\PagedQueryResults.net45.cs" />
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="AuthorizationToken.cs" />
     <Compile Include="EntityType.cs" />
