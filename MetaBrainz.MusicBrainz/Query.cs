@@ -239,6 +239,8 @@ namespace MetaBrainz.MusicBrainz {
       MissingMemberHandling  = MissingMemberHandling.Error
     };
 
+    private const string JsonContentType = "application/json";
+
     private readonly string _fullUserAgent;
 
     private string _lastDigest;
@@ -596,7 +598,9 @@ namespace MetaBrainz.MusicBrainz {
 
     internal string PerformRequest(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, "GET", "application/json"))) {
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, "GET", Query.JsonContentType))) {
+        if (!response.ContentType.StartsWith(Query.JsonContentType)) // FIXME: Should validate a little more than that, really
+          throw new QueryException($"Invalid response received: bad content type ({response.ContentType}).");
         using (var stream = response.GetResponseStream()) {
           if (stream == null)
             return string.Empty;
@@ -615,7 +619,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal string PerformSubmission(ISubmission submission) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, "application/json", submission.ContentType, submission.RequestBody)))
+      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, Query.JsonContentType, submission.ContentType, submission.RequestBody)))
         return Query.ExtractMessage(response);
     }
 
@@ -672,8 +676,10 @@ namespace MetaBrainz.MusicBrainz {
 
     internal async Task<string> PerformRequestAsync(string entity, string id, string extra) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", "application/json"));
+      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", Query.JsonContentType));
       using (var response = await task.ConfigureAwait(false)) {
+        if (!response.ContentType.StartsWith(Query.JsonContentType)) // FIXME: Should validate a little more than that, really
+          throw new QueryException($"Invalid response received: bad content type ({response.ContentType}).");
         using (var stream = response.GetResponseStream()) {
           if (stream == null)
             return string.Empty;
@@ -692,7 +698,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
       var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, "application/json", submission.ContentType, submission.RequestBody));
+      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, Query.JsonContentType, submission.ContentType, submission.RequestBody));
       using (var response = await task.ConfigureAwait(false))
         return Query.ExtractMessage(response);
     }
