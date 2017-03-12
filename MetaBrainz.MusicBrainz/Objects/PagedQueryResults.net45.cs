@@ -1,12 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-using MetaBrainz.MusicBrainz.Interfaces;
-
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  internal abstract partial class PagedQueryResults<TInterface, TItem> : IPagedQueryResults<TInterface, TItem> {
+  [SuppressMessage("ReSharper", "UnusedTypeParameter")]
+  internal abstract partial class PagedQueryResults<TInterface, TItem> {
 
     public abstract Task<TInterface> NextAsync();
 
