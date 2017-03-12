@@ -1,10 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-#if NETFX_GE_4_5
-using System.Threading.Tasks;
-#endif
-
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Objects.Entities;
@@ -15,12 +11,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   using Interface = IBrowseResults<IWork>;
   #if NETFX_LT_4_5
-  using Results = IEnumerable<IWork>;
+  using Results   = IEnumerable<IWork>;
   #else
-  using Results = IReadOnlyList<IWork>;
+  using Results   = IReadOnlyList<IWork>;
   #endif
 
-  internal abstract class BrowseWorksBase : BrowseResults<IWork> {
+  internal abstract partial class BrowseWorksBase : BrowseResults<IWork> {
 
     protected BrowseWorksBase(Query query, string endpoint, string value, string extra, int? limit = null, int? offset = null) : base(query, endpoint, value, extra, limit, offset) { }
 
@@ -39,22 +35,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
       this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
       return this;
     }
-
-#if NETFX_GE_4_5
-
-    public sealed override async Task<Interface> NextAsync() {
-      var json = await base.NextResponseAsync(this._currentResult?.results.Length ?? 0).ConfigureAwait(false);
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
-
-    public sealed override async Task<Interface> PreviousAsync() {
-      var json = await base.PreviousResponseAsync().ConfigureAwait(false);
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
-
-#endif
 
     #pragma warning disable 169
     #pragma warning disable 649
