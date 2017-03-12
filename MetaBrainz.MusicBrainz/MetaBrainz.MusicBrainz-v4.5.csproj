@@ -103,7 +103,6 @@
     <Compile Include="Objects\Browses\BrowseWorks.cs" />
     <Compile Include="Objects\Browses\BrowseWorksBase.cs" />
     <Compile Include="Objects\Browses\IswcLookup.cs" />
-    <Compile Include="Objects\DiscIdLookupResult.cs" />
     <Compile Include="Objects\Entities\Alias.cs" />
     <Compile Include="Objects\Entities\Area.cs" />
     <Compile Include="Objects\Entities\Artist.cs" />
@@ -143,6 +142,7 @@
     <Compile Include="Objects\Submissions\RatingSubmission.cs" />
     <Compile Include="Objects\Submissions\Submission.cs" />
     <Compile Include="Objects\Submissions\TagSubmission.cs" />
+    <Compile Include="Objects\DiscIdLookupResult.cs" />
     <Compile Include="Objects\HelperMethods.cs" />
     <Compile Include="Objects\PagedQueryResults.cs" />
     <Compile Include="Objects\PagedQueryResults.net45.cs" />
