@@ -166,6 +166,9 @@
     <Compile Include="Objects\Entities\UserTag.cs" />
     <Compile Include="Objects\Entities\Work.cs" />
     <Compile Include="Objects\Entities\WorkAttribute.cs" />
+    <Compile Include="Objects\Searches\Annotation.cs" />
+    <Compile Include="Objects\Searches\FoundAnnotations.cs" />
+    <Compile Include="Objects\Searches\FoundAnnotations.net45.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\FoundTags.net45.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />

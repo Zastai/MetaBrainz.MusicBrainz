@@ -29,7 +29,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundAnnotation> FindAnnotations(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundAnnotations(this, query, limit, offset).Next();
+      return new FoundAnnotations(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for areas using the given query.</summary>
