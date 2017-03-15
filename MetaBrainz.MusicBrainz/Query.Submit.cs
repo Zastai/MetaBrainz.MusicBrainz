@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
-using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz {
 
+  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed partial class Query {
 
     /// <summary>Creates a submission request for setting a barcode on one or more releases.</summary>
