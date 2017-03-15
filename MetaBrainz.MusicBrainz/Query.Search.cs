@@ -2,6 +2,7 @@
 using System.Net;
 
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -402,7 +403,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundTag> FindTags(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundTags(this, query, limit, offset).Next();
+      return new FoundTags(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for URLs using the given query.</summary>

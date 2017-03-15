@@ -156,6 +156,7 @@
     <Compile Include="Objects\Entities\WorkAttribute.cs" />
     <Compile Include="Objects\HelperMethods.cs" />
     <Compile Include="Objects\PagedQueryResults.cs" />
+    <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />
     <Compile Include="Objects\Searches\SearchResults.cs" />
     <Compile Include="Objects\Submissions\BarcodeSubmission.cs" />
