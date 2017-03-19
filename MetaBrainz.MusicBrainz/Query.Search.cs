@@ -174,7 +174,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundInstrument> FindInstruments(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundInstruments(this, query, limit, offset).Next();
+      return new FoundInstruments(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for labels using the given query.</summary>

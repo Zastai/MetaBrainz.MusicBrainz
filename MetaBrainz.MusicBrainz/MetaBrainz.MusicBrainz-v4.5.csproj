@@ -177,6 +177,8 @@
     <Compile Include="Objects\Searches\FoundAnnotations.net45.cs" />
     <Compile Include="Objects\Searches\FoundCdStubs.cs" />
     <Compile Include="Objects\Searches\FoundCdStubs.net45.cs" />
+    <Compile Include="Objects\Searches\FoundInstruments.cs" />
+    <Compile Include="Objects\Searches\FoundInstruments.net45.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\FoundTags.net45.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />
