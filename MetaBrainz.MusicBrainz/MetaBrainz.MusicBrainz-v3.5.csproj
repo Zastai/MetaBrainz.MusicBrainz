@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Interfaces\Browses\IBrowseResults.cs" />
     <Compile Include="Interfaces\Entities\IAlias.cs" />
     <Compile Include="Interfaces\Entities\IAnnotatedEntity.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="Objects\PagedQueryResults.cs" />
     <Compile Include="Objects\Searches\Annotation.cs" />
     <Compile Include="Objects\Searches\FoundAnnotations.cs" />
+    <Compile Include="Objects\Searches\FoundCdStubs.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />
     <Compile Include="Objects\Searches\SearchResults.cs" />
@@ -167,6 +170,8 @@
     <Compile Include="Objects\Submissions\RatingSubmission.cs" />
     <Compile Include="Objects\Submissions\Submission.cs" />
     <Compile Include="Objects\Submissions\TagSubmission.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="AuthorizationToken.cs" />
     <Compile Include="EntityType.cs" />

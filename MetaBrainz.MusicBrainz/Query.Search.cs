@@ -119,7 +119,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundCdStub> FindCdStubs(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundCdStubs(this, query, limit, offset).Next();
+      return new FoundCdStubs(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for events using the given query.</summary>

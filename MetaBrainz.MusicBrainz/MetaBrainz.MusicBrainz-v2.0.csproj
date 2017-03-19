@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Interfaces\Browses\IBrowseResults.cs" />
     <Compile Include="Interfaces\Entities\IAlias.cs" />
     <Compile Include="Interfaces\Entities\IAnnotatedEntity.cs" />
@@ -84,8 +86,6 @@
     <Compile Include="Interfaces\Entities\IUserTag.cs" />
     <Compile Include="Interfaces\Entities\IWork.cs" />
     <Compile Include="Interfaces\Entities\IWorkAttribute.cs" />
-    <Compile Include="Interfaces\IDiscIdLookupResult.cs" />
-    <Compile Include="Interfaces\IPagedQueryResults.cs" />
     <Compile Include="Interfaces\Searches\IAnnotation.cs" />
     <Compile Include="Interfaces\Searches\IFoundAnnotation.cs" />
     <Compile Include="Interfaces\Searches\IFoundArea.cs" />
@@ -105,6 +105,12 @@
     <Compile Include="Interfaces\Searches\ISearchResult.cs" />
     <Compile Include="Interfaces\Searches\ISearchResults.cs" />
     <Compile Include="Interfaces\Submissions\ISubmission.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IDiscIdLookupResult.cs" />
+    <Compile Include="Interfaces\IPagedQueryResults.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Objects\Browses\BrowseAreas.cs" />
     <Compile Include="Objects\Browses\BrowseArtists.cs" />
     <Compile Include="Objects\Browses\BrowseCollections.cs" />
@@ -120,7 +126,6 @@
     <Compile Include="Objects\Browses\BrowseWorks.cs" />
     <Compile Include="Objects\Browses\BrowseWorksBase.cs" />
     <Compile Include="Objects\Browses\IswcLookup.cs" />
-    <Compile Include="Objects\DiscIdLookupResult.cs" />
     <Compile Include="Objects\Entities\Alias.cs" />
     <Compile Include="Objects\Entities\Area.cs" />
     <Compile Include="Objects\Entities\Artist.cs" />
@@ -154,10 +159,9 @@
     <Compile Include="Objects\Entities\UserTag.cs" />
     <Compile Include="Objects\Entities\Work.cs" />
     <Compile Include="Objects\Entities\WorkAttribute.cs" />
-    <Compile Include="Objects\HelperMethods.cs" />
-    <Compile Include="Objects\PagedQueryResults.cs" />
     <Compile Include="Objects\Searches\Annotation.cs" />
     <Compile Include="Objects\Searches\FoundAnnotations.cs" />
+    <Compile Include="Objects\Searches\FoundCdStubs.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />
     <Compile Include="Objects\Searches\SearchResults.cs" />
@@ -167,6 +171,13 @@
     <Compile Include="Objects\Submissions\RatingSubmission.cs" />
     <Compile Include="Objects\Submissions\Submission.cs" />
     <Compile Include="Objects\Submissions\TagSubmission.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Objects\DiscIdLookupResult.cs" />
+    <Compile Include="Objects\HelperMethods.cs" />
+    <Compile Include="Objects\PagedQueryResults.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="AuthorizationScope.cs" />
     <Compile Include="AuthorizationToken.cs" />
     <Compile Include="EntityType.cs" />
