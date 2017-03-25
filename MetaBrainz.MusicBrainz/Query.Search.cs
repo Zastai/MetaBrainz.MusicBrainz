@@ -425,7 +425,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundUrl> FindUrls(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundUrls(this, query, limit, offset).Next();
+      return new FoundUrls(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for works using the given query.</summary>
