@@ -10,10 +10,10 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using RelationshipList = IEnumerable<IRelationship>;
-  #else
+  #if NETFX_GE_4_5
   using RelationshipList = IReadOnlyList<IRelationship>;
+  #else
+  using RelationshipList = IEnumerable<IRelationship>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

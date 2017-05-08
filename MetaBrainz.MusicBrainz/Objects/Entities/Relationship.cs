@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using StringList = IEnumerable<string>;
-  using StringMap  = IDictionary<string, string>; // FIXME: This should also be a read-only dictionary of some sort.
-  #else
+  #if NETFX_GE_4_5
   using StringList = IReadOnlyList<string>;
   using StringMap  = IReadOnlyDictionary<string, string>;
+  #else
+  using StringList = IEnumerable<string>;
+  using StringMap  = IDictionary<string, string>; // FIXME: This should also be a read-only dictionary of some sort.
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

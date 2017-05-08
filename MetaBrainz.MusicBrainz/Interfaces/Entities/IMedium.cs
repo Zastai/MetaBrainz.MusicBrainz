@@ -4,12 +4,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using DiscList  = IEnumerable<IDisc>;
-  using TrackList = IEnumerable<ITrack>;
-  #else
+  #if NETFX_GE_4_5
   using DiscList  = IReadOnlyList<IDisc>;
   using TrackList = IReadOnlyList<ITrack>;
+  #else
+  using DiscList  = IEnumerable<IDisc>;
+  using TrackList = IEnumerable<ITrack>;
   #endif
 
   /// <summary>A medium associated with a release.</summary>

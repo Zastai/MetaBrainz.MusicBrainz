@@ -8,12 +8,12 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using DiscList  = IEnumerable<IDisc>;
-  using TrackList = IEnumerable<ITrack>;
-  #else
+  #if NETFX_GE_4_5
   using DiscList  = IReadOnlyList<IDisc>;
   using TrackList = IReadOnlyList<ITrack>;
+  #else
+  using DiscList  = IEnumerable<IDisc>;
+  using TrackList = IEnumerable<ITrack>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

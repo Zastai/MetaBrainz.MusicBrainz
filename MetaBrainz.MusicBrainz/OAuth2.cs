@@ -84,7 +84,9 @@ namespace MetaBrainz.MusicBrainz {
       query.Append("response_type=code");
       query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
       query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-#if NETFX_LT_4_0
+#if NETFX_GE_4_0
+      query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
+#else
       query.Append("&scope");
       {
         var plus = '=';
@@ -93,8 +95,6 @@ namespace MetaBrainz.MusicBrainz {
           plus = '+';
         }
       }
-#else
-      query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
 #endif
       if (state != null)
         query.Append("&state=").Append(Uri.EscapeDataString(state));

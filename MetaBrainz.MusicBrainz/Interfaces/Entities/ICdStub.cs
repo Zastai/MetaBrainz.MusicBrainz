@@ -3,10 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using SimpleTrackList = IEnumerable<ISimpleTrack>;
-  #else
+  #if NETFX_GE_4_5
   using SimpleTrackList = IReadOnlyList<ISimpleTrack>;
+  #else
+  using SimpleTrackList = IEnumerable<ISimpleTrack>;
   #endif
 
   /// <summary>A CD stub (information entered about a CD by someone without a MusicBrainz account).</summary>

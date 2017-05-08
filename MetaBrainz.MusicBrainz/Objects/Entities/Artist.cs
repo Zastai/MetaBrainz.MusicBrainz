@@ -8,17 +8,7 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using AliasList        = IEnumerable<IAlias>;
-  using RecordingList    = IEnumerable<IRecording>;
-  using RelationshipList = IEnumerable<IRelationship>;
-  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
-  using ReleaseList      = IEnumerable<IRelease>;
-  using StringList       = IEnumerable<string>;
-  using TagList          = IEnumerable<ITag>;
-  using UserTagList      = IEnumerable<IUserTag>;
-  using WorkList         = IEnumerable<IWork>;
-  #else
+  #if NETFX_GE_4_5
   using AliasList        = IReadOnlyList<IAlias>;
   using RecordingList    = IReadOnlyList<IRecording>;
   using RelationshipList = IReadOnlyList<IRelationship>;
@@ -28,6 +18,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   using TagList          = IReadOnlyList<ITag>;
   using UserTagList      = IReadOnlyList<IUserTag>;
   using WorkList         = IReadOnlyList<IWork>;
+  #else
+  using AliasList        = IEnumerable<IAlias>;
+  using RecordingList    = IEnumerable<IRecording>;
+  using RelationshipList = IEnumerable<IRelationship>;
+  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
+  using ReleaseList      = IEnumerable<IRelease>;
+  using StringList       = IEnumerable<string>;
+  using TagList          = IEnumerable<ITag>;
+  using UserTagList      = IEnumerable<IUserTag>;
+  using WorkList         = IEnumerable<IWork>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

@@ -28,10 +28,10 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     public abstract TInterface Previous();
 
-#if NETFX_LT_4_5
-    public abstract IEnumerable<TItem> Results { get; }
-#else
+#if NETFX_GE_4_5
     public abstract IReadOnlyList<TItem> Results { get; }
+#else
+    public abstract IEnumerable<TItem> Results { get; }
 #endif
 
     public abstract int TotalResults { get; }

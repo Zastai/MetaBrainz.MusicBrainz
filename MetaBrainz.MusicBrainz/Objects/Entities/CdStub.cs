@@ -9,10 +9,10 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using SimpleTrackList = IEnumerable<ISimpleTrack>;
-  #else
+  #if NETFX_GE_4_5
   using SimpleTrackList = IReadOnlyList<ISimpleTrack>;
+  #else
+  using SimpleTrackList = IEnumerable<ISimpleTrack>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

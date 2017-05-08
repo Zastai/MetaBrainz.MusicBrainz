@@ -4,16 +4,16 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using GuidList       = IEnumerable<Guid>;
-  using NameCreditList = IEnumerable<INameCredit>;
-  using ReleaseList    = IEnumerable<IRelease>;
-  using StringList     = IEnumerable<string>;
-  #else
+  #if NETFX_GE_4_5
   using GuidList       = IReadOnlyList<Guid>;
   using NameCreditList = IReadOnlyList<INameCredit>;
   using ReleaseList    = IReadOnlyList<IRelease>;
   using StringList     = IReadOnlyList<string>;
+  #else
+  using GuidList       = IEnumerable<Guid>;
+  using NameCreditList = IEnumerable<INameCredit>;
+  using ReleaseList    = IEnumerable<IRelease>;
+  using StringList     = IEnumerable<string>;
   #endif
 
   /// <summary>A MusicBrainz release group.</summary>

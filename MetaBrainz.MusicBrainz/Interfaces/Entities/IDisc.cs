@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using Int32List   = IEnumerable<int>;
-  using ReleaseList = IEnumerable<IRelease>;
-  #else
-  using Int32List   = IReadOnlyList<int>;
+  #if NETFX_GE_4_5
+  using IntList     = IReadOnlyList<int>;
   using ReleaseList = IReadOnlyList<IRelease>;
+  #else
+  using IntList     = IEnumerable<int>;
+  using ReleaseList = IEnumerable<IRelease>;
   #endif
 
   /// <summary>A compact disc.</summary>
@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     int OffsetCount { get; }
 
     /// <summary>The offsets (Red Book sector addresses) for this disc.</summary>
-    Int32List Offsets { get; }
+    IntList Offsets { get; }
 
     /// <summary>The releases that include this disc.</summary>
     ReleaseList Releases { get; }

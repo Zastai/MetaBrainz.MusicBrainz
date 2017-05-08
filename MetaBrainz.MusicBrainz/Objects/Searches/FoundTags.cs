@@ -10,10 +10,10 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
   using Interface = ISearchResults<IFoundTag>;
-  #if NETFX_LT_4_5
-  using Results   = IEnumerable<IFoundTag>;
-  #else
+  #if NETFX_GE_4_5
   using Results   = IReadOnlyList<IFoundTag>;
+  #else
+  using Results   = IEnumerable<IFoundTag>;
   #endif
 
   internal sealed partial class FoundTags : SearchResults<IFoundTag> {

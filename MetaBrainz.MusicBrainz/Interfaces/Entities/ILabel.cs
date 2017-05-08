@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using StringList  = IEnumerable<string>;
-  using ReleaseList = IEnumerable<IRelease>;
-  #else
+  #if NETFX_GE_4_5
   using StringList  = IReadOnlyList<string>;
   using ReleaseList = IReadOnlyList<IRelease>;
+  #else
+  using StringList  = IEnumerable<string>;
+  using ReleaseList = IEnumerable<IRelease>;
   #endif
 
   /// <summary>A MusicBrainz label.</summary>

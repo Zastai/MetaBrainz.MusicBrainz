@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using NameCreditList = IEnumerable<INameCredit>;
-  #else
+  #if NETFX_GE_4_5
   using NameCreditList = IReadOnlyList<INameCredit>;
+  #else
+  using NameCreditList = IEnumerable<INameCredit>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

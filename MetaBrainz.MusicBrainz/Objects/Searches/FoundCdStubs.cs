@@ -10,10 +10,10 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
   using Interface = ISearchResults<IFoundCdStub>;
-  #if NETFX_LT_4_5
-  using Results   = IEnumerable<IFoundCdStub>;
-  #else
+  #if NETFX_GE_4_5
   using Results   = IReadOnlyList<IFoundCdStub>;
+  #else
+  using Results   = IEnumerable<IFoundCdStub>;
   #endif
 
   internal sealed partial class FoundCdStubs : SearchResults<IFoundCdStub> {

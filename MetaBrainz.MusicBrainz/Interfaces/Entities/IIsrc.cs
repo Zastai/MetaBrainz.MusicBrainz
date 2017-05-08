@@ -3,10 +3,10 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using RecordingList = IEnumerable<IRecording>;
-  #else
+  #if NETFX_GE_4_5
   using RecordingList = IReadOnlyList<IRecording>;
+  #else
+  using RecordingList = IEnumerable<IRecording>;
   #endif
 
   /// <summary>Information associated with an ISRC (International Standard Recording Code).</summary>

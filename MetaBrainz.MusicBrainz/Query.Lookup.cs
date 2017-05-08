@@ -13,10 +13,10 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
-  #if NETFX_LT_4_5
-  using WorkList = IEnumerable<IWork>;
-  #else
+  #if NETFX_GE_4_5
   using WorkList = IReadOnlyList<IWork>;
+  #else
+  using WorkList = IEnumerable<IWork>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

@@ -4,18 +4,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using CollectionList   = IEnumerable<ICollection>;
-  using LabelInfoList    = IEnumerable<ILabelInfo>;
-  using MediumList       = IEnumerable<IMedium>;
-  using NameCreditList   = IEnumerable<INameCredit>;
-  using ReleaseEventList = IEnumerable<IReleaseEvent>;
-  #else
+  #if NETFX_GE_4_5
   using CollectionList   = IReadOnlyList<ICollection>;
   using LabelInfoList    = IReadOnlyList<ILabelInfo>;
   using MediumList       = IReadOnlyList<IMedium>;
   using NameCreditList   = IReadOnlyList<INameCredit>;
   using ReleaseEventList = IReadOnlyList<IReleaseEvent>;
+  #else
+  using CollectionList   = IEnumerable<ICollection>;
+  using LabelInfoList    = IEnumerable<ILabelInfo>;
+  using MediumList       = IEnumerable<IMedium>;
+  using NameCreditList   = IEnumerable<INameCredit>;
+  using ReleaseEventList = IEnumerable<IReleaseEvent>;
   #endif
 
   /// <summary>A MusicBrainz release.</summary>

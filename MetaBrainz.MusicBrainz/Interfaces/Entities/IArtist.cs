@@ -4,18 +4,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using RecordingList    = IEnumerable<IRecording>;
-  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
-  using ReleaseList      = IEnumerable<IRelease>;
-  using StringList       = IEnumerable<string>;
-  using WorkList         = IEnumerable<IWork>;
-  #else
+  #if NETFX_GE_4_5
   using RecordingList    = IReadOnlyList<IRecording>;
   using ReleaseGroupList = IReadOnlyList<IReleaseGroup>;
   using ReleaseList      = IReadOnlyList<IRelease>;
   using StringList       = IReadOnlyList<string>;
   using WorkList         = IReadOnlyList<IWork>;
+  #else
+  using RecordingList    = IEnumerable<IRecording>;
+  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
+  using ReleaseList      = IEnumerable<IRelease>;
+  using StringList       = IEnumerable<string>;
+  using WorkList         = IEnumerable<IWork>;
   #endif
 
   /// <summary>A MusicBrainz artist.</summary>

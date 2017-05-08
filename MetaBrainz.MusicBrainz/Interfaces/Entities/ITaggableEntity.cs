@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using TagList     = IEnumerable<ITag>;
-  using UserTagList = IEnumerable<IUserTag>;
-  #else
+  #if NETFX_GE_4_5
   using TagList     = IReadOnlyList<ITag>;
   using UserTagList = IReadOnlyList<IUserTag>;
+  #else
+  using TagList     = IEnumerable<ITag>;
+  using UserTagList = IEnumerable<IUserTag>;
   #endif
 
   /// <summary>A entity that can have tags applied to it.</summary>

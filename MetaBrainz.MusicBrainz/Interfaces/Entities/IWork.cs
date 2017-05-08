@@ -3,12 +3,12 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using AttributeList = IEnumerable<IWorkAttribute>;
-  using StringList    = IEnumerable<string>;
-  #else
+  #if NETFX_GE_4_5
   using AttributeList = IReadOnlyList<IWorkAttribute>;
   using StringList    = IReadOnlyList<string>;
+  #else
+  using AttributeList = IEnumerable<IWorkAttribute>;
+  using StringList    = IEnumerable<string>;
   #endif
 
   /// <summary>A MuscBrainz work.</summary>

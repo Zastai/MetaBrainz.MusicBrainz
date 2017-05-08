@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using RecordingList = IEnumerable<IRecording>;
-  #else
+  #if NETFX_GE_4_5
   using RecordingList = IReadOnlyList<IRecording>;
+  #else
+  using RecordingList = IEnumerable<IRecording>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

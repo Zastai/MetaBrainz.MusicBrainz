@@ -45,10 +45,10 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
     TInterface Previous();
 
     /// <summary>The current results.</summary>
-#if NETFX_LT_4_5
-    IEnumerable<TItem> Results { get; }
-#else
+#if NETFX_GE_4_5
     IReadOnlyList<TItem> Results { get; }
+#else
+    IEnumerable<TItem> Results { get; }
 #endif
 
     /// <summary>The total number of matches.</summary>

@@ -3,14 +3,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_LT_4_5
-  using NameCreditList = IEnumerable<INameCredit>;
-  using StringList     = IEnumerable<string>;
-  using ReleaseList    = IEnumerable<IRelease>;
-  #else
+  #if NETFX_GE_4_5
   using NameCreditList = IReadOnlyList<INameCredit>;
   using StringList     = IReadOnlyList<string>;
   using ReleaseList    = IReadOnlyList<IRelease>;
+  #else
+  using NameCreditList = IEnumerable<INameCredit>;
+  using StringList     = IEnumerable<string>;
+  using ReleaseList    = IEnumerable<IRelease>;
   #endif
 
   /// <summary>A MusicBrainz recording.</summary>

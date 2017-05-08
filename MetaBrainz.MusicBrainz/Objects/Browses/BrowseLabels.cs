@@ -10,10 +10,10 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   using Interface = IBrowseResults<ILabel>;
-  #if NETFX_LT_4_5
-  using Results   = IEnumerable<ILabel>;
-  #else
+  #if NETFX_GE_4_5
   using Results   = IReadOnlyList<ILabel>;
+  #else
+  using Results   = IEnumerable<ILabel>;
   #endif
 
   internal sealed partial class BrowseLabels : BrowseResults<ILabel> {

@@ -11,10 +11,10 @@ using Newtonsoft.Json.Linq;
 
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  #if NETFX_LT_4_5
-  using ReleaseList = IEnumerable<IRelease>;
-  #else
+  #if NETFX_GE_4_5
   using ReleaseList = IReadOnlyList<IRelease>;
+  #else
+  using ReleaseList = IEnumerable<IRelease>;
   #endif
 
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]

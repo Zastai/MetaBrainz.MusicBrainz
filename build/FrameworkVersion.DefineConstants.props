@@ -1,46 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <PropertyGroup>
-  	<NETFX_VERSION>000000000</NETFX_VERSION>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!-- Prepare #defines for target framework version (TFDC = TargetFrameworkDefineConstants). -->
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net20' Or '$(TargetFrameworkVersion)' == 'v2.0' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
   </PropertyGroup>
-  <PropertyGroup Condition="$(TargetFrameworkVersion.StartsWith('v'))">
-  	<!-- Construct a text-comparable version string: MMMmmmbbb -->
-  	<NETFX_VERSION_MAJOR>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Major.ToString('000'))</NETFX_VERSION_MAJOR>
-  	<NETFX_VERSION_MAJOR Condition=" '$(NETFX_VERSION_MAJOR)' == '-001' ">000</NETFX_VERSION_MAJOR>
-  	<NETFX_VERSION_MINOR>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Minor.ToString('000'))</NETFX_VERSION_MINOR>
-  	<NETFX_VERSION_MINOR Condition=" '$(NETFX_VERSION_MINOR)' == '-001' ">000</NETFX_VERSION_MINOR>
-  	<NETFX_VERSION_BUILD>$([System.Version]::Parse('$(TargetFrameworkVersion.Substring(1))').Build.ToString('000'))</NETFX_VERSION_BUILD>
-  	<NETFX_VERSION_BUILD Condition=" '$(NETFX_VERSION_BUILD)' == '-001' ">000</NETFX_VERSION_BUILD>
-  	<NETFX_VERSION>$(NETFX_VERSION_MAJOR)$(NETFX_VERSION_MINOR)$(NETFX_VERSION_BUILD)</NETFX_VERSION>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net30' Or '$(TargetFrameworkVersion)' == 'v3.0' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
   </PropertyGroup>
-  <PropertyGroup>
-  	<!-- Definitions vs v2.0 -->
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 002000000 ">$(DefineConstants);NETFX_EQ_2_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 002000000 ">$(DefineConstants);NETFX_NE_2_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  002000000 ">$(DefineConstants);NETFX_LT_2_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 002000000 ">$(DefineConstants);NETFX_LE_2_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 002000000 ">$(DefineConstants);NETFX_GE_2_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  002000000 ">$(DefineConstants);NETFX_GT_2_0</DefineConstants>
-  	<!-- Definitions vs v3.5 -->
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 003005000 ">$(DefineConstants);NETFX_EQ_3_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 003005000 ">$(DefineConstants);NETFX_NE_3_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  003005000 ">$(DefineConstants);NETFX_LT_3_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 003005000 ">$(DefineConstants);NETFX_LE_3_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 003005000 ">$(DefineConstants);NETFX_GE_3_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  003005000 ">$(DefineConstants);NETFX_GT_3_5</DefineConstants>
-  	<!-- Definitions vs v4.0 -->
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 004000000 ">$(DefineConstants);NETFX_EQ_4_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 004000000 ">$(DefineConstants);NETFX_NE_4_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  004000000 ">$(DefineConstants);NETFX_LT_4_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 004000000 ">$(DefineConstants);NETFX_LE_4_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 004000000 ">$(DefineConstants);NETFX_GE_4_0</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  004000000 ">$(DefineConstants);NETFX_GT_4_0</DefineConstants>
-  	<!-- Definitions vs v4.5 -->
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    == 004005000 ">$(DefineConstants);NETFX_EQ_4_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)'    != 004005000 ">$(DefineConstants);NETFX_NE_4_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;  004005000 ">$(DefineConstants);NETFX_LT_4_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &lt;= 004005000 ">$(DefineConstants);NETFX_LE_4_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;= 004005000 ">$(DefineConstants);NETFX_GE_4_5</DefineConstants>
-  	<DefineConstants Condition=" '$(NETFX_VERSION)' &gt;  004005000 ">$(DefineConstants);NETFX_GT_4_5</DefineConstants>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net35' Or '$(TargetFrameworkVersion)' == 'v3.5' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net40' Or '$(TargetFrameworkVersion)' == 'v4.0' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net45' Or '$(TargetFrameworkVersion)' == 'v4.5' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net451' Or '$(TargetFrameworkVersion)' == 'v4.5.1' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' Or '$(TargetFrameworkVersion)' == 'v4.5.2' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net46' Or '$(TargetFrameworkVersion)' == 'v4.6' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net461' Or '$(TargetFrameworkVersion)' == 'v4.6.1' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_1</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net462' Or '$(TargetFrameworkVersion)' == 'v4.6.2' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_2</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net47' Or '$(TargetFrameworkVersion)' == 'v4.7' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_7</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7</TFDC>
+  </PropertyGroup>
+  <!-- TODO: Maybe also add some definitions based on target framework profile? -->
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.0' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.1' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.2' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.3' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.4' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_4</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.5' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_5</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.6' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_1_6</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_6</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard2.0' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_6</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_6</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_2_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_2_0</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netcoreapp1.0' ">
+    <TFDC>NETCORE_TARGET</TFDC>
+    <TFDC>$(TFDC);NETCORE_EQ_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_0</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netcoreapp1.1' ">
+    <TFDC>NETCORE_TARGET</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_EQ_1_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_1</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TFDC) != '' ">
+    <DefineConstants Condition=" $(DefineConstants) != '' ">$(DefineConstants);</DefineConstants>
+    <DefineConstants>$(DefineConstants)$(TFDC)</DefineConstants>
   </PropertyGroup>
 </Project>

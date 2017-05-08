@@ -8,20 +8,20 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_LT_4_5
-  using AliasList        = IEnumerable<IAlias>;
-  using RelationshipList = IEnumerable<IRelationship>;
-  using ReleaseList      = IEnumerable<IRelease>;
-  using StringList       = IEnumerable<string>;
-  using TagList          = IEnumerable<ITag>;
-  using UserTagList      = IEnumerable<IUserTag>;
-  #else
+  #if NETFX_GE_4_5
   using AliasList        = IReadOnlyList<IAlias>;
   using RelationshipList = IReadOnlyList<IRelationship>;
   using ReleaseList      = IReadOnlyList<IRelease>;
   using StringList       = IReadOnlyList<string>;
   using TagList          = IReadOnlyList<ITag>;
   using UserTagList      = IReadOnlyList<IUserTag>;
+  #else
+  using AliasList        = IEnumerable<IAlias>;
+  using RelationshipList = IEnumerable<IRelationship>;
+  using ReleaseList      = IEnumerable<IRelease>;
+  using StringList       = IEnumerable<string>;
+  using TagList          = IEnumerable<ITag>;
+  using UserTagList      = IEnumerable<IUserTag>;
   #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]

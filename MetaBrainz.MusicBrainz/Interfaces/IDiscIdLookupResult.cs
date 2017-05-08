@@ -5,10 +5,10 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
-  #if NETFX_LT_4_5
-  using ReleaseList = IEnumerable<IRelease>;
-  #else
+  #if NETFX_GE_4_5
   using ReleaseList = IReadOnlyList<IRelease>;
+  #else
+  using ReleaseList = IEnumerable<IRelease>;
   #endif
 
   /// <summary>The result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
