@@ -62,13 +62,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
 		.travis.yml = .travis.yml
-		build\Common.msprop = build\Common.msprop
-		build\FrameworkVersion.DefineConstants.msprop = build\FrameworkVersion.DefineConstants.msprop
-		nuget\MetaBrainz.MusicBrainz.nuspec = nuget\MetaBrainz.MusicBrainz.nuspec
+		build\Common.props = build\Common.props
+		build\FrameworkVersion.DefineConstants.props = build\FrameworkVersion.DefineConstants.props
 		nuget\MetaBrainz.MusicBrainz.CoverArt.nuspec = nuget\MetaBrainz.MusicBrainz.CoverArt.nuspec
 		nuget\MetaBrainz.MusicBrainz.DiscId.nuspec = nuget\MetaBrainz.MusicBrainz.DiscId.nuspec
-		nuget\nuget.msprop = nuget\nuget.msprop
+		nuget\MetaBrainz.MusicBrainz.nuspec = nuget\MetaBrainz.MusicBrainz.nuspec
 		nuget\nuget.proj = nuget\nuget.proj
+		nuget\nuget.props = nuget\nuget.props
 		README.md = README.md
 	EndProjectSection
 EndProject

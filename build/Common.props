@@ -12,5 +12,5 @@
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)MusicBrainz.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <Import Project="FrameworkVersion.DefineConstants.msprop" />
+  <Import Project="FrameworkVersion.DefineConstants.props" />
 </Project>

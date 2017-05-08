@@ -31,7 +31,7 @@
     <Prefer32Bit>false</Prefer32Bit>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <Import Project="..\build\Common.msprop" />
+  <Import Project="..\build\Common.props" />
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\.nuget\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
