@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -24,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Series : ISeries {
+  internal sealed class Series : SearchResult, IFoundSeries {
 
     public EntityType EntityType => EntityType.Series;
 
@@ -39,7 +41,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.Default)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("name", Required = Required.Always)]
@@ -65,6 +67,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as null)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

@@ -386,7 +386,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundSeries>> FindSeriesAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundSeries(this, query, limit, offset).NextAsync();
+      return new FoundSeries(this, query, limit, offset).NextAsync();
     }
 
     /// <summary>Searches for tags using the given query.</summary>
