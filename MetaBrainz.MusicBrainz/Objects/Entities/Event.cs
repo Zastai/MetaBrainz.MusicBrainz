@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -24,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Event : IEvent {
+  internal sealed class Event : SearchResult, IFoundEvent {
 
     public EntityType EntityType => EntityType.Event;
 
@@ -39,10 +41,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    [JsonProperty("cancelled", Required = Required.Always)]
-    public bool Cancelled { get; private set; }
+    public bool Cancelled => this._cancelled.GetValueOrDefault();
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("cancelled", Required = Required.DisallowNull)]
+    private bool? _cancelled = null;
+
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
@@ -63,7 +67,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    [JsonProperty("setlist", Required = Required.Always)]
+    [JsonProperty("setlist", Required = Required.DisallowNull)]
     public string Setlist { get; private set; }
 
     public TagList Tags => this._tags;
@@ -71,13 +75,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
-    [JsonProperty("time", Required = Required.Always)]
+    [JsonProperty("time", Required = Required.DisallowNull)]
     public string Time { get; private set; }
 
-    [JsonProperty("type", Required = Required.AllowNull)]
+    [JsonProperty("type", Required = Required.Default)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id", Required = Required.AllowNull)]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public IUserRating UserRating => this._userRating;
@@ -89,6 +93,20 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the setlist is not serialized when not set (instead of being serialized as an empty string)
+    // - the time is not serialized when not set (instead of being serialized as an empty string)
+    // - the type is not serialized when not set (instead of being serialized as null)
+    // - the type ID is not serialized
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+    // - the Cancelled flag is not serialized when not set
+    // => Adjusted the Required flags for the property (to allow its omission), and added a nullable backing field.
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

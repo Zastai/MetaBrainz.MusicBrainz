@@ -160,8 +160,12 @@
     <Compile Include="Objects\PagedQueryResults.cs" />
     <Compile Include="Objects\Searches\Annotation.cs" />
     <Compile Include="Objects\Searches\FoundAnnotations.cs" />
+    <Compile Include="Objects\Searches\FoundAreas.cs" />
     <Compile Include="Objects\Searches\FoundCdStubs.cs" />
+    <Compile Include="Objects\Searches\FoundEvents.cs" />
     <Compile Include="Objects\Searches\FoundInstruments.cs" />
+    <Compile Include="Objects\Searches\FoundLabels.cs" />
+    <Compile Include="Objects\Searches\FoundPlaces.cs" />
     <Compile Include="Objects\Searches\FoundSeries.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\FoundUrls.cs" />

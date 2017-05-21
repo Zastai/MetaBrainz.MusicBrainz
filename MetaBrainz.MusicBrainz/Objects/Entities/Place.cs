@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -24,14 +26,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Place : IPlace {
+  internal sealed class Place : SearchResult, IFoundPlace {
 
     public EntityType EntityType => EntityType.Place;
 
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    [JsonProperty("address", Required = Required.AllowNull)]
+    [JsonProperty("address", Required = Required.Default)]
     public string Address { get; private set; }
 
     public AliasList Aliases => this._aliases;
@@ -49,10 +51,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public ICoordinates Coordinates => this._coordinates;
 
-    [JsonProperty("coordinates", Required = Required.AllowNull)]
+    [JsonProperty("coordinates", Required = Required.Default)]
     private Coordinates _coordinates = null;
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
@@ -73,16 +75,27 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
-    [JsonProperty("type", Required = Required.AllowNull)]
+    [JsonProperty("type", Required = Required.Default)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id", Required = Required.AllowNull)]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public UserTagList UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the address is not serialized when not set (instead of being serialized as null)
+    // - the coordinates are not serialized when not set (instead of being serialized as null)
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the type and type ID are not serialized when not set (instead of being serialized as null)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

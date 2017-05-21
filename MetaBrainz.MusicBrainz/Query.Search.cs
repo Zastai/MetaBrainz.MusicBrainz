@@ -60,7 +60,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundArea> FindAreas(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundAreas(this, query, limit, offset).Next();
+      return new FoundAreas(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for artists using the given query.</summary>
@@ -149,7 +149,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundEvent> FindEvents(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundEvents(this, query, limit, offset).Next();
+      return new FoundEvents(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for instruments using the given query.</summary>
@@ -206,7 +206,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundLabel> FindLabels(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundLabels(this, query, limit, offset).Next();
+      return new FoundLabels(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for places using the given query.</summary>
@@ -235,7 +235,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundPlace> FindPlaces(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundPlaces(this, query, limit, offset).Next();
+      return new FoundPlaces(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for recordings using the given query.</summary>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -26,7 +28,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Area : IArea {
+  internal sealed class Area : SearchResult, IFoundArea {
 
     public EntityType EntityType => EntityType.Area;
 
@@ -41,7 +43,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("iso-3166-1-codes", Required = Required.DisallowNull)]
@@ -81,6 +83,46 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+    // - relationships are presented as a "relation-list" structure with additional indirection
+    // => special setter-only property (SearchRelationList) added to "unwrap" the list
+
+    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
+    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
+    [JsonObject(MemberSerialization.OptIn)]
+    private sealed class RelationList {
+
+      [JsonProperty("relations")] public Relationship[] Items = null;
+
+      public static Relationship[] Unwrap(RelationList[] wrappers) {
+        if (wrappers == null)
+          return null;
+        var relcount = 0;
+        foreach (var wrapper in wrappers)
+          relcount += wrapper.Items.Length;
+        var rels = new Relationship[relcount];
+        var pos = 0;
+        foreach (var wrapper in wrappers) {
+          var items = wrapper.Items;
+          Array.Copy(items, 0, rels, pos, items.Length);
+          pos += items.Length;
+        }
+        return rels;
+      }
+
+    }
+
+    [JsonProperty("relation-list")]
+    private RelationList[] SearchRelationList {
+      set => this._relationships = RelationList.Unwrap(value);
+    }
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

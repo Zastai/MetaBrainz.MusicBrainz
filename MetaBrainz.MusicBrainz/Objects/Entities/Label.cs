@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -28,7 +30,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Label : ILabel {
+  internal sealed class Label : SearchResult, IFoundLabel {
 
     public EntityType EntityType => EntityType.Label;
 
@@ -51,7 +53,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("country", Required = Required.Default)]
     public string Country { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("ipis", Required = Required.DisallowNull)]
@@ -60,7 +62,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("isnis", Required = Required.DisallowNull)]
     public StringList Isnis { get; private set; }
 
-    [JsonProperty("label-code", Required = Required.AllowNull)]
+    [JsonProperty("label-code", Required = Required.Default)]
     public int? LabelCode { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
@@ -106,6 +108,15 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the label code is not serialized when not set (instead of being serialized as null)
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;
