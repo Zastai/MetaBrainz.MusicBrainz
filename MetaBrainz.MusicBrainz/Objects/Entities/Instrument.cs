@@ -44,7 +44,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("description", Required = Required.Default)]
     public string Description { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Default)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("name", Required = Required.Always)]
@@ -75,7 +75,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     // The search server's serialization differs in the following ways:
     // - the description is not serialized when not set (instead of being serialized as null)
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as null)
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
     // => Adjusted the Required flags for affected properties (to allow their omission).
 
     #endregion
