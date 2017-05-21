@@ -454,7 +454,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundWork>> FindWorksAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundWorks(this, query, limit, offset).NextAsync();
+      return new FoundWorks(this, query, limit, offset).NextAsync();
     }
 
   }

@@ -32,25 +32,25 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("artist", Required = Required.DisallowNull)]
     private Artist _artist = null;
 
-    [JsonProperty("attributes", Required = Required.Always)]
+    [JsonProperty("attributes", Required = Required.DisallowNull)]
     public StringList Attributes { get; private set; }
 
     [JsonProperty("attribute-credits", Required = Required.DisallowNull)]
     public StringMap AttributeCredits { get; private set; }
 
-    [JsonProperty("attribute-values", Required = Required.Always)]
+    [JsonProperty("attribute-values", Required = Required.DisallowNull)]
     public StringMap AttributeValues { get; private set; }
 
-    [JsonProperty("begin", Required = Required.AllowNull)]
+    [JsonProperty("begin", Required = Required.Default)]
     public PartialDate Begin { get; private set; }
 
     [JsonProperty("direction", Required = Required.Always)]
     public string Direction { get; private set; }
 
-    [JsonProperty("end", Required = Required.AllowNull)]
+    [JsonProperty("end", Required = Required.Default)]
     public PartialDate End { get; private set; }
 
-    [JsonProperty("ended", Required = Required.Always)]
+    [JsonProperty("ended", Required = Required.DisallowNull)]
     public bool Ended { get; private set; }
 
     public IEvent Event => this._event;
@@ -96,7 +96,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("series", Required = Required.DisallowNull)]
     private Series _series = null;
 
-    [JsonProperty("source-credit", Required = Required.Always)]
+    [JsonProperty("source-credit", Required = Required.DisallowNull)]
     public string SourceCredit { get; private set; }
 
     public IRelatableEntity Target {
@@ -119,20 +119,20 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
       }
     }
 
-    [JsonProperty("target-credit", Required = Required.Always)]
+    [JsonProperty("target-credit", Required = Required.DisallowNull)]
     public string TargetCredit { get; private set; }
 
     public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this.TargetTypeText);
 
     private EntityType? _targetType;
 
-    [JsonProperty("target-type", Required = Required.Always)]
+    [JsonProperty("target-type", Required = Required.DisallowNull)]
     public string TargetTypeText { get; private set; }
 
     [JsonProperty("type", Required = Required.Always)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id", Required = Required.Always)]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public IUrl Url => this._url;
@@ -144,6 +144,19 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("work", Required = Required.DisallowNull)]
     private Work _work = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the begin/end dates and the ended flag are not serialized when not set (instead of being serialized as null/false)
+    // - the list of attributes is not serialized when empty (instead of being serialized as an empty array)
+    // - the attribute values are not serialized
+    // - the source/target credits are not serialized
+    // - the target type is not serialized (so the Target property does not work)
+    // - the type ID is not serialized
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
 

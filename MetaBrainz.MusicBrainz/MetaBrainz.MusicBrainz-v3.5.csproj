@@ -165,6 +165,7 @@
     <Compile Include="Objects\Searches\FoundSeries.cs" />
     <Compile Include="Objects\Searches\FoundTags.cs" />
     <Compile Include="Objects\Searches\FoundUrls.cs" />
+    <Compile Include="Objects\Searches\FoundWorks.cs" />
     <Compile Include="Objects\Searches\SearchResult.cs" />
     <Compile Include="Objects\Searches\SearchResults.cs" />
     <Compile Include="Objects\Submissions\BarcodeSubmission.cs" />

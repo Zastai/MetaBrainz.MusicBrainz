@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -28,7 +30,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Work : IWork {
+  internal sealed class Work : SearchResult, IFoundWork {
 
     public EntityType EntityType => EntityType.Work;
 
@@ -45,17 +47,20 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public AttributeList Attributes => this._attributes;
 
-    [JsonProperty("attributes", Required = Required.Always)]
+    [JsonProperty("attributes", Required = Required.DisallowNull)]
     private WorkAttribute[] _attributes = null;
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("iswcs", Required = Required.Always)]
+    [JsonProperty("iswcs", Required = Required.DisallowNull)]
     public StringList Iswcs { get; private set; }
 
-    [JsonProperty("language", Required = Required.AllowNull)]
+    [JsonProperty("language", Required = Required.Default)]
     public string Language { get; private set; }
+
+    [JsonProperty("languages", Required = Required.DisallowNull)]
+    public StringList Languages { get; private set; }
 
     public IRating Rating => this._rating;
 
@@ -75,10 +80,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    [JsonProperty("type", Required = Required.AllowNull)]
+    [JsonProperty("type", Required = Required.Default)]
     public string Type { get; private set; }
 
-    [JsonProperty("type-id", Required = Required.AllowNull)]
+    [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
     public IUserRating UserRating => this._userRating;
@@ -90,6 +95,19 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the attributes are not serialized when not set (instead of being serialized as an empty array)
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the ISWC list is not serialized
+    // - the language is not serialized when not set (instead of being serialized as null)
+    // - the language list is not serialized
+    // - the type and type ID are not serialized
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Title ?? string.Empty;

@@ -62,7 +62,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("country", Required = Required.Default)]
     public string Country { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     public IArea EndArea => this._endArea;
@@ -143,6 +143,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("works", Required = Required.DisallowNull)]
     private Work[] _works = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

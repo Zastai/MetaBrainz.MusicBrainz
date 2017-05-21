@@ -50,7 +50,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     [JsonProperty("isrcs", Required = Required.DisallowNull)]
@@ -92,8 +92,20 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
 
-    [JsonProperty("video", Required = Required.Always)]
-    public bool Video { get; private set; }
+    public bool Video => this._video.GetValueOrDefault();
+
+    [JsonProperty("video", Required = Required.AllowNull)]
+    private bool? _video = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the video flag is serialized as null when not set (instead of false)
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+    // => Use a nullable boolean for the video flag.
+
+    #endregion
 
     public override string ToString() {
       var text = string.Empty;
