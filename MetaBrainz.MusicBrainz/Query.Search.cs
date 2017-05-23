@@ -95,7 +95,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundArtist> FindArtists(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundArtists(this, query, limit, offset).Next();
+      return new FoundArtists(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for CD stubs using the given query.</summary>
@@ -281,7 +281,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundRecording> FindRecordings(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundRecordings(this, query, limit, offset).Next();
+      return new FoundRecordings(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for release groups using the given query.</summary>
@@ -314,7 +314,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundReleaseGroup> FindReleaseGroups(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundReleaseGroups(this, query, limit, offset).Next();
+      return new FoundReleaseGroups(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for releases using the given query.</summary>
@@ -361,7 +361,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundRelease> FindReleases(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundRelease(this, query, limit, offset).Next();
+      return new FoundReleases(this, query, limit, offset).Next();
     }
 
     /// <summary>Searches for series using the given query.</summary>

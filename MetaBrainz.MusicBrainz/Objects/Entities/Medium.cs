@@ -35,10 +35,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("format", Required = Required.AllowNull)]
     public string Format { get; private set; }
 
-    [JsonProperty("format-id", Required = Required.AllowNull)]
+    [JsonProperty("format-id", Required = Required.Default)]
     public Guid? FormatId { get; private set; }
 
-    [JsonProperty("position", Required = Required.Always)]
+    [JsonProperty("position", Required = Required.DisallowNull)]
     public int Position { get; private set; }
 
     public ITrack Pregap => this._pregap;
@@ -46,7 +46,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("pregap", Required = Required.DisallowNull)]
     private Track _pregap = null;
 
-    [JsonProperty("title", Required = Required.Always)]
+    [JsonProperty("title", Required = Required.DisallowNull)]
     public string Title { get; private set; }
 
     [JsonProperty("track-count", Required = Required.AllowNull)]
@@ -59,6 +59,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("tracks", Required = Required.DisallowNull)]
     private Track[] _tracks = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the format ID is not serialized
+    // - the position ID is not serialized
+    // - the title ID is not serialized
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = this.Format ?? "Medium";

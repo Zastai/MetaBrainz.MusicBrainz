@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -34,7 +36,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Artist : IArtist {
+  internal sealed class Artist : SearchResult, IFoundArtist {
 
     public EntityType EntityType => EntityType.Artist;
 

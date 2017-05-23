@@ -96,7 +96,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundArtist>> FindArtistsAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundArtists(this, query, limit, offset).NextAsync();
+      return new FoundArtists(this, query, limit, offset).NextAsync();
     }
 
     /// <summary>Searches for CD stubs using the given query.</summary>
@@ -282,7 +282,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundRecording>> FindRecordingsAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundRecordings(this, query, limit, offset).NextAsync();
+      return new FoundRecordings(this, query, limit, offset).NextAsync();
     }
 
     /// <summary>Searches for release groups using the given query.</summary>
@@ -315,7 +315,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundReleaseGroup>> FindReleaseGroupsAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundReleaseGroups(this, query, limit, offset).NextAsync();
+      return new FoundReleaseGroups(this, query, limit, offset).NextAsync();
     }
 
     /// <summary>Searches for releases using the given query.</summary>
@@ -362,7 +362,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </remarks>
     /// <seealso cref="!:http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundRelease>> FindReleasesAsync(string query, int? limit = null, int? offset = null) {
-      return null; // new FoundRelease(this, query, limit, offset).NextAsync();
+      return new FoundReleases(this, query, limit, offset).NextAsync();
     }
 
     /// <summary>Searches for series using the given query.</summary>

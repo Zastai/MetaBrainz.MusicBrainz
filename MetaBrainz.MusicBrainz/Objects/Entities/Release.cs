@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -34,7 +36,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Release : IRelease {
+  internal sealed class Release : SearchResult, IFoundRelease {
 
     public EntityType EntityType => EntityType.Release;
 
@@ -57,7 +59,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("asin", Required = Required.Default)]
     public string Asin { get; private set; }
 
-    [JsonProperty("barcode", Required = Required.AllowNull)]
+    [JsonProperty("barcode", Required = Required.Default)]
     public string BarCode { get; private set; }
 
     public CollectionList Collections => this._collections;
@@ -76,7 +78,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("date", Required = Required.Default)]
     public PartialDate Date { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
     public LabelInfoList LabelInfo => this._labelInfo;
@@ -89,18 +91,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("media", Required = Required.DisallowNull)]
     private Medium[] _media = null;
 
-    [JsonProperty("packaging", Required = Required.AllowNull)]
+    [JsonProperty("packaging", Required = Required.Default)]
     public string Packaging { get; private set; }
 
-    [JsonProperty("packaging-id", Required = Required.AllowNull)]
+    [JsonProperty("packaging-id", Required = Required.Default)]
     public Guid? PackagingId { get; private set; }
 
-    [JsonProperty("quality", Required = Required.Always)]
+    [JsonProperty("quality", Required = Required.DisallowNull)]
     public string Quality { get; private set; }
-
-    [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    [JsonProperty("rating")] // MBS-9129: Serialized erroneously
-    private Rating Rating { get; set; }
 
     public RelationshipList Relationships => this._relationships;
 
@@ -120,7 +118,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("status", Required = Required.AllowNull)]
     public string Status { get; private set; }
 
-    [JsonProperty("status-id", Required = Required.AllowNull)]
+    [JsonProperty("status-id", Required = Required.Default)]
     public Guid? StatusId { get; private set; }
 
     public TagList Tags => this._tags;
@@ -130,20 +128,29 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public ITextRepresentation TextRepresentation => this._textRepresentation;
 
-    [JsonProperty("text-representation", Required = Required.Always)]
+    [JsonProperty("text-representation", Required = Required.DisallowNull)]
     private TextRepresentation _textRepresentation = null;
 
     [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    [SuppressMessage("ReSharper", "UnusedMember.Local")]
-    [JsonProperty("user-rating")] // MBS-9129: Serialized erroneously
-    private UserRating UserRating { get; set; }
-
     public UserTagList UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the barcode is not always serialized (but sometimes serialized as empty string)
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the packaging is not serialized when not set (instead of being serialized as an empty string)
+    // - the packaging ID is not serialized
+    // - the quality is not serialized
+    // - the status ID is not serialized
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = string.Empty;

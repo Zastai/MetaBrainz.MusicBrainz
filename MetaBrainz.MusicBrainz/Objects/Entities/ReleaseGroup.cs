@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MetaBrainz.MusicBrainz.Objects.Searches;
 
 using Newtonsoft.Json;
 
@@ -32,7 +34,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class ReleaseGroup : IReleaseGroup {
+  internal sealed class ReleaseGroup : SearchResult, IFoundReleaseGroup {
 
     public EntityType EntityType => EntityType.ReleaseGroup;
 
@@ -52,16 +54,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
 
-    [JsonProperty("disambiguation", Required = Required.Always)]
+    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("first-release-date", Required = Required.AllowNull)]
+    [JsonProperty("first-release-date", Required = Required.Default)]
     public PartialDate FirstReleaseDate { get; private set; }
 
     [JsonProperty("primary-type", Required = Required.AllowNull)]
     public string PrimaryType { get; private set; }
 
-    [JsonProperty("primary-type-id", Required = Required.AllowNull)]
+    [JsonProperty("primary-type-id", Required = Required.Default)]
     public Guid? PrimaryTypeId { get; private set; }
 
     public IRating Rating => this._rating;
@@ -79,10 +81,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
 
-    [JsonProperty("secondary-types", Required = Required.Always)]
+    [JsonProperty("secondary-types", Required = Required.DisallowNull)]
     public StringList SecondaryTypes { get; private set; }
 
-    [JsonProperty("secondary-type-ids", Required = Required.Always)]
+    [JsonProperty("secondary-type-ids", Required = Required.DisallowNull)]
     public GuidList SecondaryTypeIds { get; private set; }
 
     public TagList Tags => this._tags;
@@ -90,7 +92,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
 
-    [JsonProperty("title", Required = Required.Always)]
+    [JsonProperty("title", Required = Required.DisallowNull)]
     public string Title { get; private set; }
 
     public IUserRating UserRating => this._userRating;
@@ -102,6 +104,19 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
+
+    #region Search Server Compatibility
+
+    // The search server's serialization differs in the following ways:
+    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
+    // - the first release date is not serialized
+    // - the primary type ID is not serialized
+    // - the secondary types are not serialized when not top-level
+    // - the secondary type IDs are not serialized
+    // - the title is not serialized when not top-level
+    // => Adjusted the Required flags for affected properties (to allow their omission).
+
+    #endregion
 
     public override string ToString() {
       var text = string.Empty;

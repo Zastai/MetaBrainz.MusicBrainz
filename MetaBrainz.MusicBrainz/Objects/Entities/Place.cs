@@ -46,7 +46,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IArea Area => this._area;
 
-    [JsonProperty("area", Required = Required.AllowNull)]
+    [JsonProperty("area", Required = Required.Default)]
     private Area _area = null;
 
     public ICoordinates Coordinates => this._coordinates;
@@ -89,6 +89,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     #region Search Server Compatibility
 
     // The search server's serialization differs in the following ways:
+    // - the area is not serialized when the place is part of a relationship
     // - the address is not serialized when not set (instead of being serialized as null)
     // - the coordinates are not serialized when not set (instead of being serialized as null)
     // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
