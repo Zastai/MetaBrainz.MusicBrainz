@@ -1,12 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFrameworks>net45</TargetFrameworks>
   </PropertyGroup>
   <Import Project="..\build\Common.props" />
-  <ItemGroup>
-    <Compile Remove="Properties\*" />
-  </ItemGroup>
+  <Import Project="..\build\NuGetPackage.props" />
+  <PropertyGroup>
+    <Version>0.3.0-pre</Version>
+    <AssemblyVersion>0.3</AssemblyVersion>
+    <FileVersion>0.3.0</FileVersion>
+    <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
+    <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
+    <!-- Owners and Summary are currently arbitrarily left out of MSBuild -->
+    <PackageSummary>.NET Implementation of libmusicbrainz</PackageSummary>
+  </PropertyGroup>
+  <Import Project="..\build\NuGetPackage.targets" />
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
   </ItemGroup>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <GeneratePackageOnBuild Condition=" $(Configuration) == 'Release' ">True</GeneratePackageOnBuild>
+    <Company>MetaBrainz</Company>
+    <Authors>Tim Van Holder</Authors>
+    <Copyright>Copyright © 2016, 2017 $(Authors)</Copyright>
+    <PackageIconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Zastai/MusicBrainz</PackageProjectUrl>
+    <PackageLicenseUrl>https://opensource.org/licenses/ms-pl</PackageLicenseUrl>
+  </PropertyGroup>
+</Project>

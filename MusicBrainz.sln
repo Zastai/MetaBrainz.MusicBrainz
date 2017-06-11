@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Fi
 	ProjectSection(SolutionItems) = preProject
 		build\Common.props = build\Common.props
 		build\FrameworkVersion.DefineConstants.props = build\FrameworkVersion.DefineConstants.props
+		build\NuGetPackage.props = build\NuGetPackage.props
+		build\NuGetPackage.targets = build\NuGetPackage.targets
 		README.md = README.md
 	EndProjectSection
 EndProject
