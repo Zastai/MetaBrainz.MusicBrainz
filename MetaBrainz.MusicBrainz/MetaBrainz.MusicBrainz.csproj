@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>net45</TargetFrameworks>
+    <TargetFrameworks>net45;net40;net35;net20</TargetFrameworks>
   </PropertyGroup>
   <Import Project="..\build\Common.props" />
   <Import Project="..\build\NuGetPackage.props" />
@@ -14,6 +14,10 @@
     <!-- Owners and Summary are currently arbitrarily left out of MSBuild -->
     <PackageSummary>.NET Implementation of libmusicbrainz</PackageSummary>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile  Remove="**\*.net45.cs" />
+    <Compile Include="**\*.net45.cs" Condition=" '$(TargetFramework)' == 'net45' " />
+  </ItemGroup>
   <Import Project="..\build\NuGetPackage.targets" />
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />

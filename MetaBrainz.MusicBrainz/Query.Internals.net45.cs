@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
-using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 using Newtonsoft.Json;
 

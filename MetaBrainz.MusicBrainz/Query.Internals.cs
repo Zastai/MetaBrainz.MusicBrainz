@@ -264,18 +264,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
-    #region Compatibility Helpers
-
-    #if NETFX_EQ_2_0 // Provide Func<T>
-
-    /// <summary>A function taking no arguments.</summary>
-    /// <typeparam name="TResult">The type for the function's result.</typeparam>
-    /// <returns>The result of the function.</returns>
-    private delegate TResult Func<out TResult>();
-
-    #endif
-
-    #if NETFX_GE_3_5 // Use ReaderWriterLockSlim
+    #region Request Lock
 
     private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
@@ -286,22 +275,6 @@ namespace MetaBrainz.MusicBrainz {
     private static void Unlock() {
       Query.RequestLock.ExitWriteLock();
     }
-
-    #else // Use ReaderWriterLock
-
-    private static readonly ReaderWriterLock RequestLock = new ReaderWriterLock();
-
-    private static void Lock()
-    {
-      Query.RequestLock.AcquireWriterLock(-1);
-    }
-
-    private static void Unlock()
-    {
-      Query.RequestLock.ReleaseWriterLock();
-    }
-
-    #endif
 
     #endregion
 
