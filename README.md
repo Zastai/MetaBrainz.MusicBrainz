@@ -1,4 +1,4 @@
-# MusicBrainz [![Build Status](https://travis-ci.org/Zastai/MusicBrainz.svg?branch=master)](https://travis-ci.org/Zastai/MusicBrainz)
+# MusicBrainz
 
 These are .NET implementations of libmusicbrainz, libcoverart and libdiscid.
 Each will have its own NuGet package.
