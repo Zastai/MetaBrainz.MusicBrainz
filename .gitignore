@@ -1,17 +1,9 @@
 /.idea
 /.vs/
 /build/
-*.suo
-*.VC.db
-*.VC.opendb
 *.*proj.user
 *.DotSettings.user
 *.userprefs
 
-# NuGet Stuff
-*.nupkg
-*.nuget.props
-*.nuget.targets
-/.nuget/
-/nuget/build
-/nuget/packages
+# Should be under /build, but currently can't be due to a .NET Core SDK 2.0 bug.
+obj/
