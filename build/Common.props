@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
   <PropertyGroup>
-    <BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <BaseOutputPath>$(MSBuildThisFileDirectory)bin\$(MSBuildProjectName)</BaseOutputPath>
-    <IntermediateOutputPath>$(BaseIntermediateOutputPath)\$(Configuration)\</IntermediateOutputPath>
-    <OutputPath>$(BaseOutputPath)\$(Configuration)\</OutputPath>
+    <BuildOutputRoot>$(MSBuildThisFileDirectory)</BuildOutputRoot>
+    <IntermediateRoot>$(BuildOutputRoot)obj\$(MSBuildProjectName)\</IntermediateRoot>
+    <MainOutputRoot>$(BuildOutputRoot)bin\$(MSBuildProjectName)\</MainOutputRoot>
+    <!-- Setting this breaks with .NET Core SDK 2.0: https://github.com/dotnet/sdk/issues/1518 -->
+    <!-- <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath> -->
+    <IntermediateOutputPath>$(IntermediateRoot)$(Configuration)\</IntermediateOutputPath>
+    <OutputPath>$(MainOutputRoot)\$(Configuration)\</OutputPath>
   </PropertyGroup>
+
   <PropertyGroup>
     <DocumentationFile Condition=" '$(OutputType)' == 'Library' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)MusicBrainz.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
+
   <Import Project="FrameworkVersion.DefineConstants.props" />
+
 </Project>
