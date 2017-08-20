@@ -10,28 +10,6 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using AliasList        = IReadOnlyList<IAlias>;
-  using CollectionList   = IReadOnlyList<ICollection>;
-  using LabelInfoList    = IReadOnlyList<ILabelInfo>;
-  using MediumList       = IReadOnlyList<IMedium>;
-  using NameCreditList   = IReadOnlyList<INameCredit>;
-  using RelationshipList = IReadOnlyList<IRelationship>;
-  using ReleaseEventList = IReadOnlyList<IReleaseEvent>;
-  using TagList          = IReadOnlyList<ITag>;
-  using UserTagList      = IReadOnlyList<IUserTag>;
-  #else
-  using AliasList        = IEnumerable<IAlias>;
-  using CollectionList   = IEnumerable<ICollection>;
-  using LabelInfoList    = IEnumerable<ILabelInfo>;
-  using MediumList       = IEnumerable<IMedium>;
-  using NameCreditList   = IEnumerable<INameCredit>;
-  using RelationshipList = IEnumerable<IRelationship>;
-  using ReleaseEventList = IEnumerable<IReleaseEvent>;
-  using TagList          = IEnumerable<ITag>;
-  using UserTagList      = IEnumerable<IUserTag>;
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -43,7 +21,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public AliasList Aliases => this._aliases;
+    public IReadOnlyList<IAlias> Aliases => this._aliases;
 
     [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
@@ -51,7 +29,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    public NameCreditList ArtistCredit => this._artistCredit;
+    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
 
     [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
@@ -62,7 +40,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("barcode", Required = Required.Default)]
     public string BarCode { get; private set; }
 
-    public CollectionList Collections => this._collections;
+    public IReadOnlyList<ICollection> Collections => this._collections;
 
     [JsonProperty("collections", Required = Required.DisallowNull)]
     private Collection[] _collections = null;
@@ -81,12 +59,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
-    public LabelInfoList LabelInfo => this._labelInfo;
+    public IReadOnlyList<ILabelInfo> LabelInfo => this._labelInfo;
 
     [JsonProperty("label-info", Required = Required.DisallowNull)]
     private LabelInfo[] _labelInfo = null;
 
-    public MediumList Media => this._media;
+    public IReadOnlyList<IMedium> Media => this._media;
 
     [JsonProperty("media", Required = Required.DisallowNull)]
     private Medium[] _media = null;
@@ -100,12 +78,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("quality", Required = Required.DisallowNull)]
     public string Quality { get; private set; }
 
-    public RelationshipList Relationships => this._relationships;
+    public IReadOnlyList<IRelationship> Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    public ReleaseEventList ReleaseEvents => this._releaseEvents;
+    public IReadOnlyList<IReleaseEvent> ReleaseEvents => this._releaseEvents;
 
     [JsonProperty("release-events", Required = Required.DisallowNull)]
     private ReleaseEvent[] _releaseEvents = null;
@@ -121,7 +99,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("status-id", Required = Required.Default)]
     public Guid? StatusId { get; private set; }
 
-    public TagList Tags => this._tags;
+    public IReadOnlyList<ITag> Tags => this._tags;
 
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
@@ -134,7 +112,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("title", Required = Required.Always)]
     public string Title { get; private set; }
 
-    public UserTagList UserTags => this._userTags;
+    public IReadOnlyList<IUserTag> UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;

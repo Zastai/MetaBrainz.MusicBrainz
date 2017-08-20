@@ -4,20 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_GE_4_5
-  using RecordingList    = IReadOnlyList<IRecording>;
-  using ReleaseGroupList = IReadOnlyList<IReleaseGroup>;
-  using ReleaseList      = IReadOnlyList<IRelease>;
-  using StringList       = IReadOnlyList<string>;
-  using WorkList         = IReadOnlyList<IWork>;
-  #else
-  using RecordingList    = IEnumerable<IRecording>;
-  using ReleaseGroupList = IEnumerable<IReleaseGroup>;
-  using ReleaseList      = IEnumerable<IRelease>;
-  using StringList       = IEnumerable<string>;
-  using WorkList         = IEnumerable<IWork>;
-  #endif
-
   /// <summary>A MusicBrainz artist.</summary>
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -42,28 +28,28 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     Guid? GenderId { get; }
 
     /// <summary>The IPI (Interested Parties Information) codes associated with this artist.</summary>
-    StringList Ipis { get; }
+    IReadOnlyList<string> Ipis { get; }
 
     /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this artist.</summary>
-    StringList Isnis { get; }
+    IReadOnlyList<string> Isnis { get; }
 
     /// <summary>The artist's lifespan.</summary>
     ILifeSpan LifeSpan { get; }
 
     /// <summary>The labels associated with the artist, if any.</summary>
-    RecordingList Recordings { get; }
+    IReadOnlyList<IRecording> Recordings { get; }
 
     /// <summary>The release groups associated with the artist, if any.</summary>
-    ReleaseGroupList ReleaseGroups { get; }
+    IReadOnlyList<IReleaseGroup> ReleaseGroups { get; }
 
     /// <summary>The releases associated with the artist, if any.</summary>
-    ReleaseList Releases { get; }
+    IReadOnlyList<IRelease> Releases { get; }
 
     /// <summary>The atist's sort name.</summary>
     string SortName { get; }
 
     /// <summary>The works associated with the artist, if any.</summary>
-    WorkList Works { get; }
+    IReadOnlyList<IWork> Works { get; }
 
   }
 

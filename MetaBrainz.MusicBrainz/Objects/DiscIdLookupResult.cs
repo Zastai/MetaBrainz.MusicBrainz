@@ -11,12 +11,6 @@ using Newtonsoft.Json.Linq;
 
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  #if NETFX_GE_4_5
-  using ReleaseList = IReadOnlyList<IRelease>;
-  #else
-  using ReleaseList = IEnumerable<IRelease>;
-  #endif
-
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -40,7 +34,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
         var jreleases = jobj["releases"];
         if (jreleases == null)
           throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
-        this._releases = JsonConvert.DeserializeObject<Release[]>(jreleases.ToString(), jss);
+        this.Releases = JsonConvert.DeserializeObject<Release[]>(jreleases.ToString(), jss);
       }
       this.Id = discid;
     }
@@ -49,9 +43,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     public IDisc Disc { get; }
 
-    public ReleaseList Releases => this._releases;
-
-    private readonly Release[] _releases;
+    public IReadOnlyList<IRelease> Releases { get; }
 
     public ICdStub Stub { get; }
 
@@ -62,8 +54,8 @@ namespace MetaBrainz.MusicBrainz.Objects {
         return "Disc: " + this.Disc;
       if (this.Stub != null)
         return "CD Stub: " + this.Stub;
-      if (this._releases != null)
-        return $"{this._releases.Length} Release(s)";
+      if (this.Releases != null)
+        return $"{this.Releases.Count} Release(s)";
       return string.Empty; // should be impossible
     }
 

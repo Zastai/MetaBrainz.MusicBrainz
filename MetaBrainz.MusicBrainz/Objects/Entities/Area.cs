@@ -10,20 +10,6 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using AliasList        = IReadOnlyList<IAlias>;
-  using RelationshipList = IReadOnlyList<IRelationship>;
-  using StringList       = IReadOnlyList<string>;
-  using TagList          = IReadOnlyList<ITag>;
-  using UserTagList      = IReadOnlyList<IUserTag>;
-  #else
-  using AliasList        = IEnumerable<IAlias>;
-  using RelationshipList = IEnumerable<IRelationship>;
-  using StringList       = IEnumerable<string>;
-  using TagList          = IEnumerable<ITag>;
-  using UserTagList      = IEnumerable<IUserTag>;
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -35,7 +21,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public AliasList Aliases => this._aliases;
+    public IReadOnlyList<IAlias> Aliases => this._aliases;
 
     [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
@@ -47,13 +33,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public string Disambiguation { get; private set; }
 
     [JsonProperty("iso-3166-1-codes", Required = Required.DisallowNull)]
-    public StringList Iso31661Codes { get; private set; }
+    public IReadOnlyList<string> Iso31661Codes { get; private set; }
 
     [JsonProperty("iso-3166-2-codes", Required = Required.DisallowNull)]
-    public StringList Iso31662Codes { get; private set; }
+    public IReadOnlyList<string> Iso31662Codes { get; private set; }
 
     [JsonProperty("iso-3166-3-codes", Required = Required.DisallowNull)]
-    public StringList Iso31663Codes { get; private set; }
+    public IReadOnlyList<string> Iso31663Codes { get; private set; }
 
     public ILifeSpan LifeSpan => this._lifeSpan;
 
@@ -63,12 +49,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("name", Required = Required.Always)]
     public string Name { get; private set; }
 
-    public RelationshipList Relationships => this._relationships;
+    public IReadOnlyList<IRelationship> Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    public TagList Tags => this._tags;
+    public IReadOnlyList<ITag> Tags => this._tags;
 
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
@@ -79,7 +65,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
 
-    public UserTagList UserTags => this._userTags;
+    public IReadOnlyList<IUserTag> UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;

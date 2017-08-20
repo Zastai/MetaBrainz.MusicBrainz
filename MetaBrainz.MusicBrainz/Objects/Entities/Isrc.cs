@@ -7,19 +7,13 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using RecordingList = IReadOnlyList<IRecording>;
-  #else
-  using RecordingList = IEnumerable<IRecording>;
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class Isrc : IIsrc {
 
-    public RecordingList Recordings => this._recordings;
+    public IReadOnlyList<IRecording> Recordings => this._recordings;
 
     [JsonProperty("recordings", Required = Required.Always)]
     private Recording[] _recordings = null;

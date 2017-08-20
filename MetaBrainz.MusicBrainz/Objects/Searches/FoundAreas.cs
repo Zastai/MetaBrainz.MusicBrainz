@@ -9,34 +9,22 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  using Interface = ISearchResults<IFoundArea>;
-  #if NETFX_GE_4_5
-  using Results   = IReadOnlyList<IFoundArea>;
-  #else
-  using Results   = IEnumerable<IFoundArea>;
-  #endif
-
-  internal sealed partial class FoundAreas : SearchResults<IFoundArea> {
+  internal sealed class FoundAreas : SearchResults<IFoundArea> {
 
     public FoundAreas(Query query, string queryString, int? limit = null, int? offset = null) : base(query, "area", queryString, limit, offset) { }
 
     public override DateTime? Created => this._currentResult?.created;
 
-    public override Results Results => this._currentResult?.results;
+    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
+
+    protected override ISearchResults<IFoundArea> Deserialize(string json) {
+      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
+      return this;
+    }
+
+    public override IReadOnlyList<IFoundArea> Results => this._currentResult?.results;
 
     public override int TotalResults => this._currentResult?.count ?? 0;
-
-    public override Interface Next() {
-      var json = base.NextResponse(this._currentResult?.results.Length ?? 0);
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
-
-    public override Interface Previous() {
-      var json = base.PreviousResponse();
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
 
     #pragma warning disable 169
     #pragma warning disable 649

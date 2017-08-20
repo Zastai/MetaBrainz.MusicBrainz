@@ -9,12 +9,6 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using SimpleTrackList = IReadOnlyList<ISimpleTrack>;
-  #else
-  using SimpleTrackList = IEnumerable<ISimpleTrack>;
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -40,7 +34,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("track-count", Required = Required.Default)]
     public int? TrackCount { get; private set; }
 
-    public SimpleTrackList Tracks => this._tracks;
+    public IReadOnlyList<ISimpleTrack> Tracks => this._tracks;
 
     [JsonProperty("tracks", Required = Required.DisallowNull)]
     private SimpleTrack[] _tracks = null;

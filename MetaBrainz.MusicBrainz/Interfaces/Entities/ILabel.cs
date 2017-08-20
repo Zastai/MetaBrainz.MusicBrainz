@@ -3,14 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_GE_4_5
-  using StringList  = IReadOnlyList<string>;
-  using ReleaseList = IReadOnlyList<IRelease>;
-  #else
-  using StringList  = IEnumerable<string>;
-  using ReleaseList = IEnumerable<IRelease>;
-  #endif
-
   /// <summary>A MusicBrainz label.</summary>
   [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -23,10 +15,10 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     string Country { get; }
 
     /// <summary>The IPI (Interested Parties Information) codes associated with this label.</summary>
-    StringList Ipis { get; }
+    IReadOnlyList<string> Ipis { get; }
 
     /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this label.</summary>
-    StringList Isnis { get; }
+    IReadOnlyList<string> Isnis { get; }
 
     /// <summary>The label code for this label (as in &quot;LC-<em>nnnn</em>&quot;).</summary>
     int? LabelCode { get; }
@@ -35,7 +27,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     ILifeSpan LifeSpan { get; }
 
     /// <summary>The releases associated with the label, if any.</summary>
-    ReleaseList Releases { get; }
+    IReadOnlyList<IRelease> Releases { get; }
 
   }
 

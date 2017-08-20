@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -11,24 +10,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
-
-  #if NETFX_GE_4_5
-  using AliasList        = IReadOnlyList<IAlias>;
-  using NameCreditList   = IReadOnlyList<INameCredit>;
-  using RelationshipList = IReadOnlyList<IRelationship>;
-  using ReleaseList      = IReadOnlyList<IRelease>;
-  using StringList       = IReadOnlyList<string>;
-  using TagList          = IReadOnlyList<ITag>;
-  using UserTagList      = IReadOnlyList<IUserTag>;
-  #else
-  using AliasList        = IEnumerable<IAlias>;
-  using NameCreditList   = IEnumerable<INameCredit>;
-  using RelationshipList = IEnumerable<IRelationship>;
-  using ReleaseList      = IEnumerable<IRelease>;
-  using StringList       = IEnumerable<string>;
-  using TagList          = IEnumerable<ITag>;
-  using UserTagList      = IEnumerable<IUserTag>;
-  #endif
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
@@ -41,7 +22,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public AliasList Aliases => this._aliases;
+    public IReadOnlyList<IAlias> Aliases => this._aliases;
 
     [JsonProperty("aliases", Required = Required.DisallowNull)]
     private Alias[] _aliases = null;
@@ -49,7 +30,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("annotation", Required = Required.Default)]
     public string Annotation { get; private set; }
 
-    public NameCreditList ArtistCredit => this._artistCredit;
+    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
 
     [JsonProperty("artist-credit", Required = Required.DisallowNull)]
     private NameCredit[] _artistCredit = null;
@@ -57,7 +38,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("disambiguation", Required = Required.DisallowNull)]
     public string Disambiguation { get; private set; }
 
-    public StringList Isrcs { get; private set; }
+    public IReadOnlyList<string> Isrcs { get; private set; }
 
     [JsonProperty("length", Required = Required.Default)]
     public int? Length { get; private set; }
@@ -67,17 +48,17 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("rating", Required = Required.DisallowNull)]
     private Rating _rating = null;
 
-    public RelationshipList Relationships => this._relationships;
+    public IReadOnlyList<IRelationship> Relationships => this._relationships;
 
     [JsonProperty("relations", Required = Required.DisallowNull)]
     private Relationship[] _relationships = null;
 
-    public ReleaseList Releases => this._releases;
+    public IReadOnlyList<IRelease> Releases => this._releases;
 
     [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
 
-    public TagList Tags => this._tags;
+    public IReadOnlyList<ITag> Tags => this._tags;
 
     [JsonProperty("tags", Required = Required.DisallowNull)]
     private Tag[] _tags = null;
@@ -90,7 +71,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("user-rating", Required = Required.DisallowNull)]
     private UserRating _userRating = null;
 
-    public UserTagList UserTags => this._userTags;
+    public IReadOnlyList<IUserTag> UserTags => this._userTags;
 
     [JsonProperty("user-tags", Required = Required.DisallowNull)]
     private UserTag[] _userTags = null;
@@ -120,13 +101,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         var i = 0;
         foreach (var child in value.Children()) {
           var jval = child as JValue;
-          if (jval == null) {
-            var jobj = child as JObject;
-            if (jobj != null) {
-              JToken jtok;
-              if (jobj.TryGetValue("id", out jtok))
-                jval = jtok as JValue;
-            }
+          if (jval == null && child is JObject jobj) {
+            if (jobj.TryGetValue("id", out JToken jtok))
+              jval = jtok as JValue;
           }
           if (jval != null)
             isrcs[i++] = jval.Value<string>();

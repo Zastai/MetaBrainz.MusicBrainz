@@ -46,8 +46,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     public TagSubmission Add(string tag, TagVote vote, EntityType entityType, Guid mbid) {
       if (tag == null) throw new ArgumentNullException(nameof(tag));
       var map = this.GetMap(entityType);
-      VoteMap tagvote;
-      if (!map.TryGetValue(mbid, out tagvote))
+      if (!map.TryGetValue(mbid, out var tagvote))
         map.Add(mbid, tagvote = new VoteMap());
       tagvote[tag] = vote;
       return this;

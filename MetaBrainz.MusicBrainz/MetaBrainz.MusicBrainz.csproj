@@ -1,25 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
-  <PropertyGroup>
-    <TargetFrameworks>net45;net40;net35;net20</TargetFrameworks>
-  </PropertyGroup>
+
   <Import Project="..\build\Common.props" />
   <Import Project="..\build\NuGetPackage.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
+  </PropertyGroup>
+
   <PropertyGroup>
     <Version>0.3.0-pre</Version>
     <AssemblyVersion>0.3</AssemblyVersion>
     <FileVersion>0.3.0</FileVersion>
-    <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
-    <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <!-- Owners and Summary are currently arbitrarily left out of MSBuild -->
-    <PackageSummary>.NET Implementation of libmusicbrainz</PackageSummary>
+    <PackageReleaseNotes>
+      Dropped support for .NET framework versions before 4.5; this allows for builds using .NET Core (which cannot target 2.0/3.5), and removes a lot of compatibility hassle (IReadOnlyList and async/await).
+      Added support for .NET Standard 2.0.
+      Bumped Newtonsoft.Json to the latest version (10.0.3).
+    </PackageReleaseNotes>
   </PropertyGroup>
+
   <ItemGroup>
-    <Compile  Remove="**\*.net45.cs" />
-    <Compile Include="**\*.net45.cs" Condition=" '$(TargetFramework)' == 'net45' " />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <Title>MusicBrainz Web Service Client Library</Title>
+    <Description>
+      This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).
+    </Description>
+    <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
+  </PropertyGroup>
+
   <Import Project="..\build\NuGetPackage.targets" />
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
-  </ItemGroup>
+
 </Project>

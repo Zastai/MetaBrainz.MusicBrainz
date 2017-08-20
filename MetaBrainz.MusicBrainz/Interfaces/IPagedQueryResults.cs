@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
@@ -10,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
   [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public partial interface IPagedQueryResults<TInterface, TItem> {
+  public interface IPagedQueryResults<TInterface, TItem> where TInterface : IPagedQueryResults<TInterface, TItem> {
 
     /// <summary>
     ///   The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in <see cref="Results"/>).
@@ -26,6 +27,14 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     TInterface Next();
+
+    /// <summary>
+    ///   Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+    /// </summary>
+    /// <returns>An asynchronous task returning this result set (with updated values).</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    Task<TInterface> NextAsync();
 
     /// <summary>
     ///   The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or null to continue where the current results end.
@@ -44,12 +53,16 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     TInterface Previous();
 
+    /// <summary>
+    ///   Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+    /// </summary>
+    /// <returns>An asynchronous task returning this result set (with updated values).</returns>
+    /// <exception cref="QueryException">When the web service reports an error.</exception>
+    /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+    Task<TInterface> PreviousAsync();
+
     /// <summary>The current results.</summary>
-#if NETFX_GE_4_5
     IReadOnlyList<TItem> Results { get; }
-#else
-    IEnumerable<TItem> Results { get; }
-#endif
 
     /// <summary>The total number of matches.</summary>
     int TotalResults { get; }

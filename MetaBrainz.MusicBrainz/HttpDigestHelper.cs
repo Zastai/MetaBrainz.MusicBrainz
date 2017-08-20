@@ -36,20 +36,16 @@ namespace MetaBrainz.MusicBrainz {
       if (properties == null) // Failed to get information (at least realm and nonce are required)
         return null;
       // Get the required properties
-      string realm;
-      if (!properties.TryGetValue("realm", out realm)) {
+      if (!properties.TryGetValue("realm", out var realm)) {
         Debug.Print("No realm defined for HTTP Digest.");
         return null;
       }
-      string nonce;
-      if (!properties.TryGetValue("nonce", out nonce)) {
+      if (!properties.TryGetValue("nonce", out var nonce)) {
         Debug.Print("No server nonce defined for HTTP Digest.");
         return null;
       }
-      string opaque;
-      properties.TryGetValue("opaque", out opaque);
-      string algorithm;
-      if (!properties.TryGetValue("algorithm", out algorithm))
+      properties.TryGetValue("opaque", out var opaque);
+      if (!properties.TryGetValue("algorithm", out var algorithm))
         algorithm = "MD5";
       if (algorithm != "MD5") {
         Debug.Print($"Unsupported HTTP Digest algorithm: {algorithm}");
@@ -58,18 +54,15 @@ namespace MetaBrainz.MusicBrainz {
       string qop = null;
       var nc = 0;
       var cnonce = string.Empty;
-      {
-        string text;
-        if (properties.TryGetValue("qop", out text)) {
-          foreach (var qopvalue in text.Split(',')) {
-            qop = qopvalue.Trim();
-            if (qop == "auth")
-              break;
-          }
-          if (qop != "auth") {
-            Debug.Print($"Unsupported QOP list for HTTP Digest: {text} (only auth is supported)");
-            return null;
-          }
+      if (properties.TryGetValue("qop", out var text)) {
+        foreach (var qopvalue in text.Split(',')) {
+          qop = qopvalue.Trim();
+          if (qop == "auth")
+            break;
+        }
+        if (qop != "auth") {
+          Debug.Print($"Unsupported QOP list for HTTP Digest: {text} (only auth is supported)");
+          return null;
         }
       }
       if (qop != null) { // We need nc and cnonce; to be stateless, we generate a new cnonce each time.
@@ -96,7 +89,7 @@ namespace MetaBrainz.MusicBrainz {
     private static string ComputeHash(string input) {
       var sb = new StringBuilder();
       foreach (var b in MD5.Create().ComputeHash(Encoding.ASCII.GetBytes(input)))
-          sb.Append(b.ToString("x2"));
+        sb.Append(b.ToString("x2"));
       return sb.ToString();
     }
 

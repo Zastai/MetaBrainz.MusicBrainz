@@ -18,8 +18,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     public IsrcSubmission Add(Guid mbid, params string[] isrcs) {
       if (isrcs == null || isrcs.Length == 0)
         return this;
-      List<string> current;
-      if (this._isrcs.TryGetValue(mbid, out current))
+      if (this._isrcs.TryGetValue(mbid, out var current))
         current.AddRange(isrcs);
       else
         this._isrcs.Add(mbid, new List<string>(isrcs));

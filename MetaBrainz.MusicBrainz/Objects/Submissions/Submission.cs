@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
@@ -18,15 +19,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string Submit() => this._query.PerformSubmission(this);
 
-    #if NETFX_GE_4_5
-
     /// <summary>Submits the request asynchronously.</summary>
     /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public async System.Threading.Tasks.Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this).ConfigureAwait(false);
-
-    #endif
+    public async Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this).ConfigureAwait(false);
 
     #endregion
 

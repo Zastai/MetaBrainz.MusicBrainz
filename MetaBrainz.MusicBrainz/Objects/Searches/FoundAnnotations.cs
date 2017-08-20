@@ -8,34 +8,22 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  using Interface = ISearchResults<IFoundAnnotation>;
-  #if NETFX_GE_4_5
-  using Results   = IReadOnlyList<IFoundAnnotation>;
-  #else
-  using Results   = IEnumerable<IFoundAnnotation>;
-  #endif
-
-  internal sealed partial class FoundAnnotations : SearchResults<IFoundAnnotation> {
+  internal sealed class FoundAnnotations : SearchResults<IFoundAnnotation> {
 
     public FoundAnnotations(Query query, string queryString, int? limit = null, int? offset = null) : base(query, "annotation", queryString, limit, offset) { }
 
     public override DateTime? Created => this._currentResult?.created;
 
-    public override Results Results => this._currentResult?.results;
+    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
+
+    protected override ISearchResults<IFoundAnnotation> Deserialize(string json) {
+      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
+      return this;
+    }
+
+    public override IReadOnlyList<IFoundAnnotation> Results => this._currentResult?.results;
 
     public override int TotalResults => this._currentResult?.count ?? 0;
-
-    public override Interface Next() {
-      var json = base.NextResponse(this._currentResult?.results.Length ?? 0);
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
-
-    public override Interface Previous() {
-      var json = base.PreviousResponse();
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
 
     #pragma warning disable 169
     #pragma warning disable 649

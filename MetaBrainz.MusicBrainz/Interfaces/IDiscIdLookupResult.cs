@@ -5,12 +5,6 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
-  #if NETFX_GE_4_5
-  using ReleaseList = IReadOnlyList<IRelease>;
-  #else
-  using ReleaseList = IEnumerable<IRelease>;
-  #endif
-
   /// <summary>The result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
@@ -24,7 +18,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
     IDisc Disc { get; }
 
     /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
-    ReleaseList Releases { get; }
+    IReadOnlyList<IRelease> Releases { get; }
 
     /// <summary>The CD stub returned by the lookup (if any was found).</summary>
     ICdStub Stub { get; }

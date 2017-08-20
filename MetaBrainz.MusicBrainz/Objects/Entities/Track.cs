@@ -8,12 +8,6 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using NameCreditList = IReadOnlyList<INameCredit>;
-  #else
-  using NameCreditList = IEnumerable<INameCredit>;
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -23,7 +17,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("id", Required = Required.Always)]
     public Guid MbId { get; private set; }
 
-    public NameCreditList ArtistCredit => this._artistCredit;
+    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
 
     [JsonProperty("artist-credit", Required = Required.DisallowNull)] 
     private NameCredit[] _artistCredit = null;

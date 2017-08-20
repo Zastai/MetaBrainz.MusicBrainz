@@ -84,18 +84,7 @@ namespace MetaBrainz.MusicBrainz {
       query.Append("response_type=code");
       query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
       query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-#if NETFX_GE_4_0
       query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
-#else
-      query.Append("&scope");
-      {
-        var plus = '=';
-        foreach (var ss in OAuth2.ScopeStrings(scope)) {
-          query.Append(plus).Append(ss);
-          plus = '+';
-        }
-      }
-#endif
       if (state != null)
         query.Append("&state=").Append(Uri.EscapeDataString(state));
       if (offlineAccess)

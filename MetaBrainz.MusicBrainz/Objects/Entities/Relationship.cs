@@ -8,14 +8,6 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  #if NETFX_GE_4_5
-  using StringList = IReadOnlyList<string>;
-  using StringMap  = IReadOnlyDictionary<string, string>;
-  #else
-  using StringList = IEnumerable<string>;
-  using StringMap  = IDictionary<string, string>; // FIXME: This should also be a read-only dictionary of some sort.
-  #endif
-
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
@@ -33,13 +25,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     private Artist _artist = null;
 
     [JsonProperty("attributes", Required = Required.DisallowNull)]
-    public StringList Attributes { get; private set; }
+    public IReadOnlyList<string> Attributes { get; private set; }
 
     [JsonProperty("attribute-credits", Required = Required.DisallowNull)]
-    public StringMap AttributeCredits { get; private set; }
+    public IReadOnlyDictionary<string, string> AttributeCredits { get; private set; }
 
     [JsonProperty("attribute-values", Required = Required.DisallowNull)]
-    public StringMap AttributeValues { get; private set; }
+    public IReadOnlyDictionary<string, string> AttributeValues { get; private set; }
 
     [JsonProperty("begin", Required = Required.Default)]
     public PartialDate Begin { get; private set; }

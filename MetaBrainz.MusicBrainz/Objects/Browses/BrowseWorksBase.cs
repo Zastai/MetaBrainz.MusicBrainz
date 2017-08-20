@@ -9,32 +9,20 @@ using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  using Interface = IBrowseResults<IWork>;
-  #if NETFX_GE_4_5
-  using Results   = IReadOnlyList<IWork>;
-  #else
-  using Results   = IEnumerable<IWork>;
-  #endif
-
-  internal abstract partial class BrowseWorksBase : BrowseResults<IWork> {
+  internal abstract class BrowseWorksBase : BrowseResults<IWork> {
 
     protected BrowseWorksBase(Query query, string endpoint, string value, string extra, int? limit = null, int? offset = null) : base(query, endpoint, value, extra, limit, offset) { }
 
-    public sealed override Results Results => this._currentResult?.results;
+    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
+
+    protected override IBrowseResults<IWork> Deserialize(string json) {
+      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
+      return this;
+    }
+
+    public sealed override IReadOnlyList<IWork> Results => this._currentResult?.results;
 
     public sealed override int TotalResults => this._currentResult?.count ?? 0;
-
-    public sealed override Interface Next() {
-      var json = base.NextResponse(this._currentResult?.results.Length ?? 0);
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
-
-    public sealed override Interface Previous() {
-      var json = base.PreviousResponse();
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
-    }
 
     #pragma warning disable 169
     #pragma warning disable 649

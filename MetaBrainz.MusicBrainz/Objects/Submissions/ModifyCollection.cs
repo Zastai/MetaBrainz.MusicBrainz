@@ -10,11 +10,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
   internal sealed class ModifyCollection : ISubmission {
 
     public ModifyCollection(string method, string client, Guid collection, EntityType entityType) {
-      if (method == null) throw new ArgumentNullException(nameof(method));
-      if (client == null) throw new ArgumentNullException(nameof(client));
+      this._method = method ?? throw new ArgumentNullException(nameof(method));
+      this._client = client ?? throw new ArgumentNullException(nameof(client));
       if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
-      this._method = method;
-      this._client = client;
       this._request = new StringBuilder(16 * 1024);
       this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(ModifyCollection.MapType(entityType)).Append('/');
     }

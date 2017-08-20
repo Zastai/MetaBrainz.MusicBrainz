@@ -4,12 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  #if NETFX_GE_4_5
-  using NameCreditList = IReadOnlyList<INameCredit>;
-  #else
-  using NameCreditList = IEnumerable<INameCredit>;
-  #endif
-
   /// <summary>A track on a medium.</summary>
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
@@ -19,7 +13,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     Guid MbId { get; }
 
     /// <summary>The artist credit for the track.</summary>
-    NameCreditList ArtistCredit { get; }
+    IReadOnlyList<INameCredit> ArtistCredit { get; }
 
     /// <summary>The length of the track, in milliseconds.</summary>
     int? Length { get; }
