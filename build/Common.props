@@ -20,6 +20,10 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <Import Project="FrameworkVersion.DefineConstants.props" />
 
 </Project>
