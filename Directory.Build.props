@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <!-- This file is automatically included by the build. Common.props is imported here to work around https://github.com/dotnet/sdk/issues/1518 -->
+  <Import Project="$(MSBuildThisFileDirectory)build\Common.props" />
+</Project>

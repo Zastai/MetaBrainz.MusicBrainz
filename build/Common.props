@@ -5,8 +5,7 @@
     <BuildOutputRoot>$(MSBuildThisFileDirectory)</BuildOutputRoot>
     <IntermediateRoot>$(BuildOutputRoot)obj\$(MSBuildProjectName)\</IntermediateRoot>
     <MainOutputRoot>$(BuildOutputRoot)bin\$(MSBuildProjectName)\</MainOutputRoot>
-    <!-- Setting this breaks with .NET Core SDK 2.0: https://github.com/dotnet/sdk/issues/1518 -->
-    <!-- <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath> -->
+    <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)$(Configuration)\</IntermediateOutputPath>
     <OutputPath>$(MainOutputRoot)\$(Configuration)\</OutputPath>
   </PropertyGroup>
