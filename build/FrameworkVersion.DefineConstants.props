@@ -166,6 +166,33 @@
     <TFDC>$(TFDC);NETFX_EQ_4_7</TFDC>
     <TFDC>$(TFDC);NETFX_GE_4_7</TFDC>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net471' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_7</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_7_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7_1</TFDC>
+  </PropertyGroup>
   <!-- TODO: Maybe also add some definitions based on target framework profile? -->
   <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.0' ">
     <TFDC>NETSTD_TARGET</TFDC>

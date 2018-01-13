@@ -5,5 +5,3 @@
 *.DotSettings.user
 *.userprefs
 
-# Should be under /build, but currently can't be due to a .NET Core SDK 2.0 bug.
-obj/
