@@ -8,13 +8,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>0.3.0-pre</Version>
-    <AssemblyVersion>0.3</AssemblyVersion>
-    <FileVersion>0.3.0</FileVersion>
+    <Version>1.0.0</Version>
+    <AssemblyVersion>1.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
     <PackageReleaseNotes>
-      Dropped support for .NET framework versions before 4.5; this allows for builds using .NET Core (which cannot target 2.0/3.5), and removes a lot of compatibility hassle (IReadOnlyList and async/await).
-      Added support for .NET Standard 2.0.
-      Bumped Newtonsoft.Json to the latest version (10.0.3).
+First official release.
+Dropped support for .NET framework versions before 4.5; this allows for builds using .NET Core (which cannot target 2.0/3.5), and removes a lot of compatibility hassle (IReadOnlyList and async/await).
+Added support for .NET Standard 2.0.
+Bumped Newtonsoft.Json to the latest version (10.0.3).
     </PackageReleaseNotes>
   </PropertyGroup>
 
@@ -24,9 +25,7 @@
 
   <PropertyGroup>
     <Title>MusicBrainz Web Service Client Library</Title>
-    <Description>
-      This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).
-    </Description>
+    <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
   </PropertyGroup>
 
