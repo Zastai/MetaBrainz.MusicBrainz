@@ -8,15 +8,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.0</Version>
-    <AssemblyVersion>1.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
-    <PackageReleaseNotes>
-First official release.
-Dropped support for .NET framework versions before 4.5; this allows for builds using .NET Core (which cannot target 2.0/3.5), and removes a lot of compatibility hassle (IReadOnlyList and async/await).
-Added support for .NET Standard 2.0.
-Bumped Newtonsoft.Json to the latest version (10.0.3).
-    </PackageReleaseNotes>
+    <Version>1.1.0-pre</Version>
+    <AssemblyVersion>1.1</AssemblyVersion>
+    <FileVersion>1.1</FileVersion>
+    <PackageReleaseNotes />
   </PropertyGroup>
 
   <ItemGroup>
