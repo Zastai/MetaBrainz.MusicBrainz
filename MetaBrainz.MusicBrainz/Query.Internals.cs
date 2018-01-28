@@ -112,15 +112,13 @@ namespace MetaBrainz.MusicBrainz {
 
     private static DateTime _lastRequestTime;
 
-    private static double _requestDelay = 1.0;
-
     private static HttpWebResponse ApplyDelay(Func<HttpWebResponse> request) {
-      if (Query._requestDelay <= 0.0)
+      if (Query.DelayBetweenRequests <= 0.0)
         return request();
       while (true) {
         Query.Lock();
         try {
-          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
             try {
               return request();
             }
@@ -132,18 +130,18 @@ namespace MetaBrainz.MusicBrainz {
         finally {
           Query.Unlock();
         }
-        Thread.Sleep((int) (500 * Query._requestDelay));
+        Thread.Sleep((int) (500 * Query.DelayBetweenRequests));
       }
     }
 
     private static async Task<HttpWebResponse> ApplyDelayAsync(Func<Task<HttpWebResponse>> request) {
-      if (Query._requestDelay <= 0.0)
+      if (Query.DelayBetweenRequests <= 0.0)
         return await request().ConfigureAwait(false);
       Task<HttpWebResponse> task = null;
       while (task == null) {
         Query.Lock();
         try {
-          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query._requestDelay) {
+          if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
             try {
               task = request();
             }
@@ -155,7 +153,7 @@ namespace MetaBrainz.MusicBrainz {
         finally {
           Query.Unlock();
         }
-        await Task.Delay((int) (500 * Query._requestDelay)).ConfigureAwait(false);
+        await Task.Delay((int) (500 * Query.DelayBetweenRequests)).ConfigureAwait(false);
       }
       return await task.ConfigureAwait(false);
     }

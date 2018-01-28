@@ -30,37 +30,24 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Static Fields / Properties
 
-    static Query() {
-      // Mono's C# compiler does not like initializers on auto-properties, so set them up here instead.
-      Query.DefaultPort      = -1;
-      Query.DefaultUrlScheme = "https";
-      Query.DefaultUserAgent = null;
-      Query.DefaultWebSite   = "musicbrainz.org";
-    }
-
     /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-    public static int DefaultPort { get; set; }
+    public static int DefaultPort { get; set; } = -1;
 
     /// <summary>The default internet access protocol to use for requests.</summary>
-    public static string DefaultUrlScheme { get; set; }
+    public static string DefaultUrlScheme { get; set; } = "https";
 
     /// <summary>The default user agent to use for requests.</summary>
-    public static string DefaultUserAgent { get; set; }
+    public static string DefaultUserAgent { get; set; } = null;
 
     /// <summary>The default web site to use for requests.</summary>
-    public static string DefaultWebSite { get; set; }
+    public static string DefaultWebSite { get; set; } = "musicbrainz.org";
 
     /// <summary>The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are made.</summary>
     /// <remarks>
     ///   Note that this is a global delay, affecting all threads.
-    ///   When querying the official musicbrainz site, setting this below the default of one second may incur penalties (ranging from rate limiting to IP bans).
+    ///   When querying the official MusicBrainz site, setting this below the default of one second may incur penalties (ranging from rate limiting to IP bans).
     /// </remarks>
-    public static double DelayBetweenRequests {
-      get { return Query._requestDelay; }
-      set {
-        Query._requestDelay = value;
-      }
-    }
+    public static double DelayBetweenRequests { get; set; } = 1.0;
 
     #endregion
 
@@ -86,7 +73,7 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
-    /// <param name="application">The applciation name to use in the user agent property for all requests.</param>
+    /// <param name="application">The application name to use in the user agent property for all requests.</param>
     /// <param name="version">The version number to use in the user agent property for all requests.</param>
     /// <param name="contact">The contact address (typically HTTP or MAILTO) to use in the user agent property for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.</exception>
@@ -108,7 +95,7 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
-    /// <param name="application">The applciation name to use in the user agent property for all requests.</param>
+    /// <param name="application">The application name to use in the user agent property for all requests.</param>
     /// <param name="version">The version number to use in the user agent property for all requests.</param>
     /// <param name="contact">The contact address (typically a URL or email address) to use in the user agent property for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.</exception>
