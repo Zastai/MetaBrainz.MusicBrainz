@@ -62,12 +62,8 @@ namespace MetaBrainz.MusicBrainz {
       this.UserAgent = userAgent ?? Query.DefaultUserAgent;
       if (this.UserAgent == null) throw new ArgumentNullException(nameof(userAgent));
       if (this.UserAgent.Trim().Length == 0) throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
-      // Simple Defaults
-      this.Port      = Query.DefaultPort;
-      this.UrlScheme = Query.DefaultUrlScheme;
-      this.WebSite   = Query.DefaultWebSite;
       { // Set full user agent, including this library's information
-        var an = Assembly.GetExecutingAssembly().GetName();
+        var an = typeof(Query).Assembly.GetName();
         this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
       }
     }
@@ -78,21 +74,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="contact">The contact address (typically HTTP or MAILTO) to use in the user agent property for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.</exception>
     /// <exception cref="ArgumentException">When <paramref name="application"/> is blank.</exception>
-    public Query(string application, Version version, Uri contact) {
-      if (application == null) throw new ArgumentNullException(nameof(application));
-      if (version     == null) throw new ArgumentNullException(nameof(version));
-      if (contact     == null) throw new ArgumentNullException(nameof(contact));
-      if (application.Trim().Length == 0) throw new ArgumentException("The application name must not be blank.", nameof(application));
-      this.UserAgent = $"{application}/{version} ({contact})";
-      // Simple Defaults
-      this.Port      = Query.DefaultPort;
-      this.UrlScheme = Query.DefaultUrlScheme;
-      this.WebSite   = Query.DefaultWebSite;
-      { // Set full user agent, including this library's information
-        var an = Assembly.GetExecutingAssembly().GetName();
-        this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
-      }
-    }
+    public Query(string application, Version version, Uri contact) : this(application, version?.ToString(), contact?.ToString()) { }
 
     /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
     /// <param name="application">The application name to use in the user agent property for all requests.</param>
@@ -108,12 +90,8 @@ namespace MetaBrainz.MusicBrainz {
       if (version    .Trim().Length == 0) throw new ArgumentException("The version number must not be blank.",   nameof(version));
       if (contact    .Trim().Length == 0) throw new ArgumentException("The contact address must not be blank.",  nameof(contact));
       this.UserAgent = $"{application}/{version} ({contact})";
-      // Simple Defaults
-      this.Port      = Query.DefaultPort;
-      this.UrlScheme = Query.DefaultUrlScheme;
-      this.WebSite   = Query.DefaultWebSite;
       { // Set full user agent, including this library's information
-        var an = Assembly.GetExecutingAssembly().GetName();
+        var an = typeof(Query).Assembly.GetName();
         this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
       }
     }
@@ -122,23 +100,23 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Instance Fields / Properties
 
+    /// <summary>The base URI for all requests.</summary>
+    public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+
     /// <summary>The OAuth2 bearer token to use for authenticated requests.</summary>
-    public string BearerToken { get; set; }
+    public string BearerToken { get; set; } = null;
 
     /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
-    public int Port { get; set; }
+    public int Port { get; set; } = Query.DefaultPort;
 
     /// <summary>The internet access protocol to use for requests.</summary>
-    public string UrlScheme { get; set; }
+    public string UrlScheme { get; set; } = Query.DefaultUrlScheme;
 
     /// <summary>The user agent to use for requests.</summary>
     public string UserAgent { get; }
 
     /// <summary>The web site to use for requests.</summary>
-    public string WebSite { get; set; }
-
-    /// <summary>The base URI for all requests.</summary>
-    public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+    public string WebSite { get; set; } = Query.DefaultWebSite;
 
     #endregion
 
