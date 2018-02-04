@@ -37,14 +37,16 @@ It mostly corresponds to the `Show-MusicBrainz-TableOfContents` powershell cmdle
 A Powershell module is provided as well.
 
 To make it available, create a `WindowsPowershell\Modules\MetaBrainz.MusicBrainz.DiscId` inside your "My Documents" folder.
-Then place both MetaBrainz.MusicBrainz.DiscId.dll and MetaBrainz.MusicBrainz.DiscId.psm1 in that directory.
+Then place both MetaBrainz.MusicBrainz.DiscId.dll, MetaBrainz.MusicBrainz.DiscId.psd1 and MetaBrainz.MusicBrainz.DiscId.psm1 in that directory.
 Still to come: help files and an installer (possibly via chocolatey).
 
 | Command | Description |
 | ------- | ----------- |
-| `Get-MusicBrainz-AvailableDevices`  | Returns the list of available devices. |
-| `Get-MusicBrainz-AvailableFeatures` | Returns the available disc read features. |
-| `Get-MusicBrainz-DefaultDevice`     | Returns the default device. |
-| `Get-MusicBrainz-DiscId`            | Reads a device's table of contents and returns the Disc ID for it. |
-| `Get-MusicBrainz-SubmissionUrl`     | Reads a device's table of contents and returns the MusicBrainz submission URL for it. |
-| `Show-MusicBrainz-TableOfContents`  | Shows information about a device's table of contents. |
+| `Get-MusicBrainzAvailableDevices`  | Returns the list of available devices. |
+| `Get-MusicBrainzAvailableFeatures` | Returns the available disc read features. |
+| `Get-MusicBrainzDefaultDevice`     | Returns the default device. |
+| `Get-MusicBrainzDiscId`            | Reads a device's table of contents and returns the Disc ID for it. |
+| `Get-MusicBrainzSubmissionUrl`     | Reads a device's table of contents and returns the MusicBrainz submission URL for it. |
+| `Show-MusicBrainzTableOfContents`  | Shows information about a device's table of contents. |
+
+Note that the MusicBrainz prefix for the commands can be changed via the `-Prefix` option of `Import-Module`.
