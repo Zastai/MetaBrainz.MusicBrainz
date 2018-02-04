@@ -5,7 +5,7 @@
     <GeneratePackageOnBuild Condition=" $(Configuration) == 'Release' ">True</GeneratePackageOnBuild>
     <Company>MetaBrainz</Company>
     <Authors>Zastai</Authors>
-    <Copyright>Copyright © 2016, 2017, 2018 Tim Van Holder</Copyright>
+    <Copyright>Copyright © 2016, 2017, 2018 Tim Van Holder. All rights reserved.</Copyright>
     <Product>MetaBrainz.MusicBrainz</Product>
     <PackageIconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
