@@ -39,7 +39,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     #region Internals
 
-    internal IsrcSubmission(Query query, string client) : base(query, client, "recording", "POST") { }
+    internal IsrcSubmission(Query query, string client) : base(query, client, "recording", Method.POST) { }
 
     private readonly Dictionary<Guid, List<string>> _isrcs = new Dictionary<Guid, List<string>>();
 

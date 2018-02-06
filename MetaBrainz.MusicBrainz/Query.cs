@@ -24,7 +24,7 @@ namespace MetaBrainz.MusicBrainz {
     public const string UserAgentUrl = "https://github.com/Zastai/MusicBrainz";
 
     /// <summary>The root location of the web service.</summary>
-    public const string WebServiceRoot = "/ws/2";
+    public const string WebServiceRoot = "/ws/2/";
 
     #endregion
 

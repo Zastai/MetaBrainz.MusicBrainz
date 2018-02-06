@@ -28,7 +28,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, entityType).Add(items));
+    public string AddToCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, entityType).Add(items));
 
     /// <summary>Adds the specified areas to the specified collection.</summary>
     /// <param name="client">
@@ -42,7 +42,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Area).Add(items));
+    public string AddToCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Area).Add(items));
 
     /// <summary>Adds the specified artists to the specified collection.</summary>
     /// <param name="client">
@@ -56,7 +56,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Artist).Add(items));
+    public string AddToCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Artist).Add(items));
 
     /// <summary>Adds the specified events to the specified collection.</summary>
     /// <param name="client">
@@ -70,7 +70,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Event).Add(items));
+    public string AddToCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Event).Add(items));
 
     /// <summary>Adds the specified instruments to the specified collection.</summary>
     /// <param name="client">
@@ -84,7 +84,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Instrument).Add(items));
+    public string AddToCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Instrument).Add(items));
 
     /// <summary>Adds the specified labels to the specified collection.</summary>
     /// <param name="client">
@@ -98,7 +98,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Label).Add(items));
+    public string AddToCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Label).Add(items));
 
     /// <summary>Adds the specified places to the specified collection.</summary>
     /// <param name="client">
@@ -112,7 +112,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Place).Add(items));
+    public string AddToCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Place).Add(items));
 
     /// <summary>Adds the specified recordings to the specified collection.</summary>
     /// <param name="client">
@@ -126,7 +126,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Recording).Add(items));
+    public string AddToCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Recording).Add(items));
 
     /// <summary>Adds the specified releases to the specified collection.</summary>
     /// <param name="client">
@@ -140,7 +140,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Release).Add(items));
+    public string AddToCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Release).Add(items));
 
     /// <summary>Adds the specified release groups to the specified collection.</summary>
     /// <param name="client">
@@ -154,7 +154,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.ReleaseGroup).Add( items));
+    public string AddToCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.ReleaseGroup).Add( items));
 
     /// <summary>Adds the specified series to the specified collection.</summary>
     /// <param name="client">
@@ -168,7 +168,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Series).Add(items));
+    public string AddToCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Series).Add(items));
 
     /// <summary>Adds the specified works to the specified collection.</summary>
     /// <param name="client">
@@ -182,7 +182,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string AddToCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection("PUT", client, collection, EntityType.Work).Add(items));
+    public string AddToCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.Work).Add(items));
 
     /// <summary>Adds the specified items to the specified collection.</summary>
     /// <param name="client">
@@ -198,7 +198,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string AddToCollection(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Adds the specified items to the specified collection.</summary>
@@ -215,7 +215,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string AddToCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion
@@ -236,7 +236,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, params Guid[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, entityType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, entityType).Add(items));
     }
 
     /// <summary>Adds the specified areas to the specified collection.</summary>
@@ -252,7 +252,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IArea[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Area).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Area).Add(items));
     }
 
     /// <summary>Adds the specified artists to the specified collection.</summary>
@@ -268,7 +268,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IArtist[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Artist).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Artist).Add(items));
     }
 
     /// <summary>Adds the specified events to the specified collection.</summary>
@@ -284,7 +284,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IEvent[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Event).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Event).Add(items));
     }
 
     /// <summary>Adds the specified instruments to the specified collection.</summary>
@@ -300,7 +300,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IInstrument[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Instrument).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Instrument).Add(items));
     }
 
     /// <summary>Adds the specified labels to the specified collection.</summary>
@@ -316,7 +316,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params ILabel[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Label).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Label).Add(items));
     }
 
     /// <summary>Adds the specified places to the specified collection.</summary>
@@ -332,7 +332,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IPlace[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Place).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Place).Add(items));
     }
 
     /// <summary>Adds the specified recordings to the specified collection.</summary>
@@ -348,7 +348,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IRecording[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Recording).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Recording).Add(items));
     }
 
     /// <summary>Adds the specified releases to the specified collection.</summary>
@@ -364,7 +364,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IRelease[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Release).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Release).Add(items));
     }
 
     /// <summary>Adds the specified release groups to the specified collection.</summary>
@@ -380,7 +380,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IReleaseGroup[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.ReleaseGroup).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.ReleaseGroup).Add(items));
     }
 
     /// <summary>Adds the specified series to the specified collection.</summary>
@@ -396,7 +396,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params ISeries[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Series).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Series).Add(items));
     }
 
     /// <summary>Adds the specified works to the specified collection.</summary>
@@ -412,7 +412,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, Guid collection, params IWork[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection, EntityType.Work).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection, EntityType.Work).Add(items));
     }
 
     /// <summary>Adds the specified items to the specified collection.</summary>
@@ -429,7 +429,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Adds the specified items to the specified collection.</summary>
@@ -446,7 +446,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> AddToCollectionAsync(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmissionAsync(new ModifyCollection("PUT", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.PUT, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion
@@ -466,7 +466,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, entityType).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, entityType).Add(items));
 
     /// <summary>Removes the specified areas to the specified collection.</summary>
     /// <param name="client">
@@ -480,7 +480,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Area).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Area).Add(items));
 
     /// <summary>Removes the specified artists to the specified collection.</summary>
     /// <param name="client">
@@ -494,7 +494,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Artist).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Artist).Add(items));
 
     /// <summary>Removes the specified events to the specified collection.</summary>
     /// <param name="client">
@@ -508,7 +508,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Event).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Event).Add(items));
 
     /// <summary>Removes the specified instruments to the specified collection.</summary>
     /// <param name="client">
@@ -522,7 +522,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Instrument).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Instrument).Add(items));
 
     /// <summary>Removes the specified labels to the specified collection.</summary>
     /// <param name="client">
@@ -536,7 +536,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Label).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Label).Add(items));
 
     /// <summary>Removes the specified places to the specified collection.</summary>
     /// <param name="client">
@@ -550,7 +550,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Place).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Place).Add(items));
 
     /// <summary>Removes the specified recordings to the specified collection.</summary>
     /// <param name="client">
@@ -564,7 +564,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Recording).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Recording).Add(items));
 
     /// <summary>Removes the specified releases to the specified collection.</summary>
     /// <param name="client">
@@ -578,7 +578,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Release).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Release).Add(items));
 
     /// <summary>Removes the specified release groups to the specified collection.</summary>
     /// <param name="client">
@@ -592,7 +592,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.ReleaseGroup).Add( items));
+    public string RemoveFromCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
 
     /// <summary>Removes the specified series to the specified collection.</summary>
     /// <param name="client">
@@ -606,7 +606,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Series).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Series).Add(items));
 
     /// <summary>Removes the specified works to the specified collection.</summary>
     /// <param name="client">
@@ -620,7 +620,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-    public string RemoveFromCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection("DELETE", client, collection, EntityType.Work).Add(items));
+    public string RemoveFromCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Work).Add(items));
 
     /// <summary>Removes the specified items to the specified collection.</summary>
     /// <param name="client">
@@ -636,7 +636,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Removes the specified items to the specified collection.</summary>
@@ -653,7 +653,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmission(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion
@@ -674,7 +674,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, params Guid[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, entityType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, entityType).Add(items));
     }
 
     /// <summary>Removes the specified areas to the specified collection.</summary>
@@ -690,7 +690,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IArea[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Area).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Area).Add(items));
     }
 
     /// <summary>Removes the specified artists to the specified collection.</summary>
@@ -706,7 +706,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IArtist[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Artist).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Artist).Add(items));
     }
 
     /// <summary>Removes the specified events to the specified collection.</summary>
@@ -722,7 +722,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IEvent[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Event).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Event).Add(items));
     }
 
     /// <summary>Removes the specified instruments to the specified collection.</summary>
@@ -738,7 +738,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IInstrument[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Instrument).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Instrument).Add(items));
     }
 
     /// <summary>Removes the specified labels to the specified collection.</summary>
@@ -754,7 +754,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params ILabel[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Label).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Label).Add(items));
     }
 
     /// <summary>Removes the specified places to the specified collection.</summary>
@@ -770,7 +770,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IPlace[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Place).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Place).Add(items));
     }
 
     /// <summary>Removes the specified recordings to the specified collection.</summary>
@@ -786,7 +786,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IRecording[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Recording).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Recording).Add(items));
     }
 
     /// <summary>Removes the specified releases to the specified collection.</summary>
@@ -802,7 +802,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IRelease[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Release).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Release).Add(items));
     }
 
     /// <summary>Removes the specified release groups to the specified collection.</summary>
@@ -818,7 +818,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IReleaseGroup[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.ReleaseGroup).Add( items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
     }
 
     /// <summary>Removes the specified series to the specified collection.</summary>
@@ -834,7 +834,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params ISeries[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Series).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Series).Add(items));
     }
 
     /// <summary>Removes the specified works to the specified collection.</summary>
@@ -850,7 +850,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IWork[] items) {
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection, EntityType.Work).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Work).Add(items));
     }
 
     /// <summary>Removes the specified items to the specified collection.</summary>
@@ -867,7 +867,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params Guid[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     /// <summary>Removes the specified items to the specified collection.</summary>
@@ -884,7 +884,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public Task<string> RemoveFromCollectionAsyncAsync(string client, ICollection collection, params IEntity[] items) {
       if (collection == null) throw new ArgumentNullException(nameof(collection));
-      return this.PerformSubmissionAsync(new ModifyCollection("DELETE", client, collection.MbId, collection.ContentType).Add(items));
+      return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
     #endregion

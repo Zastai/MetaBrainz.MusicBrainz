@@ -35,7 +35,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     #region Internals
 
-    internal BarcodeSubmission(Query query, string client) : base(query, client, "release", "POST") { }
+    internal BarcodeSubmission(Query query, string client) : base(query, client, "release", Method.POST) { }
 
     private readonly Dictionary<Guid, string> _barcodes = new Dictionary<Guid, string>();
 

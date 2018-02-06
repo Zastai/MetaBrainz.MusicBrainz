@@ -97,7 +97,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     #region Internals
 
-    internal TagSubmission(Query query, string client) : base(query, client, "tag", "POST") { }
+    internal TagSubmission(Query query, string client) : base(query, client, "tag", Method.POST) { }
 
     private class VoteMap : Dictionary<string, TagVote> { }
 

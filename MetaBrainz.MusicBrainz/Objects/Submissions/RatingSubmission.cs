@@ -61,7 +61,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     #region Internals
 
-    internal RatingSubmission(Query query, string client) : base(query, client, "rating", "POST") { }
+    internal RatingSubmission(Query query, string client) : base(query, client, "rating", Method.POST) { }
 
     private class RatingMap : Dictionary<Guid, byte> { }
 

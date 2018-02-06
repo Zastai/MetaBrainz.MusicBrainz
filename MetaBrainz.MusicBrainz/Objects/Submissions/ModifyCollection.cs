@@ -9,8 +9,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
   internal sealed class ModifyCollection : ISubmission {
 
-    public ModifyCollection(string method, string client, Guid collection, EntityType entityType) {
-      this._method = method ?? throw new ArgumentNullException(nameof(method));
+    public ModifyCollection(Method method, string client, Guid collection, EntityType entityType) {
+      this._method = method;
       this._client = client ?? throw new ArgumentNullException(nameof(client));
       if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       this._request = new StringBuilder(16 * 1024);
@@ -29,19 +29,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
       return this;
     }
 
-    private readonly string        _method;
+    private readonly Method        _method;
     private readonly string        _client;
     private readonly StringBuilder _request;
 
     string ISubmission.Client => this._client;
-
-    string ISubmission.ContentType => null;
-
     string ISubmission.Entity => this._request.ToString();
+    Method ISubmission.Method => this._method;
 
-    string ISubmission.Method => this._method;
-
-    string ISubmission.RequestBody => null;
+    string ISubmission.ContentType { get; } = null;
+    string ISubmission.RequestBody { get; } = null;
 
     private static string MapType(EntityType entityType) {
       switch (entityType) {

@@ -15,18 +15,12 @@ using Newtonsoft.Json;
 namespace MetaBrainz.MusicBrainz {
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  public sealed partial class Query {
-
+  public sealed partial class Query : IDisposable {
+    
     private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
       CheckAdditionalContent = true,
       MissingMemberHandling  = MissingMemberHandling.Error
     };
-
-    private const string JsonContentType = "application/json";
-
-    private readonly string _fullUserAgent;
-
-    private string _lastDigest;
 
     #region Message / Error Handling
 
@@ -41,7 +35,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #pragma warning restore 649
 
-    private static string ExtractError(HttpWebResponse response) {
+    private static string ExtractError(WebResponse response) {
       if (response == null || response.ContentLength == 0)
         return null;
       try {
@@ -49,6 +43,7 @@ namespace MetaBrainz.MusicBrainz {
           if (stream == null)
             return null;
           if (response.ContentType.StartsWith("application/xml")) {
+            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
             StringBuilder sb = null;
             var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
             while (xpath.MoveNext()) {
@@ -58,49 +53,41 @@ namespace MetaBrainz.MusicBrainz {
                 sb.AppendLine();
               sb.Append(xpath.Current.InnerXml);
             }
-            Debug.Print($"[{DateTime.UtcNow}] => ERROR ({response.ContentType}): \"{sb}\"");
+            Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
             return sb?.ToString();
           }
           if (response.ContentType.StartsWith("application/json")) {
-            var encname = response.CharacterSet;
-            if (encname == null || encname.Trim().Length == 0)
-              encname = "utf-8";
+            var encname = "utf-8";
+            if (response is HttpWebResponse httpresponse) {
+              encname = httpresponse.CharacterSet;
+              if (encname == null || encname.Trim().Length == 0)
+                encname = "utf-8";
+            }
             var enc = Encoding.GetEncoding(encname);
             using (var sr = new StreamReader(stream, enc)) {
-              var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
-              Debug.Print($"[{DateTime.UtcNow}] => ERROR ({response.ContentType}): \"{moe?.error}\"");
+              var json = sr.ReadToEnd();
+              Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{json}\"");
+              var moe = JsonConvert.DeserializeObject<MessageOrError>(json);
+              Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe?.error}\"");
               return moe?.error;
             }
           }
-          Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR ({response.ContentType})");
+          Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
         }
       }
-      catch { /* keep calm and fall through */ }
+      catch (Exception e) {
+        Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
+        /* keep calm and fall through */
+      }
       return null;
     }
 
-    private static string ExtractMessage(HttpWebResponse response) {
-      if (response == null)
-        return null;
-      if (response.ContentLength == 0)
-        return null;
+    private static string ExtractMessage(string response) {
       try {
-        using (var stream = response.GetResponseStream()) {
-          if (stream == null)
-            return null;
-          if (response.ContentType.StartsWith("application/json")) {
-            var encname = response.CharacterSet;
-            if (encname == null || encname.Trim().Length == 0)
-              encname = "utf-8";
-            var enc = Encoding.GetEncoding(encname);
-            using (var sr = new StreamReader(stream, enc)) {
-              var moe = JsonConvert.DeserializeObject<MessageOrError>(sr.ReadToEnd());
-              Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{moe?.message}\"");
-              return moe?.message;
-            }
-          }
-          Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED RESPONSE ({response.ContentType})");
-        }
+        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (application/json): \"{response}\"");
+        var moe = JsonConvert.DeserializeObject<MessageOrError>(response);
+        Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: \"{moe?.message}\"");
+        return moe?.message;
       }
       catch { /* keep calm and fall through */ }
       return null;
@@ -110,52 +97,44 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Delay Processing
 
+    private static readonly SemaphoreSlim RequestLock = new SemaphoreSlim(1);
+
     private static DateTime _lastRequestTime;
 
-    private static HttpWebResponse ApplyDelay(Func<HttpWebResponse> request) {
+    private static T ApplyDelay<T>(Func<T> request) {
       if (Query.DelayBetweenRequests <= 0.0)
         return request();
       while (true) {
-        Query.Lock();
+        Query.RequestLock.Wait();
         try {
           if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-            try {
-              return request();
-            }
-            finally {
-              Query._lastRequestTime = DateTime.UtcNow;
-            }
+            Query._lastRequestTime = DateTime.UtcNow;
+            return request();
           }
         }
         finally {
-          Query.Unlock();
+          Query.RequestLock.Release();
         }
         Thread.Sleep((int) (500 * Query.DelayBetweenRequests));
       }
     }
 
-    private static async Task<HttpWebResponse> ApplyDelayAsync(Func<Task<HttpWebResponse>> request) {
+    private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request) {
       if (Query.DelayBetweenRequests <= 0.0)
         return await request().ConfigureAwait(false);
-      Task<HttpWebResponse> task = null;
-      while (task == null) {
-        Query.Lock();
+      while (true) {
+        await Query.RequestLock.WaitAsync();
         try {
           if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-            try {
-              task = request();
-            }
-            finally {
-              Query._lastRequestTime = DateTime.UtcNow;
-            }
+            Query._lastRequestTime = DateTime.UtcNow;
+            return await request().ConfigureAwait(false);
           }
         }
         finally {
-          Query.Unlock();
+          Query.RequestLock.Release();
         }
         await Task.Delay((int) (500 * Query.DelayBetweenRequests)).ConfigureAwait(false);
       }
-      return await task.ConfigureAwait(false);
     }
 
     #endregion
@@ -287,169 +266,147 @@ namespace MetaBrainz.MusicBrainz {
 
     #endregion
 
-    #region Request Lock
+    #region Web Client / IDisposable
 
-    private static readonly ReaderWriterLockSlim RequestLock = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
+    private readonly SemaphoreSlim _clientLock = new SemaphoreSlim(1);
 
-    private static void Lock() {
-      Query.RequestLock.EnterWriteLock();
+    private bool _disposed;
+    
+    private readonly string _fullUserAgent;
+
+    private WebClient _webClient;
+    
+    private WebClient WebClient {
+      get {
+        if (this._disposed)
+          throw new ObjectDisposedException(nameof(Query));
+        var wc = this._webClient ?? (this._webClient = new WebClient { Encoding = Encoding.UTF8 });
+        wc.BaseAddress = this.BaseUri.ToString();
+        return wc;
+      }
     }
 
-    private static void Unlock() {
-      Query.RequestLock.ExitWriteLock();
+    /// <summary>Closes the web client in use by this query, if there is one.</summary>
+    /// <remarks>The next web service request will create a new client.</remarks>
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    public void Close() {
+      this._clientLock.Wait();
+      try {
+        this._webClient?.Dispose();
+        this._webClient = null;
+      }
+      finally {
+        this._clientLock.Release();
+      }
     }
-
+    
+    /// <summary>Disposes the web client in use by this query, if there is one.</summary>
+    /// <remarks>Further attempts at web service requests will cause <see cref="ObjectDisposedException"/> to be thrown.</remarks>
+    public void Dispose() {
+      this.Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+    
+    private void Dispose(bool disposing) {
+      if (!disposing)
+        return;
+      try {
+        this.Close();
+        this._clientLock.Dispose();
+      }
+      finally {
+        this._disposed = true;
+      }
+    }
+    
+    ~Query() {
+      this.Dispose(false);
+    }
+    
     #endregion
 
-    #region Synchronous Requests
+    #region Basic Request Execution
 
-    private HttpWebResponse PerformRequest(Uri uri, string method, string accept, string contentType = null, string body = null) {
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {uri}");
-      var firstTry = true;
-    retry:
-      var req = WebRequest.Create(uri) as HttpWebRequest;
-      if (req == null)
-        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method      = method;
-      req.Accept      = accept;
-      req.UserAgent   = this._fullUserAgent;
-      if (contentType != null)
-        req.ContentType = contentType;
-      if (body != null) {
-        Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
-        using (var rs = req.GetRequestStream()) {
-          using (var sw = new StreamWriter(rs, Encoding.UTF8))
-            sw.Write(body);
-        }
-      }
-      if (this.BearerToken != null)
-        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
-      else if (this._lastDigest != null)
-        req.Headers.Add("Authorization", this._lastDigest);
+    private string PerformRequest(string address, Method method, string accept, string contentType, string body = null) {
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
+      this._clientLock.Wait();
       try {
-        return (HttpWebResponse) req.GetResponse();
-      }
-      catch (WebException we) when (we.Response is HttpWebResponse) {
-        var response = (HttpWebResponse) we.Response;
-        if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
-          firstTry = false; // only retry authentication once
-          var digest = HttpDigestHelper.GetDigest(response, null);
-          if (digest != null && this._lastDigest != digest) {
-            response.Dispose();
-            this._lastDigest = digest;
-            goto retry;
-          }
+        var wc = this.WebClient;
+        if (this.BearerToken != null)
+          wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
+        if (contentType != null)
+          wc.Headers.Set("Content-Type", contentType);
+        wc.Headers.Set("Accept", accept);
+        wc.Headers.Set("User-Agent", this._fullUserAgent);
+        wc.QueryString.Clear();
+        try {
+          if (method == Method.GET)
+            return wc.DownloadString(address);
+          if (body != null)
+            Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+          return wc.UploadString(address, method.ToString(), body ?? string.Empty);
         }
-        var msg = Query.ExtractError(response);
-        if (msg != null)
-          throw new QueryException(msg, we);
-        throw;
+        catch (WebException we) {
+          var msg = Query.ExtractError(we.Response);
+          if (msg != null)
+            throw new QueryException(msg, we);
+          throw;
+        }
+      }
+      finally {
+        this._clientLock.Release();
       }
     }
 
     internal string PerformRequest(string entity, string id, string extra) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, "GET", Query.JsonContentType))) {
-        if (!response.ContentType.StartsWith(Query.JsonContentType)) // FIXME: Should validate a little more than that, really
-          throw new QueryException($"Invalid response received: bad content type ({response.ContentType}).");
-        using (var stream = response.GetResponseStream()) {
-          if (stream == null)
-            return string.Empty;
-          var encname = response.CharacterSet;
-          if (encname == null || encname.Trim().Length == 0)
-            encname = "utf-8";
-          var enc = Encoding.GetEncoding(encname);
-          using (var sr = new StreamReader(stream, enc)) {
-            var json = sr.ReadToEnd();
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <<\n{JsonConvert.DeserializeObject(json)}\n>>");
-            return json;
-          }
-        }
-      }
+      var json = Query.ApplyDelay(() => this.PerformRequest($"{entity}/{id}{extra}", Method.GET, "application/json", null));
+      Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
+      return json;
     }
 
-    internal string PerformSubmission(ISubmission submission) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-      using (var response = Query.ApplyDelay(() => this.PerformRequest(uri, submission.Method, Query.JsonContentType, submission.ContentType, submission.RequestBody)))
-        return Query.ExtractMessage(response);
-    }
-
-    #endregion
-
-    #region Asynchronous Requests
-
-    private async Task<HttpWebResponse> PerformRequestAsync(Uri uri, string method, string accept, string contentType = null, string body = null) {
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {uri}");
-      var firstTry = true;
-    retry:
-      var req = WebRequest.Create(uri) as HttpWebRequest;
-      if (req == null)
-        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method      = method;
-      req.Accept      = accept;
-      req.UserAgent   = this._fullUserAgent;
-      if (contentType != null)
-        req.ContentType = contentType;
-      if (body != null) {
-        Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
-        using (var rs = await req.GetRequestStreamAsync().ConfigureAwait(false)) {
-          using (var sw = new StreamWriter(rs, Encoding.UTF8))
-            sw.Write(body);
-        }
-      }
-      if (this.BearerToken != null)
-        req.Headers.Add("Authorization", $"Bearer {this.BearerToken}");
-      else if (this._lastDigest != null)
-        req.Headers.Add("Authorization", this._lastDigest);
+    private async Task<string> PerformRequestAsync(string address, Method method, string accept, string contentType, string body = null) {
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
+      await this._clientLock.WaitAsync();
       try {
-        return (HttpWebResponse) await req.GetResponseAsync().ConfigureAwait(false);
-      }
-      catch (WebException we) when (we.Response is HttpWebResponse) {
-        using (var response = (HttpWebResponse) we.Response) {
-          if (firstTry && response.StatusCode == HttpStatusCode.Unauthorized) {
-            firstTry = false; // only retry authentication once
-            var digest = HttpDigestHelper.GetDigest(response, null);
-            if (digest != null && this._lastDigest != digest) {
-              response.Dispose();
-              this._lastDigest = digest;
-              goto retry;
-            }
-          }
-          var msg = Query.ExtractError(response);
+        var wc = this.WebClient;
+        if (this.BearerToken != null)
+          wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
+        if (contentType != null)
+          wc.Headers.Set("Content-Type", contentType);
+        wc.Headers.Set("Accept", accept);
+        wc.Headers.Set("User-Agent", this._fullUserAgent);
+        wc.QueryString.Clear();
+        try {
+          if (method == Method.GET)
+            return await wc.DownloadStringTaskAsync(address).ConfigureAwait(false);
+          if (body != null)
+            Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+          return await wc.UploadStringTaskAsync(address, method.ToString(), body ?? string.Empty).ConfigureAwait(false);
+        }
+        catch (WebException we) {
+          var msg = Query.ExtractError(we.Response);
           if (msg != null)
             throw new QueryException(msg, we);
+          throw;
         }
-        throw;
+      }
+      finally {
+        this._clientLock.Release();
       }
     }
 
     internal async Task<string> PerformRequestAsync(string entity, string id, string extra) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{entity}/{id}", extra).Uri;
-      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, "GET", Query.JsonContentType));
-      using (var response = await task.ConfigureAwait(false)) {
-        if (!response.ContentType.StartsWith(Query.JsonContentType)) // FIXME: Should validate a little more than that, really
-          throw new QueryException($"Invalid response received: bad content type ({response.ContentType}).");
-        using (var stream = response.GetResponseStream()) {
-          if (stream == null)
-            return string.Empty;
-          var encname = response.CharacterSet;
-          if (encname == null || encname.Trim().Length == 0)
-            encname = "utf-8";
-          var enc = Encoding.GetEncoding(encname);
-          using (var sr = new StreamReader(stream, enc)) {
-            var json = sr.ReadToEnd();
-            Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <<\n{JsonConvert.DeserializeObject(json)}\n>>");
-            return json;
-          }
-        }
-      }
+      var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync($"{entity}/{id}{extra}", Method.GET, "application/json", null));
+      Debug.Print($"[{DateTime.UtcNow}] => RESPONSE: <<\n{JsonConvert.DeserializeObject(json)}\n>>");
+      return json;
+    }
+
+    internal string PerformSubmission(ISubmission submission) {
+      return Query.ExtractMessage(Query.ApplyDelay(() => this.PerformRequest($"{submission.Entity}/?client={submission.Client}", submission.Method, "application/json", submission.ContentType, submission.RequestBody)));
     }
 
     internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
-      var uri = new UriBuilder(this.UrlScheme, this.WebSite, this.Port, $"{Query.WebServiceRoot}/{submission.Entity}/", $"?client={submission.Client}").Uri;
-      var task = Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, Query.JsonContentType, submission.ContentType, submission.RequestBody));
-      using (var response = await task.ConfigureAwait(false))
-        return Query.ExtractMessage(response);
+      return Query.ExtractMessage(await Query.ApplyDelayAsync(() => this.PerformRequestAsync($"{submission.Entity}/?client={submission.Client}", submission.Method, "application/json", submission.ContentType, submission.RequestBody)));
     }
 
     #endregion

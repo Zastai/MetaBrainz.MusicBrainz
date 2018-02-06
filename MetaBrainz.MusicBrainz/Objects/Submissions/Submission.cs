@@ -28,11 +28,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     #endregion
 
     #region Internals
-
+    
     [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
     internal abstract string RequestBody { get; }
 
-    internal Submission(Query query, string client, string entity, string method) {
+    internal Submission(Query query, string client, string entity, Method method) {
       this._query  = query;
       this._client = client;
       this._entity = entity;
@@ -42,17 +42,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     private readonly Query  _query;
     private readonly string _client;
     private readonly string _entity;
-    private readonly string _method;
+    private readonly Method _method;
 
-    string ISubmission.Client => this._client;
-
-    string ISubmission.ContentType => "application/xml; charset=utf-8";
-
-    string ISubmission.Entity => this._entity;
-
-    string ISubmission.Method => this._method;
-
+    string ISubmission.Client      => this._client;
+    string ISubmission.Entity      => this._entity;
+    Method ISubmission.Method      => this._method;
     string ISubmission.RequestBody => this.RequestBody;
+
+    string ISubmission.ContentType { get; } = "application/xml; charset=utf-8";
 
     // A StringWriter using UTF-8 as encoding (so that XmlWriter writes "utf-8" as encoding instead of "utf-16").
     internal sealed class U8StringWriter : StringWriter {

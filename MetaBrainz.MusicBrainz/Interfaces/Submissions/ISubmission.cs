@@ -8,7 +8,7 @@
 
     string Entity { get; }
 
-    string Method { get; }
+    Method Method { get; }
 
     string RequestBody { get; }
 
