@@ -189,7 +189,7 @@ namespace MetaBrainz.MusicBrainz {
     private static void AddReleaseFilter(StringBuilder sb, ReleaseType? type, ReleaseStatus? status) {
       if (sb == null) throw new ArgumentNullException(nameof(sb));
       if (type.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("type=");
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
         var letter = '=';
         // Primary Types
         if ((type.Value & ReleaseType.Album)       != 0) { sb.Append(letter).Append("album");          letter = '|'; }
@@ -209,7 +209,7 @@ namespace MetaBrainz.MusicBrainz {
         if ((type.Value & ReleaseType.SpokenWord)  != 0) { sb.Append(letter).Append("spokenword");     letter = '|'; }
       }
       if (status.HasValue) {
-        sb.Append((sb.Length == 0) ? '?' : '&').Append("status=");
+        sb.Append((sb.Length == 0) ? '?' : '&').Append("status");
         var letter = '=';
         if ((status.Value & ReleaseStatus.Bootleg)       != 0) { sb.Append(letter).Append("bootleg");        letter = '|'; }
         if ((status.Value & ReleaseStatus.Official)      != 0) { sb.Append(letter).Append("official");       letter = '|'; }
