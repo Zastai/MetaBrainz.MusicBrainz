@@ -31,7 +31,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
 
-    [JsonProperty("artist-credit", Required = Required.DisallowNull)]
+    [JsonProperty("artist-credit", Required = Required.Default)]
     private NameCredit[] _artistCredit = null;
 
     [JsonProperty("asin", Required = Required.Default)]
