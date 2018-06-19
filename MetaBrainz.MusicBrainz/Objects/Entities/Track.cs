@@ -28,6 +28,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("number", Required = Required.AllowNull)] 
     public string Number { get; private set; }
 
+    [JsonProperty("position", Required = Required.DisallowNull)]
+    public int? Position { get; private set; }
+
     public IRecording Recording => this._recording;
 
     [JsonProperty("recording", Required = Required.DisallowNull)]

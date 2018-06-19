@@ -21,6 +21,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The number of the track on its medium.</summary>
     string Number { get; }
 
+    /// <summary>The positin of the track within its medium.</summary>
+    int? Position { get; }
+
     /// <summary>The recording associated with the track.</summary>
     IRecording Recording { get; }
 
