@@ -8,10 +8,14 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.1.0-pre</Version>
+    <Version>1.1.0</Version>
     <AssemblyVersion>1.1</AssemblyVersion>
     <FileVersion>1.1</FileVersion>
-    <PackageReleaseNotes />
+    <PackageReleaseNotes>
+      Ticket 2: Added Position field to Track entities.
+      Allow artist-credit fields to be null.
+      Bumped Newtonsoft.Json to the latest version (11.0.2).
+    </PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
