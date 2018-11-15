@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.1.1-pre</Version>
+    <Version>1.1.1</Version>
     <AssemblyVersion>1.1</AssemblyVersion>
     <FileVersion>1.1.1</FileVersion>
     <PackageReleaseNotes>Corrected the build so that the IntelliSense XML documentation is property built and packaged.</PackageReleaseNotes>
