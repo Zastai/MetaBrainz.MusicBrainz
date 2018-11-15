@@ -7,11 +7,12 @@
     <MainOutputRoot>$(BuildOutputRoot)bin\$(MSBuildProjectName)\</MainOutputRoot>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
     <IntermediateOutputPath>$(IntermediateRoot)$(Configuration)\</IntermediateOutputPath>
-    <OutputPath>$(MainOutputRoot)\$(Configuration)\</OutputPath>
+    <OutputPath>$(MainOutputRoot)$(Configuration)\</OutputPath>
   </PropertyGroup>
 
+  <!-- FIXME: Using Condition=" '$(OutputType)' == 'Library' " for this does NOT work! -->
   <PropertyGroup>
-    <DocumentationFile Condition=" '$(OutputType)' == 'Library' ">$(OutputPath)$(AssemblyName).xml</DocumentationFile>
+    <DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>

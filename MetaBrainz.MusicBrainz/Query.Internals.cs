@@ -16,7 +16,7 @@ namespace MetaBrainz.MusicBrainz {
 
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
   public sealed partial class Query : IDisposable {
-    
+
     private static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings {
       CheckAdditionalContent = true,
       MissingMemberHandling  = MissingMemberHandling.Error
@@ -271,11 +271,11 @@ namespace MetaBrainz.MusicBrainz {
     private readonly SemaphoreSlim _clientLock = new SemaphoreSlim(1);
 
     private bool _disposed;
-    
+
     private readonly string _fullUserAgent;
 
     private WebClient _webClient;
-    
+
     private WebClient WebClient {
       get {
         if (this._disposed)
@@ -299,14 +299,14 @@ namespace MetaBrainz.MusicBrainz {
         this._clientLock.Release();
       }
     }
-    
+
     /// <summary>Disposes the web client in use by this query, if there is one.</summary>
     /// <remarks>Further attempts at web service requests will cause <see cref="ObjectDisposedException"/> to be thrown.</remarks>
     public void Dispose() {
       this.Dispose(true);
       GC.SuppressFinalize(this);
     }
-    
+
     private void Dispose(bool disposing) {
       if (!disposing)
         return;
@@ -318,11 +318,12 @@ namespace MetaBrainz.MusicBrainz {
         this._disposed = true;
       }
     }
-    
+
+    /// <summary>Finalizes this query, releasing any and all resources.</summary>
     ~Query() {
       this.Dispose(false);
     }
-    
+
     #endregion
 
     #region Basic Request Execution
