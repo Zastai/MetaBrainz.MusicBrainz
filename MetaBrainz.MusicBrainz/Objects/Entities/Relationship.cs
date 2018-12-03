@@ -30,6 +30,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("attribute-credits", Required = Required.DisallowNull)]
     public IReadOnlyDictionary<string, string> AttributeCredits { get; private set; }
 
+    [JsonProperty("attribute-ids", Required = Required.Default)]
+    public IReadOnlyDictionary<string, Guid> AttributeIds { get; private set; }
+
     [JsonProperty("attribute-values", Required = Required.DisallowNull)]
     public IReadOnlyDictionary<string, string> AttributeValues { get; private set; }
 
