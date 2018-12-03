@@ -9,7 +9,7 @@
     <Product>MetaBrainz.MusicBrainz</Product>
     <PackageIconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
-    <PackageLicenseUrl>https://opensource.org/licenses/ms-pl</PackageLicenseUrl>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/Zastai/MusicBrainz</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
   </PropertyGroup>
