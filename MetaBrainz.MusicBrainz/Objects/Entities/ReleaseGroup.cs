@@ -40,7 +40,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("first-release-date", Required = Required.Default)]
     public PartialDate FirstReleaseDate { get; private set; }
 
-    [JsonProperty("primary-type", Required = Required.AllowNull)]
+    [JsonProperty("primary-type", Required = Required.Default)]
     public string PrimaryType { get; private set; }
 
     [JsonProperty("primary-type-id", Required = Required.Default)]

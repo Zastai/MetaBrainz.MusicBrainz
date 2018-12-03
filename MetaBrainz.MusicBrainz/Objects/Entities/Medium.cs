@@ -24,7 +24,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("discs", Required = Required.DisallowNull)]
     private Disc[] _discs = null;
 
-    [JsonProperty("format", Required = Required.AllowNull)]
+    [JsonProperty("format", Required = Required.Default)]
     public string Format { get; private set; }
 
     [JsonProperty("format-id", Required = Required.Default)]

@@ -93,7 +93,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("release-group", Required = Required.Default)]
     private ReleaseGroup _releaseGroup = null;
 
-    [JsonProperty("status", Required = Required.AllowNull)]
+    [JsonProperty("status", Required = Required.Default)]
     public string Status { get; private set; }
 
     [JsonProperty("status-id", Required = Required.Default)]
