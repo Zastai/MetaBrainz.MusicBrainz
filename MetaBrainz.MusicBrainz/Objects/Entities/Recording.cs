@@ -78,7 +78,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public bool Video => this._video.GetValueOrDefault();
 
-    [JsonProperty("video", Required = Required.AllowNull)]
+    [JsonProperty("video", Required = Required.Default)]
     private bool? _video = null;
 
     #region Search Server Compatibility

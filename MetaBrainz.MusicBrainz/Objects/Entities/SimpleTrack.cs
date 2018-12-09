@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class SimpleTrack : ISimpleTrack {
 
-    [JsonProperty("artist", Required = Required.AllowNull)]
+    [JsonProperty("artist", Required = Required.Default)]
     public string Artist { get; private set; }
 
     [JsonProperty("length", Required = Required.Always)]

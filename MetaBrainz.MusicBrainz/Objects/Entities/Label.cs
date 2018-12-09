@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IReadOnlyList<IAlias> Aliases => this._aliases;
 
-    [JsonProperty("aliases", Required = Required.DisallowNull)]
+    [JsonProperty("aliases", Required = Required.Default)]
     private Alias[] _aliases = null;
 
     [JsonProperty("annotation", Required = Required.Default)]
@@ -37,13 +37,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("country", Required = Required.Default)]
     public string Country { get; private set; }
 
-    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
+    [JsonProperty("disambiguation", Required = Required.Default)]
     public string Disambiguation { get; private set; }
 
-    [JsonProperty("ipis", Required = Required.DisallowNull)]
+    [JsonProperty("ipis", Required = Required.Default)]
     public IReadOnlyList<string> Ipis { get; private set; }
 
-    [JsonProperty("isnis", Required = Required.DisallowNull)]
+    [JsonProperty("isnis", Required = Required.Default)]
     public IReadOnlyList<string> Isnis { get; private set; }
 
     [JsonProperty("label-code", Required = Required.Default)]
@@ -51,7 +51,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public ILifeSpan LifeSpan => this._lifeSpan;
 
-    [JsonProperty("life-span", Required = Required.DisallowNull)]
+    [JsonProperty("life-span", Required = Required.Default)]
     private LifeSpan _lifeSpan = null;
 
     [JsonProperty("name", Required = Required.Always)]
@@ -59,22 +59,22 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IRating Rating => this._rating;
 
-    [JsonProperty("rating", Required = Required.DisallowNull)]
+    [JsonProperty("rating", Required = Required.Default)]
     private Rating _rating = null;
 
     public IReadOnlyList<IRelationship> Relationships => this._relationships;
 
-    [JsonProperty("relations", Required = Required.DisallowNull)]
+    [JsonProperty("relations", Required = Required.Default)]
     private Relationship[] _relationships = null;
 
     public IReadOnlyList<IRelease> Releases => this._releases;
 
-    [JsonProperty("releases", Required = Required.DisallowNull)]
+    [JsonProperty("releases", Required = Required.Default)]
     private Release[] _releases = null;
 
     public IReadOnlyList<ITag> Tags => this._tags;
 
-    [JsonProperty("tags", Required = Required.DisallowNull)]
+    [JsonProperty("tags", Required = Required.Default)]
     private Tag[] _tags = null;
 
     [JsonProperty("type", Required = Required.Default)]
@@ -85,12 +85,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IUserRating UserRating => this._userRating;
 
-    [JsonProperty("user-rating", Required = Required.DisallowNull)]
+    [JsonProperty("user-rating", Required = Required.Default)]
     private UserRating _userRating = null;
 
     public IReadOnlyList<IUserTag> UserTags => this._userTags;
 
-    [JsonProperty("user-tags", Required = Required.DisallowNull)]
+    [JsonProperty("user-tags", Required = Required.Default)]
     private UserTag[] _userTags = null;
 
     #region Search Server Compatibility

@@ -17,10 +17,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("artist", Required = Required.Always)]
     private Artist _artist = null;
 
-    [JsonProperty("joinphrase", Required = Required.DisallowNull)] 
+    [JsonProperty("joinphrase", Required = Required.Default)]
     public string JoinPhrase { get; private set; }
 
-    [JsonProperty("name", Required = Required.DisallowNull)] 
+    [JsonProperty("name", Required = Required.Default)]
     public string Name { get; private set; }
 
     #region Search Server Compatibility

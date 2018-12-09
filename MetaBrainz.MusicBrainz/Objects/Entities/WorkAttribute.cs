@@ -18,10 +18,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("type-id", Required = Required.Always)]
     public Guid? TypeId { get; private set; }
 
-    [JsonProperty("value", Required = Required.AllowNull)]
+    [JsonProperty("value", Required = Required.Default)]
     public string Value { get; private set; }
 
-    [JsonProperty("value-id", Required = Required.DisallowNull)]
+    [JsonProperty("value-id", Required = Required.Default)]
     public Guid? ValueId { get; private set; }
 
     public override string ToString() => $"{this.Type}: {this.Value}";

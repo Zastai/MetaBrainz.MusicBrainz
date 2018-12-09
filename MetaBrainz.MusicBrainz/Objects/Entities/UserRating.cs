@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [JsonObject(MemberSerialization.OptIn)]
   internal sealed class UserRating : IUserRating {
 
-    [JsonProperty("value", Required = Required.AllowNull)]
+    [JsonProperty("value", Required = Required.Default)]
     public decimal? Value { get; private set; }
 
     public override string ToString() {

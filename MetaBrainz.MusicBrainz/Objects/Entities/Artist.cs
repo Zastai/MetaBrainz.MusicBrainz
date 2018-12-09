@@ -95,7 +95,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("releases", Required = Required.DisallowNull)]
     private Release[] _releases = null;
 
-    [JsonProperty("sort-name", Required = Required.AllowNull)]
+    [JsonProperty("sort-name", Required = Required.Default)]
     public string SortName { get; private set; }
 
     public IReadOnlyList<ITag> Tags => this._tags;

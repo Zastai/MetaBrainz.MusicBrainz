@@ -32,10 +32,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
     [SuppressMessage("ReSharper", "InconsistentNaming")]
     private sealed class JSON {
-      [JsonProperty("count",   Required = Required.Always)]       public int       count;
-      [JsonProperty("created", Required = Required.DisallowNull)] public DateTime? created;
-      [JsonProperty("offset",  Required = Required.Always)]       public int       offset;
-      [JsonProperty("series",  Required = Required.Always)]       public Series[]  results;
+      [JsonProperty("count",   Required = Required.Always)]  public int       count;
+      [JsonProperty("created", Required = Required.Default)] public DateTime? created;
+      [JsonProperty("offset",  Required = Required.Always)]  public int       offset;
+      [JsonProperty("series",  Required = Required.Always)]  public Series[]  results;
     }
 
     #pragma warning restore 169

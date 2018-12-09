@@ -20,12 +20,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("offset-count", Required = Required.Always)]
     public int OffsetCount { get; private set; }
 
-    [JsonProperty("offsets", Required = Required.DisallowNull)]
+    [JsonProperty("offsets", Required = Required.Default)]
     public IReadOnlyList<int> Offsets { get; private set; }
 
     public IReadOnlyList<IRelease> Releases => this._releases;
 
-    [JsonProperty("releases", Required = Required.DisallowNull)]
+    [JsonProperty("releases", Required = Required.Default)]
     private Release[] _releases = null;
 
     [JsonProperty("sectors", Required = Required.Always)]

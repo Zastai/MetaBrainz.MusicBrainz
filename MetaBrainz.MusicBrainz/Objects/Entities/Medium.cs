@@ -16,12 +16,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IReadOnlyList<ITrack> DataTracks => this._dataTracks;
 
-    [JsonProperty("data-tracks", Required = Required.DisallowNull)]
+    [JsonProperty("data-tracks", Required = Required.Default)]
     private Track[] _dataTracks = null;
 
     public IReadOnlyList<IDisc> Discs => this._discs;
 
-    [JsonProperty("discs", Required = Required.DisallowNull)]
+    [JsonProperty("discs", Required = Required.Default)]
     private Disc[] _discs = null;
 
     [JsonProperty("format", Required = Required.Default)]
@@ -30,18 +30,18 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("format-id", Required = Required.Default)]
     public Guid? FormatId { get; private set; }
 
-    [JsonProperty("position", Required = Required.DisallowNull)]
+    [JsonProperty("position", Required = Required.Default)]
     public int Position { get; private set; }
 
     public ITrack Pregap => this._pregap;
 
-    [JsonProperty("pregap", Required = Required.DisallowNull)]
+    [JsonProperty("pregap", Required = Required.Default)]
     private Track _pregap = null;
 
-    [JsonProperty("title", Required = Required.DisallowNull)]
+    [JsonProperty("title", Required = Required.Default)]
     public string Title { get; private set; }
 
-    [JsonProperty("track-count", Required = Required.AllowNull)]
+    [JsonProperty("track-count", Required = Required.Default)]
     public int TrackCount { get; private set; }
 
     [JsonProperty("track-offset", Required = Required.Default)]
@@ -49,7 +49,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IReadOnlyList<ITrack> Tracks => this._tracks;
 
-    [JsonProperty("tracks", Required = Required.DisallowNull)]
+    [JsonProperty("tracks", Required = Required.Default)]
     private Track[] _tracks = null;
 
     #region Search Server Compatibility

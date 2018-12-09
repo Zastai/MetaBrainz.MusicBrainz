@@ -16,24 +16,24 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public IArea Area => this._area;
 
-    [JsonProperty("area", Required = Required.DisallowNull)]
+    [JsonProperty("area", Required = Required.Default)]
     private Area _area = null;
 
     public IArtist Artist => this._artist;
 
-    [JsonProperty("artist", Required = Required.DisallowNull)]
+    [JsonProperty("artist", Required = Required.Default)]
     private Artist _artist = null;
 
-    [JsonProperty("attributes", Required = Required.DisallowNull)]
+    [JsonProperty("attributes", Required = Required.Default)]
     public IReadOnlyList<string> Attributes { get; private set; }
 
-    [JsonProperty("attribute-credits", Required = Required.DisallowNull)]
+    [JsonProperty("attribute-credits", Required = Required.Default)]
     public IReadOnlyDictionary<string, string> AttributeCredits { get; private set; }
 
     [JsonProperty("attribute-ids", Required = Required.Default)]
     public IReadOnlyDictionary<string, Guid> AttributeIds { get; private set; }
 
-    [JsonProperty("attribute-values", Required = Required.DisallowNull)]
+    [JsonProperty("attribute-values", Required = Required.Default)]
     public IReadOnlyDictionary<string, string> AttributeValues { get; private set; }
 
     [JsonProperty("begin", Required = Required.Default)]
@@ -45,25 +45,25 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("end", Required = Required.Default)]
     public PartialDate End { get; private set; }
 
-    [JsonProperty("ended", Required = Required.DisallowNull)]
+    [JsonProperty("ended", Required = Required.Default)]
     public bool Ended { get; private set; }
 
     public IEvent Event => this._event;
 
-    [JsonProperty("event", Required = Required.DisallowNull)]
+    [JsonProperty("event", Required = Required.Default)]
     private Event _event = null;
 
     public IInstrument Instrument => this._instrument;
 
-    [JsonProperty("instrument", Required = Required.DisallowNull)]
+    [JsonProperty("instrument", Required = Required.Default)]
     private Instrument _instrument = null;
 
     public ILabel Label => this._label;
 
-    [JsonProperty("label", Required = Required.DisallowNull)]
+    [JsonProperty("label", Required = Required.Default)]
     private Label _label= null;
 
-    [JsonProperty("ordering-key", Required = Required.DisallowNull)]
+    [JsonProperty("ordering-key", Required = Required.Default)]
     public int? OrderingKey { get; private set; }
 
     public IPlace Place => this._place;
