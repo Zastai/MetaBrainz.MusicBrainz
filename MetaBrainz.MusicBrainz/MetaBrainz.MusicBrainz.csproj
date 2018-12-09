@@ -8,10 +8,10 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.1.2</Version>
+    <Version>1.1.3-pre</Version>
     <AssemblyVersion>1.1</AssemblyVersion>
-    <FileVersion>1.1.2</FileVersion>
-    <PackageReleaseNotes>Fix issue #3, and made disabled most JSON required/nullable validation to be more futureproof.</PackageReleaseNotes>
+    <FileVersion>1.1.3</FileVersion>
+    <PackageReleaseNotes/>
   </PropertyGroup>
 
   <ItemGroup>
