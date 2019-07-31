@@ -86,6 +86,13 @@ namespace MetaBrainz.MusicBrainz {
     /// <remarks>Requires authentication.</remarks>
     UserTags    = 1L << 33,
 
+    /// <summary>Include genres (i.e. tags from the genre list).</summary>
+    Genres      = 1L << 34,
+
+    /// <summary>Like <see cref="Genres"/>, but only returns the genre(s) set by the authenticated user.</summary>
+    /// <remarks>Requires authentication.</remarks>
+    UserGenres  = 1L << 35,
+
     #endregion
 
     #region Relationships

@@ -40,6 +40,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("first-release-date", Required = Required.Default)]
     public PartialDate FirstReleaseDate { get; private set; }
 
+    public IReadOnlyList<ITag> Genres => this._genres;
+
+    [JsonProperty("genres", Required = Required.DisallowNull)]
+    private Tag[] _genres = null;
+
     [JsonProperty("primary-type", Required = Required.Default)]
     public string PrimaryType { get; private set; }
 
@@ -74,6 +79,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("title", Required = Required.Default)]
     public string Title { get; private set; }
+
+    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+
+    [JsonProperty("user-genres", Required = Required.Default)]
+    private UserTag[] _userGenres = null;
 
     public IUserRating UserRating => this._userRating;
 

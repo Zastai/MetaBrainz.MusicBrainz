@@ -165,8 +165,10 @@ namespace MetaBrainz.MusicBrainz {
       // Optional Info
       if ((inc & Include.Aliases)     != 0) { sb.Append(letter).Append("aliases");      letter = '+'; }
       if ((inc & Include.Annotation)  != 0) { sb.Append(letter).Append("annotation");   letter = '+'; }
+      if ((inc & Include.Genres)      != 0) { sb.Append(letter).Append("genres");       letter = '+'; }
       if ((inc & Include.Ratings)     != 0) { sb.Append(letter).Append("ratings");      letter = '+'; }
       if ((inc & Include.Tags)        != 0) { sb.Append(letter).Append("tags");         letter = '+'; }
+      if ((inc & Include.UserGenres)  != 0) { sb.Append(letter).Append("user-genres");  letter = '+'; }
       if ((inc & Include.UserRatings) != 0) { sb.Append(letter).Append("user-ratings"); letter = '+'; }
       if ((inc & Include.UserTags)    != 0) { sb.Append(letter).Append("user-tags");    letter = '+'; }
       // Relationships

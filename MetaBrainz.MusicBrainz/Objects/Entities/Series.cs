@@ -32,6 +32,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("disambiguation", Required = Required.Default)]
     public string Disambiguation { get; private set; }
 
+    public IReadOnlyList<ITag> Genres => this._genres;
+
+    [JsonProperty("genres", Required = Required.DisallowNull)]
+    private Tag[] _genres = null;
+
     [JsonProperty("name", Required = Required.Always)]
     public string Name { get; private set; }
 
@@ -50,6 +55,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonProperty("type-id", Required = Required.Default)]
     public Guid? TypeId { get; private set; }
+
+    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+
+    [JsonProperty("user-genres", Required = Required.Default)]
+    private UserTag[] _userGenres = null;
 
     public IReadOnlyList<IUserTag> UserTags => this._userTags;
 
