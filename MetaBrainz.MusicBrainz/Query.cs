@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -53,7 +52,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Constructors
 
-    /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
+    /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
     /// <param name="userAgent">The user agent to use for all requests.</param>
     /// <exception cref="ArgumentNullException">When <paramref name="userAgent"/> is null, and no default was set via <see cref="DefaultUserAgent"/>.</exception>
     /// <exception cref="ArgumentException">When the user agent (whether from <paramref name="userAgent"/> or <see cref="DefaultUserAgent"/>) is blank.</exception>
@@ -68,7 +67,7 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
+    /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
     /// <param name="application">The application name to use in the user agent property for all requests.</param>
     /// <param name="version">The version number to use in the user agent property for all requests.</param>
     /// <param name="contact">The contact address (typically HTTP or MAILTO) to use in the user agent property for all requests.</param>
@@ -76,7 +75,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="ArgumentException">When <paramref name="application"/> is blank.</exception>
     public Query(string application, Version version, Uri contact) : this(application, version?.ToString(), contact?.ToString()) { }
 
-    /// <summary>Creates a new instance of the <see cref="T:Query"/> class.</summary>
+    /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
     /// <param name="application">The application name to use in the user agent property for all requests.</param>
     /// <param name="version">The version number to use in the user agent property for all requests.</param>
     /// <param name="contact">The contact address (typically a URL or email address) to use in the user agent property for all requests.</param>
