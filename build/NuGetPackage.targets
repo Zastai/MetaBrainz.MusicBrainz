@@ -2,7 +2,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <Target Name="CopyPackage" AfterTargets="Pack" Condition=" $(Configuration) == 'Release' ">
-    <!-- Using OutputPath here does not work, because dotnet pack' output parameter does not set it! -->
+    <!-- Using OutputPath here does not work, because dotnet pack's output parameter does not set it! -->
     <Copy SourceFiles="$(PackageOutputAbsolutePath)\$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(MSBuildThisFileDirectory)packages\"/>
   </Target>
 
