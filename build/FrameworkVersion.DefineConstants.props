@@ -222,6 +222,37 @@
     <TFDC>$(TFDC);NETFX_EQ_4_7_2</TFDC>
     <TFDC>$(TFDC);NETFX_GE_4_7_2</TFDC>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net48' ">
+    <TFDC>NETFX_TARGET</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_3_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_0</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_5_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_6_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_7</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_7_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7_1</TFDC>
+    <TFDC>$(TFDC);NETFX_GT_4_7_2</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_7_2</TFDC>
+    <TFDC>$(TFDC);NETFX_EQ_4_8</TFDC>
+    <TFDC>$(TFDC);NETFX_GE_4_8</TFDC>
+  </PropertyGroup>
   <!-- TODO: Maybe also add some definitions based on target framework profile? -->
   <PropertyGroup Condition=" $(TargetFramework) == 'netstandard1.0' ">
     <TFDC>NETSTD_TARGET</TFDC>
@@ -319,6 +350,27 @@
     <TFDC>$(TFDC);NETSTD_EQ_2_0</TFDC>
     <TFDC>$(TFDC);NETSTD_GE_2_0</TFDC>
   </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netstandard2.1' ">
+    <TFDC>NETSTD_TARGET</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_2</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_3</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_4</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_5</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_1_6</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_1_6</TFDC>
+    <TFDC>$(TFDC);NETSTD_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETSTD_EQ_2_1</TFDC>
+    <TFDC>$(TFDC);NETSTD_GE_2_1</TFDC>
+  </PropertyGroup>
   <PropertyGroup Condition=" $(TargetFramework) == 'netcoreapp1.0' ">
     <TFDC>NETCORE_TARGET</TFDC>
     <TFDC>$(TFDC);NETCORE_EQ_1_0</TFDC>
@@ -363,6 +415,38 @@
     <TFDC>$(TFDC);NETCORE_GE_2_1</TFDC>
     <TFDC>$(TFDC);NETCORE_EQ_2_2</TFDC>
     <TFDC>$(TFDC);NETCORE_GE_2_2</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netcoreapp3.0' ">
+    <TFDC>NETCORE_TARGET</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_2</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_2</TFDC>
+    <TFDC>$(TFDC);NETCORE_EQ_3_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_3_0</TFDC>
+  </PropertyGroup>
+  <PropertyGroup Condition=" $(TargetFramework) == 'netcoreapp3.1' ">
+    <TFDC>NETCORE_TARGET</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_1_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_1_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_2_2</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_2_2</TFDC>
+    <TFDC>$(TFDC);NETCORE_GT_3_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_3_0</TFDC>
+    <TFDC>$(TFDC);NETCORE_EQ_3_1</TFDC>
+    <TFDC>$(TFDC);NETCORE_GE_3_1</TFDC>
   </PropertyGroup>
   <PropertyGroup Condition=" $(TFDC) != '' ">
     <DefineConstants Condition=" $(DefineConstants) != '' ">$(DefineConstants);</DefineConstants>
