@@ -1,6 +1,9 @@
-/.idea
+/.idea/
 /.vs/
-/build/
+/.vscode/
+/output/
+/Directory.Build.Local.props
+/Directory.Build.Local.targets
 /msbuild.binlog
 *.*proj.user
 *.DotSettings.user

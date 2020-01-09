@@ -1,29 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
+
+  <!-- Basic Product Information. -->
+  <PropertyGroup>
+    <Authors>Zastai</Authors>
+    <Company>MetaBrainz</Company>
+    <Copyright>Copyright © 2016-2020 Tim Van Holder. All rights reserved.</Copyright>
+    <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
+    <Product>MetaBrainz.MusicBrainz</Product>
+    <RepositoryUrl>https://github.com/Zastai/MusicBrainz</RepositoryUrl>
+    <RepositoryType>Github</RepositoryType>
+  </PropertyGroup>
 
   <PropertyGroup>
-    <BuildOutputRoot>$(MSBuildThisFileDirectory)</BuildOutputRoot>
-    <IntermediateRoot>$(BuildOutputRoot)obj\$(MSBuildProjectName)\</IntermediateRoot>
-    <MainOutputRoot>$(BuildOutputRoot)bin\$(MSBuildProjectName)\</MainOutputRoot>
+    <PackageIconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</PackageIconUrl>
+    <!-- TODO: Download the file above (possibly at build time, using <DownloadFile>, which requires MSBuild 15.8 or later), set it up as <PackageIcon>, and include it in the package. -->
+    <!-- Until that is done, we need to disable NU5048 (PackageIconUrl is deprecated). -->
+    <NoWarn>$(NoWarn);NU5048</NoWarn>
+  </PropertyGroup>
+
+  <!-- C# Configuration -->
+  <PropertyGroup>
+    <LangVersion>8</LangVersion>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <!-- Ensure this has a default, because we use it below. -->
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+  </PropertyGroup>
+
+  <!-- This sets up builds of all projects to place build output under a single root location within the solution. -->
+  <PropertyGroup>
+    <BuildOutputRoot>$([MSBuild]::NormalizeDirectory('$(MSBuildThisFileDirectory)', '..', 'output'))</BuildOutputRoot>
+    <IntermediateRoot>$([MSBuild]::NormalizeDirectory('$(BuildOutputRoot)', 'obj', '$(MSBuildProjectName)'))</IntermediateRoot>
+    <MainOutputRoot>$([MSBuild]::NormalizeDirectory('$(BuildOutputRoot)', 'bin', '$(MSBuildProjectName)'))</MainOutputRoot>
     <BaseIntermediateOutputPath>$(IntermediateRoot)</BaseIntermediateOutputPath>
-    <IntermediateOutputPath>$(IntermediateRoot)$(Configuration)\</IntermediateOutputPath>
-    <OutputPath>$(MainOutputRoot)$(Configuration)\</OutputPath>
+    <IntermediateOutputPath>$([MSBuild]::NormalizeDirectory('$(IntermediateRoot)', '$(Configuration)'))</IntermediateOutputPath>
+    <OutputPath>$([MSBuild]::NormalizeDirectory('$(MainOutputRoot)', '$(Configuration)'))</OutputPath>
+    <PackageOutputPath>$([MSBuild]::NormalizeDirectory('$(BuildOutputRoot)', 'package', '$(Configuration)'))</PackageOutputPath>
   </PropertyGroup>
 
-  <!-- FIXME: Using Condition=" '$(OutputType)' == 'Library' " for this does NOT work! -->
+  <!-- Always create strong-named assemblies. -->
   <PropertyGroup>
-    <DocumentationFile>$(OutputPath)$(MSBuildProjectName).xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)MusicBrainz.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'MusicBrainz.snk'))</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release'">
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  <!-- When making a NuGet package, also make a symbols package. -->
+  <PropertyGroup>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
-  <Import Project="FrameworkVersion.DefineConstants.props" />
+  <!-- Release Builds: Create a package, and disallow warnings. -->
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Various Other Settings -->
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+
+  <!-- Enable targeting the .NET Framework using only the .NET Core SDK. -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!-- The building Visual Studio's major version; 0 if not available. -->
+  <PropertyGroup>
+    <BuildVSVersion>0</BuildVSVersion>
+    <BuildVSVersion Condition=" $(VisualStudioVersion) != '' ">$([System.Version]::Parse($(VisualStudioVersion)).Major)</BuildVSVersion>
+  </PropertyGroup>
+
+  <!-- Some of our targets include debug output. Default it to low importance. -->
+  <PropertyGroup>
+    <DebugMessageImportance Condition=" '$(DebugMessageImportance)' == '' ">Low</DebugMessageImportance>
+  </PropertyGroup>
 
 </Project>

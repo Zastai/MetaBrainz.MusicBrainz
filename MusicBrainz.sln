@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{8828B4DF-D0C9-4685-BC9C-E09C0FC90045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscId", "DiscId\DiscId.csproj", "{401FF06E-8724-4976-9946-DE3424A1C845}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dotnet-mbdiscid", "dotnet-mbdiscid\dotnet-mbdiscid.csproj", "{401FF06E-8724-4976-9946-DE3424A1C845}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{D8123B46-C027-4749-BB82-0196D058B845}"
 EndProject
@@ -18,11 +18,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
 		build\Common.props = build\Common.props
+		build\Common.targets = build\Common.targets
 		Directory.Build.props = Directory.Build.props
-		build\FrameworkVersion.DefineConstants.props = build\FrameworkVersion.DefineConstants.props
-		build\NuGetPackage.props = build\NuGetPackage.props
-		build\NuGetPackage.targets = build\NuGetPackage.targets
+		Directory.Build.targets = Directory.Build.targets
 		README.md = README.md
+		build\TargetFrameworkVersionDefineConstants.targets = build\TargetFrameworkVersionDefineConstants.targets
+		build\Versioning.targets = build\Versioning.targets
 	EndProjectSection
 EndProject
 Global

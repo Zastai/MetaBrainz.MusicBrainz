@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Standard MSBuild Targets. -->
+<Project>
+
+  <Import Project="TargetFrameworkVersionDefineConstants.targets" />
+  <Import Project="Versioning.targets" />
+
+  <!-- Generate a documentation file unless explicitly disabled. -->
+  <Target Name="SetUpDocumentationFile" BeforeTargets="CoreCompile">
+    <PropertyGroup Condition=" '$(GenerateXMLDocs)' == 'false' ">
+      <DocumentationFile/>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(GenerateXMLDocs)' != 'false' ">
+      <DocumentationFile>$([MSBuild]::NormalizePath('$(OutputPath)', '$(MSBuildProjectName).xml'))</DocumentationFile>
+    </PropertyGroup>
+    <ItemGroup Condition=" '$(DocumentationFile)' != '' ">
+      <DocFileItem Include="$(DocumentationFile)" />
+    </ItemGroup>
+  </Target>
+
+</Project>

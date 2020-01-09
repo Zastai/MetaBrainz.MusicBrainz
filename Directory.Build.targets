@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file is automatically included by the build, at the end of each project (after most other targets). -->
+<Project>
+
+  <!-- Get Common Targets. -->
+  <Import Project="$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'build', 'Common.targets'))" />
+
+  <!-- Chain To Parent Targets. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))"
+          Condition=" Exists($([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))) "/>
+
+  <!-- Tree-Specific Targets Go Here. -->
+
+  <!-- Get Local (User-Specific) Targets. -->
+  <Import Project="$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)"
+          Condition=" Exists('$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)') " />
+
+</Project>

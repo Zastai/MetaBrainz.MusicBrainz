@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+
+  <!-- Set up $(DefineConstants) to include (more) constants based on $(TargetFramework). -->
+  <Target Name="SetUpDefineConstantsBasedOnTargetFramework" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <TargetFrameworkDefineConstant Remove="*"/>
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net20' ">
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net30' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net35' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net462' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_2" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net471' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_7_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_7_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7_2" />
+    </ItemGroup>
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
+      <TargetFrameworkDefineConstant Include="NETFX_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_3_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_0" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_5_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_6_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7_1" />
+      <TargetFrameworkDefineConstant Include="NETFX_GT_4_7_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_7_2" />
+      <TargetFrameworkDefineConstant Include="NETFX_EQ_4_8" />
+      <TargetFrameworkDefineConstant Include="NETFX_GE_4_8" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.0' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.1' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.2' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.3' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.4' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_4" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.5' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_5" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard1.6' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_1_6" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_6" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard2.0' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_6" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_6" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_2_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_2_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netstandard2.1' ">
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_2" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_3" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_4" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_5" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_1_6" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_1_6" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETSTD_EQ_2_1" />
+      <TargetFrameworkDefineConstant Include="NETSTD_GE_2_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp1.0' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp1.1' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp2.0' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp2.1' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_1" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp2.2' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_2_2" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_2" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp3.0' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_2" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_2" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_3_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_3_0" />
+    </ItemGroup>
+    <ItemGroup Condition=" $(TargetFramework) == 'netcoreapp3.1' ">
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_1_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_2_2" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_2_2" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GT_3_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_3_0" />
+      <TargetFrameworkDefineConstant Include="NETCORE_EQ_3_1" />
+      <TargetFrameworkDefineConstant Include="NETCORE_GE_3_1" />
+    </ItemGroup>
+    <PropertyGroup>
+      <DefineConstants Condition=" $(DefineConstants) != '' ">$(DefineConstants);</DefineConstants>
+      <DefineConstants>$(DefineConstants)@(TargetFrameworkDefineConstant)</DefineConstants>
+    </PropertyGroup>
+    <!-- Debug Output -->
+    <Message Importance="$(DebugMessageImportance)" Text="Define Constants For '$(TargetFramework)':" />
+    <Message Importance="$(DebugMessageImportance)" Text="- %(TargetFrameworkDefineConstant.Identity)" />
+  </Target>
+
+</Project>

@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This file is automatically included by the build, at the start of each project (before most other properties). -->
 <Project>
-  <!-- This file is automatically included by the build. Common.props is imported here to work around https://github.com/dotnet/sdk/issues/1518 -->
-  <Import Project="$(MSBuildThisFileDirectory)build\Common.props" />
+
+  <!-- Get Common Settings. -->
+  <Import Project="$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'build', 'Common.props'))" />
+
+  <!-- Chain to parent settings. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))"
+          Condition=" Exists($([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))) "/>
+
+  <!-- Tree-Specific Properties Go Here. -->
+  <PropertyGroup>
+  </PropertyGroup>
+
+  <!-- Get Local (User-Specific) Settings. -->
+  <Import Project="$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)"
+          Condition="Exists('$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)')" />
+
 </Project>
