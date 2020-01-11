@@ -42,12 +42,26 @@
   </Target>
 
   <Target Name="SetPackagePropertiesFromVersion" BeforeTargets="GenerateNuSpec" DependsOnTargets="ParseVersionSpecification">
-    <!-- TODO: Include Git info in build metadata (foo-1.2+master.<hash>, foo-1.2+branch.<branchname>.<hash>, foo-1.2+tag.<tagname>) . -->
     <PropertyGroup>
-      <!-- Add A timestamp as build identifier. -->
-      <PackageVersion>$(Version)+$([System.DateTime]::Now.ToString('yyyyMMdd.HHmmss.fff'))</PackageVersion>
-      <!-- Build identifiers are a SemVer 2.0 feature, which NuGet warns about. Shut that warning up. -->
+      <PackageVersion>$(Version)</PackageVersion>
+      <!-- NuGet warns about SemVer 2.0 features (like build identifiers). Shut that warning up. -->
       <NoWarn>$(NoWarn);NU5105</NoWarn>
+    </PropertyGroup>
+    <!-- Add AppVeyor build info, if applicable. -->
+    <PropertyGroup Condition=" '$(APPVEYOR)' != '' And '$(CI)' != '' ">
+      <PackageBuildIdentifier Condition=" '$(PackageBuildIdentifier)' != '' ">$(PackageBuildIdentifier).</PackageBuildIdentifier>
+      <PackageBuildIdentifier>$(PackageBuildIdentifier)appveyor.build-$(APPVEYOR_BUILD_NUMBER)</PackageBuildIdentifier>
+      <PackageBuildIdentifier Condition=" '$(APPVEYOR_PULL_REQUEST_NUMBER)' != '' ">$(PackageBuildIdentifier).pr-$($(APPVEYOR_PULL_REQUEST_NUMBER))</PackageBuildIdentifier>
+    </PropertyGroup>
+    <!-- TODO: Include Git info in build identifier (foo-1.2+master.<hash>, foo-1.2+branch.<branchname>.<hash>, foo-1.2+tag.<tagname>) . -->
+    <!-- Add a timestamp as build identifier, unless told not to. -->
+    <PropertyGroup Condition=" '$(NoTimestampInBuildIdentifier)' != 'true' ">
+      <PackageBuildIdentifier Condition=" '$(PackageBuildIdentifier)' != '' ">$(PackageBuildIdentifier).</PackageBuildIdentifier>
+      <PackageBuildIdentifier>$(PackageBuildIdentifier)$([System.DateTime]::Now.ToString('yyyyMMdd.HHmmss.fff'))</PackageBuildIdentifier>
+    </PropertyGroup>
+    <!-- If a Build Identifier was set up above, add it. -->
+    <PropertyGroup Condition=" '$(PackageBuildIdentifier)' != '' ">
+      <PackageVersion>$(PackageVersion)+$(PackageBuildIdentifier)</PackageVersion>
     </PropertyGroup>
     <!-- Debug Output -->
     <Message Importance="$(DebugMessageImportance)" Text="Package Properties Computed Using Version ('$(Version)'):"/>
