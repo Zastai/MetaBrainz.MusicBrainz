@@ -1,12 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
   /// <summary>An OAuth2 authorization token.</summary>
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public interface IAuthorizationToken {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>

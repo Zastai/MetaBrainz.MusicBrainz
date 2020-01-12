@@ -1,32 +1,32 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces;
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects {
 
   /// <summary>Class representing an OAuth2 authorization token.</summary>
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [JsonObject(MemberSerialization.OptIn)]
+  [UsedImplicitly]
   public sealed class AuthorizationToken : IAuthorizationToken {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
-    [JsonProperty("access_token", Required = Required.Always)]
-    public string AccessToken { get; private set; }
+    [JsonPropertyName("access_token")]
+    [UsedImplicitly]
+    public string AccessToken { get; set; }
 
     /// <summary>The lifetime of the token, in seconds (typically one hour).</summary>
-    [JsonProperty("expires_in", Required = Required.Always)]
-    public int Lifetime { get; private set; }
+    [JsonPropertyName("expires_in")]
+    [UsedImplicitly]
+    public int Lifetime { get; set; }
 
     /// <summary>The refresh token (i.e. the one you use to get a new access token).</summary>
-    [JsonProperty("refresh_token", Required = Required.Always)]
-    public string RefreshToken { get; private set; }
+    [JsonPropertyName("refresh_token")]
+    [UsedImplicitly]
+    public string RefreshToken { get; set; }
 
     /// <summary>The type of this authorization token.</summary>
-    [JsonProperty("token_type", Required = Required.Always)]
-    public string TokenType { get; private set; }
+    [JsonPropertyName("token_type")]
+    [UsedImplicitly]
+    public string TokenType { get; set; }
 
     /// <summary>Gets the textual representation of this authorization token.</summary>
     /// <returns><see cref="AccessToken"/>.</returns>
