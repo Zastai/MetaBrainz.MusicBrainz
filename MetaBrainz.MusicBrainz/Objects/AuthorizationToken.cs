@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
+using MetaBrainz.MusicBrainz.Interfaces;
 using Newtonsoft.Json;
 
-namespace MetaBrainz.MusicBrainz {
+namespace MetaBrainz.MusicBrainz.Objects {
 
   /// <summary>Class representing an OAuth2 authorization token.</summary>
   [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz {
   [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [JsonObject(MemberSerialization.OptIn)]
-  public sealed class AuthorizationToken {
+  public sealed class AuthorizationToken : IAuthorizationToken {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
     [JsonProperty("access_token", Required = Required.Always)]

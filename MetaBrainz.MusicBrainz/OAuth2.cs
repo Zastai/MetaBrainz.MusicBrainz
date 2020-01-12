@@ -6,7 +6,8 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
-
+using MetaBrainz.MusicBrainz.Interfaces;
+using MetaBrainz.MusicBrainz.Objects;
 using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
@@ -14,18 +15,12 @@ namespace MetaBrainz.MusicBrainz {
   /// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
   [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
   [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [SuppressMessage("ReSharper", "UnusedType.Global")]
   public class OAuth2 {
 
     #region Static Fields / Properties
-
-    /// <summary>Sets up defaults for <see cref="OAuth2"/>'s static properties.</summary>
-    static OAuth2() {
-      // Mono's C# compiler does not like initializers on auto-properties, so set them up here instead.
-      OAuth2.DefaultPort      = -1;
-      OAuth2.DefaultUrlScheme = "https";
-      OAuth2.DefaultWebSite   = "musicbrainz.org";
-    }
 
     /// <summary>The endpoint used when requesting authorization.</summary>
     public const string AuthorizationEndPoint = "/oauth2/authorize";
@@ -35,13 +30,13 @@ namespace MetaBrainz.MusicBrainz {
     public static string DefaultClientId { get; set; }
 
     /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-    public static int DefaultPort { get; set; }
+    public static int DefaultPort { get; set; } = -1;
 
     /// <summary>The default internet access protocol to use for requests.</summary>
-    public static string DefaultUrlScheme { get; set; }
+    public static string DefaultUrlScheme { get; set; } = "https";
 
     /// <summary>The default web site to use for requests.</summary>
-    public static string DefaultWebSite { get; set; }
+    public static string DefaultWebSite { get; set; } = "musicbrainz.org";
 
     /// <summary>The URI to use for out-of-band authorization.</summary>
     public static readonly Uri OutOfBandUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
@@ -100,13 +95,13 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public AuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri) => this.TokenRequest("bearer", code, clientSecret, redirectUri, false);
+    public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri) => this.TokenRequest("bearer", code, clientSecret, redirectUri, false);
 
     /// <summary>Refreshes a bearer token.</summary>
     /// <param name="refreshToken">The refresh token to use.</param>
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public AuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret) => this.TokenRequest("bearer", refreshToken, clientSecret, null, true);
+    public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret) => this.TokenRequest("bearer", refreshToken, clientSecret, null, true);
 
     #endregion
 
@@ -139,7 +134,7 @@ namespace MetaBrainz.MusicBrainz {
       if ((scope & AuthorizationScope.Tag)           != 0) yield return "tag";
     }
 
-    private AuthorizationToken TokenRequest(string type, string codeOrToken, string clientSecret, Uri redirectUri, bool refresh) {
+    private IAuthorizationToken TokenRequest(string type, string codeOrToken, string clientSecret, Uri redirectUri, bool refresh) {
       if (type         == null) throw new ArgumentNullException(nameof(type));
       if (codeOrToken  == null) throw new ArgumentNullException(nameof(codeOrToken));
       if (clientSecret == null) throw new ArgumentNullException(nameof(clientSecret));
