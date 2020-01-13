@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- If the project is packable and does not specify a package icon, default it to package-icon.png in the project root. -->
+<Project>
+
+  <PropertyGroup>
+    <DefaultPackageIcon>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', '..', 'package-icon.png'))</DefaultPackageIcon>
+  </PropertyGroup>
+
+  <Target Name="SetUpDefaultPackageIcon" BeforeTargets="Build"
+          Condition=" '$(PackageIcon)' == '' And Exists('$(DefaultPackageIcon)') And '$(UseDefaultPackageIcon)' != 'false' ">
+    <ItemGroup>
+      <None Include="$(DefaultPackageIcon)">
+        <Pack>true</Pack>
+        <PackagePath/>
+      </None>
+    </ItemGroup>
+    <PropertyGroup>
+      <PackageIcon>$([System.IO.Path]::GetFileName('$(DefaultPackageIcon)'))</PackageIcon>
+    </PropertyGroup>
+  </Target>
+
+</Project>

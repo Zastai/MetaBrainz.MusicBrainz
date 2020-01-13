@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <!-- Basic Product Information. -->
+  <!-- Default settings for basic package information. -->
+  <PropertyGroup>
+    <PackageCopyrightYears Condition=" '$(PackageCopyrightYears)' == '' ">$([System.DateTime]::UtcNow.Year)</PackageCopyrightYears>
+  </PropertyGroup>
+
+  <!-- Basic package information. -->
   <PropertyGroup>
     <Authors>Zastai</Authors>
     <Company>MetaBrainz</Company>
-    <Copyright>Copyright © 2016-2020 Tim Van Holder. All rights reserved.</Copyright>
+    <Copyright>Copyright © $(PackageCopyrightYears) Tim Van Holder. All rights reserved.</Copyright>
     <PackageLicenseExpression>MS-PL</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
-    <Product>MetaBrainz.MusicBrainz</Product>
-    <RepositoryUrl>https://github.com/Zastai/MusicBrainz</RepositoryUrl>
     <RepositoryType>Github</RepositoryType>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageIconUrl>https://raw.githubusercontent.com/metabrainz/metabrainz-logos/master/final-logos/MusicBrainz/PIXEL/PNG/MusicBrainz_logo_small_notext.png</PackageIconUrl>
-    <!-- TODO: Download the file above (possibly at build time, using <DownloadFile>, which requires MSBuild 15.8 or later), set it up as <PackageIcon>, and include it in the package. -->
-    <!-- Until that is done, we need to disable NU5048 (PackageIconUrl is deprecated). -->
-    <NoWarn>$(NoWarn);NU5048</NoWarn>
   </PropertyGroup>
 
   <!-- C# Configuration -->
@@ -44,7 +39,7 @@
 
   <!-- Always create strong-named assemblies. -->
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'MusicBrainz.snk'))</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'MetaBrainz.snk'))</AssemblyOriginatorKeyFile>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
 

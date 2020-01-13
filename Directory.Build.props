@@ -2,18 +2,26 @@
 <!-- This file is automatically included by the build, at the start of each project (before most other properties). -->
 <Project>
 
-  <!-- Get Common Settings. -->
+  <!-- Settings used by the common settings. -->
+  <PropertyGroup>
+    <PackageCopyrightYears>2016-2020</PackageCopyrightYears>
+  </PropertyGroup>
+
+  <!-- Get common settings. -->
   <Import Project="$([MSBuild]::NormalizePath('$(MSBuildThisFileDirectory)', 'build', 'Common.props'))" />
 
   <!-- Chain to parent settings. -->
   <Import Project="$([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))"
           Condition=" Exists($([MSBuild]::GetPathOfFileAbove('$(MSBuildThisFile)', '$(MSBuildThisFileDirectory)..'))) "/>
 
-  <!-- Tree-Specific Properties Go Here. -->
+  <!-- Other tree-specific properties. -->
   <PropertyGroup>
+    <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
+    <Product>MetaBrainz.MusicBrainz</Product>
+    <RepositoryUrl>https://github.com/Zastai/MusicBrainz</RepositoryUrl>
   </PropertyGroup>
 
-  <!-- Get Local (User-Specific) Settings. -->
+  <!-- Get local (user-specific, non version-controlled) settings. -->
   <Import Project="$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)"
           Condition="Exists('$(MSBuildThisFileName).Local$(MSBuildThisFileExtension)')" />
 

@@ -2,6 +2,7 @@
 <!-- Standard MSBuild Targets. -->
 <Project>
 
+  <Import Project="PackageIcon.targets" />
   <Import Project="TargetFrameworkVersionDefineConstants.targets" />
   <Import Project="Versioning.targets" />
 
