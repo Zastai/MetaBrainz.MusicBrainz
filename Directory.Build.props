@@ -5,6 +5,7 @@
   <!-- Settings used by the common settings. -->
   <PropertyGroup>
     <PackageCopyrightYears>2016-2020</PackageCopyrightYears>
+    <PackageRepositoryName>MusicBrainz</PackageRepositoryName>
   </PropertyGroup>
 
   <!-- Get common settings. -->
@@ -16,9 +17,6 @@
 
   <!-- Other tree-specific properties. -->
   <PropertyGroup>
-    <PackageProjectUrl>https://github.com/Zastai/MusicBrainz/blob/master/README.md</PackageProjectUrl>
-    <Product>MetaBrainz.MusicBrainz</Product>
-    <RepositoryUrl>https://github.com/Zastai/MusicBrainz</RepositoryUrl>
   </PropertyGroup>
 
   <!-- Get local (user-specific, non version-controlled) settings. -->
