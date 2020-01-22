@@ -30,7 +30,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   When no fields are specified, the <em>name</em>, <em>text</em> and <em>type</em> fields will be searched.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundAnnotation> FindAnnotations(string query, int? limit = null, int? offset = null) {
       return new FoundAnnotations(this, query, limit, offset).Next();
     }
@@ -61,7 +61,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>area</em> and <em>sortname</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundArea> FindAreas(string query, int? limit = null, int? offset = null) {
       return new FoundAreas(this, query, limit, offset).Next();
     }
@@ -96,7 +96,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>sortname</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundArtist> FindArtists(string query, int? limit = null, int? offset = null) {
       return new FoundArtists(this, query, limit, offset).Next();
     }
@@ -120,7 +120,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>artist</em> and <em>title</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundCdStub> FindCdStubs(string query, int? limit = null, int? offset = null) {
       return new FoundCdStubs(this, query, limit, offset).Next();
     }
@@ -150,7 +150,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>name</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundEvent> FindEvents(string query, int? limit = null, int? offset = null) {
       return new FoundEvents(this, query, limit, offset).Next();
     }
@@ -175,7 +175,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>description</em> and <em>instrument</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundInstrument> FindInstruments(string query, int? limit = null, int? offset = null) {
       return new FoundInstruments(this, query, limit, offset).Next();
     }
@@ -207,7 +207,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>the label's type</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundLabel> FindLabels(string query, int? limit = null, int? offset = null) {
       return new FoundLabels(this, query, limit, offset).Next();
     }
@@ -236,7 +236,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>pid:</term><description>the place's MBID</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundPlace> FindPlaces(string query, int? limit = null, int? offset = null) {
       return new FoundPlaces(this, query, limit, offset).Next();
     }
@@ -282,7 +282,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>video:</term><description>a flag indicating whether or not the recording includes video</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundRecording> FindRecordings(string query, int? limit = null, int? offset = null) {
       return new FoundRecordings(this, query, limit, offset).Next();
     }
@@ -315,7 +315,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>a primary or secondary type of the release group</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundReleaseGroup> FindReleaseGroups(string query, int? limit = null, int? offset = null) {
       return new FoundReleaseGroups(this, query, limit, offset).Next();
     }
@@ -362,7 +362,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>the primary or secondary type of the release's release group</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundRelease> FindReleases(string query, int? limit = null, int? offset = null) {
       return new FoundReleases(this, query, limit, offset).Next();
     }
@@ -386,7 +386,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em> and <em>series</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundSeries> FindSeries(string query, int? limit = null, int? offset = null) {
       return new FoundSeries(this, query, limit, offset).Next();
     }
@@ -404,7 +404,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>tag:</term><description>the tag</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundTag> FindTags(string query, int? limit = null, int? offset = null) {
       return new FoundTags(this, query, limit, offset).Next();
     }
@@ -426,7 +426,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>url:</term><description>the URL itself</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundUrl> FindUrls(string query, int? limit = null, int? offset = null) {
       return new FoundUrls(this, query, limit, offset).Next();
     }
@@ -454,7 +454,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>workaccent:</term><description>the name of the work (with accented characters)</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
     public ISearchResults<IFoundWork> FindWorks(string query, int? limit = null, int? offset = null) {
       return new FoundWorks(this, query, limit, offset).Next();
     }
@@ -480,7 +480,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   When no fields are specified, the <em>name</em>, <em>text</em> and <em>type</em> fields will be searched.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundAnnotation>> FindAnnotationsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundAnnotations(this, query, limit, offset).NextAsync();
     }
@@ -511,7 +511,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>area</em> and <em>sortname</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundArea>> FindAreasAsync(string query, int? limit = null, int? offset = null) {
       return new FoundAreas(this, query, limit, offset).NextAsync();
     }
@@ -546,7 +546,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>sortname</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundArtist>> FindArtistsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundArtists(this, query, limit, offset).NextAsync();
     }
@@ -570,7 +570,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>artist</em> and <em>title</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundCdStub>> FindCdStubsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundCdStubs(this, query, limit, offset).NextAsync();
     }
@@ -600,7 +600,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>name</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundEvent>> FindEventsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundEvents(this, query, limit, offset).NextAsync();
     }
@@ -625,7 +625,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>description</em> and <em>instrument</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundInstrument>> FindInstrumentsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundInstruments(this, query, limit, offset).NextAsync();
     }
@@ -657,7 +657,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>the label's type</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundLabel>> FindLabelsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundLabels(this, query, limit, offset).NextAsync();
     }
@@ -686,7 +686,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>pid:</term><description>the place's MBID</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundPlace>> FindPlacesAsync(string query, int? limit = null, int? offset = null) {
       return new FoundPlaces(this, query, limit, offset).NextAsync();
     }
@@ -732,7 +732,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>video:</term><description>a flag indicating whether or not the recording includes video</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundRecording>> FindRecordingsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundRecordings(this, query, limit, offset).NextAsync();
     }
@@ -765,7 +765,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>a primary or secondary type of the release group</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundReleaseGroup>> FindReleaseGroupsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundReleaseGroups(this, query, limit, offset).NextAsync();
     }
@@ -812,7 +812,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>type:</term><description>the primary or secondary type of the release's release group</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundRelease>> FindReleasesAsync(string query, int? limit = null, int? offset = null) {
       return new FoundReleases(this, query, limit, offset).NextAsync();
     }
@@ -836,7 +836,7 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     ///   Query terms without a field specifier will search the <em>alias</em> and <em>series</em> fields.
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundSeries>> FindSeriesAsync(string query, int? limit = null, int? offset = null) {
       return new FoundSeries(this, query, limit, offset).NextAsync();
     }
@@ -854,7 +854,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>tag:</term><description>the tag</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundTag>> FindTagsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundTags(this, query, limit, offset).NextAsync();
     }
@@ -876,7 +876,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>url:</term><description>the URL itself</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundUrl>> FindUrlsAsync(string query, int? limit = null, int? offset = null) {
       return new FoundUrls(this, query, limit, offset).NextAsync();
     }
@@ -904,7 +904,7 @@ namespace MetaBrainz.MusicBrainz {
     ///     <item><term>workaccent:</term><description>the name of the work (with accented characters)</description></item>
     ///   </list>
     /// </remarks>
-    /// <seealso href="http://beta.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
+    /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
     public Task<ISearchResults<IFoundWork>> FindWorksAsync(string query, int? limit = null, int? offset = null) {
       return new FoundWorks(this, query, limit, offset).NextAsync();
     }
