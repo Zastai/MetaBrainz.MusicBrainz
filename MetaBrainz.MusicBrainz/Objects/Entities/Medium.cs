@@ -47,7 +47,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonProperty("track-offset", Required = Required.Default)]
     public int? TrackOffset { get; private set; }
 
-    public IReadOnlyList<ITrack> Tracks => this._tracks;
+    public IReadOnlyList<ITrack> Tracks => this._tracks ?? this._track;
+
+    [JsonProperty("track", Required = Required.Default)]
+    private Track[] _track = null;
 
     [JsonProperty("tracks", Required = Required.Default)]
     private Track[] _tracks = null;
