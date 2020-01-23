@@ -3,3 +3,82 @@ root=true
 [*]
 indent_style=space
 indent_size=2
+trim_trailing_spaces = true
+insert_final_newline = true
+charset = utf-8
+
+# Roslyn Options (C#/VB)
+[*.{cs,vb}]
+dotnet_sort_system_directives_first=true
+
+# Roslyn Options (C#)
+[*.cs]
+csharp_indent_block_contents=true
+csharp_indent_braces=false
+csharp_indent_case_contents=true
+csharp_indent_switch_labels=true
+csharp_indent_labels=one_less_than_current
+
+csharp_new_line_before_open_brace=none
+csharp_new_line_before_else=true
+csharp_new_line_before_catch=true
+csharp_new_line_before_finally=true
+csharp_new_line_before_members_in_object_initializers=true
+csharp_new_line_before_members_in_anonymous_types=true
+csharp_new_line_within_query_expression_clauses=true
+
+csharp_space_after_cast=true
+csharp_space_after_colon_in_inheritance_clause=true
+csharp_space_after_comma=true
+csharp_space_after_dot=false
+csharp_space_after_keywords_in_control_flow_statements=true
+csharp_space_after_semicolon_in_for_statement=true
+csharp_space_around_binary_operators=before_and_after
+csharp_space_before_colon_in_inheritance_clause=true
+csharp_space_before_comma=false
+csharp_space_before_dot=false
+csharp_space_before_semicolon_in_for_statement=false
+csharp_space_before_open_square_brackets=false
+csharp_space_between_empty_square_brackets=false
+csharp_space_between_method_declaration_name_and_open_parenthesis=false
+csharp_space_between_method_declaration_parameter_list_parentheses=false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses=false
+csharp_space_between_method_call_name_and_opening_parenthesis=false
+csharp_space_between_method_call_parameter_list_parentheses=false
+csharp_space_between_method_call_empty_parameter_list_parentheses=false
+csharp_space_between_square_brackets=false
+csharp_space_between_parentheses=
+csharp_space_around_declaration_statements=ignore
+
+csharp_preserve_single_line_blocks=true
+csharp_preserve_single_line_statements=true
+
+csharp_style_this_qualification_for_field=yes;warning
+csharp_style_this_qualification_for_property=yes;warning
+csharp_style_this_qualification_for_method=yes;warning
+csharp_style_this_qualification_for_event=yes;warning
+csharp_style_var_for_locals=yes;suggestion
+csharp_style_var_for_built_in_types=yes;suggestion
+csharp_style_var_when_type_is_apparent=yes;suggestion
+csharp_style_var_for_elsewhere=yes;suggestion
+csharp_style_expression_bodied_methods=yes;suggestion
+csharp_style_expression_bodied_properties=yes;suggestion
+csharp_style_object_initializer=yes;suggestion
+# These are for C# 7 features; the assumption is that the suggestions will not be applied when the language level is set to 6.0 (otherwise, these should be "no;error")
+csharp_style_expression_bodied_constructors=yes;suggestion
+csharp_style_expression_bodied_operators=yes;suggestion
+csharp_style_expression_bodied_indexers=yes;suggestion
+csharp_style_expression_bodied_accessors=yes;suggestion
+csharp_style_pattern_matching_over_is_with_cast_check=yes;suggestion
+csharp_style_pattern_matching_over_as_with_null_check=yes;suggestion
+csharp_style_throw_expression=yes;suggestion
+csharp_style_inlined_variable_declaration=yes;suggestion
+csharp_style_conditional_delegate_call=yes;suggestion
+csharp_style_predefined_type_for_locals_parameters_members=yes;suggestion
+csharp_style_predefined_type_for_member_access=yes;suggestion
+
+# TODO: dotnet_naming_*.*
+
+# ReSharper/Rider Options (C#)
+[*.cs]
+# TODO: Add
