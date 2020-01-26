@@ -1,24 +1,24 @@
-﻿namespace MetaBrainz.MusicBrainz.Objects {
+namespace MetaBrainz.MusicBrainz.Objects {
 
   internal static class HelperMethods {
 
     public static EntityType SetFrom(out EntityType? et, string text) {
-      switch (text) {
-        case "area":          return (et = EntityType.Area        ).Value;
-        case "artist":        return (et = EntityType.Artist      ).Value;
-        case "collection":    return (et = EntityType.Collection  ).Value;
-        case "event":         return (et = EntityType.Event       ).Value;
-        case "instrument":    return (et = EntityType.Instrument  ).Value;
-        case "label":         return (et = EntityType.Label       ).Value;
-        case "place":         return (et = EntityType.Place       ).Value;
-        case "recording":     return (et = EntityType.Recording   ).Value;
-        case "release":       return (et = EntityType.Release     ).Value;
-        case "release_group": return (et = EntityType.ReleaseGroup).Value;
-        case "series":        return (et = EntityType.Series      ).Value;
-        case "url":           return (et = EntityType.Url         ).Value;
-        case "work":          return (et = EntityType.Work        ).Value;
-        default:              return (et = EntityType.Unknown     ).Value;
-      }
+      return text switch {
+        "area"          => (et = EntityType.Area        ).Value,
+        "artist"        => (et = EntityType.Artist      ).Value,
+        "collection"    => (et = EntityType.Collection  ).Value,
+        "event"         => (et = EntityType.Event       ).Value,
+        "instrument"    => (et = EntityType.Instrument  ).Value,
+        "label"         => (et = EntityType.Label       ).Value,
+        "place"         => (et = EntityType.Place       ).Value,
+        "recording"     => (et = EntityType.Recording   ).Value,
+        "release"       => (et = EntityType.Release     ).Value,
+        "release_group" => (et = EntityType.ReleaseGroup).Value,
+        "series"        => (et = EntityType.Series      ).Value,
+        "url"           => (et = EntityType.Url         ).Value,
+        "work"          => (et = EntityType.Work        ).Value,
+        _               => (et = EntityType.Unknown     ).Value
+      };
     }
 
   }
