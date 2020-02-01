@@ -1,4 +1,3 @@
-﻿using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -7,8 +6,6 @@ using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed partial class Query {
 
     #region Synchronous Requests

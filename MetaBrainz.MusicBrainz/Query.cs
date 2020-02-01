@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Class providing access to the MusicBrainz API.</summary>
-  [SuppressMessage("ReSharper", "AutoPropertyCanBeMadeGetOnly.Global")]
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public sealed partial class Query {
 
     #region Constants
