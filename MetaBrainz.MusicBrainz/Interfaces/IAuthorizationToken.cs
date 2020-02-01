@@ -1,10 +1,10 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
   /// <summary>An OAuth2 authorization token.</summary>
   [PublicAPI]
-  public interface IAuthorizationToken {
+  public interface IAuthorizationToken : IJsonBasedObject {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
     string AccessToken { get; }
