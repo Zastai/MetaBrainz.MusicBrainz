@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -8,9 +7,6 @@ using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public sealed partial class Query {
 
     #region Adding Items
@@ -453,7 +449,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Removing Items
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -468,7 +464,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, EntityType entityType, params Guid[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, entityType).Add(items));
 
-    /// <summary>Removes the specified areas to the specified collection.</summary>
+    /// <summary>Removes the specified areas from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -482,7 +478,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IArea[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Area).Add(items));
 
-    /// <summary>Removes the specified artists to the specified collection.</summary>
+    /// <summary>Removes the specified artists from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -496,7 +492,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IArtist[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Artist).Add(items));
 
-    /// <summary>Removes the specified events to the specified collection.</summary>
+    /// <summary>Removes the specified events from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -510,7 +506,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IEvent[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Event).Add(items));
 
-    /// <summary>Removes the specified instruments to the specified collection.</summary>
+    /// <summary>Removes the specified instruments from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -524,7 +520,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IInstrument[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Instrument).Add(items));
 
-    /// <summary>Removes the specified labels to the specified collection.</summary>
+    /// <summary>Removes the specified labels from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -538,7 +534,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params ILabel[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Label).Add(items));
 
-    /// <summary>Removes the specified places to the specified collection.</summary>
+    /// <summary>Removes the specified places from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -552,7 +548,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IPlace[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Place).Add(items));
 
-    /// <summary>Removes the specified recordings to the specified collection.</summary>
+    /// <summary>Removes the specified recordings from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -566,7 +562,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IRecording[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Recording).Add(items));
 
-    /// <summary>Removes the specified releases to the specified collection.</summary>
+    /// <summary>Removes the specified releases from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -580,7 +576,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IRelease[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Release).Add(items));
 
-    /// <summary>Removes the specified release groups to the specified collection.</summary>
+    /// <summary>Removes the specified release groups from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -594,7 +590,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IReleaseGroup[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
 
-    /// <summary>Removes the specified series to the specified collection.</summary>
+    /// <summary>Removes the specified series from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -608,7 +604,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params ISeries[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Series).Add(items));
 
-    /// <summary>Removes the specified works to the specified collection.</summary>
+    /// <summary>Removes the specified works from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -622,7 +618,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
     public string RemoveFromCollection(string client, Guid collection, params IWork[] items) => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.Work).Add(items));
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -639,7 +635,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -660,7 +656,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Removing Items (Asynchronously)
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -677,7 +673,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, entityType).Add(items));
     }
 
-    /// <summary>Removes the specified areas to the specified collection.</summary>
+    /// <summary>Removes the specified areas from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -693,7 +689,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Area).Add(items));
     }
 
-    /// <summary>Removes the specified artists to the specified collection.</summary>
+    /// <summary>Removes the specified artists from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -709,7 +705,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Artist).Add(items));
     }
 
-    /// <summary>Removes the specified events to the specified collection.</summary>
+    /// <summary>Removes the specified events from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -725,7 +721,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Event).Add(items));
     }
 
-    /// <summary>Removes the specified instruments to the specified collection.</summary>
+    /// <summary>Removes the specified instruments from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -741,7 +737,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Instrument).Add(items));
     }
 
-    /// <summary>Removes the specified labels to the specified collection.</summary>
+    /// <summary>Removes the specified labels from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -757,7 +753,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Label).Add(items));
     }
 
-    /// <summary>Removes the specified places to the specified collection.</summary>
+    /// <summary>Removes the specified places from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -773,7 +769,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Place).Add(items));
     }
 
-    /// <summary>Removes the specified recordings to the specified collection.</summary>
+    /// <summary>Removes the specified recordings from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -789,7 +785,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Recording).Add(items));
     }
 
-    /// <summary>Removes the specified releases to the specified collection.</summary>
+    /// <summary>Removes the specified releases from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -805,7 +801,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Release).Add(items));
     }
 
-    /// <summary>Removes the specified release groups to the specified collection.</summary>
+    /// <summary>Removes the specified release groups from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -821,7 +817,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
     }
 
-    /// <summary>Removes the specified series to the specified collection.</summary>
+    /// <summary>Removes the specified series from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -837,7 +833,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Series).Add(items));
     }
 
-    /// <summary>Removes the specified works to the specified collection.</summary>
+    /// <summary>Removes the specified works from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -853,7 +849,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.Work).Add(items));
     }
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
@@ -870,7 +866,7 @@ namespace MetaBrainz.MusicBrainz {
       return this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection.MbId, collection.ContentType).Add(items));
     }
 
-    /// <summary>Removes the specified items to the specified collection.</summary>
+    /// <summary>Removes the specified items from the specified collection.</summary>
     /// <param name="client">
     ///   The ID of the client software making this request.<br/>
     ///   This has to be the application's name and version number. The recommended format is &quot;<code>application-version</code>&quot;, where <code>version</code> does not contain a dash.<br/>
