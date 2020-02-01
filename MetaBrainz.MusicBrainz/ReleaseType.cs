@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of the release type values (combines primary and secondary types).</summary>
-  [SuppressMessage("ReSharper", "InconsistentNaming")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   [Flags]
+  [PublicAPI]
   public enum ReleaseType {
 
     #region Primary Types
@@ -15,7 +14,7 @@ namespace MetaBrainz.MusicBrainz {
     /// An album, perhaps better defined as a "Long Play" (LP) release, generally consists of previously unreleased material (unless this type is combined with secondary
     /// types which change that, such as <see cref="Compilation"/>).
     /// </summary>
-    Album     = 1 << (0 + 0),
+    Album     = 1,
 
     /// <summary>An episodic release that was originally broadcast via radio, television, or the Internet, including podcasts.</summary>
     Broadcast = 1 << (0 + 1),
@@ -53,7 +52,7 @@ namespace MetaBrainz.MusicBrainz {
     /// </list>
     /// There are other variations of the single called a "split single" where songs by two different artists are released on the one disc, typically vinyl. The term
     /// "B-Side" comes from the era when singles were released on 7 inch (or sometimes 12 inch) vinyl with a song on each side, and so side A is the track that the single
-    /// is named for, and the other side -side B- would contain a bonus song, or sometimes even the same song. 
+    /// is named for, and the other side -side B- would contain a bonus song, or sometimes even the same song.
     /// </summary>
     Single    = 1 << (0 + 4),
 
@@ -61,7 +60,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Secondary Types
 
-    /// <summary></summary>
+    /// <summary>An audiobook is a book read by a narrator without music.</summary>
     Audiobook   = 1 << (10 + 0),
 
     /// <summary>
