@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz release.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface IRelease : IEntity, IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
+  [PublicAPI]
+  public interface IRelease : IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     /// <summary>The artist credit for the release.</summary>
     IReadOnlyList<INameCredit> ArtistCredit { get; }
@@ -25,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The ISO 3166-1 code for the (primary) country associated with the release.</summary>
     string Country { get; }
 
-    /// <summary>Information about the release's covert art on the Cover Art Archive (CAA).</summary>
+    /// <summary>Information about any covert art in the Cover Art Archive (CAA) for the release.</summary>
     ICoverArtArchive CoverArtArchive { get; }
 
     /// <summary>The earliest release date for the release.</summary>
@@ -58,7 +56,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The status of the release, expressed as an MBID.</summary>
     Guid? StatusId { get; }
 
-    /// <summary>The release's textual representation.</summary>
+    /// <summary>The representation of text on the release.</summary>
     ITextRepresentation TextRepresentation { get; }
 
   }

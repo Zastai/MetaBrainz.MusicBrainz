@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
-  /// <summary>A MuscBrainz work.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public interface IWork : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
+  /// <summary>A MusicBrainz work.</summary>
+  [PublicAPI]
+  public interface IWork : IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
 
     /// <summary>The attributes attached to this work (if any).</summary>
     IReadOnlyList<IWorkAttribute> Attributes { get; }

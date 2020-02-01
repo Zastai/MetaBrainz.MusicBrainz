@@ -1,11 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz instrument.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public interface IInstrument : IEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+  [PublicAPI]
+  public interface IInstrument : IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The instrument's description.</summary>
     string Description { get; }

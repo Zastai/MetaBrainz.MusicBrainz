@@ -1,9 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Simple information about a track on a CD.</summary>
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
+  [PublicAPI]
   public interface ISimpleTrack {
 
     /// <summary>The artist for the track.</summary>

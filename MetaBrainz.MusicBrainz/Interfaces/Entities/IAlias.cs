@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An alias for an entity.</summary>
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
+  [PublicAPI]
   public interface IAlias {
 
     /// <summary>The date at which the alias became applicable.</summary>

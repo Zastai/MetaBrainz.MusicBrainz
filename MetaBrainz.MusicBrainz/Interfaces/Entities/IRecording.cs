@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz recording.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface IRecording : IEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
+  [PublicAPI]
+  public interface IRecording : IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     /// <summary>The artist credit for the recording.</summary>
     IReadOnlyList<INameCredit> ArtistCredit { get; }

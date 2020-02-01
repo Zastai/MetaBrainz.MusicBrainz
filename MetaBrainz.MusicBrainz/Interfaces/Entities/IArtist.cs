@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz artist.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  public interface IArtist : IEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+  [PublicAPI]
+  public interface IArtist : IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The main area associated with the artist.</summary>
     IArea Area { get; }
@@ -45,7 +45,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The releases associated with the artist, if any.</summary>
     IReadOnlyList<IRelease> Releases { get; }
 
-    /// <summary>The atist's sort name.</summary>
+    /// <summary>The artist's sort name.</summary>
     string SortName { get; }
 
     /// <summary>The works associated with the artist, if any.</summary>

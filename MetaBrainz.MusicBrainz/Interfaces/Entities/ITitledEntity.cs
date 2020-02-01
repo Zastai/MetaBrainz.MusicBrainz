@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An entity with a title.</summary>
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface ITitledEntity {
+  [PublicAPI]
+  public interface ITitledEntity : IEntity {
 
     /// <summary>The aliases for this entity.</summary>
     IReadOnlyList<IAlias> Aliases { get; }

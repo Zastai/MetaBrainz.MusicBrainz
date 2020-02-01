@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A track on a medium.</summary>
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
+  [PublicAPI]
   public interface ITrack {
 
     /// <summary>The MBID for the track.</summary>
@@ -21,7 +20,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The number of the track on its medium.</summary>
     string Number { get; }
 
-    /// <summary>The positin of the track within its medium.</summary>
+    /// <summary>The position of the track within its medium.</summary>
     int? Position { get; }
 
     /// <summary>The recording associated with the track.</summary>

@@ -1,9 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A entity that can be rated.</summary>
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public interface IRatableEntity : IEntity {
 
     /// <summary>The rating for the entity.</summary>

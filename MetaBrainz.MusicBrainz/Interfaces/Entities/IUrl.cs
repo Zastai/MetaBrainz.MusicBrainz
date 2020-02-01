@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz URL.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface IUrl : IEntity, IRelatableEntity {
+  [PublicAPI]
+  public interface IUrl : IRelatableEntity {
 
     /// <summary>The URL's resource location.</summary>
     Uri Resource { get; }

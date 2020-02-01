@@ -1,12 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A collection of MusicBrainz entities.</summary>
-  [SuppressMessage("ReSharper", "RedundantExtendsListEntry")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface ICollection : IEntity, ITypedEntity {
+  [PublicAPI]
+  public interface ICollection : ITypedEntity {
 
     /// <summary>The name of the editor who created the collection.</summary>
     string Editor { get; }

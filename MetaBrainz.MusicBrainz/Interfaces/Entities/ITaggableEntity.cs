@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A entity that can have tags applied to it.</summary>
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public interface ITaggableEntity : IEntity {
 
     /// <summary>The genres associated with this entity.</summary>
