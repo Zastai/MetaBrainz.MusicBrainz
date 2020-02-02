@@ -27,11 +27,6 @@ However, things should work regardless of the host implementation (.NET Framewor
 Support for Solaris is unlikely, because there does not seem to be any easy way to get Mono to work on it.
 Support for OSX is similarly unlikely, because I have no access to a system.
 
-### DiscId.exe
-
-This is a small sample program using MetaBrainz.MusicBrainz.DiscId.dll.
-It mostly corresponds to the `Show-MusicBrainz-TableOfContents` powershell cmdlet (see below).
-
 ### Powershell Module
 
 A Powershell module is provided as well.
@@ -50,3 +45,8 @@ Still to come: help files and an installer (possibly via chocolatey).
 | `Show-MusicBrainzTableOfContents`  | Shows information about a device's table of contents. |
 
 Note that the MusicBrainz prefix for the commands can be changed via the `-Prefix` option of `Import-Module`.
+
+## dotnet-mbdiscid  [![NuGet Version](https://badge.fury.io/nu/dotnet-mbdiscid.svg)](https://badge.fury.io/nu/dotnet-mbdiscid)
+
+This is a small sample program using MetaBrainz.MusicBrainz.DiscId.dll.
+It can be installed as a global .NET Core tool, allowing you to run this from any prompt via `dotnet mbdiscid`.
