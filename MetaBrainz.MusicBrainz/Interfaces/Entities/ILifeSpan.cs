@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>The lifespan of an entity.</summary>
   [PublicAPI]
-  public interface ILifeSpan {
+  public interface ILifeSpan : IJsonBasedObject {
 
     /// <summary>The starting date of the lifespan.</summary>
     PartialDate Begin { get; }

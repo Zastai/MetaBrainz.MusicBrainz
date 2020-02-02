@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
   /// <summary>The results for a query that supports paging (i.e. search or browse).</summary>
   /// <typeparam name="TInterface">The specific type of query result.</typeparam>
   /// <typeparam name="TItem">The type of item being returned.</typeparam>
-  [SuppressMessage("ReSharper", "TypeParameterCanBeVariant")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
-  [SuppressMessage("ReSharper", "UnusedMemberInSuper.Global")]
-  public interface IPagedQueryResults<TInterface, TItem> where TInterface : IPagedQueryResults<TInterface, TItem> {
+  [PublicAPI]
+  public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject where TInterface : IPagedQueryResults<TInterface, TItem> {
 
     /// <summary>
     ///   The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in <see cref="Results"/>).

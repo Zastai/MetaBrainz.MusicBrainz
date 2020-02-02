@@ -175,7 +175,7 @@ namespace MetaBrainz.MusicBrainz {
       using var sr = new StreamReader(stream, encoding);
       var json = sr.ReadToEnd();
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {json}");
-      return JsonSerializer.Deserialize<AuthorizationToken>(json);
+      return JsonUtils.Deserialize<AuthorizationToken>(json);
     }
 
     private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
@@ -200,7 +200,7 @@ namespace MetaBrainz.MusicBrainz {
       using var sr = new StreamReader(stream, enc);
       var json = await sr.ReadToEndAsync().ConfigureAwait(false);
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {json}");
-      return JsonSerializer.Deserialize<AuthorizationToken>(json);
+      return JsonUtils.Deserialize<AuthorizationToken>(json);
     }
 
     private IAuthorizationToken RequestToken(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {

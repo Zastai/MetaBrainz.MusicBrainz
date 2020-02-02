@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions {
@@ -139,17 +138,17 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
           using (var xml = XmlWriter.Create(sw)) {
             xml.WriteStartDocument();
             xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-            TagSubmission.Write(xml, this._areas,         "area");
-            TagSubmission.Write(xml, this._artists,       "artist");
-            TagSubmission.Write(xml, this._events,        "event");
-            TagSubmission.Write(xml, this._instruments,   "instrument");
-            TagSubmission.Write(xml, this._labels,        "label");
-            TagSubmission.Write(xml, this._places,        "place");
-            TagSubmission.Write(xml, this._recordings,    "recording");
-            TagSubmission.Write(xml, this._releases,      "release");
-            TagSubmission.Write(xml, this._releaseGroups, "release-group");
-            TagSubmission.Write(xml, this._series,        "series");
-            TagSubmission.Write(xml, this._works,         "work");
+            Write(xml, this._areas,         "area");
+            Write(xml, this._artists,       "artist");
+            Write(xml, this._events,        "event");
+            Write(xml, this._instruments,   "instrument");
+            Write(xml, this._labels,        "label");
+            Write(xml, this._places,        "place");
+            Write(xml, this._recordings,    "recording");
+            Write(xml, this._releases,      "release");
+            Write(xml, this._releaseGroups, "release-group");
+            Write(xml, this._series,        "series");
+            Write(xml, this._works,         "work");
             xml.WriteEndElement();
           }
           return sw.ToString();

@@ -1,22 +1,17 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class UserTag : IUserTag {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class UserTag : JsonBasedObject, IUserTag {
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
     public override string ToString() => this.Name;
 
   }
 
 }
-  

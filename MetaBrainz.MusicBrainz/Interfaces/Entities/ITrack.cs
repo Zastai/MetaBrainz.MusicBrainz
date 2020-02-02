@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A track on a medium.</summary>
   [PublicAPI]
-  public interface ITrack {
+  public interface ITrack : IJsonBasedObject {
 
     /// <summary>The MBID for the track.</summary>
     Guid MbId { get; }

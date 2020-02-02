@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A named credit for an artist.</summary>
   [PublicAPI]
-  public interface INameCredit {
+  public interface INameCredit : IJsonBasedObject {
 
     /// <summary>The artist being credited.</summary>
     IArtist Artist { get; }

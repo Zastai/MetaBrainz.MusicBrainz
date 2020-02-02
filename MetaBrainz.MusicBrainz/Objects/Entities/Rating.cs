@@ -1,29 +1,25 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Rating : IRating {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Rating : JsonBasedObject, IRating {
 
-    [JsonProperty("value", Required = Required.Default)]
-    public decimal? Value { get; private set; }
+    [JsonPropertyName("value")]
+    public decimal? Value { get; set; }
 
-    [JsonProperty("votes-count", Required = Required.Always)]
-    public int VoteCount { get; private set; }
+    [JsonPropertyName("votes-count")]
+    public int VoteCount { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
       if (this.Value.HasValue) {
         var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
         for (var i = 1; i <= 5; ++i)
-          text = string.Concat(text, (stars >= i) ? '★' : '☆');
+          text = string.Concat(text, (stars >= i) ? "★" : "☆");
         text += $" (votes: {this.VoteCount})";
       }
       return text;

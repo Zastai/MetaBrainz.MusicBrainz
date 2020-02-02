@@ -1,69 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Medium : IMedium {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Medium : JsonBasedObject, IMedium {
 
-    public IReadOnlyList<ITrack> DataTracks => this._dataTracks;
+    public IReadOnlyList<ITrack> DataTracks => this.TheDataTracks;
 
-    [JsonProperty("data-tracks", Required = Required.Default)]
-    private Track[] _dataTracks = null;
+    [JsonPropertyName("data-tracks")]
+    public Track[] TheDataTracks { get; set; }
 
-    public IReadOnlyList<IDisc> Discs => this._discs;
+    public IReadOnlyList<IDisc> Discs => this.TheDiscs;
 
-    [JsonProperty("discs", Required = Required.Default)]
-    private Disc[] _discs = null;
+    [JsonPropertyName("discs")]
+    public Disc[] TheDiscs { get; set; }
 
-    [JsonProperty("format", Required = Required.Default)]
-    public string Format { get; private set; }
+    [JsonPropertyName("format")]
+    public string Format { get; set; }
 
-    [JsonProperty("format-id", Required = Required.Default)]
-    public Guid? FormatId { get; private set; }
+    [JsonPropertyName("format-id")]
+    public Guid? FormatId { get; set; }
 
-    [JsonProperty("position", Required = Required.Default)]
-    public int Position { get; private set; }
+    [JsonPropertyName("position")]
+    public int Position { get; set; }
 
-    public ITrack Pregap => this._pregap;
+    public ITrack Pregap => this.ThePregap;
 
-    [JsonProperty("pregap", Required = Required.Default)]
-    private Track _pregap = null;
+    [JsonPropertyName("pregap")]
+    public Track ThePregap { get; set; }
 
-    [JsonProperty("title", Required = Required.Default)]
-    public string Title { get; private set; }
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
-    [JsonProperty("track-count", Required = Required.Default)]
-    public int TrackCount { get; private set; }
+    [JsonPropertyName("track-count")]
+    public int TrackCount { get; set; }
 
-    [JsonProperty("track-offset", Required = Required.Default)]
-    public int? TrackOffset { get; private set; }
+    [JsonPropertyName("track-offset")]
+    public int? TrackOffset { get; set; }
 
-    public IReadOnlyList<ITrack> Tracks => this._tracks ?? this._track;
+    // SEARCH-604: A medium can have either 'track' or 'tracks' depending on how it was included in the search.
+    public IReadOnlyList<ITrack> Tracks => this.TheTracks ?? this.TheTrack;
 
-    [JsonProperty("track", Required = Required.Default)]
-    private Track[] _track = null;
+    [JsonPropertyName("track")]
+    public Track[] TheTrack { get; set; }
 
-    [JsonProperty("tracks", Required = Required.Default)]
-    private Track[] _tracks = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the format ID is not serialized
-    // - the position ID is not serialized
-    // - the title ID is not serialized
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-
-    #endregion
+    [JsonPropertyName("tracks")]
+    public Track[] TheTracks { get; set; }
 
     public override string ToString() {
       var text = this.Format ?? "Medium";

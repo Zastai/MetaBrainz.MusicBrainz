@@ -1,42 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+using System.Text.Json;
+
+using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class DiscIdLookupResult : IDiscIdLookupResult {
 
-    internal DiscIdLookupResult(string discid, string json, JsonSerializerSettings jss) {
+    internal DiscIdLookupResult(string discid, string json) {
+      this.Id = discid;
       // Currently this can return:
       // - a serialized Disc (id + releases)
       // - a serialized CD stub (id + tracks)
       // - a list of releases (as a serialized object containing only a "releases" property)
       // It would be nicer if the first two had a wrapper object with a disc and stub property, respectively.
-      var jobj = JsonConvert.DeserializeObject(json, jss) as JObject;
-      if (jobj == null)
-        throw new ArgumentException($"Disc ID lookup for '{discid}' did not return a usable JSON result.\nContents: {json}");
-      var jid = jobj["id"];
-      if (jid != null && jobj["releases"] != null)
-        this.Disc = JsonConvert.DeserializeObject<Disc>(json, jss);
-      else if (jid != null && jobj["tracks"] != null)
-        this.Stub = JsonConvert.DeserializeObject<CdStub>(json, jss);
-      else {
-        var jreleases = jobj["releases"];
-        if (jreleases == null)
-          throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
-        this.Releases = JsonConvert.DeserializeObject<Release[]>(jreleases.ToString(), jss);
+      JsonElement result;
+      try {
+        result = JsonDocument.Parse(json).RootElement;
       }
-      this.Id = discid;
+      catch (Exception e) {
+        throw new ArgumentException($"Disc ID lookup for '{discid}' did not return a usable JSON result.\nContents: {json}", e);
+      }
+      if (result.TryGetProperty("id", out var id)) {
+        if (result.TryGetProperty("releases", out var releases)) {
+          this.Disc = JsonUtils.Deserialize<Disc>(json);
+          return;
+        }
+        else if (result.TryGetProperty("tracks", out var tracks)) {
+          this.Stub = JsonUtils.Deserialize<CdStub>(json);
+          return;
+        }
+      }
+      else if (result.TryGetProperty("releases", out var releases) && releases.ValueKind == JsonValueKind.Array) {
+        this.Releases = JsonUtils.Deserialize<Release[]>(releases.ToString());
+        return;
+      }
+      throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
     }
 
     public string Id { get; }

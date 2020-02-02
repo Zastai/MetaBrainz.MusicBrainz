@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A tag attached to an entity.</summary>
   [PublicAPI]
-  public interface ITag {
+  public interface ITag : IJsonBasedObject {
 
     /// <summary>The name of the tag.</summary>
     string Name { get; }

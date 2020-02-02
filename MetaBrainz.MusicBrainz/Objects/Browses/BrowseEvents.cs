@@ -1,44 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  internal sealed class BrowseEvents : BrowseResults<IEvent> {
+  internal sealed class BrowseEvents : BrowseResults<IEvent, BrowseEvents.JSON> {
 
-    public BrowseEvents(Query query, string extra, int? limit = null, int? offset = null) : base(query, "event", null, extra, limit, offset) { }
-
-    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
-
-    protected override IBrowseResults<IEvent> Deserialize(string json) {
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
+    public BrowseEvents(Query query, string extra, int? limit = null, int? offset = null)
+    : base(query, "event", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<IEvent> Results => this._currentResult?.results;
+    public override IReadOnlyList<IEvent> Results => this.CurrentResult?.Results;
 
-    public override int TotalResults => this._currentResult?.count ?? 0;
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class JSON : ResultObject {
 
-    #pragma warning disable 169
-    #pragma warning disable 649
+      [JsonPropertyName("events")]
+      public Event[] Results { get; set; }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class JSON {
-      [JsonProperty("events",       Required = Required.Always)] public Event[] results;
-      [JsonProperty("event-count",  Required = Required.Always)] public int     count;
-      [JsonProperty("event-offset", Required = Required.Always)] public int     offset;
+      [JsonPropertyName("event-count")]
+      public override int Count { get; set; }
+
+      [JsonPropertyName("event-offset")]
+      public override int Offset { get; set; }
+
     }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    private JSON _currentResult;
 
   }
 

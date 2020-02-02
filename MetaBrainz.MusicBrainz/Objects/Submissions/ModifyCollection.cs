@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
@@ -14,7 +13,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
       this._client = client ?? throw new ArgumentNullException(nameof(client));
       if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
       this._request = new StringBuilder(16 * 1024);
-      this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(ModifyCollection.MapType(entityType)).Append('/');
+      this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(MapType(entityType)).Append('/');
     }
 
     public ModifyCollection Add(IEnumerable<Guid> items) {

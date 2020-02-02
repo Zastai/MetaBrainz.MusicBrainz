@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Information about available CoverArt Archive items.</summary>
   [PublicAPI]
-  public interface ICoverArtArchive {
+  public interface ICoverArtArchive : IJsonBasedObject {
 
     /// <summary>Flag indicating that artwork is available.</summary>
     bool Artwork { get; }

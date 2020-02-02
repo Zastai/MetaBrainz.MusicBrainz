@@ -1,16 +1,14 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal class SearchResult : ISearchResult {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal abstract class SearchResult : JsonBasedObject, ISearchResult {
 
-    [JsonProperty("score", Required = Required.Default)] protected byte? SearchScore = null;
+    [JsonPropertyName("score")]
+    public byte? SearchScore { get; set; }
 
     public byte Score => this.SearchScore.GetValueOrDefault(0);
 

@@ -1,116 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Label : SearchResult, IFoundLabel {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Label : Entity, IFoundLabel {
 
-    public EntityType EntityType => EntityType.Label;
+    public override EntityType EntityType => EntityType.Label;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.Default)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    public IArea Area => this.TheArea;
 
-    public IArea Area => this._area;
+    [JsonPropertyName("area")]
+    public Area TheArea { get; set; }
 
-    [JsonProperty("area", Required = Required.Default)]
-    private Area _area = null;
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
 
-    [JsonProperty("country", Required = Required.Default)]
-    public string Country { get; private set; }
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.Default)]
-    public string Disambiguation { get; private set; }
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    [JsonPropertyName("ipis")]
+    public IReadOnlyList<string> Ipis { get; set; }
 
-    [JsonProperty("ipis", Required = Required.Default)]
-    public IReadOnlyList<string> Ipis { get; private set; }
+    [JsonPropertyName("isnis")]
+    public IReadOnlyList<string> Isnis { get; set; }
 
-    [JsonProperty("isnis", Required = Required.Default)]
-    public IReadOnlyList<string> Isnis { get; private set; }
+    [JsonPropertyName("label-code")]
+    public int? LabelCode { get; set; }
 
-    [JsonProperty("label-code", Required = Required.Default)]
-    public int? LabelCode { get; private set; }
+    public ILifeSpan LifeSpan => this.TheLifeSpan;
 
-    public ILifeSpan LifeSpan => this._lifeSpan;
+    [JsonPropertyName("life-span")]
+    public LifeSpan TheLifeSpan { get; set; }
 
-    [JsonProperty("life-span", Required = Required.Default)]
-    private LifeSpan _lifeSpan = null;
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    public IRating Rating => this.TheRating;
 
-    public IRating Rating => this._rating;
+    [JsonPropertyName("rating")]
+    public Rating TheRating { get; set; }
 
-    [JsonProperty("rating", Required = Required.Default)]
-    private Rating _rating = null;
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    [JsonProperty("relations", Required = Required.Default)]
-    private Relationship[] _relationships = null;
+    public IReadOnlyList<IRelease> Releases => this.TheReleases;
 
-    public IReadOnlyList<IRelease> Releases => this._releases;
+    [JsonPropertyName("releases")]
+    public Release[] TheReleases { get; set; }
 
-    [JsonProperty("releases", Required = Required.Default)]
-    private Release[] _releases = null;
+    // The name is serialized as 'sort-name' too, probably for historical reasons.
+    [JsonPropertyName("sort-name")]
+    public string SortName { get; set; }
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    [JsonProperty("tags", Required = Required.Default)]
-    private Tag[] _tags = null;
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    [JsonProperty("type", Required = Required.Default)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    public IUserRating UserRating => this._userRating;
+    public IUserRating UserRating => this.TheUserRating;
 
-    [JsonProperty("user-rating", Required = Required.Default)]
-    private UserRating _userRating = null;
+    [JsonPropertyName("user-rating")]
+    public UserRating TheUserRating { get; set; }
 
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    [JsonProperty("user-tags", Required = Required.Default)]
-    private UserTag[] _userTags = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the label code is not serialized when not set (instead of being serialized as null)
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-
-    #endregion
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;
@@ -120,11 +107,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         text += " (" + this.Type + ")";
       return text;
     }
-
-    // The name is serialized as 'sort-name' too, probably for historical reasons. Ignore it.
-    #pragma warning disable 169
-    [JsonProperty("sort-name")] private string _sortName;
-    #pragma warning restore 169
 
   }
 

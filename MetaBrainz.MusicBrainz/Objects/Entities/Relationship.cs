@@ -1,157 +1,139 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Relationship : IRelationship {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Relationship : JsonBasedObject, IRelationship {
 
-    public IArea Area => this._area;
+    public IArea Area => this.TheArea;
 
-    [JsonProperty("area", Required = Required.Default)]
-    private Area _area = null;
+    [JsonPropertyName("area")]
+    public Area TheArea { get; set; }
 
-    public IArtist Artist => this._artist;
+    public IArtist Artist => this.TheArtist;
 
-    [JsonProperty("artist", Required = Required.Default)]
-    private Artist _artist = null;
+    [JsonPropertyName("artist")]
+    public Artist TheArtist { get; set; }
 
-    [JsonProperty("attributes", Required = Required.Default)]
-    public IReadOnlyList<string> Attributes { get; private set; }
+    [JsonPropertyName("attributes")]
+    public IReadOnlyList<string> Attributes { get; set; }
 
-    [JsonProperty("attribute-credits", Required = Required.Default)]
-    public IReadOnlyDictionary<string, string> AttributeCredits { get; private set; }
+    [JsonPropertyName("attribute-credits")]
+    public IReadOnlyDictionary<string, string> AttributeCredits { get; set; }
 
-    [JsonProperty("attribute-ids", Required = Required.Default)]
-    public IReadOnlyDictionary<string, Guid> AttributeIds { get; private set; }
+    [JsonPropertyName("attribute-ids")]
+    public IReadOnlyDictionary<string, Guid> AttributeIds { get; set; }
 
-    [JsonProperty("attribute-values", Required = Required.Default)]
-    public IReadOnlyDictionary<string, string> AttributeValues { get; private set; }
+    [JsonPropertyName("attribute-values")]
+    public IReadOnlyDictionary<string, string> AttributeValues { get; set; }
 
-    [JsonProperty("begin", Required = Required.Default)]
-    public PartialDate Begin { get; private set; }
+    [JsonPropertyName("begin")]
+    public PartialDate Begin { get; set; }
 
-    [JsonProperty("direction", Required = Required.Always)]
-    public string Direction { get; private set; }
+    [JsonPropertyName("direction")]
+    public string Direction { get; set; }
 
-    [JsonProperty("end", Required = Required.Default)]
-    public PartialDate End { get; private set; }
+    [JsonPropertyName("end")]
+    public PartialDate End { get; set; }
 
-    [JsonProperty("ended", Required = Required.Default)]
-    public bool Ended { get; private set; }
+    [JsonPropertyName("ended")]
+    public bool Ended { get; set; }
 
-    public IEvent Event => this._event;
+    public IEvent Event => this.TheEvent;
 
-    [JsonProperty("event", Required = Required.Default)]
-    private Event _event = null;
+    [JsonPropertyName("event")]
+    public Event TheEvent { get; set; }
 
-    public IInstrument Instrument => this._instrument;
+    public IInstrument Instrument => this.TheInstrument;
 
-    [JsonProperty("instrument", Required = Required.Default)]
-    private Instrument _instrument = null;
+    [JsonPropertyName("instrument")]
+    public Instrument TheInstrument { get; set; }
 
-    public ILabel Label => this._label;
+    public ILabel Label => this.TheLabel;
 
-    [JsonProperty("label", Required = Required.Default)]
-    private Label _label= null;
+    [JsonPropertyName("label")]
+    public Label TheLabel { get; set; }
 
-    [JsonProperty("ordering-key", Required = Required.Default)]
-    public int? OrderingKey { get; private set; }
+    [JsonPropertyName("ordering-key")]
+    public int? OrderingKey { get; set; }
 
-    public IPlace Place => this._place;
+    public IPlace Place => this.ThePlace;
 
-    [JsonProperty("place", Required = Required.DisallowNull)]
-    private Place _place = null;
+    [JsonPropertyName("place")]
+    public Place ThePlace { get; set; }
 
-    public IRecording Recording => this._recording;
+    public IRecording Recording => this.TheRecording;
 
-    [JsonProperty("recording", Required = Required.DisallowNull)]
-    private Recording _recording = null;
+    [JsonPropertyName("recording")]
+    public Recording TheRecording { get; set; }
 
-    public IRelease Release => this._release;
+    public IRelease Release => this.TheRelease;
 
-    [JsonProperty("release", Required = Required.DisallowNull)]
-    private Release _release = null;
+    [JsonPropertyName("release")]
+    public Release TheRelease { get; set; }
 
-    public IReleaseGroup ReleaseGroup => this._releaseGroup;
+    public IReleaseGroup ReleaseGroup => this.TheReleaseGroup;
 
-    [JsonProperty("release_group", Required = Required.DisallowNull)]
-    private ReleaseGroup _releaseGroup = null;
+    [JsonPropertyName("release_group")]
+    public ReleaseGroup TheReleaseGroup { get; set; }
 
-    public ISeries Series => this._series;
+    public ISeries Series => this.TheSeries;
 
-    [JsonProperty("series", Required = Required.DisallowNull)]
-    private Series _series = null;
+    [JsonPropertyName("series")]
+    public Series TheSeries { get; set; }
 
-    [JsonProperty("source-credit", Required = Required.DisallowNull)]
-    public string SourceCredit { get; private set; }
+    [JsonPropertyName("source-credit")]
+    public string SourceCredit { get; set; }
 
     public IRelatableEntity Target {
       get {
         switch (this.TargetType) {
-          case EntityType.Area:         return this._area;
-          case EntityType.Artist:       return this._artist;
-          case EntityType.Event:        return this._event;
-          case EntityType.Instrument:   return this._instrument;
-          case EntityType.Label:        return this._label;
-          case EntityType.Place:        return this._place;
-          case EntityType.Recording:    return this._recording;
-          case EntityType.Release:      return this._release;
-          case EntityType.ReleaseGroup: return this._releaseGroup;
-          case EntityType.Series:       return this._series;
-          case EntityType.Url:          return this._url;
-          case EntityType.Work:         return this._work;
+          case EntityType.Area:         return this.TheArea;
+          case EntityType.Artist:       return this.TheArtist;
+          case EntityType.Event:        return this.TheEvent;
+          case EntityType.Instrument:   return this.TheInstrument;
+          case EntityType.Label:        return this.TheLabel;
+          case EntityType.Place:        return this.ThePlace;
+          case EntityType.Recording:    return this.TheRecording;
+          case EntityType.Release:      return this.TheRelease;
+          case EntityType.ReleaseGroup: return this.TheReleaseGroup;
+          case EntityType.Series:       return this.TheSeries;
+          case EntityType.Url:          return this.TheUrl;
+          case EntityType.Work:         return this.TheWork;
           default:                      return null;
         }
       }
     }
 
-    [JsonProperty("target-credit", Required = Required.DisallowNull)]
-    public string TargetCredit { get; private set; }
+    [JsonPropertyName("target-credit")]
+    public string TargetCredit { get; set; }
 
-    public EntityType TargetType => this._targetType ?? HelperMethods.SetFrom(out this._targetType, this.TargetTypeText);
+    public EntityType TargetType => this._targetType ??= HelperMethods.ParseEntityType(this.TargetTypeText);
 
     private EntityType? _targetType;
 
-    [JsonProperty("target-type", Required = Required.DisallowNull)]
-    public string TargetTypeText { get; private set; }
+    [JsonPropertyName("target-type")]
+    public string TargetTypeText { get; set; }
 
-    [JsonProperty("type", Required = Required.Always)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    public IUrl Url => this._url;
+    public IUrl Url => this.TheUrl;
 
-    [JsonProperty("url", Required = Required.DisallowNull)]
-    private Url _url = null;
+    [JsonPropertyName("url")]
+    public Url TheUrl { get; set; }
 
-    public IWork Work => this._work;
+    public IWork Work => this.TheWork;
 
-    [JsonProperty("work", Required = Required.DisallowNull)]
-    private Work _work = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the begin/end dates and the ended flag are not serialized when not set (instead of being serialized as null/false)
-    // - the list of attributes is not serialized when empty (instead of being serialized as an empty array)
-    // - the attribute values are not serialized
-    // - the source/target credits are not serialized
-    // - the target type is not serialized (so the Target property does not work)
-    // - the type ID is not serialized
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-
-    #endregion
+    [JsonPropertyName("work")]
+    public Work TheWork { get; set; }
 
     public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
 

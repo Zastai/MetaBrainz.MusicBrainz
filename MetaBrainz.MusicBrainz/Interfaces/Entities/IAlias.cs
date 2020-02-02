@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An alias for an entity.</summary>
   [PublicAPI]
-  public interface IAlias {
+  public interface IAlias : IJsonBasedObject {
 
     /// <summary>The date at which the alias became applicable.</summary>
     PartialDate Begin { get; }

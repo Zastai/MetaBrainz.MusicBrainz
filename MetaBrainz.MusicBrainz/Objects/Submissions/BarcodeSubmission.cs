@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions {

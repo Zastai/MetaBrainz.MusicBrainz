@@ -1,107 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Work : SearchResult, IFoundWork {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Work : Entity, IFoundWork {
 
-    public EntityType EntityType => EntityType.Work;
+    public override EntityType EntityType => EntityType.Work;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.Default)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    public IReadOnlyList<IWorkAttribute> Attributes => this.TheAttributes;
 
-    public IReadOnlyList<IWorkAttribute> Attributes => this._attributes;
+    [JsonPropertyName("attributes")]
+    public WorkAttribute[] TheAttributes { get; set; }
 
-    [JsonProperty("attributes", Required = Required.Default)]
-    private WorkAttribute[] _attributes = null;
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.Default)]
-    public string Disambiguation { get; private set; }
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    [JsonPropertyName("iswcs")]
+    public IReadOnlyList<string> Iswcs { get; set; }
 
-    [JsonProperty("iswcs", Required = Required.Default)]
-    public IReadOnlyList<string> Iswcs { get; private set; }
+    [JsonPropertyName("language")]
+    public string Language { get; set; }
 
-    [JsonProperty("language", Required = Required.Default)]
-    public string Language { get; private set; }
+    [JsonPropertyName("languages")]
+    public IReadOnlyList<string> Languages { get; set; }
 
-    [JsonProperty("languages", Required = Required.Default)]
-    public IReadOnlyList<string> Languages { get; private set; }
+    public IRating Rating => this.TheRating;
 
-    public IRating Rating => this._rating;
+    [JsonPropertyName("rating")]
+    public Rating TheRating { get; set; }
 
-    [JsonProperty("rating", Required = Required.Default)]
-    private Rating _rating = null;
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    [JsonProperty("relations", Required = Required.Default)]
-    private Relationship[] _relationships = null;
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    [JsonProperty("tags", Required = Required.Default)]
-    private Tag[] _tags = null;
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("type", Required = Required.Default)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    public IUserRating UserRating => this.TheUserRating;
 
-    public IUserRating UserRating => this._userRating;
+    [JsonPropertyName("user-rating")]
+    public UserRating TheUserRating { get; set; }
 
-    [JsonProperty("user-rating", Required = Required.Default)]
-    private UserRating _userRating = null;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
-
-    [JsonProperty("user-tags", Required = Required.Default)]
-    private UserTag[] _userTags = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the attributes are not serialized when not set (instead of being serialized as an empty array)
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // - the ISWC list is not serialized
-    // - the language is not serialized when not set (instead of being serialized as null)
-    // - the language list is not serialized
-    // - the type and type ID are not serialized
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-
-    #endregion
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
     public override string ToString() {
       var text = this.Title ?? string.Empty;

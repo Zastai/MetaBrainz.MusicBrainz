@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An MusicBrainz entity, identified by an MBID.</summary>
   [PublicAPI]
-  public interface IEntity {
+  public interface IEntity : IJsonBasedObject {
 
     /// <summary>The type of this entity.</summary>
     EntityType EntityType { get; }

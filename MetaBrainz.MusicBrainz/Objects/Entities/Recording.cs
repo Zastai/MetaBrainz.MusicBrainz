@@ -1,130 +1,89 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Recording : SearchResult, IFoundRecording {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Recording : Entity, IFoundRecording {
 
-    public EntityType EntityType => EntityType.Recording;
+    public override EntityType EntityType => EntityType.Recording;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.DisallowNull)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    public IReadOnlyList<INameCredit> ArtistCredit => this.TheArtistCredit;
 
-    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
+    [JsonPropertyName("artist-credit")]
+    public NameCredit[] TheArtistCredit { get; set; }
 
-    [JsonProperty("artist-credit", Required = Required.Default)]
-    private NameCredit[] _artistCredit = null;
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
-    public string Disambiguation { get; private set; }
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    [JsonPropertyName("isrcs")]
+    public IReadOnlyList<string> Isrcs { get; set; }
 
-    public IReadOnlyList<string> Isrcs { get; private set; }
+    [JsonPropertyName("length")]
+    public int? Length { get; set; }
 
-    [JsonProperty("length", Required = Required.Default)]
-    public int? Length { get; private set; }
+    public IRating Rating => this.TheRating;
 
-    public IRating Rating => this._rating;
+    [JsonPropertyName("rating")]
+    public Rating TheRating { get; set; }
 
-    [JsonProperty("rating", Required = Required.DisallowNull)]
-    private Rating _rating = null;
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    [JsonProperty("relations", Required = Required.DisallowNull)]
-    private Relationship[] _relationships = null;
+    public IReadOnlyList<IRelease> Releases => this.TheReleases;
 
-    public IReadOnlyList<IRelease> Releases => this._releases;
+    [JsonPropertyName("releases")]
+    public Release[] TheReleases { get; set; }
 
-    [JsonProperty("releases", Required = Required.DisallowNull)]
-    private Release[] _releases = null;
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    [JsonProperty("tags", Required = Required.DisallowNull)]
-    private Tag[] _tags = null;
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    public IUserRating UserRating => this.TheUserRating;
 
-    public IUserRating UserRating => this._userRating;
+    [JsonPropertyName("user-rating")]
+    public UserRating TheUserRating { get; set; }
 
-    [JsonProperty("user-rating", Required = Required.DisallowNull)]
-    private UserRating _userRating = null;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
-    [JsonProperty("user-tags", Required = Required.DisallowNull)]
-    private UserTag[] _userTags = null;
+    public bool Video => this.MaybeVideo.GetValueOrDefault();
 
-    public bool Video => this._video.GetValueOrDefault();
-
-    [JsonProperty("video", Required = Required.Default)]
-    private bool? _video = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // - the length is not serialized when not set (instead of being serialized as null)
-    // - the video flag is serialized as null when not set (instead of false)
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-    // => Use a nullable boolean for the video flag.
-    // - the ISRCs are not serialized as an array of strings, but as an array of objects with only an ID property
-    // => added a setter-only property for those, which extract the IDs
-
-    [JsonProperty("isrcs", Required = Required.DisallowNull)]
-    private JArray RawIsrcs {
-      set {
-        if (value == null || !value.HasValues)
-          return;
-        var isrcs = new string[value.Count];
-        var i = 0;
-        foreach (var child in value.Children()) {
-          var jval = child as JValue;
-          if (jval == null && child is JObject jobj) {
-            if (jobj.TryGetValue("id", out JToken jtok))
-              jval = jtok as JValue;
-          }
-          if (jval != null)
-            isrcs[i++] = jval.Value<string>();
-          else
-            throw new JsonException($"Found invalid contents for the 'isrcs' property; need either an array of strings or an array of objects with 'id' properties.\nContents found: {value}");
-        }
-        this.Isrcs = isrcs;
-      }
-    }
-
-    #endregion
+    // The search server serializes this as null, so we need a bool? as JSON property value.
+    [JsonPropertyName("video")]
+    public bool? MaybeVideo { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

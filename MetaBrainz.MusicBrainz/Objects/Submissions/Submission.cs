@@ -2,7 +2,6 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions {

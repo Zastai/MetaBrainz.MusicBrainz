@@ -1,43 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Track : ITrack {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Track : JsonBasedObject, ITrack {
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    [JsonPropertyName("id")]
+    public Guid MbId { get; set; }
 
-    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
+    public IReadOnlyList<INameCredit> ArtistCredit => this.TheArtistCredit;
 
-    [JsonProperty("artist-credit", Required = Required.Default)]
-    private NameCredit[] _artistCredit = null;
+    [JsonPropertyName("artist-credit")]
+    public NameCredit[] TheArtistCredit { get; set; }
 
-    [JsonProperty("length", Required = Required.Default)]
-    public int? Length { get; private set; }
+    [JsonPropertyName("length")]
+    public int? Length { get; set; }
 
-    [JsonProperty("number", Required = Required.Default)]
-    public string Number { get; private set; }
+    [JsonPropertyName("number")]
+    public string Number { get; set; }
 
-    [JsonProperty("position", Required = Required.Default)]
-    public int? Position { get; private set; }
+    [JsonPropertyName("position")]
+    public int? Position { get; set; }
 
-    public IRecording Recording => this._recording;
+    public IRecording Recording => this.TheRecording;
 
-    [JsonProperty("recording", Required = Required.Default)]
-    private Recording _recording = null;
+    [JsonPropertyName("recording")]
+    public Recording TheRecording { get; set; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

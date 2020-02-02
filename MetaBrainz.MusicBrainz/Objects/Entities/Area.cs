@@ -1,121 +1,114 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Linq;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
-using MetaBrainz.MusicBrainz.Objects.Searches;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Area : SearchResult, IFoundArea {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Area : Entity, IFoundArea {
 
-    public EntityType EntityType => EntityType.Area;
+    public override EntityType EntityType => EntityType.Area;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.Default)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.Default)]
-    public string Disambiguation { get; private set; }
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    [JsonPropertyName("iso-3166-1-codes")]
+    public IReadOnlyList<string> Iso31661Codes { get; set; }
 
-    [JsonProperty("iso-3166-1-codes", Required = Required.Default)]
-    public IReadOnlyList<string> Iso31661Codes { get; private set; }
+    [JsonPropertyName("iso-3166-2-codes")]
+    public IReadOnlyList<string> Iso31662Codes { get; set; }
 
-    [JsonProperty("iso-3166-2-codes", Required = Required.Default)]
-    public IReadOnlyList<string> Iso31662Codes { get; private set; }
+    [JsonPropertyName("iso-3166-3-codes")]
+    public IReadOnlyList<string> Iso31663Codes { get; set; }
 
-    [JsonProperty("iso-3166-3-codes", Required = Required.Default)]
-    public IReadOnlyList<string> Iso31663Codes { get; private set; }
+    public ILifeSpan LifeSpan => this.TheLifeSpan;
 
-    public ILifeSpan LifeSpan => this._lifeSpan;
+    [JsonPropertyName("life-span")]
+    public LifeSpan TheLifeSpan { get; set; }
 
-    [JsonProperty("life-span", Required = Required.Default)]
-    private LifeSpan _lifeSpan = null;
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    [JsonProperty("relations", Required = Required.Default)]
-    private Relationship[] _relationships = null;
+    // The name is serialized as 'sort-name' too, probably for historical reasons.
+    [JsonPropertyName("sort-name")]
+    public string SortName { get; set; }
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    [JsonProperty("tags", Required = Required.Default)]
-    private Tag[] _tags = null;
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    [JsonProperty("type", Required = Required.Default)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    [JsonProperty("user-tags", Required = Required.Default)]
-    private UserTag[] _userTags = null;
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
     #region Search Server Compatibility
 
     // The search server's serialization differs in the following ways:
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // => Adjusted the Required flags for affected properties (to allow their omission).
     // - relationships are presented as a "relation-list" structure with additional indirection
-    // => special setter-only property (SearchRelationList) added to "unwrap" the list
+    // => special property (SearchRelationList) added to "unwrap" the list
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-    [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Global")]
-    [JsonObject(MemberSerialization.OptIn)]
-    private sealed class RelationList {
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class RelationList {
 
-      [JsonProperty("relations")] public Relationship[] Items = null;
+      [JsonPropertyName("relations")]
+      public Relationship[] Items { get; set; }
 
       public static Relationship[] Unwrap(RelationList[] wrappers) {
         if (wrappers == null)
           return null;
-        var relcount = 0;
-        foreach (var wrapper in wrappers)
-          relcount += wrapper.Items.Length;
-        var rels = new Relationship[relcount];
+        var count = wrappers.Sum(wrapper => wrapper.Items.Length);
+        var relationships = new Relationship[count];
         var pos = 0;
         foreach (var wrapper in wrappers) {
           var items = wrapper.Items;
-          Array.Copy(items, 0, rels, pos, items.Length);
+          Array.Copy(items, 0, relationships, pos, items.Length);
           pos += items.Length;
         }
-        return rels;
+        return relationships;
       }
 
     }
 
-    [JsonProperty("relation-list")]
-    private RelationList[] SearchRelationList {
-      set => this._relationships = RelationList.Unwrap(value);
+    [JsonPropertyName("relation-list")]
+    public RelationList[] SearchRelationList {
+      // Without this getter, this property does not get deserialized!
+      get => null;
+      set => this.TheRelationships = RelationList.Unwrap(value);
     }
 
     #endregion
@@ -128,11 +121,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         text += " (" + this.Type + ")";
       return text;
     }
-
-    // The name is serialized as 'sort-name' too, probably for historical reasons. Ignore it.
-    #pragma warning disable 169
-    [JsonProperty("sort-name")] private string _sortName;
-    #pragma warning restore 169
 
   }
 

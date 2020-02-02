@@ -2,9 +2,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -259,36 +259,49 @@ namespace MetaBrainz.MusicBrainz {
 
     private static Regex _format;
 
-    private sealed class Converter : JsonConverter {
+    private sealed class Converter : JsonConverter<PartialDate> {
 
-      public override bool CanConvert(Type type) => type == typeof(PartialDate);
+      private static string DecodeUtf8(ReadOnlySpan<byte> bytes) {
+#if NETSTD_GE_2_1 || NETCORE_GE_2_1
+        return Encoding.UTF8.GetString(bytes);
+#else
+        return Encoding.UTF8.GetString(bytes.ToArray());
+#endif
+      }
 
-      public override bool CanRead => true;
-
-      public override bool CanWrite => true;
-
-      public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
-        if (reader.Value == null)
-          return null;
+      public override PartialDate Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
         switch (reader.TokenType) {
-          case JsonToken.Null:   return null;
-          case JsonToken.String: return new PartialDate((string) reader.Value);
-          case JsonToken.Integer: // Consider this to be an unquoted string, i.e. a year value.
-            var year = (long) reader.Value;
-            if (year < PartialDate.MinYear || year > PartialDate.MaxYear)
-              throw new JsonReaderException($"Could not deserialize {year} as a partial date (out of range for a year component).");
-            return new PartialDate((int) year);
-          default:
-            throw new JsonReaderException($"Could not deserialize value \"{reader.Value}\" (of type \"{reader.Value?.GetType()}\") as a partial date.");
+          case JsonTokenType.Null:
+            return null;
+          case JsonTokenType.String: {
+            var text = reader.GetString();
+            return (text == null) ? null : new PartialDate(text);
+          }
+          case JsonTokenType.Number: // Consider this to be an unquoted string, i.e. a year value.
+            if (reader.TryGetInt16(out var year)) {
+              if (year < MinYear || year > MaxYear)
+                throw new JsonException($"Could not deserialize {year} as a partial date (out of range for a year component).");
+              return new PartialDate(year);
+            }
+            goto default;
+          default: {
+            var value = "";
+            if (reader.HasValueSequence) {
+              foreach (var memory in reader.ValueSequence)
+                value += DecodeUtf8(memory.Span);
+            }
+            else
+              value = DecodeUtf8(reader.ValueSpan);
+            throw new JsonException($"Could not deserialize the value ({value}) of a token of type '{reader.TokenType}' as a partial date.");
+          }
         }
       }
 
-      public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
-        writer.WriteValue((value as PartialDate)?.ToString());
+      public override void Write(Utf8JsonWriter writer, PartialDate value, JsonSerializerOptions options) {
+        writer.WriteStringValue(value?.ToString());
       }
 
     }
-
 
     #endregion
 

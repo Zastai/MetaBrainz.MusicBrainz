@@ -1,25 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Isrc : IIsrc {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Isrc : JsonBasedObject, IIsrc {
 
-    public IReadOnlyList<IRecording> Recordings => this._recordings;
+    public IReadOnlyList<IRecording> Recordings => this.TheRecordings;
 
-    [JsonProperty("recordings", Required = Required.Always)]
-    private Recording[] _recordings = null;
+    [JsonPropertyName("recordings")]
+    public Recording[] TheRecordings { get; set; }
 
-    [JsonProperty("isrc", Required = Required.Always)]
-    public string Value { get; private set; }
+    [JsonPropertyName("isrc")]
+    public string Value { get; set; }
 
     public override string ToString() => this.Value;
 

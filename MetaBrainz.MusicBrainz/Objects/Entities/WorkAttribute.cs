@@ -1,28 +1,24 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class WorkAttribute : IWorkAttribute {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class WorkAttribute : JsonBasedObject, IWorkAttribute {
 
-    [JsonProperty("type", Required = Required.Always)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Always)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    [JsonProperty("value", Required = Required.Default)]
-    public string Value { get; private set; }
+    [JsonPropertyName("value")]
+    public string Value { get; set; }
 
-    [JsonProperty("value-id", Required = Required.Default)]
-    public Guid? ValueId { get; private set; }
+    [JsonPropertyName("value-id")]
+    public Guid? ValueId { get; set; }
 
     public override string ToString() => $"{this.Type}: {this.Value}";
 

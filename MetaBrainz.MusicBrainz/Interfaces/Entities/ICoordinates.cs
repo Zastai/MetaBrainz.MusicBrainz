@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A set of coordinates.</summary>
   [PublicAPI]
-  public interface ICoordinates {
+  public interface ICoordinates : IJsonBasedObject {
 
     /// <summary>The latitude component of the coordinates.</summary>
     double Latitude { get; }

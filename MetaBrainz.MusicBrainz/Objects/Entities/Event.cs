@@ -1,110 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Event : SearchResult, IFoundEvent {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Event : Entity, IFoundEvent {
 
-    public EntityType EntityType => EntityType.Event;
+    public override EntityType EntityType => EntityType.Event;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.Default)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    [JsonPropertyName("cancelled")]
+    public bool Cancelled { get; set; }
 
-    public bool Cancelled => this._cancelled.GetValueOrDefault();
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("cancelled", Required = Required.Default)]
-    private bool? _cancelled = null;
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    [JsonProperty("disambiguation", Required = Required.Default)]
-    public string Disambiguation { get; private set; }
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    public ILifeSpan LifeSpan => this.TheLifeSpan;
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    [JsonPropertyName("life-span")]
+    public LifeSpan TheLifeSpan { get; set; }
 
-    public ILifeSpan LifeSpan => this._lifeSpan;
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("life-span", Required = Required.Default)]
-    private LifeSpan _lifeSpan = null;
+    public IRating Rating => this.TheRating;
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    [JsonPropertyName("rating")]
+    public Rating TheRating { get; set; }
 
-    public IRating Rating => this._rating;
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    [JsonProperty("rating", Required = Required.Default)]
-    private Rating _rating = null;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("setlist")]
+    public string Setlist { get; set; }
 
-    [JsonProperty("relations", Required = Required.Default)]
-    private Relationship[] _relationships = null;
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    [JsonProperty("setlist", Required = Required.Default)]
-    public string Setlist { get; private set; }
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    [JsonPropertyName("time")]
+    public string Time { get; set; }
 
-    [JsonProperty("tags", Required = Required.Default)]
-    private Tag[] _tags = null;
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    [JsonProperty("time", Required = Required.Default)]
-    public string Time { get; private set; }
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
-    [JsonProperty("type", Required = Required.Default)]
-    public string Type { get; private set; }
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    public IUserRating UserRating => this.TheUserRating;
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    [JsonPropertyName("user-rating")]
+    public UserRating TheUserRating { get; set; }
 
-    public IUserRating UserRating => this._userRating;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    [JsonProperty("user-rating", Required = Required.Default)]
-    private UserRating _userRating = null;
-
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
-
-    [JsonProperty("user-tags", Required = Required.Default)]
-    private UserTag[] _userTags = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // - the setlist is not serialized when not set (instead of being serialized as an empty string)
-    // - the time is not serialized when not set (instead of being serialized as an empty string)
-    // - the type is not serialized when not set (instead of being serialized as null)
-    // - the type ID is not serialized
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-    // - the Cancelled flag is not serialized when not set
-    // => Adjusted the Required flags for the property (to allow its omission), and added a nullable backing field.
-
-    #endregion
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
     public override string ToString() {
       var text = this.Name ?? string.Empty;

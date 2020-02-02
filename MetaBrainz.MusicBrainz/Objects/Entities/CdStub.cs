@@ -1,64 +1,41 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [SuppressMessage("ReSharper", "UnusedMember.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class CdStub : SearchResult, IFoundCdStub {
 
-    [JsonProperty("id", Required = Required.Always)]
-    public string Id { get; private set; }
+    [JsonPropertyName("id")]
+    public string Id { get; set; }
 
-    [JsonProperty("artist", Required = Required.Always)]
-    public string Artist { get; private set; }
+    [JsonPropertyName("artist")]
+    public string Artist { get; set; }
 
-    [JsonProperty("barcode", Required = Required.Default)]
-    public string Barcode { get; private set; }
+    [JsonPropertyName("barcode")]
+    public string Barcode { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
-    public string Disambiguation { get; private set; }
+    // The search server uses 'count' instead of 'track-count' -> forward to the track count.
+    [JsonPropertyName("count")]
+    public int SearchTrackCount { set => this.TrackCount = value; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("track-count", Required = Required.Default)]
-    public int? TrackCount { get; private set; }
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
-    public IReadOnlyList<ISimpleTrack> Tracks => this._tracks;
+    [JsonPropertyName("track-count")]
+    public int? TrackCount { get; set; }
 
-    [JsonProperty("tracks", Required = Required.DisallowNull)]
-    private SimpleTrack[] _tracks = null;
+    public IReadOnlyList<ISimpleTrack> Tracks => this.TheTracks;
 
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - barcode is omitted when not set, instead of being serialized as null
-    // - use of 'comment' instead of 'disambiguation'
-    // - use of 'count' instead of 'track-count'
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-    // => Added setter-only properties for the search server's names.
-
-    [JsonProperty("count", Required = Required.DisallowNull)]
-    private int SearchTrackCount {
-      set { this.TrackCount = value; }
-    }
-
-    [JsonProperty("comment", Required = Required.DisallowNull)]
-    private string SearchComment {
-      set { this.Disambiguation = value; }
-    }
-
-    #endregion
+    [JsonPropertyName("tracks")]
+    public SimpleTrack[] TheTracks { get; set; }
 
     public override string ToString() {
       var text = this.SearchScore.HasValue ? $"[Score: {this.SearchScore.Value}] " : "";

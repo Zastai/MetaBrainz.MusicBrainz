@@ -1,64 +1,47 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [SuppressMessage("ReSharper", "UnusedMember.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Alias : IAlias {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Alias : JsonBasedObject, IAlias {
 
-    [JsonProperty("begin", Required = Required.Default)]
-    public PartialDate Begin { get; private set; }
+    [JsonPropertyName("begin")]
+    public PartialDate Begin { get; set; }
 
-    [JsonProperty("end", Required = Required.Default)]
-    public PartialDate End { get; private set; }
+    // The search server uses 'begin-date' instead of 'begin' => forward the value.
+    [JsonPropertyName("begin-date")]
+    public PartialDate SearchBeginDate { set => this.Begin = value; }
 
-    [JsonProperty("ended", Required = Required.Default)]
-    public bool Ended { get; private set; }
+    [JsonPropertyName("end")]
+    public PartialDate End { get; set; }
 
-    [JsonProperty("locale", Required = Required.Default)]
-    public string Locale { get; private set; }
+    // The search server uses 'end-date' instead of 'end' => forward the value.
+    [JsonPropertyName("end-date")]
+    public PartialDate SearchEndDate { set => this.End = value; }
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    [JsonPropertyName("ended")]
+    public bool Ended { get; set; }
 
-    [JsonProperty("primary", Required = Required.Default)]
-    public bool? Primary { get; private set; }
+    [JsonPropertyName("locale")]
+    public string Locale { get; set; }
 
-    [JsonProperty("sort-name", Required = Required.Default)]
-    public string SortName { get; private set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("type", Required = Required.Default)]
-    public string Type { get; private set; }
+    [JsonPropertyName("primary")]
+    public bool? Primary { get; set; }
 
-    [JsonProperty("type-id", Required = Required.Default)]
-    public Guid? TypeId { get; private set; }
+    [JsonPropertyName("sort-name")]
+    public string SortName { get; set; }
 
-    #region Search Server Compatibility
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
-    // The search server's serialization differs in the following ways:
-    // - use of 'begin-date' instead of 'begin'
-    // - use of 'end-date' instead of 'end'
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-    // => Added setter-only properties for the search server's names.
-
-    [JsonProperty("begin-date", Required = Required.Default)]
-    private PartialDate SearchBeginDate {
-      set { this.Begin = value; }
-    }
-
-    [JsonProperty("end-date", Required = Required.Default)]
-    private PartialDate SearchEndDate {
-      set { this.Begin = value; }
-    }
-
-    #endregion
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
     public override string ToString() {
       var text = this.Name;

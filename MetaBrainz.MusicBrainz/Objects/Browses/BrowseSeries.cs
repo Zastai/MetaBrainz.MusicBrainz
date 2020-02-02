@@ -1,44 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Objects.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  internal sealed class BrowseSeries : BrowseResults<ISeries> {
+  internal sealed class BrowseSeries : BrowseResults<ISeries, BrowseSeries.JSON> {
 
-    public BrowseSeries(Query query, string extra, int? limit = null, int? offset = null) : base(query, "series", null, extra, limit, offset) { }
-
-    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
-
-    protected override IBrowseResults<ISeries> Deserialize(string json) {
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
+    public BrowseSeries(Query query, string extra, int? limit = null, int? offset = null)
+    : base(query, "series", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<ISeries> Results => this._currentResult?.results;
+    public override IReadOnlyList<ISeries> Results => this.CurrentResult?.Results;
 
-    public override int TotalResults => this._currentResult?.count ?? 0;
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class JSON : ResultObject {
 
-    #pragma warning disable 169
-    #pragma warning disable 649
+      [JsonPropertyName("series")]
+      public Series[] Results { get; set; }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class JSON {
-      [JsonProperty("series",        Required = Required.Always)] public Series[] results;
-      [JsonProperty("series-count",  Required = Required.Always)] public int      count;
-      [JsonProperty("series-offset", Required = Required.Always)] public int      offset;
+      [JsonPropertyName("series-count")]
+      public override int Count { get; set; }
+
+      [JsonPropertyName("series-offset")]
+      public override int Offset { get; set; }
+
     }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    private JSON _currentResult;
 
   }
 

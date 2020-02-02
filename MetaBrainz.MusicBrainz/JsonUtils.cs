@@ -10,11 +10,21 @@ namespace MetaBrainz.MusicBrainz {
   // TODO: Move this to a shared MetaBrainz.Common library.
   internal static class JsonUtils {
 
-    private static readonly JsonSerializerOptions PrettifyOptions = new JsonSerializerOptions { WriteIndented = true };
+    private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions {
+      AllowTrailingCommas = false,
+      IgnoreReadOnlyProperties = true,
+      PropertyNameCaseInsensitive = false,
+      WriteIndented = true,
+      IgnoreNullValues = false,
+    };
+
+    public static T Deserialize<T>(string json) {
+      return JsonSerializer.Deserialize<T>(json, SerializerOptions);
+    }
 
     public static string Prettify(string json) {
       try {
-        return JsonSerializer.Serialize(JsonDocument.Parse(json).RootElement, PrettifyOptions);
+        return JsonSerializer.Serialize(JsonDocument.Parse(json).RootElement, SerializerOptions);
       }
       catch {
         return json;

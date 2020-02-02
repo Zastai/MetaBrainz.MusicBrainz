@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A CD stub (information entered about a CD by someone without a MusicBrainz account).</summary>
   [PublicAPI]
-  public interface ICdStub {
+  public interface ICdStub : IJsonBasedObject {
 
     /// <summary>The name of the artist for the CD.</summary>
     string Artist { get; }

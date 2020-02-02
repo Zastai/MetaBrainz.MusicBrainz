@@ -1,24 +1,19 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class LabelInfo : ILabelInfo {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class LabelInfo : JsonBasedObject, ILabelInfo {
 
-    [JsonProperty("catalog-number", Required = Required.Default)]
-    public string CatalogNumber { get; private set; }
+    [JsonPropertyName("catalog-number")]
+    public string CatalogNumber { get; set; }
 
-    public ILabel Label => this._label;
+    public ILabel Label => this.TheLabel;
 
-    [JsonProperty("label", Required = Required.Default)]
-    private Label _label = null;
+    [JsonPropertyName("label")]
+    public Label TheLabel { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

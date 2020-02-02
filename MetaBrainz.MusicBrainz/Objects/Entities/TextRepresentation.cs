@@ -1,21 +1,17 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class TextRepresentation : ITextRepresentation {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class TextRepresentation : JsonBasedObject, ITextRepresentation {
 
-    [JsonProperty("language", Required = Required.Default)]
-    public string Language { get; private set; }
+    [JsonPropertyName("language")]
+    public string Language { get; set; }
 
-    [JsonProperty("script", Required = Required.Default)]
-    public string Script { get; private set; }
+    [JsonPropertyName("script")]
+    public string Script { get; set; }
 
     public override string ToString() => $"{this.Language ?? "???"} / {this.Script ?? "????"}";
 

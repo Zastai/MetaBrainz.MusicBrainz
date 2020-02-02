@@ -1,22 +1,18 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Tag : SearchResult, IFoundTag {
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("count", Required = Required.Default)]
-    public int VoteCount { get; private set; }
+    [JsonPropertyName("count")]
+    public int VoteCount { get; set; }
 
     public override string ToString() => $"{(this.SearchScore.HasValue ? $"[Score: {this.SearchScore.Value}] " : "")}{this.Name} (votes: {this.VoteCount})";
 

@@ -1,21 +1,17 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Coordinates : ICoordinates {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Coordinates : JsonBasedObject, ICoordinates {
 
-    [JsonProperty("latitude", Required = Required.Always)]
-    public double Latitude { get; private set; }
+    [JsonPropertyName("latitude")]
+    public double Latitude { get; set; }
 
-    [JsonProperty("longitude", Required = Required.Always)]
-    public double Longitude { get; private set; }
+    [JsonPropertyName("longitude")]
+    public double Longitude { get; set; }
 
     public override string ToString() => $"({this.Latitude:F6}, {this.Longitude:F6})";
 

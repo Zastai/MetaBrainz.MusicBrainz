@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions {
@@ -91,12 +90,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
           using (var xml = XmlWriter.Create(sw)) {
             xml.WriteStartDocument();
             xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-            RatingSubmission.Write(xml, this._artists,       "artist");
-            RatingSubmission.Write(xml, this._events,        "event");
-            RatingSubmission.Write(xml, this._labels,        "label");
-            RatingSubmission.Write(xml, this._recordings,    "recording");
-            RatingSubmission.Write(xml, this._releaseGroups, "release-group");
-            RatingSubmission.Write(xml, this._works,         "work");
+            Write(xml, this._artists,       "artist");
+            Write(xml, this._events,        "event");
+            Write(xml, this._labels,        "label");
+            Write(xml, this._recordings,    "recording");
+            Write(xml, this._releaseGroups, "release-group");
+            Write(xml, this._works,         "work");
             xml.WriteEndElement();
           }
           return sw.ToString();

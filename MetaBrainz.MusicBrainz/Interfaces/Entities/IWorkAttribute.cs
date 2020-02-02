@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An attribute for a work.</summary>
   [PublicAPI]
-  public interface IWorkAttribute {
+  public interface IWorkAttribute : IJsonBasedObject {
 
     /// <summary>The type of the attribute.</summary>
     string Type { get; }

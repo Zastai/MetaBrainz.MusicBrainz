@@ -1,44 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  internal sealed class BrowseInstruments : BrowseResults<IInstrument> {
+  internal sealed class BrowseInstruments : BrowseResults<IInstrument, BrowseInstruments.JSON> {
 
-    public BrowseInstruments(Query query, string extra, int? limit = null, int? offset = null) : base(query, "instrument", null, extra, limit, offset) { }
-
-    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
-
-    protected override IBrowseResults<IInstrument> Deserialize(string json) {
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
+    public BrowseInstruments(Query query, string extra, int? limit = null, int? offset = null)
+    : base(query, "instrument", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<IInstrument> Results => this._currentResult?.results;
+    public override IReadOnlyList<IInstrument> Results => this.CurrentResult?.Results;
 
-    public override int TotalResults => this._currentResult?.count ?? 0;
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class JSON : ResultObject {
 
-    #pragma warning disable 169
-    #pragma warning disable 649
+      [JsonPropertyName("instruments")]
+      public Instrument[] Results { get; set; }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class JSON {
-      [JsonProperty("instruments",       Required = Required.Always)] public Instrument[] results;
-      [JsonProperty("instrument-count",  Required = Required.Always)] public int          count;
-      [JsonProperty("instrument-offset", Required = Required.Always)] public int          offset;
+      [JsonPropertyName("instrument-count")]
+      public override int Count { get; set; }
+
+      [JsonPropertyName("instrument-offset")]
+      public override int Offset { get; set; }
+
     }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    private JSON _currentResult;
 
   }
 

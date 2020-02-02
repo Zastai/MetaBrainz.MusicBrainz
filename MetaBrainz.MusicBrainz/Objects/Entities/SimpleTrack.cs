@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class SimpleTrack : ISimpleTrack {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
 
-    [JsonProperty("artist", Required = Required.Default)]
-    public string Artist { get; private set; }
+    [JsonPropertyName("artist")]
+    public string Artist { get; set; }
 
-    [JsonProperty("length", Required = Required.Always)]
-    public int Length { get; private set; }
+    [JsonPropertyName("length")]
+    public int Length { get; set; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

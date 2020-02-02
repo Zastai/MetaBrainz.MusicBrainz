@@ -1,144 +1,123 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Release : SearchResult, IFoundRelease {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Release : Entity, IFoundRelease {
 
-    public EntityType EntityType => EntityType.Release;
+    public override EntityType EntityType => EntityType.Release;
 
-    [JsonProperty("id", Required = Required.Always)]
-    public Guid MbId { get; private set; }
+    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
 
-    public IReadOnlyList<IAlias> Aliases => this._aliases;
+    [JsonPropertyName("aliases")]
+    public Alias[] TheAliases { get; set; }
 
-    [JsonProperty("aliases", Required = Required.DisallowNull)]
-    private Alias[] _aliases = null;
+    [JsonPropertyName("annotation")]
+    public string Annotation { get; set; }
 
-    [JsonProperty("annotation", Required = Required.Default)]
-    public string Annotation { get; private set; }
+    public IReadOnlyList<INameCredit> ArtistCredit => this.TheArtistCredit;
 
-    public IReadOnlyList<INameCredit> ArtistCredit => this._artistCredit;
+    [JsonPropertyName("artist-credit")]
+    public NameCredit[] TheArtistCredit { get; set; }
 
-    [JsonProperty("artist-credit", Required = Required.Default)]
-    private NameCredit[] _artistCredit = null;
+    [JsonPropertyName("asin")]
+    public string Asin { get; set; }
 
-    [JsonProperty("asin", Required = Required.Default)]
-    public string Asin { get; private set; }
+    [JsonPropertyName("barcode")]
+    public string BarCode { get; set; }
 
-    [JsonProperty("barcode", Required = Required.Default)]
-    public string BarCode { get; private set; }
+    public IReadOnlyList<ICollection> Collections => this.TheCollections;
 
-    public IReadOnlyList<ICollection> Collections => this._collections;
+    [JsonPropertyName("collections")]
+    public Collection[] TheCollections { get; set; }
 
-    [JsonProperty("collections", Required = Required.DisallowNull)]
-    private Collection[] _collections = null;
+    [JsonPropertyName("country")]
+    public string Country { get; set; }
 
-    [JsonProperty("country", Required = Required.Default)]
-    public string Country { get; private set; }
+    public ICoverArtArchive CoverArtArchive => this.TheCoverArtArchive;
 
-    public ICoverArtArchive CoverArtArchive => this._coverArtArchive;
+    [JsonPropertyName("cover-art-archive")]
+    public CoverArtArchive TheCoverArtArchive { get; set; }
 
-    [JsonProperty("cover-art-archive", Required = Required.DisallowNull)]
-    private CoverArtArchive _coverArtArchive = null;
+    [JsonPropertyName("date")]
+    public PartialDate Date { get; set; }
 
-    [JsonProperty("date", Required = Required.Default)]
-    public PartialDate Date { get; private set; }
+    [JsonPropertyName("disambiguation")]
+    public string Disambiguation { get; set; }
 
-    [JsonProperty("disambiguation", Required = Required.DisallowNull)]
-    public string Disambiguation { get; private set; }
+    public IReadOnlyList<ITag> Genres => this.TheGenres;
 
-    public IReadOnlyList<ITag> Genres => this._genres;
+    [JsonPropertyName("genres")]
+    public Tag[] TheGenres { get; set; }
 
-    [JsonProperty("genres", Required = Required.DisallowNull)]
-    private Tag[] _genres = null;
+    public IReadOnlyList<ILabelInfo> LabelInfo => this.TheLabelInfo;
 
-    public IReadOnlyList<ILabelInfo> LabelInfo => this._labelInfo;
+    [JsonPropertyName("label-info")]
+    public LabelInfo[] TheLabelInfo { get; set; }
 
-    [JsonProperty("label-info", Required = Required.DisallowNull)]
-    private LabelInfo[] _labelInfo = null;
+    public IReadOnlyList<IMedium> Media => this.TheMedia;
 
-    public IReadOnlyList<IMedium> Media => this._media;
+    [JsonPropertyName("media")]
+    public Medium[] TheMedia { get; set; }
 
-    [JsonProperty("media", Required = Required.DisallowNull)]
-    private Medium[] _media = null;
+    [JsonPropertyName("packaging")]
+    public string Packaging { get; set; }
 
-    [JsonProperty("packaging", Required = Required.Default)]
-    public string Packaging { get; private set; }
+    [JsonPropertyName("packaging-id")]
+    public Guid? PackagingId { get; set; }
 
-    [JsonProperty("packaging-id", Required = Required.Default)]
-    public Guid? PackagingId { get; private set; }
+    [JsonPropertyName("quality")]
+    public string Quality { get; set; }
 
-    [JsonProperty("quality", Required = Required.DisallowNull)]
-    public string Quality { get; private set; }
+    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
 
-    public IReadOnlyList<IRelationship> Relationships => this._relationships;
+    [JsonPropertyName("relations")]
+    public Relationship[] TheRelationships { get; set; }
 
-    [JsonProperty("relations", Required = Required.DisallowNull)]
-    private Relationship[] _relationships = null;
+    public IReadOnlyList<IReleaseEvent> ReleaseEvents => this.TheReleaseEvents;
 
-    public IReadOnlyList<IReleaseEvent> ReleaseEvents => this._releaseEvents;
+    [JsonPropertyName("release-events")]
+    public ReleaseEvent[] TheReleaseEvents { get; set; }
 
-    [JsonProperty("release-events", Required = Required.DisallowNull)]
-    private ReleaseEvent[] _releaseEvents = null;
+    public IReleaseGroup ReleaseGroup => this.TheReleaseGroup;
 
-    public IReleaseGroup ReleaseGroup => this._releaseGroup;
+    [JsonPropertyName("release-group")]
+    public ReleaseGroup TheReleaseGroup { get; set; }
 
-    [JsonProperty("release-group", Required = Required.Default)]
-    private ReleaseGroup _releaseGroup = null;
+    [JsonPropertyName("status")]
+    public string Status { get; set; }
 
-    [JsonProperty("status", Required = Required.Default)]
-    public string Status { get; private set; }
+    [JsonPropertyName("status-id")]
+    public Guid? StatusId { get; set; }
 
-    [JsonProperty("status-id", Required = Required.Default)]
-    public Guid? StatusId { get; private set; }
+    public IReadOnlyList<ITag> Tags => this.TheTags;
 
-    public IReadOnlyList<ITag> Tags => this._tags;
+    [JsonPropertyName("tags")]
+    public Tag[] TheTags { get; set; }
 
-    [JsonProperty("tags", Required = Required.DisallowNull)]
-    private Tag[] _tags = null;
+    public ITextRepresentation TextRepresentation => this.TheTextRepresentation;
 
-    public ITextRepresentation TextRepresentation => this._textRepresentation;
+    [JsonPropertyName("text-representation")]
+    public TextRepresentation TheTextRepresentation { get; set; }
 
-    [JsonProperty("text-representation", Required = Required.DisallowNull)]
-    private TextRepresentation _textRepresentation = null;
+    [JsonPropertyName("title")]
+    public string Title { get; set; }
 
-    [JsonProperty("title", Required = Required.Always)]
-    public string Title { get; private set; }
+    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
 
-    public IReadOnlyList<IUserTag> UserGenres => this._userGenres;
+    [JsonPropertyName("user-genres")]
+    public UserTag[] TheUserGenres { get; set; }
 
-    [JsonProperty("user-genres", Required = Required.Default)]
-    private UserTag[] _userGenres = null;
+    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
 
-    public IReadOnlyList<IUserTag> UserTags => this._userTags;
-
-    [JsonProperty("user-tags", Required = Required.DisallowNull)]
-    private UserTag[] _userTags = null;
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the barcode is not always serialized (but sometimes serialized as empty string)
-    // - the disambiguation comment is not serialized when not set (instead of being serialized as an empty string)
-    // - the packaging is not serialized when not set (instead of being serialized as an empty string)
-    // - the packaging ID is not serialized
-    // - the quality is not serialized
-    // - the status ID is not serialized
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-
-    #endregion
+    [JsonPropertyName("user-tags")]
+    public UserTag[] TheUserTags { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

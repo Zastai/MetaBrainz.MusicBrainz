@@ -1,32 +1,27 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Annotation : IFoundAnnotation {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Annotation : JsonBasedObject, IFoundAnnotation {
 
-    [JsonProperty("entity", Required = Required.Always)]
-    public Guid Entity { get; private set; }
+    [JsonPropertyName("entity")]
+    public Guid Entity { get; set; }
 
-    [JsonProperty("name", Required = Required.Always)]
-    public string Name { get; private set; }
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
-    [JsonProperty("score", Required = Required.Always)]
-    public byte Score { get; private set; }
+    [JsonPropertyName("score")]
+    public byte Score { get; set; }
 
-    [JsonProperty("text", Required = Required.Always)]
-    public string Text { get; private set; }
+    [JsonPropertyName("text")]
+    public string Text { get; set; }
 
-    [JsonProperty("type", Required = Required.Always)]
-    public string Type { get; private set; }
+    [JsonPropertyName("type")]
+    public string Type { get; set; }
 
     public override string ToString() => $"[{this.Score,3}] {this.Text}";
 

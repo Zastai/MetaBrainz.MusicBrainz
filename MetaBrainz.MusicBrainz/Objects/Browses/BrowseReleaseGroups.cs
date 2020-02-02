@@ -1,44 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  internal sealed class BrowseReleaseGroups : BrowseResults<IReleaseGroup> {
+  internal sealed class BrowseReleaseGroups : BrowseResults<IReleaseGroup, BrowseReleaseGroups.JSON> {
 
-    public BrowseReleaseGroups(Query query, string extra, int? limit = null, int? offset = null) : base(query, "release-group", null, extra, limit, offset) { }
-
-    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
-
-    protected override IBrowseResults<IReleaseGroup> Deserialize(string json) {
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
+    public BrowseReleaseGroups(Query query, string extra, int? limit = null, int? offset = null)
+    : base(query, "release-group", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<IReleaseGroup> Results => this._currentResult?.results;
+    public override IReadOnlyList<IReleaseGroup> Results => this.CurrentResult?.Results;
 
-    public override int TotalResults => this._currentResult?.count ?? 0;
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class JSON : ResultObject {
 
-    #pragma warning disable 169
-    #pragma warning disable 649
+      [JsonPropertyName("release-groups")]
+      public ReleaseGroup[] Results { get; set; }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class JSON {
-      [JsonProperty("release-groups",       Required = Required.Always)] public ReleaseGroup[] results;
-      [JsonProperty("release-group-count",  Required = Required.Always)] public int            count;
-      [JsonProperty("release-group-offset", Required = Required.Always)] public int            offset;
+      [JsonPropertyName("release-group-count")]
+      public override int Count { get; set; }
+
+      [JsonPropertyName("release-group-offset")]
+      public override int Offset { get; set; }
+
     }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    private JSON _currentResult;
 
   }
 

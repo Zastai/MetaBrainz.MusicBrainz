@@ -1,44 +1,32 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-using MetaBrainz.MusicBrainz.Interfaces.Browses;
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-using Newtonsoft.Json;
-
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
-  internal sealed class BrowseLabels : BrowseResults<ILabel> {
+  internal sealed class BrowseLabels : BrowseResults<ILabel, BrowseLabels.JSON> {
 
-    public BrowseLabels(Query query, string extra, int? limit = null, int? offset = null) : base(query, "label", null, extra, limit, offset) { }
-
-    protected override int CurrentResultCount => this._currentResult?.results.Length ?? 0;
-
-    protected override IBrowseResults<ILabel> Deserialize(string json) {
-      this._currentResult = JsonConvert.DeserializeObject<JSON>(json);
-      return this;
+    public BrowseLabels(Query query, string extra, int? limit = null, int? offset = null)
+    : base(query, "label", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<ILabel> Results => this._currentResult?.results;
+    public override IReadOnlyList<ILabel> Results => this.CurrentResult?.Results;
 
-    public override int TotalResults => this._currentResult?.count ?? 0;
+    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+    public sealed class JSON : ResultObject {
 
-    #pragma warning disable 169
-    #pragma warning disable 649
+      [JsonPropertyName("labels")]
+      public Label[] Results { get; set; }
 
-    [SuppressMessage("ReSharper", "ClassNeverInstantiated.Local")]
-    [SuppressMessage("ReSharper", "InconsistentNaming")]
-    private sealed class JSON {
-      [JsonProperty("labels",       Required = Required.Always)] public Label[] results;
-      [JsonProperty("label-count",  Required = Required.Always)] public int     count;
-      [JsonProperty("label-offset", Required = Required.Always)] public int     offset;
+      [JsonPropertyName("label-count")]
+      public override int Count { get; set; }
+
+      [JsonPropertyName("label-offset")]
+      public override int Offset { get; set; }
+
     }
-
-    #pragma warning restore 169
-    #pragma warning restore 649
-
-    private JSON _currentResult;
 
   }
 

@@ -5,7 +5,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A compact disc.</summary>
   [PublicAPI]
-  public interface IDisc {
+  public interface IDisc : IJsonBasedObject {
 
     /// <summary>The MusicBrainz disc ID for this disc.</summary>
     string Id { get; }

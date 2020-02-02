@@ -1,37 +1,35 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class Disc : IDisc {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class Disc : JsonBasedObject, IDisc {
 
-    [JsonProperty("id", Required = Required.Always)]
-    public string Id { get; private set; }
+    [JsonPropertyName("id")]
+    public string Id { get; set; }
 
-    [JsonProperty("offset-count", Required = Required.Always)]
-    public int OffsetCount { get; private set; }
+    [JsonPropertyName("offset-count")]
+    public int OffsetCount { get; set; }
 
-    [JsonProperty("offsets", Required = Required.Default)]
-    public IReadOnlyList<int> Offsets { get; private set; }
+    [JsonPropertyName("offsets")]
+    public IReadOnlyList<int> Offsets { get; set; }
 
-    public IReadOnlyList<IRelease> Releases => this._releases;
+    public IReadOnlyList<IRelease> Releases => this.TheReleases;
 
-    [JsonProperty("releases", Required = Required.Default)]
-    private Release[] _releases = null;
+    [JsonPropertyName("releases")]
+    public Release[] TheReleases { get; set; }
 
-    [JsonProperty("sectors", Required = Required.Always)]
-    public int Sectors { get; private set; }
+    [JsonPropertyName("sectors")]
+    public int Sectors { get; set; }
 
-    public override string ToString() => $"{this.Id} ({this.OffsetCount} track(s), {new TimeSpan(0, 0, 0, 0, (int) ((double) this.Sectors / 75 * 1000)),2})";
+    public override string ToString() {
+      var duration = new TimeSpan(0, 0, 0, 0, (int) (this.Sectors / 75.0 * 1000));
+      return $"{this.Id} ({this.OffsetCount} track(s), {duration,2})";
+    }
 
   }
 

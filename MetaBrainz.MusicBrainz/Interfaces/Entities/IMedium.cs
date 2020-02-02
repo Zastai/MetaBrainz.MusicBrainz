@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A medium associated with a release.</summary>
   [PublicAPI]
-  public interface IMedium {
+  public interface IMedium : IJsonBasedObject {
 
     /// <summary>The data tracks on the medium, if any.</summary>
     IReadOnlyList<ITrack> DataTracks { get; }

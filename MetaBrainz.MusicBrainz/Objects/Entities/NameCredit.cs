@@ -1,37 +1,22 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
+﻿using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class NameCredit : INameCredit {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
-    public IArtist Artist => this._artist;
+    public IArtist Artist => this.TheArtist;
 
-    [JsonProperty("artist", Required = Required.Always)]
-    private Artist _artist = null;
+    [JsonPropertyName("artist")]
+    public Artist TheArtist { get; set; }
 
-    [JsonProperty("joinphrase", Required = Required.Default)]
-    public string JoinPhrase { get; private set; }
+    [JsonPropertyName("joinphrase")]
+    public string JoinPhrase { get; set; }
 
-    [JsonProperty("name", Required = Required.Default)]
-    public string Name { get; private set; }
-
-    #region Search Server Compatibility
-
-    // The search server's serialization differs in the following ways:
-    // - the join phrase is not serialized when empty (instead of being serialized as an empty string)
-    // - the name is not always serialized (instead of being serialized as an empty string)
-    // => Adjusted the Required flags for affected properties (to allow their omission).
-    // => Use a nullable boolean for the video flag.
-
-    #endregion
+    [JsonPropertyName("name")]
+    public string Name { get; set; }
 
     public override string ToString() => this.Name + this.JoinPhrase;
 

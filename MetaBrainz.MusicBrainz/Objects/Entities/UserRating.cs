@@ -1,26 +1,22 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-
+using System.Text.Json.Serialization;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-
-using Newtonsoft.Json;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [SuppressMessage("ReSharper", "ClassNeverInstantiated.Global")]
-  [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Local")]
-  [JsonObject(MemberSerialization.OptIn)]
-  internal sealed class UserRating : IUserRating {
+  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
+  internal sealed class UserRating : JsonBasedObject, IUserRating {
 
-    [JsonProperty("value", Required = Required.Default)]
-    public decimal? Value { get; private set; }
+    [JsonPropertyName("value")]
+    public decimal? Value { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
       if (this.Value.HasValue) {
         var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
         for (var i = 1; i <= 5; ++i)
-          text = string.Concat(text, (stars >= i) ? '★' : '☆');
+          text = string.Concat(text, (stars >= i) ? "★" : "☆");
       }
       return text;
     }

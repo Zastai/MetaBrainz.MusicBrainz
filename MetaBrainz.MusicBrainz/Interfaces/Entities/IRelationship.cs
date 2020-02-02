@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A relationship between two MusicBrainz entities.</summary>
   [PublicAPI]
-  public interface IRelationship {
+  public interface IRelationship : IJsonBasedObject {
 
     /// <summary>The target area of the relationship, if applicable.</summary>
     IArea Area { get; }

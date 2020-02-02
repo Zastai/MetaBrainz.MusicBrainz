@@ -4,7 +4,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>Simple information about a track on a CD.</summary>
   [PublicAPI]
-  public interface ISimpleTrack {
+  public interface ISimpleTrack : IJsonBasedObject {
 
     /// <summary>The artist for the track.</summary>
     string Artist { get; }
