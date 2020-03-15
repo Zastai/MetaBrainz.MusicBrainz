@@ -13,15 +13,15 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Url;
 
-    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
+    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
 
     [JsonPropertyName("relations")]
-    public Relationship[] TheRelationships { get; set; }
+    public Relationship[]? TheRelationships { get; set; }
 
     [JsonPropertyName("resource")]
-    public Uri Resource { get; set; }
+    public Uri? Resource { get; set; }
 
-    public override string ToString() => this.Resource.ToString();
+    public override string ToString() => this.Resource?.ToString() ?? string.Empty;
 
   }
 

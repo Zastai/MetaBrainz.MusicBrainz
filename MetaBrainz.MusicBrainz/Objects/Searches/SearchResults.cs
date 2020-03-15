@@ -8,7 +8,7 @@ using MetaBrainz.MusicBrainz.Objects.Entities;
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
   internal abstract class SearchResults<TInterface>
-  : PagedQueryResults<ISearchResults<TInterface>, TInterface>,
+  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults<TInterface>.JSON>,
     ISearchResults<TInterface>
   where TInterface : ISearchResult {
 
@@ -38,7 +38,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
     public sealed override int TotalResults => this.CurrentResult?.Count ?? 0;
 
-    public override IReadOnlyDictionary<string, object> UnhandledProperties => this.CurrentResult.UnhandledProperties;
+    public override IReadOnlyDictionary<string, object?>? UnhandledProperties => this.CurrentResult?.UnhandledProperties;
 
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     internal sealed class JSON : JsonBasedObject {
@@ -53,53 +53,51 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
       public int Offset { get; set; }
 
       [JsonPropertyName("annotations")]
-      public Annotation[] Annotations { get; set; }
+      public Annotation[]? Annotations { get; set; }
 
       [JsonPropertyName("areas")]
-      public Area[] Areas { get; set; }
+      public Area[]? Areas { get; set; }
 
       [JsonPropertyName("artists")]
-      public Artist[] Artists { get; set; }
+      public Artist[]? Artists { get; set; }
 
       [JsonPropertyName("cdstubs")]
-      public CdStub[] CdStubs { get; set; }
+      public CdStub[]? CdStubs { get; set; }
 
       [JsonPropertyName("events")]
-      public Event[] Events { get; set; }
+      public Event[]? Events { get; set; }
 
       [JsonPropertyName("instruments")]
-      public Instrument[] Instruments { get; set; }
+      public Instrument[]? Instruments { get; set; }
 
       [JsonPropertyName("labels")]
-      public Label[] Labels { get; set; }
+      public Label[]? Labels { get; set; }
 
       [JsonPropertyName("places")]
-      public Place[] Places { get; set; }
+      public Place[]? Places { get; set; }
 
       [JsonPropertyName("recordings")]
-      public Recording[] Recordings { get; set; }
+      public Recording[]? Recordings { get; set; }
 
       [JsonPropertyName("release-groups")]
-      public ReleaseGroup[] ReleaseGroups { get; set; }
+      public ReleaseGroup[]? ReleaseGroups { get; set; }
 
       [JsonPropertyName("releases")]
-      public Release[] Releases { get; set; }
+      public Release[]? Releases { get; set; }
 
       [JsonPropertyName("series")]
-      public Series[] Series { get; set; }
+      public Series[]? Series { get; set; }
 
       [JsonPropertyName("tags")]
-      public Tag[] Tags { get; set; }
+      public Tag[]? Tags { get; set; }
 
       [JsonPropertyName("urls")]
-      public Url[] Urls { get; set; }
+      public Url[]? Urls { get; set; }
 
       [JsonPropertyName("works")]
-      public Work[] Works { get; set; }
+      public Work[]? Works { get; set; }
 
     }
-
-    protected JSON CurrentResult;
 
   }
 

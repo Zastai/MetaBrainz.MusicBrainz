@@ -5,6 +5,7 @@ namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of additional information that can be requested to be included in query results.</summary>
   [Flags]
+  [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]
   [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public enum Include : long {
 

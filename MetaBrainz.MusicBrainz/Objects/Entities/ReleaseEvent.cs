@@ -7,16 +7,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
 
-    public IArea Area => this.TheArea;
+    public IArea? Area => this.TheArea;
 
     [JsonPropertyName("area")]
-    public Area TheArea { get; set; }
+    public Area? TheArea { get; set; }
 
     [JsonPropertyName("date")]
-    public PartialDate Date { get; set; }
+    public PartialDate? Date { get; set; }
 
     public override string ToString() {
-      if (this.Date == null)
+      if (object.ReferenceEquals(this.Date, null))
         return this.TheArea?.ToString() ?? string.Empty;
       var text = this.Date.ToString();
       if (this.Area != null)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -12,13 +13,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
     : base(query, "area", null, extra, limit, offset)
     { }
 
-    public override IReadOnlyList<IArea> Results => this.CurrentResult?.Results;
+    public override IReadOnlyList<IArea> Results => this.CurrentResult?.Results ?? Array.Empty<IArea>();
 
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public sealed class JSON : ResultObject {
 
       [JsonPropertyName("areas")]
-      public Area[] Results { get; set; }
+      public Area[]? Results { get; set; }
 
       [JsonPropertyName("area-count")]
       public override int Count { get; set; }

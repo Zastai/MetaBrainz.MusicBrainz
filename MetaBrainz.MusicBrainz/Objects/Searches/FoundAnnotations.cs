@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
@@ -9,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     : base(query, "annotation", queryString, limit, offset)
     { }
 
-    public override IReadOnlyList<IFoundAnnotation> Results => this.CurrentResult?.Annotations;
+    public override IReadOnlyList<IFoundAnnotation> Results => this.CurrentResult?.Annotations ?? Array.Empty<IFoundAnnotation>();
 
   }
 

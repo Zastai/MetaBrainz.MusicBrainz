@@ -19,7 +19,9 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="year">The year component, if any.</param>
     /// <param name="month">The month component, if any.</param>
     /// <param name="day">The day component, if any.</param>
-    /// <exception cref="ArgumentOutOfRangeException">When <paramref name="month"/> and/or <paramref name="day"/> have an invalid value.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// When <paramref name="month"/> and/or <paramref name="day"/> have an invalid value.
+    /// </exception>
     public PartialDate(int? year = null, int? month = null, int? day = null) {
       if (year.HasValue && (year.Value < PartialDate.MinYear || year.Value > PartialDate.MaxYear))
         throw new ArgumentOutOfRangeException(nameof(year), year, $"The year, if specified, should be between {PartialDate.MinYear} and {PartialDate.MaxYear}.");
@@ -45,8 +47,9 @@ namespace MetaBrainz.MusicBrainz {
 
     /// <summary>Creates a new partial date based on the given string representation.</summary>
     /// <param name="text">
-    ///   The text form for the date.
-    ///   Should be in the same form as produced by <see cref="ToString()"/>, i.e. <code>YYYY[-MM[-DD]]</code>, with question marks used for unspecified parts.
+    /// The text form for the date.
+    /// Should be in the same form as produced by <see cref="ToString()"/>, i.e. <c>YYYY[-MM[-DD]]</c>, with question marks used for
+    /// unspecified parts.
     /// </param>
     public PartialDate(string text) {
       if (text == null)
@@ -54,9 +57,7 @@ namespace MetaBrainz.MusicBrainz {
       text = text.Trim();
       if (text.Length == 0)
         return; // ok, empty
-      if (PartialDate._format == null)
-        PartialDate._format = new Regex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
-      var match = PartialDate._format.Match(text);
+      var match = PartialDate.Format.Match(text);
       var ok = match.Success;
       if (ok) {
         if (match.Groups[1].Success) {
@@ -130,7 +131,7 @@ namespace MetaBrainz.MusicBrainz {
     #region Methods
 
     /// <summary>Converts this partial date to a string representation.</summary>
-    /// <returns>A string of the form <code>YYYY[-MM[-DD]]</code>, with question marks used for unspecified parts.</returns>
+    /// <returns>A string of the form <c>YYYY[-MM[-DD]]</c>, with question marks used for unspecified parts.</returns>
     public override string ToString() {
       var sb = new StringBuilder();
       if (this.Year.HasValue)
@@ -158,7 +159,10 @@ namespace MetaBrainz.MusicBrainz {
 
     /// <summary>Compares two partial dates.</summary>
     /// <param name="other">The partial date to compare to this one.</param>
-    /// <returns>-1 if this partial date precedes <paramref name="other"/>, 1 if <paramref name="other"/> precedes this partial date, and 0 otherwise.</returns>
+    /// <returns>
+    /// -1 if this partial date precedes <paramref name="other"/>, 1 if <paramref name="other"/> precedes this partial date, and 0
+    /// otherwise.
+    /// </returns>
     public int CompareTo(PartialDate other) {
       if (object.ReferenceEquals(other, null))
         return +1;
@@ -192,25 +196,33 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Compares two partial dates.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="lhs"/> precedes <paramref name="rhs"/>; <code>false</code> otherwise.</returns>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="lhs"/> precedes <paramref name="rhs"/>; <see langword="false"/> otherwise.
+    /// </returns>
     public static bool operator<(PartialDate lhs, PartialDate rhs) => object.ReferenceEquals(lhs, null) ? !object.ReferenceEquals(rhs, null) : lhs.CompareTo(rhs) < 0;
 
     /// <summary>Compares two partial dates.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="rhs"/> does not precede <paramref name="lhs"/>; <code>false</code> otherwise.</returns>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="rhs"/> does not precede <paramref name="lhs"/>; <see langword="false"/> otherwise.
+    /// </returns>
     public static bool operator<=(PartialDate lhs, PartialDate rhs) => object.ReferenceEquals(lhs, null) || lhs.CompareTo(rhs) <= 0;
 
     /// <summary>Compares two partial dates.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="lhs"/> does not precede <paramref name="rhs"/>; <code>false</code> otherwise.</returns>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="lhs"/> does not precede <paramref name="rhs"/>; <see langword="false"/> otherwise.
+    /// </returns>
     public static bool operator>=(PartialDate lhs, PartialDate rhs) => object.ReferenceEquals(lhs, null) ? object.ReferenceEquals(rhs, null) : lhs.CompareTo(rhs) >= 0;
 
     /// <summary>Compares two partial dates.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="rhs"/> precedes <paramref name="lhs"/>; <code>false</code> otherwise.</returns>
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="rhs"/> precedes <paramref name="lhs"/>; <see langword="false"/> otherwise.
+    /// </returns>
     public static bool operator>(PartialDate lhs, PartialDate rhs) => !object.ReferenceEquals(lhs, null) && lhs.CompareTo(rhs) > 0;
 
     #endregion
@@ -219,22 +231,29 @@ namespace MetaBrainz.MusicBrainz {
 
     /// <summary>Determines whether or not a given object is a partial date with the same contents as this one.</summary>
     /// <param name="obj">The object to compare to this one.</param>
-    /// <returns><code>true</code> if <paramref name="obj"/> is a <see cref="PartialDate"/> and has the same contents as this one; <code>false</code> otherwise.</returns>
-    public override bool Equals(object obj) {
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="obj"/> is a <see cref="PartialDate"/> and has the same contents as this one;
+    /// <see langword="false"/> otherwise.
+    /// </returns>
+    public override bool Equals(object? obj) {
       return this.Equals(obj as PartialDate);
     }
 
     /// <summary>Determines whether or not two partial dates have the same contents.</summary>
     /// <param name="other">The partial date to compare to this one.</param>
-    /// <returns><code>true</code> if the two partial dates have the same contents; <code>false</code> otherwise.</returns>
-    public bool Equals(PartialDate other) {
+    /// <returns>
+    /// <see langword="true"/> if the two partial dates have the same contents; <see langword="false"/> otherwise.
+    /// </returns>
+    public bool Equals(PartialDate? other) {
       if (other == null)
         return false;
       return (this.Year == other.Year) && (this.Month == other.Month) && (this.Day == other.Day);
     }
 
     /// <summary>Gets a hash code for this partial date.</summary>
-    /// <returns>The value of this partial date as an integer of the form YYYYMMDD, with 0 used for unspecified components.</returns>
+    /// <returns>
+    /// The value of this partial date as an integer of the form <c>YYYYMMDD</c>, with 0 used for unspecified components.
+    /// </returns>
     public override int GetHashCode() {
       return (this.Year.GetValueOrDefault() * 100 + this.Month.GetValueOrDefault()) * 100 + this.Day.GetValueOrDefault();
     }
@@ -242,14 +261,20 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>Determines whether or not two partial dates have the same contents.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="lhs"/> and <paramref name="rhs"/> have the same contents; <code>false</code> otherwise.</returns>
-    public static bool operator==(PartialDate lhs, PartialDate rhs) => object.ReferenceEquals(lhs, null) ? object.ReferenceEquals(rhs, null) : lhs.Equals(rhs);
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> have the same contents; <see langword="false"/>
+    /// otherwise.
+    /// </returns>
+    public static bool operator==(PartialDate? lhs, PartialDate? rhs) => lhs?.Equals(rhs) ?? object.ReferenceEquals(rhs, null);
 
     /// <summary>Determines whether or not two partial dates have the same contents.</summary>
     /// <param name="lhs">The first partial date to compare.</param>
     /// <param name="rhs">The seconds partial date to compare .</param>
-    /// <returns><code>true</code> if <paramref name="lhs"/> and <paramref name="rhs"/> do not have have the same contents; <code>false</code> otherwise.</returns>
-    public static bool operator!=(PartialDate lhs, PartialDate rhs) => !(lhs == rhs);
+    /// <returns>
+    /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> do not have have the same contents;
+    /// <see langword="false"/> otherwise.
+    /// </returns>
+    public static bool operator!=(PartialDate? lhs, PartialDate? rhs) => !(lhs == rhs);
 
     #endregion
 
@@ -257,9 +282,9 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
-    private static Regex _format;
+    private static readonly Regex Format = new Regex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
 
-    private sealed class Converter : JsonConverter<PartialDate> {
+    private sealed class Converter : JsonConverter<PartialDate?> {
 
       private static string DecodeUtf8(ReadOnlySpan<byte> bytes) {
 #if NETSTD_GE_2_1 || NETCORE_GE_2_1
@@ -269,7 +294,7 @@ namespace MetaBrainz.MusicBrainz {
 #endif
       }
 
-      public override PartialDate Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
+      public override PartialDate? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
         switch (reader.TokenType) {
           case JsonTokenType.Null:
             return null;
@@ -297,7 +322,7 @@ namespace MetaBrainz.MusicBrainz {
         }
       }
 
-      public override void Write(Utf8JsonWriter writer, PartialDate value, JsonSerializerOptions options) {
+      public override void Write(Utf8JsonWriter writer, PartialDate? value, JsonSerializerOptions options) {
         writer.WriteStringValue(value?.ToString());
       }
 

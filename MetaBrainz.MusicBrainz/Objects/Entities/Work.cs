@@ -13,81 +13,85 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Work;
 
-    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
+    public IReadOnlyList<IAlias>? Aliases => this.TheAliases;
 
     [JsonPropertyName("aliases")]
-    public Alias[] TheAliases { get; set; }
+    public Alias[]? TheAliases { get; set; }
 
     [JsonPropertyName("annotation")]
-    public string Annotation { get; set; }
+    public string? Annotation { get; set; }
 
-    public IReadOnlyList<IWorkAttribute> Attributes => this.TheAttributes;
+    public IReadOnlyList<IWorkAttribute>? Attributes => this.TheAttributes;
 
     [JsonPropertyName("attributes")]
-    public WorkAttribute[] TheAttributes { get; set; }
+    public WorkAttribute[]? TheAttributes { get; set; }
 
     [JsonPropertyName("disambiguation")]
-    public string Disambiguation { get; set; }
+    public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag> Genres => this.TheGenres;
+    public IReadOnlyList<ITag>? Genres => this.TheGenres;
 
     [JsonPropertyName("genres")]
-    public Tag[] TheGenres { get; set; }
+    public Tag[]? TheGenres { get; set; }
 
     [JsonPropertyName("iswcs")]
-    public IReadOnlyList<string> Iswcs { get; set; }
+    public IReadOnlyList<string>? Iswcs { get; set; }
 
     [JsonPropertyName("language")]
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     [JsonPropertyName("languages")]
-    public IReadOnlyList<string> Languages { get; set; }
+    public IReadOnlyList<string>? Languages { get; set; }
 
-    public IRating Rating => this.TheRating;
+    public IRating? Rating => this.TheRating;
 
     [JsonPropertyName("rating")]
-    public Rating TheRating { get; set; }
+    public Rating? TheRating { get; set; }
 
-    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
+    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
 
     [JsonPropertyName("relations")]
-    public Relationship[] TheRelationships { get; set; }
+    public Relationship[]? TheRelationships { get; set; }
 
-    public IReadOnlyList<ITag> Tags => this.TheTags;
+    public IReadOnlyList<ITag>? Tags => this.TheTags;
 
     [JsonPropertyName("tags")]
-    public Tag[] TheTags { get; set; }
+    public Tag[]? TheTags { get; set; }
 
     [JsonPropertyName("title")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
+    public IReadOnlyList<IUserTag>? UserGenres => this.TheUserGenres;
 
     [JsonPropertyName("user-genres")]
-    public UserTag[] TheUserGenres { get; set; }
+    public UserTag[]? TheUserGenres { get; set; }
 
-    public IUserRating UserRating => this.TheUserRating;
+    public IUserRating? UserRating => this.TheUserRating;
 
     [JsonPropertyName("user-rating")]
-    public UserRating TheUserRating { get; set; }
+    public UserRating? TheUserRating { get; set; }
 
-    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
+    public IReadOnlyList<IUserTag>? UserTags => this.TheUserTags;
 
     [JsonPropertyName("user-tags")]
-    public UserTag[] TheUserTags { get; set; }
+    public UserTag[]? TheUserTags { get; set; }
 
     public override string ToString() {
-      var text = this.Title ?? string.Empty;
+      var text = string.Empty;
+      if (this.SearchScore.HasValue)
+        text += $"[Score: {this.SearchScore.Value}] ";
+      if (this.Title != null)
+        text += this.Title;
       if (!string.IsNullOrEmpty(this.Disambiguation))
-        text += " (" + this.Disambiguation + ")";
+        text += $" ({this.Disambiguation})";
       if (this.Type != null)
-        text += " (" + this.Type + ")";
+        text += $" ({this.Type})";
       return text;
     }
 

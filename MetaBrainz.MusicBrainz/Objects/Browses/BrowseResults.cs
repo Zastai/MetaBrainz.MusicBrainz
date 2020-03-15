@@ -6,12 +6,12 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
   internal abstract class BrowseResults<TResult, TResultObject>
-  : PagedQueryResults<IBrowseResults<TResult>, TResult>,
+  : PagedQueryResults<IBrowseResults<TResult>, TResult, TResultObject>,
     IBrowseResults<TResult>
   where TResult : IEntity
   where TResultObject : BrowseResults<TResult, TResultObject>.ResultObject {
 
-    protected BrowseResults(Query query, string endpoint, string value, string extra, int? limit = null, int? offset = null)
+    protected BrowseResults(Query query, string endpoint, string? value, string extra, int? limit = null, int? offset = null)
     : base(query, endpoint, value, limit, offset) {
       this._extra = extra;
     }
@@ -36,7 +36,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
 
     public override int TotalResults => this.CurrentResult?.Count ?? 0;
 
-    public override IReadOnlyDictionary<string, object> UnhandledProperties => this.CurrentResult.UnhandledProperties;
+    public override IReadOnlyDictionary<string, object?>? UnhandledProperties => this.CurrentResult?.UnhandledProperties;
 
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public abstract class ResultObject : JsonBasedObject {
@@ -46,8 +46,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
       public abstract int Offset { get; set; }
 
     }
-
-    protected TResultObject CurrentResult;
 
   }
 

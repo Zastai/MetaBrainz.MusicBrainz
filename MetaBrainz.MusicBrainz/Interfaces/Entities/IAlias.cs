@@ -9,28 +9,28 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface IAlias : IJsonBasedObject {
 
     /// <summary>The date at which the alias became applicable.</summary>
-    PartialDate Begin { get; }
+    PartialDate? Begin { get; }
 
     /// <summary>The date at which the alias ceased to be applicable.</summary>
-    PartialDate End { get; }
+    PartialDate? End { get; }
 
     /// <summary>A flag indicating whether or not the alias has ceased to be applicable.</summary>
     bool Ended { get; }
 
     /// <summary>The specific locale where the alias applies.</summary>
-    string Locale { get; }
+    string? Locale { get; }
 
     /// <summary>The alias.</summary>
-    string Name { get; }
+    string? Name { get; }
 
     /// <summary>Flag indicating whether or not this is the primary alias within the locale specified by <see cref="Locale"/>.</summary>
     bool? Primary { get; }
 
     /// <summary>The sort name form of the alias, if applicable.</summary>
-    string SortName { get; }
+    string? SortName { get; }
 
     /// <summary>The type of the alias, expressed as text.</summary>
-    string Type { get; }
+    string? Type { get; }
 
     /// <summary>The type of the alias, expressed as an MBID.</summary>
     Guid? TypeId { get; }

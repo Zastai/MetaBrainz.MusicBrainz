@@ -28,9 +28,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   When no fields are specified, the <em>name</em>, <em>text</em> and <em>type</em> fields will be searched.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundAnnotation> FindAnnotations(string query, int? limit = null, int? offset = null) {
-      return new FoundAnnotations(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundAnnotation> FindAnnotations(string query, int? limit = null, int? offset = null)
+      => new FoundAnnotations(this, query, limit, offset).Next();
 
     /// <summary>Searches for areas using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -59,9 +58,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>area</em> and <em>sortname</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundArea> FindAreas(string query, int? limit = null, int? offset = null) {
-      return new FoundAreas(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundArea> FindAreas(string query, int? limit = null, int? offset = null)
+      => new FoundAreas(this, query, limit, offset).Next();
 
     /// <summary>Searches for artists using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -94,9 +92,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>sortname</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundArtist> FindArtists(string query, int? limit = null, int? offset = null) {
-      return new FoundArtists(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundArtist> FindArtists(string query, int? limit = null, int? offset = null)
+      => new FoundArtists(this, query, limit, offset).Next();
 
     /// <summary>Searches for CD stubs using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -118,9 +115,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>artist</em> and <em>title</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundCdStub> FindCdStubs(string query, int? limit = null, int? offset = null) {
-      return new FoundCdStubs(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundCdStub> FindCdStubs(string query, int? limit = null, int? offset = null)
+      => new FoundCdStubs(this, query, limit, offset).Next();
 
     /// <summary>Searches for events using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -148,9 +144,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>name</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundEvent> FindEvents(string query, int? limit = null, int? offset = null) {
-      return new FoundEvents(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundEvent> FindEvents(string query, int? limit = null, int? offset = null)
+      => new FoundEvents(this, query, limit, offset).Next();
 
     /// <summary>Searches for instruments using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -173,9 +168,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>description</em> and <em>instrument</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundInstrument> FindInstruments(string query, int? limit = null, int? offset = null) {
-      return new FoundInstruments(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundInstrument> FindInstruments(string query, int? limit = null, int? offset = null)
+      => new FoundInstruments(this, query, limit, offset).Next();
 
     /// <summary>Searches for labels using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -205,9 +199,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundLabel> FindLabels(string query, int? limit = null, int? offset = null) {
-      return new FoundLabels(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundLabel> FindLabels(string query, int? limit = null, int? offset = null)
+      => new FoundLabels(this, query, limit, offset).Next();
 
     /// <summary>Searches for places using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -234,9 +227,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundPlace> FindPlaces(string query, int? limit = null, int? offset = null) {
-      return new FoundPlaces(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundPlace> FindPlaces(string query, int? limit = null, int? offset = null)
+      => new FoundPlaces(this, query, limit, offset).Next();
 
     /// <summary>Searches for recordings using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -280,9 +272,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundRecording> FindRecordings(string query, int? limit = null, int? offset = null) {
-      return new FoundRecordings(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundRecording> FindRecordings(string query, int? limit = null, int? offset = null)
+      => new FoundRecordings(this, query, limit, offset).Next();
 
     /// <summary>Searches for release groups using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -313,9 +304,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundReleaseGroup> FindReleaseGroups(string query, int? limit = null, int? offset = null) {
-      return new FoundReleaseGroups(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundReleaseGroup> FindReleaseGroups(string query, int? limit = null, int? offset = null)
+      => new FoundReleaseGroups(this, query, limit, offset).Next();
 
     /// <summary>Searches for releases using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -360,9 +350,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundRelease> FindReleases(string query, int? limit = null, int? offset = null) {
-      return new FoundReleases(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundRelease> FindReleases(string query, int? limit = null, int? offset = null)
+      => new FoundReleases(this, query, limit, offset).Next();
 
     /// <summary>Searches for series using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -384,9 +373,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em> and <em>series</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundSeries> FindSeries(string query, int? limit = null, int? offset = null) {
-      return new FoundSeries(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundSeries> FindSeries(string query, int? limit = null, int? offset = null)
+      => new FoundSeries(this, query, limit, offset).Next();
 
     /// <summary>Searches for tags using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -402,9 +390,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundTag> FindTags(string query, int? limit = null, int? offset = null) {
-      return new FoundTags(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundTag> FindTags(string query, int? limit = null, int? offset = null)
+      => new FoundTags(this, query, limit, offset).Next();
 
     /// <summary>Searches for URLs using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -424,9 +411,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundUrl> FindUrls(string query, int? limit = null, int? offset = null) {
-      return new FoundUrls(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundUrl> FindUrls(string query, int? limit = null, int? offset = null)
+      => new FoundUrls(this, query, limit, offset).Next();
 
     /// <summary>Searches for works using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -452,9 +438,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
-    public ISearchResults<IFoundWork> FindWorks(string query, int? limit = null, int? offset = null) {
-      return new FoundWorks(this, query, limit, offset).Next();
-    }
+    public ISearchResults<IFoundWork> FindWorks(string query, int? limit = null, int? offset = null)
+      => new FoundWorks(this, query, limit, offset).Next();
 
     #endregion
 
@@ -478,9 +463,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   When no fields are specified, the <em>name</em>, <em>text</em> and <em>type</em> fields will be searched.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundAnnotation>> FindAnnotationsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundAnnotations(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundAnnotation>> FindAnnotationsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundAnnotations(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for areas using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -509,9 +493,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>area</em> and <em>sortname</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundArea>> FindAreasAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundAreas(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundArea>> FindAreasAsync(string query, int? limit = null, int? offset = null)
+      => new FoundAreas(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for artists using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -544,9 +527,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>sortname</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundArtist>> FindArtistsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundArtists(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundArtist>> FindArtistsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundArtists(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for CD stubs using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -568,9 +550,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>artist</em> and <em>title</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CdStubs">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundCdStub>> FindCdStubsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundCdStubs(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundCdStub>> FindCdStubsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundCdStubs(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for events using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -598,9 +579,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>artist</em> and <em>name</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Event">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundEvent>> FindEventsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundEvents(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundEvent>> FindEventsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundEvents(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for instruments using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -623,9 +603,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em>, <em>description</em> and <em>instrument</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Instrument">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundInstrument>> FindInstrumentsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundInstruments(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundInstrument>> FindInstrumentsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundInstruments(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for labels using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -655,9 +634,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundLabel>> FindLabelsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundLabels(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundLabel>> FindLabelsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundLabels(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for places using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -684,9 +662,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundPlace>> FindPlacesAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundPlaces(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundPlace>> FindPlacesAsync(string query, int? limit = null, int? offset = null)
+      => new FoundPlaces(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for recordings using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -730,9 +707,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundRecording>> FindRecordingsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundRecordings(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundRecording>> FindRecordingsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundRecordings(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for release groups using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -763,9 +739,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundReleaseGroup>> FindReleaseGroupsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundReleaseGroups(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundReleaseGroup>> FindReleaseGroupsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundReleaseGroups(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for releases using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -810,9 +785,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundRelease>> FindReleasesAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundReleases(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundRelease>> FindReleasesAsync(string query, int? limit = null, int? offset = null)
+      => new FoundReleases(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for series using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -834,9 +808,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   Query terms without a field specifier will search the <em>alias</em> and <em>series</em> fields.
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Series">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundSeries>> FindSeriesAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundSeries(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundSeries>> FindSeriesAsync(string query, int? limit = null, int? offset = null)
+      => new FoundSeries(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for tags using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -852,9 +825,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Tag">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundTag>> FindTagsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundTags(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundTag>> FindTagsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundTags(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for URLs using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -874,9 +846,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#URL">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundUrl>> FindUrlsAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundUrls(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundUrl>> FindUrlsAsync(string query, int? limit = null, int? offset = null)
+      => new FoundUrls(this, query, limit, offset).NextAsync();
 
     /// <summary>Searches for works using the given query.</summary>
     /// <param name="query">The Lucene search query to use.</param>
@@ -902,9 +873,8 @@ namespace MetaBrainz.MusicBrainz {
     ///   </list>
     /// </remarks>
     /// <seealso href="http://www.musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Work">MusicBrainz Search API Docs</seealso>
-    public Task<ISearchResults<IFoundWork>> FindWorksAsync(string query, int? limit = null, int? offset = null) {
-      return new FoundWorks(this, query, limit, offset).NextAsync();
-    }
+    public Task<ISearchResults<IFoundWork>> FindWorksAsync(string query, int? limit = null, int? offset = null)
+      => new FoundWorks(this, query, limit, offset).NextAsync();
 
     #endregion
 

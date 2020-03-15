@@ -12,13 +12,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Searches {
     Guid Entity { get; }
 
     /// <summary>The type of entity the annotation is attached to.</summary>
-    string Type { get; }
+    string? Type { get; }
 
     /// <summary>The name of the entity the annotation is attached to.</summary>
-    string Name { get; }
+    string? Name { get; }
 
     /// <summary>The annotation's text.</summary>
-    string Text { get; }
+    string? Text { get; }
 
   }
 

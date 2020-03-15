@@ -10,13 +10,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     bool Cancelled { get; }
 
     /// <summary>The event's lifespan.</summary>
-    ILifeSpan LifeSpan { get; }
+    ILifeSpan? LifeSpan { get; }
 
     /// <summary>The setlist for the event.</summary>
-    string Setlist { get; }
+    string? Setlist { get; }
 
     /// <summary>The starting time for the event, in HH:MM format.</summary>
-    string Time { get; }
+    string? Time { get; }
 
   }
 

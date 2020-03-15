@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
   /// <summary>A submission request for adding ratings to various entities.</summary>
+  [PublicAPI]
   public sealed class RatingSubmission : Submission {
 
     #region Public API
@@ -16,7 +18,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="mbid">The MBID of the entity to rate.</param>
     /// <returns>This submission request.</returns>
     public RatingSubmission Add(byte rating, EntityType entityType, Guid mbid) {
-      if (rating > 100) throw new ArgumentOutOfRangeException(nameof(rating), rating, "A rating value must be between 0 and 100.");
+      if (rating > 100)
+        throw new ArgumentOutOfRangeException(nameof(rating), rating, "A rating value must be between 0 and 100.");
       var map = this.GetMap(entityType);
       map[mbid] = rating;
       return this;
@@ -38,7 +41,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="entity">The entity to rate.</param>
     /// <returns>This submission request.</returns>
     public RatingSubmission Add(byte rating, IRatableEntity entity) {
-      if (entity == null) throw new ArgumentNullException(nameof(entity));
       return this.Add(rating, entity.EntityType, entity.MbId);
     }
 
@@ -47,7 +49,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="entities">The entities to rate.</param>
     /// <returns>This submission request.</returns>
     public RatingSubmission Add(byte rating, params IRatableEntity[] entities) {
-      if (entities == null) throw new ArgumentNullException(nameof(entities));
       foreach (var entity in entities) {
         if (entity == null)
           continue;
@@ -72,39 +73,37 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     private readonly RatingMap _works         = new RatingMap();
 
     private RatingMap GetMap(EntityType entityType) {
-      switch (entityType) {
-        case EntityType.Artist:       return this._artists;
-        case EntityType.Event:        return this._events;
-        case EntityType.Label:        return this._labels;
-        case EntityType.Recording:    return this._recordings;
-        case EntityType.ReleaseGroup: return this._releaseGroups;
-        case EntityType.Work:         return this._works;
-        default:
-          throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be rated.");
-      }
+      return entityType switch {
+        EntityType.Artist       => this._artists,
+        EntityType.Event        => this._events,
+        EntityType.Label        => this._labels,
+        EntityType.Recording    => this._recordings,
+        EntityType.ReleaseGroup => this._releaseGroups,
+        EntityType.Work         => this._works,
+        _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be rated.")
+      };
     }
 
     internal override string RequestBody {
       get {
-        using (var sw = new U8StringWriter()) {
-          using (var xml = XmlWriter.Create(sw)) {
-            xml.WriteStartDocument();
-            xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-            Write(xml, this._artists,       "artist");
-            Write(xml, this._events,        "event");
-            Write(xml, this._labels,        "label");
-            Write(xml, this._recordings,    "recording");
-            Write(xml, this._releaseGroups, "release-group");
-            Write(xml, this._works,         "work");
-            xml.WriteEndElement();
-          }
-          return sw.ToString();
+        using var sw = new U8StringWriter();
+        using (var xml = XmlWriter.Create(sw)) {
+          xml.WriteStartDocument();
+          xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
+          Write(xml, this._artists,       "artist");
+          Write(xml, this._events,        "event");
+          Write(xml, this._labels,        "label");
+          Write(xml, this._recordings,    "recording");
+          Write(xml, this._releaseGroups, "release-group");
+          Write(xml, this._works,         "work");
+          xml.WriteEndElement();
         }
+        return sw.ToString();
       }
     }
 
     private static void Write(XmlWriter xml, RatingMap items, string element) {
-      if (items == null || items.Count == 0)
+      if (items.Count == 0)
         return;
       xml.WriteStartElement(element + "-list");
       foreach (var entry in items) {

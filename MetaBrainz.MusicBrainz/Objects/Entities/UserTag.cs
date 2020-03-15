@@ -8,9 +8,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   internal sealed class UserTag : JsonBasedObject, IUserTag {
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    public override string ToString() => this.Name;
+    public override string ToString() => this.Name ?? "";
 
   }
 

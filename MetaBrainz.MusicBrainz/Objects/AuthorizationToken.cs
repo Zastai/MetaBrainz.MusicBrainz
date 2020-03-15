@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
     [JsonPropertyName("access_token")]
-    public string AccessToken { get; set; }
+    public string? AccessToken { get; set; }
 
     /// <summary>The lifetime of the token, in seconds (typically one hour).</summary>
     [JsonPropertyName("expires_in")]
@@ -18,15 +18,15 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     /// <summary>The refresh token (i.e. the one you use to get a new access token).</summary>
     [JsonPropertyName("refresh_token")]
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 
     /// <summary>The type of this authorization token.</summary>
     [JsonPropertyName("token_type")]
-    public string TokenType { get; set; }
+    public string? TokenType { get; set; }
 
     /// <summary>Gets the textual representation of this authorization token.</summary>
     /// <returns><see cref="AccessToken"/>.</returns>
-    public override string ToString() => this.AccessToken;
+    public override string? ToString() => this.AccessToken;
 
   }
 

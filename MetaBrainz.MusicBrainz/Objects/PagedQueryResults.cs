@@ -6,13 +6,14 @@ using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  internal abstract class PagedQueryResults<TInterface, TItem>
+  internal abstract class PagedQueryResults<TInterface, TItem, TResultObject>
   : IPagedQueryResults<TInterface, TItem>
-  where TInterface : IPagedQueryResults<TInterface, TItem> {
+  where TInterface : IPagedQueryResults<TInterface, TItem>
+  where TResultObject : class {
 
-    protected PagedQueryResults(Query query, string endpoint, string value, int? limit = null, int? offset = null) {
-      this._query     = query    ?? throw new ArgumentNullException(nameof(query));
-      this._endpoint  = endpoint ?? throw new ArgumentNullException(nameof(endpoint));
+    protected PagedQueryResults(Query query, string endpoint, string? value, int? limit = null, int? offset = null) {
+      this._query     = query;
+      this._endpoint  = endpoint;
       this._value     = value;
       this.Limit      = limit;
       this.Offset     = 0;
@@ -21,7 +22,9 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     private readonly Query  _query;
     private readonly string _endpoint;
-    private readonly string _value;
+    private readonly string? _value;
+
+    protected TResultObject? CurrentResult;
 
     private int CurrentResultCount => this.Results?.Count ?? 0;
 
@@ -67,7 +70,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     public abstract int TotalResults { get; }
 
-    public abstract IReadOnlyDictionary<string, object> UnhandledProperties { get; }
+    public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
 
     private void UpdateOffset() {
       if (this.NextOffset.HasValue) {

@@ -8,12 +8,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   internal sealed class TextRepresentation : JsonBasedObject, ITextRepresentation {
 
     [JsonPropertyName("language")]
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     [JsonPropertyName("script")]
-    public string Script { get; set; }
+    public string? Script { get; set; }
 
-    public override string ToString() => $"{this.Language ?? "???"} / {this.Script ?? "????"}";
+    public override string ToString() => $"{this.Language ?? "???"} / {this.Script ?? "???"}";
 
   }
 

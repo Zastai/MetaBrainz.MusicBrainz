@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -12,13 +13,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
     : base(query, "release-group", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<IReleaseGroup> Results => this.CurrentResult?.Results;
+    public override IReadOnlyList<IReleaseGroup> Results => this.CurrentResult?.Results ?? Array.Empty<IReleaseGroup>();
 
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public sealed class JSON : ResultObject {
 
       [JsonPropertyName("release-groups")]
-      public ReleaseGroup[] Results { get; set; }
+      public ReleaseGroup[]? Results { get; set; }
 
       [JsonPropertyName("release-group-count")]
       public override int Count { get; set; }

@@ -23,15 +23,15 @@ namespace MetaBrainz.MusicBrainz {
     private sealed class MessageOrError {
 
       [JsonPropertyName("error")]
-      public string Error { get; set; }
+      public string? Error { get; set; }
 
       [JsonPropertyName("message")]
-      public string Message { get; set; }
+      public string? Message { get; set; }
 
     }
 
-    private static string ExtractError(WebResponse response) {
-      if (response == null || response.ContentLength == 0)
+    private static string? ExtractError(WebResponse response) {
+      if (response.ContentLength == 0)
         return null;
       try {
         using var stream = response.GetResponseStream();
@@ -39,7 +39,7 @@ namespace MetaBrainz.MusicBrainz {
           return null;
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-          StringBuilder sb = null;
+          StringBuilder? sb = null;
           var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
           while (xpath.MoveNext()) {
             if (sb == null)
@@ -75,7 +75,7 @@ namespace MetaBrainz.MusicBrainz {
       return null;
     }
 
-    private static async Task<string> ExtractErrorAsync(WebResponse response) {
+    private static async Task<string?> ExtractErrorAsync(WebResponse response) {
       if (response == null || response.ContentLength == 0)
         return null;
       try {
@@ -89,7 +89,7 @@ namespace MetaBrainz.MusicBrainz {
           return null;
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-          StringBuilder sb = null;
+          StringBuilder? sb = null;
           var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
           while (xpath.MoveNext()) {
             if (sb == null)
@@ -125,7 +125,7 @@ namespace MetaBrainz.MusicBrainz {
       return null;
     }
 
-    private static string ExtractMessage(string response) {
+    private static string? ExtractMessage(string response) {
       try {
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (application/json): \"{JsonUtils.Prettify(response)}\"");
         var moe = JsonUtils.Deserialize<MessageOrError>(response);
@@ -185,7 +185,6 @@ namespace MetaBrainz.MusicBrainz {
     #region Query String Processing
 
     private static void AddIncludeText(StringBuilder sb, Include inc) {
-      if (sb == null) throw new ArgumentNullException(nameof(sb));
       if (inc == Include.None)
         return;
       sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
@@ -232,7 +231,6 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private static void AddReleaseFilter(StringBuilder sb, ReleaseType? type, ReleaseStatus? status) {
-      if (sb == null) throw new ArgumentNullException(nameof(sb));
       if (type.HasValue) {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
         var letter = '=';
@@ -271,8 +269,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private static string BuildExtraText(Include inc, Uri resource) {
       var sb = new StringBuilder();
-      if (resource != null)
-        sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
+      sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
       AddIncludeText(sb, inc);
       return sb.ToString();
     }
@@ -284,7 +281,7 @@ namespace MetaBrainz.MusicBrainz {
       return sb.ToString();
     }
 
-    private static string BuildExtraText(Include inc, int[] toc, bool allMediaFormats, bool noStubs) {
+    private static string BuildExtraText(Include inc, int[]? toc, bool allMediaFormats, bool noStubs) {
       var sb = new StringBuilder();
       if (toc != null) {
         sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
@@ -300,8 +297,8 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private static string BuildExtraText(Include inc, string query, ReleaseType? type = null, ReleaseStatus? status = null) {
-      if (query == null) throw new ArgumentNullException(nameof(query));
-      if (query.Trim().Length == 0) throw new ArgumentException("A browse or search query must not be blank.", nameof(query));
+      if (string.IsNullOrWhiteSpace(query))
+        throw new ArgumentException("A browse or search query must not be blank.", nameof(query));
       var sb = new StringBuilder();
       sb.Append('?').Append(query);
       AddIncludeText(sb, inc);
@@ -319,7 +316,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private readonly string _fullUserAgent;
 
-    private WebClient _webClient;
+    private WebClient? _webClient;
 
     private WebClient WebClient {
       get {
@@ -373,7 +370,7 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Basic Request Execution
 
-    private string PerformRequest(string address, Method method, string accept, string contentType, string body = null) {
+    private string PerformRequest(string address, Method method, string accept, string? contentType, string? body = null) {
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
       this._clientLock.Wait();
       try {
@@ -404,13 +401,14 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    internal string PerformRequest(string entity, string id, string extra) {
-      var json = ApplyDelay(() => this.PerformRequest($"{entity}/{id}{extra}", Method.GET, "application/json", null));
+    internal string PerformRequest(string entity, string? id, string extra) {
+      var address = $"{entity}/{id}{extra}";
+      var json = ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
       Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
       return json;
     }
 
-    private async Task<string> PerformRequestAsync(string address, Method method, string accept, string contentType, string body = null) {
+    private async Task<string> PerformRequestAsync(string address, Method method, string accept, string? contentType, string? body = null) {
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
       await this._clientLock.WaitAsync();
       try {
@@ -441,18 +439,29 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
-    internal async Task<string> PerformRequestAsync(string entity, string id, string extra) {
-      var json = await ApplyDelayAsync(() => this.PerformRequestAsync($"{entity}/{id}{extra}", Method.GET, "application/json", null));
+    internal async Task<string> PerformRequestAsync(string entity, string? id, string extra) {
+      var address = $"{entity}/{id}{extra}";
+      var json = await ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
       Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
       return json;
     }
 
     internal string PerformSubmission(ISubmission submission) {
-      return ExtractMessage(ApplyDelay(() => this.PerformRequest($"{submission.Entity}/?client={submission.Client}", submission.Method, "application/json", submission.ContentType, submission.RequestBody)));
+      var address = $"{submission.Entity}/?client={submission.Client}";
+      var method = submission.Method;
+      var contentType = submission.ContentType;
+      var body = submission.RequestBody;
+      var msg = ApplyDelay(() => this.PerformRequest(address, method, "application/json", contentType, body));
+      return ExtractMessage(msg) ?? "";
     }
 
     internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
-      return ExtractMessage(await ApplyDelayAsync(() => this.PerformRequestAsync($"{submission.Entity}/?client={submission.Client}", submission.Method, "application/json", submission.ContentType, submission.RequestBody)));
+      var address = $"{submission.Entity}/?client={submission.Client}";
+      var method = submission.Method;
+      var contentType = submission.ContentType;
+      var body = submission.RequestBody;
+      var msg = await ApplyDelayAsync(() => this.PerformRequestAsync(address, method, "application/json", contentType, body));
+      return ExtractMessage(msg) ?? "";
     }
 
     #endregion

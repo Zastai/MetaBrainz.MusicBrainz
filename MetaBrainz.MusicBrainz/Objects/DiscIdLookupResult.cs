@@ -46,11 +46,11 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
     public string Id { get; }
 
-    public IDisc Disc { get; }
+    public IDisc? Disc { get; }
 
-    public IReadOnlyList<IRelease> Releases { get; }
+    public IReadOnlyList<IRelease>? Releases { get; }
 
-    public ICdStub Stub { get; }
+    public ICdStub? Stub { get; }
 
     /// <summary>Gets the textual representation of the disc ID lookup result.</summary>
     /// <returns>A string describing the lookup results.</returns>

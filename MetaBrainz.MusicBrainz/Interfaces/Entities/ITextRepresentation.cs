@@ -7,10 +7,10 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface ITextRepresentation : IJsonBasedObject {
 
     /// <summary>The ISO 363-2 language code for the release, if set.</summary>
-    string Language { get; }
+    string? Language { get; }
 
     /// <summary>The ISO 15924 script code for the release, if set.</summary>
-    string Script { get; }
+    string? Script { get; }
 
   }
 

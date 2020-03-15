@@ -9,19 +9,20 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
 
     [JsonPropertyName("artist")]
-    public string Artist { get; set; }
+    public string? Artist { get; set; }
 
     [JsonPropertyName("length")]
     public int Length { get; set; }
 
     [JsonPropertyName("title")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
       if (this.Artist != null)
         text += this.Artist + " / ";
-      text += this.Title + " (" + new TimeSpan(0, 0, 0, 0, this.Length) + ")";
+      var ts = new TimeSpan(0, 0, 0, 0, this.Length);
+      text += $"{this.Title} ({ts:g})";
       return text;
     }
 

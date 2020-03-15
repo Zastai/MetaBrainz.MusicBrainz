@@ -10,8 +10,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     public ModifyCollection(Method method, string client, Guid collection, EntityType entityType) {
       this._method = method;
-      this._client = client ?? throw new ArgumentNullException(nameof(client));
-      if (client.Trim().Length == 0) throw new ArgumentException("The client ID must not be blank.", nameof(client));
+      this._client = client;
+      if (string.IsNullOrWhiteSpace(client))
+        throw new ArgumentException("The client ID must not be blank.", nameof(client));
       this._request = new StringBuilder(16 * 1024);
       this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(MapType(entityType)).Append('/');
     }
@@ -36,25 +37,24 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     string ISubmission.Entity => this._request.ToString();
     Method ISubmission.Method => this._method;
 
-    string ISubmission.ContentType { get; } = null;
-    string ISubmission.RequestBody { get; } = null;
+    string? ISubmission.ContentType { get; } = null;
+    string? ISubmission.RequestBody { get; } = null;
 
     private static string MapType(EntityType entityType) {
-      switch (entityType) {
-        case EntityType.Area:         return "areas";
-        case EntityType.Artist:       return "artists";
-        case EntityType.Event:        return "events";
-        case EntityType.Instrument:   return "instruments";
-        case EntityType.Label:        return "labels";
-        case EntityType.Place:        return "places";
-        case EntityType.Recording:    return "recordings";
-        case EntityType.Release:      return "releases";
-        case EntityType.ReleaseGroup: return "release-groups";
-        case EntityType.Series:       return "series";
-        case EntityType.Work:         return "works";
-        default:
-          throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "The specified entity type cannot be stored in a collection.");
-      }
+      return entityType switch {
+        EntityType.Area         => "areas",
+        EntityType.Artist       => "artists",
+        EntityType.Event        => "events",
+        EntityType.Instrument   => "instruments",
+        EntityType.Label        => "labels",
+        EntityType.Place        => "places",
+        EntityType.Recording    => "recordings",
+        EntityType.Release      => "releases",
+        EntityType.ReleaseGroup => "release-groups",
+        EntityType.Series       => "series",
+        EntityType.Work         => "works",
+        _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType,"The specified entity type cannot be stored in a collection.")
+      };
     }
 
   }

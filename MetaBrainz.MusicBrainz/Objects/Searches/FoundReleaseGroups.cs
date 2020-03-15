@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
@@ -9,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     : base(query, "release-group", queryString, limit, offset)
     { }
 
-    public override IReadOnlyList<IFoundReleaseGroup> Results => this.CurrentResult?.ReleaseGroups;
+    public override IReadOnlyList<IFoundReleaseGroup> Results => this.CurrentResult?.ReleaseGroups ?? Array.Empty<IFoundReleaseGroup>();
 
   }
 

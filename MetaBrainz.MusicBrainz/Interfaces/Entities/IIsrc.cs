@@ -8,10 +8,10 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface IIsrc : IJsonBasedObject {
 
     /// <summary>The recordings that have this ISRC assigned to them.</summary>
-    IReadOnlyList<IRecording> Recordings { get; }
+    IReadOnlyList<IRecording>? Recordings { get; }
 
     /// <summary>The ISRC value.</summary>
-    string Value { get; }
+    string? Value { get; }
 
   }
 

@@ -12,13 +12,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces {
     string Id { get; }
 
     /// <summary>The disc returned by the lookup (if any was found).</summary>
-    IDisc Disc { get; }
+    IDisc? Disc { get; }
 
     /// <summary>The list of matching releases, if a fuzzy TOC lookup was done.</summary>
-    IReadOnlyList<IRelease> Releases { get; }
+    IReadOnlyList<IRelease>? Releases { get; }
 
     /// <summary>The CD stub returned by the lookup (if any was found).</summary>
-    ICdStub Stub { get; }
+    ICdStub? Stub { get; }
 
   }
 

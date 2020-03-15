@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     internal abstract string RequestBody { get; }
 
     internal Submission(Query query, string client, string entity, Method method) {
+      if (string.IsNullOrWhiteSpace(client))
+        throw new ArgumentException("The client ID must not be blank.", nameof(client));
       this._query  = query;
       this._client = client;
       this._entity = entity;
@@ -46,9 +49,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     string ISubmission.Client      => this._client;
     string ISubmission.Entity      => this._entity;
     Method ISubmission.Method      => this._method;
-    string ISubmission.RequestBody => this.RequestBody;
+    string? ISubmission.RequestBody => this.RequestBody;
 
-    string ISubmission.ContentType { get; } = "application/xml; charset=utf-8";
+    string? ISubmission.ContentType { get; } = "application/xml; charset=utf-8";
 
     // A StringWriter using UTF-8 as encoding (so that XmlWriter writes "utf-8" as encoding instead of "utf-16").
     internal sealed class U8StringWriter : StringWriter {

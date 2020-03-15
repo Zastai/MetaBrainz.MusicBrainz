@@ -10,25 +10,25 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   internal sealed class Disc : JsonBasedObject, IDisc {
 
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonPropertyName("offset-count")]
     public int OffsetCount { get; set; }
 
     [JsonPropertyName("offsets")]
-    public IReadOnlyList<int> Offsets { get; set; }
+    public IReadOnlyList<int>? Offsets { get; set; }
 
-    public IReadOnlyList<IRelease> Releases => this.TheReleases;
+    public IReadOnlyList<IRelease>? Releases => this.TheReleases;
 
     [JsonPropertyName("releases")]
-    public Release[] TheReleases { get; set; }
+    public Release[]? TheReleases { get; set; }
 
     [JsonPropertyName("sectors")]
     public int Sectors { get; set; }
 
     public override string ToString() {
       var duration = new TimeSpan(0, 0, 0, 0, (int) (this.Sectors / 75.0 * 1000));
-      return $"{this.Id} ({this.OffsetCount} track(s), {duration,2})";
+      return $"{this.Id} ({this.OffsetCount} track(s), {duration:g})";
     }
 
   }

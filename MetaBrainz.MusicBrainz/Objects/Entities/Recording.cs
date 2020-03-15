@@ -14,70 +14,70 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Recording;
 
-    public IReadOnlyList<IAlias> Aliases => this.TheAliases;
+    public IReadOnlyList<IAlias>? Aliases => this.TheAliases;
 
     [JsonPropertyName("aliases")]
-    public Alias[] TheAliases { get; set; }
+    public Alias[]? TheAliases { get; set; }
 
     [JsonPropertyName("annotation")]
-    public string Annotation { get; set; }
+    public string? Annotation { get; set; }
 
-    public IReadOnlyList<INameCredit> ArtistCredit => this.TheArtistCredit;
+    public IReadOnlyList<INameCredit>? ArtistCredit => this.TheArtistCredit;
 
     [JsonPropertyName("artist-credit")]
-    public NameCredit[] TheArtistCredit { get; set; }
+    public NameCredit[]? TheArtistCredit { get; set; }
 
     [JsonPropertyName("disambiguation")]
-    public string Disambiguation { get; set; }
+    public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag> Genres => this.TheGenres;
+    public IReadOnlyList<ITag>? Genres => this.TheGenres;
 
     [JsonPropertyName("genres")]
-    public Tag[] TheGenres { get; set; }
+    public Tag[]? TheGenres { get; set; }
 
     [JsonPropertyName("isrcs")]
-    public IReadOnlyList<string> Isrcs { get; set; }
+    public IReadOnlyList<string>? Isrcs { get; set; }
 
     [JsonPropertyName("length")]
     public int? Length { get; set; }
 
-    public IRating Rating => this.TheRating;
+    public IRating? Rating => this.TheRating;
 
     [JsonPropertyName("rating")]
-    public Rating TheRating { get; set; }
+    public Rating? TheRating { get; set; }
 
-    public IReadOnlyList<IRelationship> Relationships => this.TheRelationships;
+    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
 
     [JsonPropertyName("relations")]
-    public Relationship[] TheRelationships { get; set; }
+    public Relationship[]? TheRelationships { get; set; }
 
-    public IReadOnlyList<IRelease> Releases => this.TheReleases;
+    public IReadOnlyList<IRelease>? Releases => this.TheReleases;
 
     [JsonPropertyName("releases")]
-    public Release[] TheReleases { get; set; }
+    public Release[]? TheReleases { get; set; }
 
-    public IReadOnlyList<ITag> Tags => this.TheTags;
+    public IReadOnlyList<ITag>? Tags => this.TheTags;
 
     [JsonPropertyName("tags")]
-    public Tag[] TheTags { get; set; }
+    public Tag[]? TheTags { get; set; }
 
     [JsonPropertyName("title")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
-    public IReadOnlyList<IUserTag> UserGenres => this.TheUserGenres;
+    public IReadOnlyList<IUserTag>? UserGenres => this.TheUserGenres;
 
     [JsonPropertyName("user-genres")]
-    public UserTag[] TheUserGenres { get; set; }
+    public UserTag[]? TheUserGenres { get; set; }
 
-    public IUserRating UserRating => this.TheUserRating;
+    public IUserRating? UserRating => this.TheUserRating;
 
     [JsonPropertyName("user-rating")]
-    public UserRating TheUserRating { get; set; }
+    public UserRating? TheUserRating { get; set; }
 
-    public IReadOnlyList<IUserTag> UserTags => this.TheUserTags;
+    public IReadOnlyList<IUserTag>? UserTags => this.TheUserTags;
 
     [JsonPropertyName("user-tags")]
-    public UserTag[] TheUserTags { get; set; }
+    public UserTag[]? TheUserTags { get; set; }
 
     public bool Video => this.MaybeVideo.GetValueOrDefault();
 
@@ -87,6 +87,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override string ToString() {
       var text = string.Empty;
+      if (this.SearchScore.HasValue)
+        text += $"[Score: {this.SearchScore.Value}] ";
       if (this.ArtistCredit != null) {
         foreach (var nc in this.ArtistCredit)
           text += nc.ToString();
@@ -94,9 +96,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
       }
       text += this.Title;
       if (!string.IsNullOrEmpty(this.Disambiguation))
-        text += " (" + this.Disambiguation + ")";
-      if (this.Length.HasValue)
-        text += $" ({new TimeSpan(0, 0, 0, 0, this.Length.Value)})";
+        text += $" ({this.Disambiguation})";
+      if (this.Length.HasValue) {
+        var ts = new TimeSpan(0, 0, 0, 0, this.Length.Value);
+        text += $" ({ts:g})";
+      }
       return text;
     }
 

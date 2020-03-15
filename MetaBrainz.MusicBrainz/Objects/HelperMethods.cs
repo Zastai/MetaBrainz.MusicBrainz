@@ -2,7 +2,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
 
   internal static class HelperMethods {
 
-    public static EntityType ParseEntityType(string text) {
+    public static EntityType ParseEntityType(string? text) {
       return text switch {
         "area"          => EntityType.Area,
         "artist"        => EntityType.Artist,

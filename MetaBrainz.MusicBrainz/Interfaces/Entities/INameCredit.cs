@@ -7,13 +7,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface INameCredit : IJsonBasedObject {
 
     /// <summary>The artist being credited.</summary>
-    IArtist Artist { get; }
+    IArtist? Artist { get; }
 
     /// <summary>The join phrase used to combine this credit with subsequent ones.</summary>
-    string JoinPhrase { get; }
+    string? JoinPhrase { get; }
 
     /// <summary>The name under which the artist is credited.</summary>
-    string Name { get; }
+    string? Name { get; }
 
   }
 

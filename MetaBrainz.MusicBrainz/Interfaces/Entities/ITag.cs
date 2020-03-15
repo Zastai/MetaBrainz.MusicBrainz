@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface ITag : IJsonBasedObject {
 
     /// <summary>The name of the tag.</summary>
-    string Name { get; }
+    string? Name { get; }
 
     /// <summary>The number of votes that have been registered for this tag.</summary>
     int VoteCount { get; }

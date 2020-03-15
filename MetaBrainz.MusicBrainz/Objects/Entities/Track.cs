@@ -12,27 +12,27 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("id")]
     public Guid MbId { get; set; }
 
-    public IReadOnlyList<INameCredit> ArtistCredit => this.TheArtistCredit;
+    public IReadOnlyList<INameCredit>? ArtistCredit => this.TheArtistCredit;
 
     [JsonPropertyName("artist-credit")]
-    public NameCredit[] TheArtistCredit { get; set; }
+    public NameCredit[]? TheArtistCredit { get; set; }
 
     [JsonPropertyName("length")]
     public int? Length { get; set; }
 
     [JsonPropertyName("number")]
-    public string Number { get; set; }
+    public string? Number { get; set; }
 
     [JsonPropertyName("position")]
     public int? Position { get; set; }
 
-    public IRecording Recording => this.TheRecording;
+    public IRecording? Recording => this.TheRecording;
 
     [JsonPropertyName("recording")]
-    public Recording TheRecording { get; set; }
+    public Recording? TheRecording { get; set; }
 
     [JsonPropertyName("title")]
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
@@ -44,8 +44,10 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         text += " / ";
       }
       text += this.Title;
-      if (this.Length.HasValue)
-        text += $" ({new TimeSpan(0, 0, 0, 0, this.Length.Value)})";
+      if (this.Length.HasValue) {
+        var ts = new TimeSpan(0, 0, 0, 0, this.Length.Value);
+        text += $" ({ts:g})";
+      }
       return text;
     }
 

@@ -8,7 +8,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface IUrl : IRelatableEntity {
 
     /// <summary>The resource location for the URL.</summary>
-    Uri Resource { get; }
+    Uri? Resource { get; }
 
   }
 

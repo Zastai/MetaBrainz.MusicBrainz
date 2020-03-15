@@ -9,13 +9,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   internal sealed class WorkAttribute : JsonBasedObject, IWorkAttribute {
 
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
     [JsonPropertyName("value")]
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     [JsonPropertyName("value-id")]
     public Guid? ValueId { get; set; }

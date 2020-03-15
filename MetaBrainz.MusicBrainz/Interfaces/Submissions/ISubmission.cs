@@ -4,13 +4,13 @@
 
     string Client { get; }
 
-    string ContentType { get; }
+    string? ContentType { get; }
 
     string Entity { get; }
 
     Method Method { get; }
 
-    string RequestBody { get; }
+    string? RequestBody { get; }
 
   }
 

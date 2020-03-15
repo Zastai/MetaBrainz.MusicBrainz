@@ -11,14 +11,23 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public override EntityType EntityType => EntityType.Collection;
 
     [JsonPropertyName("editor")]
-    public string Editor { get; set; }
+    public string? Editor { get; set; }
 
     public EntityType ContentType => this._entityType ??= HelperMethods.ParseEntityType(this.ContentTypeText);
 
     private EntityType? _entityType;
 
     [JsonPropertyName("entity-type")]
-    public string ContentTypeText { get; set; }
+    public string? ContentTypeText { get; set; }
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+
+    [JsonPropertyName("type")]
+    public string? Type { get; set; }
+
+    [JsonPropertyName("type-id")]
+    public Guid? TypeId { get; set; }
 
     public int ItemCount => this.AreaCount
                           + this.ArtistCount
@@ -64,15 +73,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     [JsonPropertyName("work-count")]
     public int WorkCount { get; set; }
-
-    [JsonPropertyName("name")]
-    public string Name { get; set; }
-
-    [JsonPropertyName("type")]
-    public string Type { get; set; }
-
-    [JsonPropertyName("type-id")]
-    public Guid? TypeId { get; set; }
 
     public override string ToString() => $"{this.Name} ({this.Type}) ({this.ItemCount} item(s))";
 

@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface IUserTag : IJsonBasedObject {
 
     /// <summary>The name of the tag.</summary>
-    string Name { get; }
+    string? Name { get; }
 
   }
 

@@ -9,13 +9,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface ITitledEntity : IEntity {
 
     /// <summary>The aliases for this entity.</summary>
-    IReadOnlyList<IAlias> Aliases { get; }
+    IReadOnlyList<IAlias>? Aliases { get; }
 
     /// <summary>The text used to distinguish this entity from others with the same title.</summary>
-    string Disambiguation { get; }
+    string? Disambiguation { get; }
 
     /// <summary>The entity's title.</summary>
-    string Title { get; }
+    string? Title { get; }
 
   }
 

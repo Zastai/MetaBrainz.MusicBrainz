@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
@@ -9,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     : base(query, "work", queryString, limit, offset)
     { }
 
-    public override IReadOnlyList<IFoundWork> Results => this.CurrentResult?.Works;
+    public override IReadOnlyList<IFoundWork> Results => this.CurrentResult?.Works ?? Array.Empty<IFoundWork>();
 
   }
 

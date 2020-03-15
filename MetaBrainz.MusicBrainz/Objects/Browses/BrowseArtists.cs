@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using JetBrains.Annotations;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -12,13 +13,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
     : base(query, "artist", null, extra, limit, offset) {
     }
 
-    public override IReadOnlyList<IArtist> Results => this.CurrentResult?.Results;
+    public override IReadOnlyList<IArtist> Results => this.CurrentResult?.Results ?? Array.Empty<IArtist>();
 
     [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
     public sealed class JSON : ResultObject {
 
       [JsonPropertyName("artists")]
-      public Artist[] Results { get; set; }
+      public Artist[]? Results { get; set; }
 
       [JsonPropertyName("artist-count")]
       public override int Count { get; set; }

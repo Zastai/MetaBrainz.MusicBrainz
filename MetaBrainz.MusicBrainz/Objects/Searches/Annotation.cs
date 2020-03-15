@@ -12,16 +12,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     public Guid Entity { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     [JsonPropertyName("score")]
     public byte Score { get; set; }
 
     [JsonPropertyName("text")]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     [JsonPropertyName("type")]
-    public string Type { get; set; }
+    public string? Type { get; set; }
 
     public override string ToString() => $"[{this.Score,3}] {this.Text}";
 
