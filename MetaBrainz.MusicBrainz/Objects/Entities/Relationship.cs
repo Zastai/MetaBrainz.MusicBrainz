@@ -108,6 +108,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("target-credit")]
     public string? TargetCredit { get; set; }
 
+    [JsonPropertyName("target")]
+    public Guid? TargetId { get; set; }
+
     public EntityType TargetType => this._targetType ??= HelperMethods.ParseEntityType(this.TargetTypeText);
 
     private EntityType? _targetType;
