@@ -25,7 +25,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public IArea? Area { get; set; }
 
     [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
-    [JsonPropertyName("begin_area")]
+    [JsonPropertyName("begin-area")]
     public IArea? BeginArea { get; set; }
 
     [JsonPropertyName("country")]
@@ -35,7 +35,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public string? Disambiguation { get; set; }
 
     [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
-    [JsonPropertyName("end_area")]
+    [JsonPropertyName("end-area")]
     public IArea? EndArea { get; set; }
 
     [JsonPropertyName("gender")]
@@ -109,6 +109,22 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonConverter(typeof(JsonInterfaceListConverter<IWork, Work>))]
     [JsonPropertyName("works")]
     public IReadOnlyList<IWork>? Works { get; set; }
+
+    #region Compatibility
+
+    // MBS-10072: begin-area is now used everywhere, but it used to be begin_area
+    [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
+    [JsonPropertyName("begin_area")]
+    [Obsolete("To be removed when the server stops sending it.")]
+    public IArea? OldBeginArea { set => this.BeginArea = value; }
+
+    // MBS-10072: end-area is now used everywhere, but it used to be end_area
+    [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
+    [JsonPropertyName("end_area")]
+    [Obsolete("To be removed when the server stops sending it.")]
+    public IArea? OldEndArea { set => this.EndArea = value; }
+
+    #endregion
 
     public override string ToString() {
       var text = string.Empty;
