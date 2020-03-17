@@ -13,18 +13,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Release;
 
-    public IReadOnlyList<IAlias>? Aliases => this.TheAliases;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IAlias, Alias>))]
     [JsonPropertyName("aliases")]
-    public Alias[]? TheAliases { get; set; }
+    public IReadOnlyList<IAlias>? Aliases { get; set; }
 
     [JsonPropertyName("annotation")]
     public string? Annotation { get; set; }
 
-    public IReadOnlyList<INameCredit>? ArtistCredit => this.TheArtistCredit;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<INameCredit, NameCredit>))]
     [JsonPropertyName("artist-credit")]
-    public NameCredit[]? TheArtistCredit { get; set; }
+    public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
 
     [JsonPropertyName("asin")]
     public string? Asin { get; set; }
@@ -32,18 +30,16 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("barcode")]
     public string? BarCode { get; set; }
 
-    public IReadOnlyList<ICollection>? Collections => this.TheCollections;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ICollection, Collection>))]
     [JsonPropertyName("collections")]
-    public Collection[]? TheCollections { get; set; }
+    public IReadOnlyList<ICollection>? Collections { get; set; }
 
     [JsonPropertyName("country")]
     public string? Country { get; set; }
 
-    public ICoverArtArchive? CoverArtArchive => this.TheCoverArtArchive;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ICoverArtArchive, CoverArtArchive>))]
     [JsonPropertyName("cover-art-archive")]
-    public CoverArtArchive? TheCoverArtArchive { get; set; }
+    public ICoverArtArchive? CoverArtArchive { get; set; }
 
     [JsonPropertyName("date")]
     public PartialDate? Date { get; set; }
@@ -51,20 +47,17 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag>? Genres => this.TheGenres;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("genres")]
-    public Tag[]? TheGenres { get; set; }
+    public IReadOnlyList<ITag>? Genres { get; set; }
 
-    public IReadOnlyList<ILabelInfo>? LabelInfo => this.TheLabelInfo;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ILabelInfo, LabelInfo>))]
     [JsonPropertyName("label-info")]
-    public LabelInfo[]? TheLabelInfo { get; set; }
+    public IReadOnlyList<ILabelInfo>? LabelInfo { get; set; }
 
-    public IReadOnlyList<IMedium>? Media => this.TheMedia;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IMedium, Medium>))]
     [JsonPropertyName("media")]
-    public Medium[]? TheMedia { get; set; }
+    public IReadOnlyList<IMedium>? Media { get; set; }
 
     [JsonPropertyName("packaging")]
     public string? Packaging { get; set; }
@@ -75,20 +68,17 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("quality")]
     public string? Quality { get; set; }
 
-    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
-    public Relationship[]? TheRelationships { get; set; }
+    public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
-    public IReadOnlyList<IReleaseEvent>? ReleaseEvents => this.TheReleaseEvents;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IReleaseEvent, ReleaseEvent>))]
     [JsonPropertyName("release-events")]
-    public ReleaseEvent[]? TheReleaseEvents { get; set; }
+    public IReadOnlyList<IReleaseEvent>? ReleaseEvents { get; set; }
 
-    public IReleaseGroup? ReleaseGroup => this.TheReleaseGroup;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IReleaseGroup, ReleaseGroup>))]
     [JsonPropertyName("release-group")]
-    public ReleaseGroup? TheReleaseGroup { get; set; }
+    public IReleaseGroup? ReleaseGroup { get; set; }
 
     [JsonPropertyName("status")]
     public string? Status { get; set; }
@@ -96,28 +86,24 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("status-id")]
     public Guid? StatusId { get; set; }
 
-    public IReadOnlyList<ITag>? Tags => this.TheTags;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("tags")]
-    public Tag[]? TheTags { get; set; }
+    public IReadOnlyList<ITag>? Tags { get; set; }
 
-    public ITextRepresentation? TextRepresentation => this.TheTextRepresentation;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ITextRepresentation, TextRepresentation>))]
     [JsonPropertyName("text-representation")]
-    public TextRepresentation? TheTextRepresentation { get; set; }
+    public ITextRepresentation? TextRepresentation { get; set; }
 
     [JsonPropertyName("title")]
     public string? Title { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres => this.TheUserGenres;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-genres")]
-    public UserTag[]? TheUserGenres { get; set; }
+    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags => this.TheUserTags;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-tags")]
-    public UserTag[]? TheUserTags { get; set; }
+    public IReadOnlyList<IUserTag>? UserTags { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

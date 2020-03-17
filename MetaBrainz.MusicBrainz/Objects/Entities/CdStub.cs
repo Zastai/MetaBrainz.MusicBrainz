@@ -32,10 +32,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("track-count")]
     public int? TrackCount { get; set; }
 
-    public IReadOnlyList<ISimpleTrack>? Tracks => this.TheTracks;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ISimpleTrack, SimpleTrack>))]
     [JsonPropertyName("tracks")]
-    public SimpleTrack[]? TheTracks { get; set; }
+    public IReadOnlyList<ISimpleTrack>? Tracks { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

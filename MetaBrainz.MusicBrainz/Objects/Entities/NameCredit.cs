@@ -7,10 +7,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
-    public IArtist? Artist => this.TheArtist;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IArtist, Artist>))]
     [JsonPropertyName("artist")]
-    public Artist? TheArtist { get; set; }
+    public IArtist? Artist { get; set; }
 
     [JsonPropertyName("joinphrase")]
     public string? JoinPhrase { get; set; }
@@ -20,8 +19,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override string ToString() {
       var text = string.Empty;
-      if (this.TheArtist != null)
-        text += $"[{this.TheArtist} as “{this.Name}”]";
+      if (this.Artist != null)
+        text += $"[{this.Artist} as “{this.Name}”]";
       else if (this.Name != null)
         text += this.Name;
       if (this.JoinPhrase != null)

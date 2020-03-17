@@ -13,10 +13,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Url;
 
-    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
-    public Relationship[]? TheRelationships { get; set; }
+    public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
     [JsonPropertyName("resource")]
     public Uri? Resource { get; set; }

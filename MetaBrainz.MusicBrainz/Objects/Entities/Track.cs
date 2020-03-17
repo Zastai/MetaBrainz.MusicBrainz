@@ -12,10 +12,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("id")]
     public Guid MbId { get; set; }
 
-    public IReadOnlyList<INameCredit>? ArtistCredit => this.TheArtistCredit;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<INameCredit, NameCredit>))]
     [JsonPropertyName("artist-credit")]
-    public NameCredit[]? TheArtistCredit { get; set; }
+    public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
 
     [JsonPropertyName("length")]
     public int? Length { get; set; }
@@ -26,10 +25,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("position")]
     public int? Position { get; set; }
 
-    public IRecording? Recording => this.TheRecording;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IRecording, Recording>))]
     [JsonPropertyName("recording")]
-    public Recording? TheRecording { get; set; }
+    public IRecording? Recording { get; set; }
 
     [JsonPropertyName("title")]
     public string? Title { get; set; }

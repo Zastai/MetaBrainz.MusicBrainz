@@ -13,10 +13,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Area;
 
-    public IReadOnlyList<IAlias>? Aliases => this.TheAliases;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IAlias, Alias>))]
     [JsonPropertyName("aliases")]
-    public Alias[]? TheAliases { get; set; }
+    public IReadOnlyList<IAlias>? Aliases { get; set; }
 
     [JsonPropertyName("annotation")]
     public string? Annotation { get; set; }
@@ -24,10 +23,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag>? Genres => this.TheGenres;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("genres")]
-    public Tag[]? TheGenres { get; set; }
+    public IReadOnlyList<ITag>? Genres  { get; set; }
 
     [JsonPropertyName("iso-3166-1-codes")]
     public IReadOnlyList<string>? Iso31661Codes { get; set; }
@@ -38,27 +36,24 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("iso-3166-3-codes")]
     public IReadOnlyList<string>? Iso31663Codes { get; set; }
 
-    public ILifeSpan? LifeSpan => this.TheLifeSpan;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ILifeSpan, LifeSpan>))]
     [JsonPropertyName("life-span")]
-    public LifeSpan? TheLifeSpan { get; set; }
+    public ILifeSpan? LifeSpan { get; set; }
 
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    public IReadOnlyList<IRelationship>? Relationships => this.TheRelationships;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
-    public Relationship[]? TheRelationships { get; set; }
+    public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
     // The name is serialized as 'sort-name' too, probably for historical reasons.
     [JsonPropertyName("sort-name")]
     public string? SortName { get; set; }
 
-    public IReadOnlyList<ITag>? Tags => this.TheTags;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("tags")]
-    public Tag[]? TheTags { get; set; }
+    public IReadOnlyList<ITag>? Tags { get; set; }
 
     [JsonPropertyName("type")]
     public string? Type { get; set; }
@@ -66,15 +61,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres => this.TheUserGenres;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-genres")]
-    public UserTag[]? TheUserGenres { get; set; }
+    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags => this.TheUserTags;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-tags")]
-    public UserTag[]? TheUserTags { get; set; }
+    public IReadOnlyList<IUserTag>? UserTags  { get; set; }
 
     #region Search Server Compatibility
 
@@ -110,7 +103,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public RelationList[]? SearchRelationList {
       // Without this getter, this property does not get deserialized!
       get => null;
-      set => this.TheRelationships = RelationList.Unwrap(value);
+      set => this.Relationships = RelationList.Unwrap(value);
     }
 
     #endregion

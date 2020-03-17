@@ -10,10 +10,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("catalog-number")]
     public string? CatalogNumber { get; set; }
 
-    public ILabel? Label => this.TheLabel;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ILabel, Label>))]
     [JsonPropertyName("label")]
-    public Label? TheLabel { get; set; }
+    public ILabel? Label { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

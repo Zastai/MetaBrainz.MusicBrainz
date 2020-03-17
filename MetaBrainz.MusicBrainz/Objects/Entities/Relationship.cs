@@ -9,15 +9,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Relationship : JsonBasedObject, IRelationship {
 
-    public IArea? Area => this.TheArea;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
     [JsonPropertyName("area")]
-    public Area? TheArea { get; set; }
+    public IArea? Area { get; set; }
 
-    public IArtist? Artist => this.TheArtist;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IArtist, Artist>))]
     [JsonPropertyName("artist")]
-    public Artist? TheArtist { get; set; }
+    public IArtist? Artist { get; set; }
 
     [JsonPropertyName("attributes")]
     public IReadOnlyList<string>? Attributes { get; set; }
@@ -43,65 +41,57 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("ended")]
     public bool Ended { get; set; }
 
-    public IEvent? Event => this.TheEvent;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IEvent, Event>))]
     [JsonPropertyName("event")]
-    public Event? TheEvent { get; set; }
+    public IEvent? Event { get; set; }
 
-    public IInstrument? Instrument => this.TheInstrument;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IInstrument, Instrument>))]
     [JsonPropertyName("instrument")]
-    public Instrument? TheInstrument { get; set; }
+    public IInstrument? Instrument { get; set; }
 
-    public ILabel? Label => this.TheLabel;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ILabel, Label>))]
     [JsonPropertyName("label")]
-    public Label? TheLabel { get; set; }
+    public ILabel? Label { get; set; }
 
     [JsonPropertyName("ordering-key")]
     public int? OrderingKey { get; set; }
 
-    public IPlace? Place => this.ThePlace;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IPlace, Place>))]
     [JsonPropertyName("place")]
-    public Place? ThePlace { get; set; }
+    public IPlace? Place { get; set; }
 
-    public IRecording? Recording => this.TheRecording;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IRecording, Recording>))]
     [JsonPropertyName("recording")]
-    public Recording? TheRecording { get; set; }
+    public IRecording? Recording { get; set; }
 
-    public IRelease? Release => this.TheRelease;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IRelease, Release>))]
     [JsonPropertyName("release")]
-    public Release? TheRelease { get; set; }
+    public IRelease? Release { get; set; }
 
-    public IReleaseGroup? ReleaseGroup => this.TheReleaseGroup;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IReleaseGroup, ReleaseGroup>))]
     [JsonPropertyName("release_group")]
-    public ReleaseGroup? TheReleaseGroup { get; set; }
+    public IReleaseGroup? ReleaseGroup { get; set; }
 
-    public ISeries? Series => this.TheSeries;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ISeries, Series>))]
     [JsonPropertyName("series")]
-    public Series? TheSeries { get; set; }
+    public ISeries? Series { get; set; }
 
     [JsonPropertyName("source-credit")]
     public string? SourceCredit { get; set; }
 
     public IRelatableEntity? Target => this.TargetType switch {
-      EntityType.Area         => this.TheArea,
-      EntityType.Artist       => this.TheArtist,
-      EntityType.Event        => this.TheEvent,
-      EntityType.Instrument   => this.TheInstrument,
-      EntityType.Label        => this.TheLabel,
-      EntityType.Place        => this.ThePlace,
-      EntityType.Recording    => this.TheRecording,
-      EntityType.Release      => this.TheRelease,
-      EntityType.ReleaseGroup => this.TheReleaseGroup,
-      EntityType.Series       => this.TheSeries,
-      EntityType.Url          => this.TheUrl,
-      EntityType.Work         => this.TheWork,
+      EntityType.Area         => this.Area,
+      EntityType.Artist       => this.Artist,
+      EntityType.Event        => this.Event,
+      EntityType.Instrument   => this.Instrument,
+      EntityType.Label        => this.Label,
+      EntityType.Place        => this.Place,
+      EntityType.Recording    => this.Recording,
+      EntityType.Release      => this.Release,
+      EntityType.ReleaseGroup => this.ReleaseGroup,
+      EntityType.Series       => this.Series,
+      EntityType.Url          => this.Url,
+      EntityType.Work         => this.Work,
       _                       => null
     };
 
@@ -124,15 +114,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    public IUrl? Url => this.TheUrl;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IUrl, Url>))]
     [JsonPropertyName("url")]
-    public Url? TheUrl { get; set; }
+    public IUrl? Url { get; set; }
 
-    public IWork? Work => this.TheWork;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<IWork, Work>))]
     [JsonPropertyName("work")]
-    public Work? TheWork { get; set; }
+    public IWork? Work { get; set; }
 
     public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
 

@@ -9,15 +9,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Medium : JsonBasedObject, IMedium {
 
-    public IReadOnlyList<ITrack>? DataTracks => this.TheDataTracks;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITrack, Track>))]
     [JsonPropertyName("data-tracks")]
-    public Track[]? TheDataTracks { get; set; }
+    public IReadOnlyList<ITrack>? DataTracks { get; set; }
 
-    public IReadOnlyList<IDisc>? Discs => this.TheDiscs;
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<IDisc, Disc>))]
     [JsonPropertyName("discs")]
-    public Disc[]? TheDiscs { get; set; }
+    public IReadOnlyList<IDisc>? Discs { get; set; }
 
     [JsonPropertyName("format")]
     public string? Format { get; set; }
@@ -28,10 +26,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("position")]
     public int Position { get; set; }
 
-    public ITrack? Pregap => this.ThePregap;
-
+    [JsonConverter(typeof(JsonInterfaceConverter<ITrack, Track>))]
     [JsonPropertyName("pregap")]
-    public Track? ThePregap { get; set; }
+    public ITrack? Pregap { get; set; }
 
     [JsonPropertyName("title")]
     public string? Title { get; set; }
@@ -42,14 +39,14 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("track-offset")]
     public int? TrackOffset { get; set; }
 
-    // SEARCH-604: A medium can have either 'track' or 'tracks' depending on how it was included in the search.
-    public IReadOnlyList<ITrack>? Tracks => this.TheTracks ?? this.TheTrack;
-
-    [JsonPropertyName("track")]
-    public Track[]? TheTrack { get; set; }
-
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITrack, Track>))]
     [JsonPropertyName("tracks")]
-    public Track[]? TheTracks { get; set; }
+    public IReadOnlyList<ITrack>? Tracks { get; set; }
+
+    // SEARCH-604: A medium can have either 'track' or 'tracks' depending on how it was included in the search.
+    [JsonConverter(typeof(JsonInterfaceListConverter<ITrack, Track>))]
+    [JsonPropertyName("track")]
+    public IReadOnlyList<ITrack>? Track { set => this.Tracks = value; }
 
     public override string ToString() {
       var text = this.Format ?? "Medium";
