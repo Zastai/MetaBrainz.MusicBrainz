@@ -13,14 +13,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Release;
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IAlias, Alias>))]
     [JsonPropertyName("aliases")]
     public IReadOnlyList<IAlias>? Aliases { get; set; }
 
     [JsonPropertyName("annotation")]
     public string? Annotation { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<INameCredit, NameCredit>))]
     [JsonPropertyName("artist-credit")]
     public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
 
@@ -30,14 +28,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("barcode")]
     public string? BarCode { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ICollection, Collection>))]
     [JsonPropertyName("collections")]
     public IReadOnlyList<ICollection>? Collections { get; set; }
 
     [JsonPropertyName("country")]
     public string? Country { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<ICoverArtArchive, CoverArtArchive>))]
     [JsonPropertyName("cover-art-archive")]
     public ICoverArtArchive? CoverArtArchive { get; set; }
 
@@ -47,15 +43,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("genres")]
     public IReadOnlyList<ITag>? Genres { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ILabelInfo, LabelInfo>))]
     [JsonPropertyName("label-info")]
     public IReadOnlyList<ILabelInfo>? LabelInfo { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IMedium, Medium>))]
     [JsonPropertyName("media")]
     public IReadOnlyList<IMedium>? Media { get; set; }
 
@@ -68,15 +61,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("quality")]
     public string? Quality { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
     public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IReleaseEvent, ReleaseEvent>))]
     [JsonPropertyName("release-events")]
     public IReadOnlyList<IReleaseEvent>? ReleaseEvents { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IReleaseGroup, ReleaseGroup>))]
     [JsonPropertyName("release-group")]
     public IReleaseGroup? ReleaseGroup { get; set; }
 
@@ -86,22 +76,18 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("status-id")]
     public Guid? StatusId { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("tags")]
     public IReadOnlyList<ITag>? Tags { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<ITextRepresentation, TextRepresentation>))]
     [JsonPropertyName("text-representation")]
     public ITextRepresentation? TextRepresentation { get; set; }
 
     [JsonPropertyName("title")]
     public string? Title { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-genres")]
     public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-tags")]
     public IReadOnlyList<IUserTag>? UserTags { get; set; }
 

@@ -12,7 +12,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("id")]
     public Guid MbId { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<INameCredit, NameCredit>))]
     [JsonPropertyName("artist-credit")]
     public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
 
@@ -25,7 +24,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("position")]
     public int? Position { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IRecording, Recording>))]
     [JsonPropertyName("recording")]
     public IRecording? Recording { get; set; }
 

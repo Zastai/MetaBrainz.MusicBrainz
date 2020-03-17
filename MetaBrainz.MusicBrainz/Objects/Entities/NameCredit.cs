@@ -7,7 +7,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IArtist, Artist>))]
     [JsonPropertyName("artist")]
     public IArtist? Artist { get; set; }
 

@@ -4,18 +4,85 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.XPath;
 
 using JetBrains.Annotations;
-
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
+using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Objects.Entities;
 
 namespace MetaBrainz.MusicBrainz {
 
   public sealed partial class Query : IDisposable {
+
+    #region JSON Options
+
+    private static readonly JsonSerializerOptions SerializerOptions = new JsonSerializerOptions {
+      // @formatter:off
+      AllowTrailingCommas         = false,
+      IgnoreNullValues            = false,
+      IgnoreReadOnlyProperties    = true,
+      PropertyNameCaseInsensitive = false,
+      WriteIndented               = true,
+      // @formatter:on
+      Converters = {
+        // Mappers for interfaces that appear in scalar properties.
+        // @formatter:off
+        new JsonInterfaceConverter<IArea,               Area              >(),
+        new JsonInterfaceConverter<IArtist,             Artist            >(),
+        new JsonInterfaceConverter<ICoordinates,        Coordinates       >(),
+        new JsonInterfaceConverter<ICoverArtArchive,    CoverArtArchive   >(),
+        new JsonInterfaceConverter<IEvent,              Event             >(),
+        new JsonInterfaceConverter<IInstrument,         Instrument        >(),
+        new JsonInterfaceConverter<ILabel,              Label             >(),
+        new JsonInterfaceConverter<ILifeSpan,           LifeSpan          >(),
+        new JsonInterfaceConverter<IPlace,              Place             >(),
+        new JsonInterfaceConverter<IRating,             Rating            >(),
+        new JsonInterfaceConverter<IRecording,          Recording         >(),
+        new JsonInterfaceConverter<IRelease,            Release           >(),
+        new JsonInterfaceConverter<IReleaseGroup,       ReleaseGroup      >(),
+        new JsonInterfaceConverter<ISeries,             Series            >(),
+        new JsonInterfaceConverter<ITextRepresentation, TextRepresentation>(),
+        new JsonInterfaceConverter<ITrack,              Track             >(),
+        new JsonInterfaceConverter<IUrl,                Url               >(),
+        new JsonInterfaceConverter<IUserRating,         UserRating        >(),
+        new JsonInterfaceConverter<IWork,               Work              >(),
+        // @formatter:on
+        // Mappers for interfaces that appear in array properties.
+        // @formatter:off
+        new JsonInterfaceListConverter<IAlias,         Alias        >(),
+        new JsonInterfaceListConverter<ICollection,    Collection   >(),
+        new JsonInterfaceListConverter<IDisc,          Disc         >(),
+        new JsonInterfaceListConverter<ILabelInfo,     LabelInfo    >(),
+        new JsonInterfaceListConverter<IMedium,        Medium       >(),
+        new JsonInterfaceListConverter<INameCredit,    NameCredit   >(),
+        new JsonInterfaceListConverter<IRecording,     Recording    >(),
+        new JsonInterfaceListConverter<IRelationship,  Relationship >(),
+        new JsonInterfaceListConverter<IRelease,       Release      >(),
+        new JsonInterfaceListConverter<IReleaseEvent,  ReleaseEvent >(),
+        new JsonInterfaceListConverter<IReleaseGroup,  ReleaseGroup >(),
+        new JsonInterfaceListConverter<ISimpleTrack,   SimpleTrack  >(),
+        new JsonInterfaceListConverter<ITag,           Tag          >(),
+        new JsonInterfaceListConverter<ITrack,         Track        >(),
+        new JsonInterfaceListConverter<IUserTag,       UserTag      >(),
+        new JsonInterfaceListConverter<IWork,          Work         >(),
+        new JsonInterfaceListConverter<IWorkAttribute, WorkAttribute>(),
+        // @formatter:on
+        // This one is for UnhandledProperties - it tries to create useful types for a field of type 'object'
+        new JsonAnythingConverter(),
+      }
+    };
+
+    internal static T Deserialize<T>(string json) {
+      return JsonUtils.Deserialize<T>(json, Query.SerializerOptions);
+    }
+
+    #endregion
 
     #region Message / Error Handling
 

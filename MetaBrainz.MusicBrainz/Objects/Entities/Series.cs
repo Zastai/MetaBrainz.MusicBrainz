@@ -13,7 +13,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Series;
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IAlias, Alias>))]
     [JsonPropertyName("aliases")]
     public IReadOnlyList<IAlias>? Aliases { get; set; }
 
@@ -23,18 +22,15 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("genres")]
     public IReadOnlyList<ITag>? Genres { get; set; }
 
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
     public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("tags")]
     public IReadOnlyList<ITag>? Tags { get; set; }
 
@@ -44,11 +40,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-genres")]
     public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-tags")]
     public IReadOnlyList<IUserTag>? UserTags { get; set; }
 

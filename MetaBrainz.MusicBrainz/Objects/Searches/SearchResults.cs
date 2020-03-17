@@ -22,7 +22,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     public DateTime? Created => this.CurrentResult?.Created;
 
     protected sealed override ISearchResults<TInterface> Deserialize(string json) {
-      this.CurrentResult = JsonUtils.Deserialize<JSON>(json);
+      this.CurrentResult = Query.Deserialize<JSON>(json);
       return this;
     }
 

@@ -7,7 +7,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
     [JsonPropertyName("area")]
     public IArea? Area { get; set; }
 

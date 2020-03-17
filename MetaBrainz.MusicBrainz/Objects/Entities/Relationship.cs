@@ -9,11 +9,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Relationship : JsonBasedObject, IRelationship {
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IArea, Area>))]
     [JsonPropertyName("area")]
     public IArea? Area { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IArtist, Artist>))]
     [JsonPropertyName("artist")]
     public IArtist? Artist { get; set; }
 
@@ -41,38 +39,30 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("ended")]
     public bool Ended { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IEvent, Event>))]
     [JsonPropertyName("event")]
     public IEvent? Event { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IInstrument, Instrument>))]
     [JsonPropertyName("instrument")]
     public IInstrument? Instrument { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<ILabel, Label>))]
     [JsonPropertyName("label")]
     public ILabel? Label { get; set; }
 
     [JsonPropertyName("ordering-key")]
     public int? OrderingKey { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IPlace, Place>))]
     [JsonPropertyName("place")]
     public IPlace? Place { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IRecording, Recording>))]
     [JsonPropertyName("recording")]
     public IRecording? Recording { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IRelease, Release>))]
     [JsonPropertyName("release")]
     public IRelease? Release { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IReleaseGroup, ReleaseGroup>))]
     [JsonPropertyName("release_group")]
     public IReleaseGroup? ReleaseGroup { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<ISeries, Series>))]
     [JsonPropertyName("series")]
     public ISeries? Series { get; set; }
 
@@ -114,11 +104,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IUrl, Url>))]
     [JsonPropertyName("url")]
     public IUrl? Url { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IWork, Work>))]
     [JsonPropertyName("work")]
     public IWork? Work { get; set; }
 

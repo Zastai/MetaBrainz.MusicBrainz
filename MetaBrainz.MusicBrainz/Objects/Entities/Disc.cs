@@ -18,7 +18,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("offsets")]
     public IReadOnlyList<int>? Offsets { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IRelease, Release>))]
     [JsonPropertyName("releases")]
     public IReadOnlyList<IRelease>? Releases { get; set; }
 

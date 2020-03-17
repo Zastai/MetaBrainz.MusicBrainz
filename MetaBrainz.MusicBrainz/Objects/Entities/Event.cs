@@ -13,7 +13,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override EntityType EntityType => EntityType.Event;
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IAlias, Alias>))]
     [JsonPropertyName("aliases")]
     public IReadOnlyList<IAlias>? Aliases { get; set; }
 
@@ -26,29 +25,24 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("genres")]
     public IReadOnlyList<ITag>? Genres { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<ILifeSpan, LifeSpan>))]
     [JsonPropertyName("life-span")]
     public ILifeSpan? LifeSpan { get; set; }
 
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IRating, Rating>))]
     [JsonPropertyName("rating")]
     public IRating? Rating { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IRelationship, Relationship>))]
     [JsonPropertyName("relations")]
     public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
     [JsonPropertyName("setlist")]
     public string? Setlist { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<ITag, Tag>))]
     [JsonPropertyName("tags")]
     public IReadOnlyList<ITag>? Tags { get; set; }
 
@@ -61,15 +55,12 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-genres")]
     public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceConverter<IUserRating, UserRating>))]
     [JsonPropertyName("user-rating")]
     public IUserRating? UserRating { get; set; }
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IUserTag, UserTag>))]
     [JsonPropertyName("user-tags")]
     public IReadOnlyList<IUserTag>? UserTags { get; set; }
 

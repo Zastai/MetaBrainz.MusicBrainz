@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Browses {
     private readonly string _extra;
 
     protected override IBrowseResults<TResult> Deserialize(string json) {
-      this.CurrentResult = JsonUtils.Deserialize<TResultObject>(json);
+      this.CurrentResult = Query.Deserialize<TResultObject>(json);
       return this;
     }
 

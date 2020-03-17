@@ -10,13 +10,10 @@ namespace MetaBrainz.MusicBrainz.Objects {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal abstract class JsonBasedObject : IJsonBasedObject {
 
-    public IReadOnlyDictionary<string, object?>? UnhandledProperties
-      => this._unwrapped ??= JsonUtils.Unwrap(this.TheUnhandledProperties);
-
-    private Dictionary<string, object?>? _unwrapped;
+    IReadOnlyDictionary<string, object?>? IJsonBasedObject.UnhandledProperties => this.UnhandledProperties;
 
     [JsonExtensionData]
-    public Dictionary<string, object?>? TheUnhandledProperties { get; set; }
+    public Dictionary<string, object?>? UnhandledProperties { get; set; }
 
   }
 

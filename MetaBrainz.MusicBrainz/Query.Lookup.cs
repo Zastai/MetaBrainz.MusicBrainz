@@ -21,7 +21,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IArea LookupArea(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("area", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Area>(json);
+      return Query.Deserialize<Area>(json);
     }
 
     /// <summary>Looks up the specified area.</summary>
@@ -32,7 +32,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("area", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Area>(json);
+      return Query.Deserialize<Area>(json);
     }
 
     /// <summary>Looks up the specified artist.</summary>
@@ -47,7 +47,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("artist", mbid.ToString("D"), BuildExtraText(inc, status, type));
-      return JsonUtils.Deserialize<Artist>(json);
+      return Query.Deserialize<Artist>(json);
     }
 
     /// <summary>Looks up the specified artist.</summary>
@@ -62,7 +62,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = await this.PerformRequestAsync("artist", mbid.ToString("D"), BuildExtraText(inc, status, type)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Artist>(json);
+      return Query.Deserialize<Artist>(json);
     }
 
     /// <summary>Looks up the specified collection.</summary>
@@ -73,7 +73,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ICollection LookupCollection(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("collection", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Collection>(json);
+      return Query.Deserialize<Collection>(json);
     }
 
     /// <summary>Looks up the specified collection.</summary>
@@ -84,7 +84,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("collection", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Collection>(json);
+      return Query.Deserialize<Collection>(json);
     }
 
     /// <summary>Looks up the specified disc ID.</summary>
@@ -131,7 +131,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IEvent LookupEvent(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("event", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Event>(json);
+      return Query.Deserialize<Event>(json);
     }
 
     /// <summary>Looks up the specified event.</summary>
@@ -142,7 +142,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("event", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Event>(json);
+      return Query.Deserialize<Event>(json);
     }
 
     /// <summary>Looks up the specified instrument.</summary>
@@ -153,7 +153,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("instrument", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Instrument>(json);
+      return Query.Deserialize<Instrument>(json);
     }
 
     /// <summary>Looks up the specified instrument.</summary>
@@ -164,7 +164,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("instrument", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Instrument>(json);
+      return Query.Deserialize<Instrument>(json);
     }
 
     /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
@@ -175,7 +175,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IIsrc LookupIsrc(string isrc, Include inc = Include.None) {
       var json = this.PerformRequest("isrc", isrc, BuildExtraText(inc));
-      return JsonUtils.Deserialize<Isrc>(json);
+      return Query.Deserialize<Isrc>(json);
     }
 
     /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
@@ -186,7 +186,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("isrc", isrc, BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Isrc>(json);
+      return Query.Deserialize<Isrc>(json);
     }
 
     /// <summary>Looks up the works associated with the specified ISWC.</summary>
@@ -221,7 +221,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("label", mbid.ToString("D"), BuildExtraText(inc, status, type));
-      return JsonUtils.Deserialize<Label>(json);
+      return Query.Deserialize<Label>(json);
     }
 
     /// <summary>Looks up the specified label.</summary>
@@ -234,7 +234,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = await this.PerformRequestAsync("label", mbid.ToString("D"), BuildExtraText(inc, status, type)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Label>(json);
+      return Query.Deserialize<Label>(json);
     }
 
     /// <summary>Looks up the specified place.</summary>
@@ -245,7 +245,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IPlace LookupPlace(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("place", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Place>(json);
+      return Query.Deserialize<Place>(json);
     }
 
     /// <summary>Looks up the specified place.</summary>
@@ -256,7 +256,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("place", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Place>(json);
+      return Query.Deserialize<Place>(json);
     }
 
     /// <summary>Looks up the specified recording.</summary>
@@ -269,7 +269,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = this.PerformRequest("recording", mbid.ToString("D"), BuildExtraText(inc, status, type));
-      return JsonUtils.Deserialize<Recording>(json);
+      return Query.Deserialize<Recording>(json);
     }
 
     /// <summary>Looks up the specified recording.</summary>
@@ -282,7 +282,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
       var json = await this.PerformRequestAsync("recording", mbid.ToString("D"), BuildExtraText(inc, status, type)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Recording>(json);
+      return Query.Deserialize<Recording>(json);
     }
 
     /// <summary>Looks up the specified release.</summary>
@@ -293,7 +293,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IRelease LookupRelease(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("release", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Release>(json);
+      return Query.Deserialize<Release>(json);
     }
 
     /// <summary>Looks up the specified release.</summary>
@@ -304,7 +304,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("release", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Release>(json);
+      return Query.Deserialize<Release>(json);
     }
 
     /// <summary>Looks up the specified release group.</summary>
@@ -316,7 +316,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
       var json = this.PerformRequest("release-group", mbid.ToString("D"), BuildExtraText(inc, status));
-      return JsonUtils.Deserialize<ReleaseGroup>(json);
+      return Query.Deserialize<ReleaseGroup>(json);
     }
 
     /// <summary>Looks up the specified release group.</summary>
@@ -328,7 +328,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
       var json = await this.PerformRequestAsync("release-group", mbid.ToString("D"), BuildExtraText(inc, status)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<ReleaseGroup>(json);
+      return Query.Deserialize<ReleaseGroup>(json);
     }
 
     /// <summary>Looks up the specified series.</summary>
@@ -339,7 +339,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public ISeries LookupSeries(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("series", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Series>(json);
+      return Query.Deserialize<Series>(json);
     }
 
     /// <summary>Looks up the specified series.</summary>
@@ -350,7 +350,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("series", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Series>(json);
+      return Query.Deserialize<Series>(json);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -361,7 +361,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IUrl LookupUrl(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("url", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Url>(json);
+      return Query.Deserialize<Url>(json);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -372,7 +372,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
       var json = this.PerformRequest("url", null, BuildExtraText(inc, resource));
-      return JsonUtils.Deserialize<Url>(json);
+      return Query.Deserialize<Url>(json);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -383,7 +383,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("url", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Url>(json);
+      return Query.Deserialize<Url>(json);
     }
 
     /// <summary>Looks up the specified URL.</summary>
@@ -394,7 +394,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("url", null, BuildExtraText(inc, resource)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Url>(json);
+      return Query.Deserialize<Url>(json);
     }
 
     /// <summary>Looks up the specified work.</summary>
@@ -405,7 +405,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IWork LookupWork(Guid mbid, Include inc = Include.None) {
       var json = this.PerformRequest("work", mbid.ToString("D"), BuildExtraText(inc));
-      return JsonUtils.Deserialize<Work>(json);
+      return Query.Deserialize<Work>(json);
     }
 
     /// <summary>Looks up the specified work.</summary>
@@ -416,7 +416,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None) {
       var json = await this.PerformRequestAsync("work", mbid.ToString("D"), BuildExtraText(inc)).ConfigureAwait(false);
-      return JsonUtils.Deserialize<Work>(json);
+      return Query.Deserialize<Work>(json);
     }
 
   }

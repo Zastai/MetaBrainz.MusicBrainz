@@ -286,14 +286,6 @@ namespace MetaBrainz.MusicBrainz {
 
     private sealed class Converter : JsonConverter<PartialDate?> {
 
-      private static string DecodeUtf8(ReadOnlySpan<byte> bytes) {
-#if NETSTD_GE_2_1 || NETCORE_GE_2_1
-        return Encoding.UTF8.GetString(bytes);
-#else
-        return Encoding.UTF8.GetString(bytes.ToArray());
-#endif
-      }
-
       public override PartialDate? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
         switch (reader.TokenType) {
           case JsonTokenType.Null:
@@ -309,16 +301,8 @@ namespace MetaBrainz.MusicBrainz {
               return new PartialDate(year);
             }
             goto default;
-          default: {
-            var value = "";
-            if (reader.HasValueSequence) {
-              foreach (var memory in reader.ValueSequence)
-                value += DecodeUtf8(memory.Span);
-            }
-            else
-              value = DecodeUtf8(reader.ValueSpan);
-            throw new JsonException($"Could not deserialize the value ({value}) of a token of type '{reader.TokenType}' as a partial date.");
-          }
+          default:
+            throw new JsonException($"Could not deserialize the value ({reader.GetRawStringValue()}) of a token of type '{reader.TokenType}' as a partial date.");
         }
       }
 

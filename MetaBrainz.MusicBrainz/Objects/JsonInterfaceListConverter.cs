@@ -18,7 +18,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
     public override void Write(Utf8JsonWriter writer, IReadOnlyList<TInterface>? interfaces, JsonSerializerOptions options) {
       if (interfaces == null)
         return;
-      var objects = interfaces?.Select(i => (TObject) i).ToList();
+      var objects = interfaces.Select(i => (TObject) i).ToList();
       JsonSerializer.Serialize(writer, objects, options);
     }
 

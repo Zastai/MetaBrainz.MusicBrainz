@@ -29,16 +29,16 @@ namespace MetaBrainz.MusicBrainz.Objects {
       }
       if (result.TryGetProperty("id", out var id)) {
         if (result.TryGetProperty("releases", out var releases)) {
-          this.Disc = JsonUtils.Deserialize<Disc>(json);
+          this.Disc = Query.Deserialize<Disc>(json);
           return;
         }
         else if (result.TryGetProperty("tracks", out var tracks)) {
-          this.Stub = JsonUtils.Deserialize<CdStub>(json);
+          this.Stub = Query.Deserialize<CdStub>(json);
           return;
         }
       }
       else if (result.TryGetProperty("releases", out var releases) && releases.ValueKind == JsonValueKind.Array) {
-        this.Releases = JsonUtils.Deserialize<Release[]>(releases.ToString());
+        this.Releases = Query.Deserialize<Release[]>(releases.ToString());
         return;
       }
       throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");

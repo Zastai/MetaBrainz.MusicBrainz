@@ -8,7 +8,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Isrc : JsonBasedObject, IIsrc {
 
-    [JsonConverter(typeof(JsonInterfaceListConverter<IRecording, Recording>))]
     [JsonPropertyName("recordings")]
     public IReadOnlyList<IRecording>? Recordings { get; set; }
 
