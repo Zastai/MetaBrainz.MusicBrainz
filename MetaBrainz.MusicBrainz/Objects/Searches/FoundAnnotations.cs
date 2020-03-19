@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {

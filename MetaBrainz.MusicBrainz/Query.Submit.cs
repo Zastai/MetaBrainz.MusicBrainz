@@ -1,4 +1,5 @@
 ﻿using System;
+
 using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz {

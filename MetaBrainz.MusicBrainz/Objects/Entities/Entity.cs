@@ -1,6 +1,8 @@
 using System;
 using System.Text.Json.Serialization;
+
 using JetBrains.Annotations;
+
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 

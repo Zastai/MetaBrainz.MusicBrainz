@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+
 using JetBrains.Annotations;
+
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {

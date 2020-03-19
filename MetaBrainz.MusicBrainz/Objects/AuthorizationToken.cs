@@ -1,5 +1,7 @@
 using System.Text.Json.Serialization;
+
 using JetBrains.Annotations;
+
 using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects {

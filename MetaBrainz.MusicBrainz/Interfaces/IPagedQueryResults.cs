@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+
 using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces {
