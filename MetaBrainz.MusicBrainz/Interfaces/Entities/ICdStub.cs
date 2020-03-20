@@ -2,6 +2,8 @@
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A CD stub (information entered about a CD by someone without a MusicBrainz account).</summary>

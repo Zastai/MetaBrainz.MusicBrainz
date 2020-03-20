@@ -2,6 +2,8 @@ using System;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An MusicBrainz entity, identified by an MBID.</summary>

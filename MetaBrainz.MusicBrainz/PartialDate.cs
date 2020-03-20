@@ -6,6 +6,8 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>A partial date. Can contain any or all of year, month and day.</summary>

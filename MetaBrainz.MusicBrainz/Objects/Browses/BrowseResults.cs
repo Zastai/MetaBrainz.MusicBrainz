@@ -2,6 +2,7 @@
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 

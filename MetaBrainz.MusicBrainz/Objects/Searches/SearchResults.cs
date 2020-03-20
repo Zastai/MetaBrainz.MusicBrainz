@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 

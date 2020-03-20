@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A tag attached to an entity.</summary>

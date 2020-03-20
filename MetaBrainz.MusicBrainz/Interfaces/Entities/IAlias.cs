@@ -2,6 +2,8 @@
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>An alias for an entity.</summary>

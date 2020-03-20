@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces {
 
   /// <summary>The results for a query that supports paging (i.e. search or browse).</summary>

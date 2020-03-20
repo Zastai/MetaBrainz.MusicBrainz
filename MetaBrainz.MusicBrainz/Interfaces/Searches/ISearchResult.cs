@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
+
 namespace MetaBrainz.MusicBrainz.Interfaces.Searches {
 
   /// <summary>The extra properties available on an item returned by a search request.</summary>

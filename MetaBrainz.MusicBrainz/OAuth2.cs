@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Objects;
 
