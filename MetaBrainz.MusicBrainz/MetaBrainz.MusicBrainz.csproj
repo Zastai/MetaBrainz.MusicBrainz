@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MetaBrainz.Common.Json\MetaBrainz.Common.Json.csproj" />
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="MetaBrainz.Common.Json" Version="1.0.0" />
     <PackageReference Include="System.Text.Json" Version="4.7.0" />
   </ItemGroup>
 
