@@ -11,11 +11,6 @@ In addition, interfaces, not classes, are used for the public API (to allow more
 
 This also contains OAuth2 functionality.
 
-## MetaBrainz.MusicBrainz.CoverArt.dll [![NuGet Version](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.CoverArt.svg)](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.CoverArt)
-
-This assembly corresponds to the libcoverart library (wrapping the [CoverArtArchive API](https://musicbrainz.org/doc/Cover_Art_Archive/API)).
-An attempt has been made to keep the same basic class hierarchy.
-
 ## MetaBrainz.MusicBrainz.DiscId.dll [![NuGet Version](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.DiscId.svg)](https://badge.fury.io/nu/MetaBrainz.MusicBrainz.DiscId)
 
 This assembly corresponds to the libdiscid library.
@@ -50,3 +45,7 @@ Note that the MusicBrainz prefix for the commands can be changed via the `-Prefi
 
 This is a small sample program using MetaBrainz.MusicBrainz.DiscId.dll.
 It can be installed as a global .NET Core tool, allowing you to run this from any prompt via `dotnet mbdiscid`.
+
+## MetaBrainz.MusicBrainz.CoverArt
+
+This used to be part of this repository, but has now been split off to [its own repository](https://github.com/Zastai/MetaBrainz.MusicBrainz.CoverArt).
