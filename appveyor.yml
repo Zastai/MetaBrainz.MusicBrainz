@@ -1,0 +1,13 @@
+version: 2.0.0.{build}-appveyor
+image: Visual Studio 2019
+configuration: Debug
+install:
+- cmd: git submodule update --init --recursive
+before_build:
+- cmd: dotnet restore
+build:
+  publish_nuget: true
+  publish_nuget_symbols: true
+  use_snupkg_format: true
+  parallel: true
+  verbosity: minimal

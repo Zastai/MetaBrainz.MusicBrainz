@@ -5,7 +5,7 @@
   <!-- Settings used by the common settings. -->
   <PropertyGroup>
     <PackageCopyrightYears>2016-2020</PackageCopyrightYears>
-    <PackageRepositoryName>MusicBrainz</PackageRepositoryName>
+    <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
   </PropertyGroup>
 
   <!-- Get common settings. -->
