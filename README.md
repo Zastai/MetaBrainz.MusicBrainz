@@ -19,18 +19,18 @@ This also contains OAuth2 functionality.
   - Split `AuthorizationToken` into `Interfaces.IAuthorizationToken` and `Objects.AuthorizationToken`.
   - Added async versions of `GetBearerToken()` and `RefreshBearerToken()`.
   - These now also return non-null values (an exception is thrown when no data is received).
-- Fixed Zastai/MusicBrainz#5.
+- Fixed [issue #5](https://github.com/Zastai/MusicBrainz/issues/5).
 - Added a `TargetId` property to `IRelationship`.
 - [MBS-10072](https://tickets.metabrainz.org/browse/MBS-10072): Adjust "begin/end area" handling for Artist.
 - Adjusted the stringification of `INameCredit`.
 
 ### v1.1.3 (2019-11-08)
 
-Added support for genres (fixing Zastai/MusicBrainz#4), and updated Newtonsoft.JSON to the latest version.
+Added support for genres (fixing [issue #4](https://github.com/Zastai/MusicBrainz/issues/4)), and updated Newtonsoft.JSON to the latest version.
 
 ### v1.1.2 (2018-12-09)
 
-Fixed Zastai/MusicBrainz#3, and disabled most JSON required/nullable validation to be more futureproof.
+Fixed [issue #3](https://github.com/Zastai/MusicBrainz/issues/3), and disabled most JSON required/nullable validation to be more futureproof.
 
 ### v1.1.1 (2018-11-15)
 
@@ -38,7 +38,7 @@ Corrected the build so that the IntelliSense XML documentation is property built
 
 ### v1.1 (2018-08-14)
 
-- Zastai/MusicBrainz#2: Added Position field to Track entities.
+- [Issue #2](https://github.com/Zastai/MusicBrainz/issues/2): Added Position field to Track entities.
 - Allow artist-credit fields to be null.
 - Bumped Newtonsoft.Json to the latest version (11.0.2).
 
