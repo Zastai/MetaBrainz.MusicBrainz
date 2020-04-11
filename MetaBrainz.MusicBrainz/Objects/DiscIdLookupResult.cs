@@ -27,19 +27,21 @@ namespace MetaBrainz.MusicBrainz.Objects {
       catch (Exception e) {
         throw new ArgumentException($"Disc ID lookup for '{discid}' did not return a usable JSON result.\nContents: {json}", e);
       }
-      if (result.TryGetProperty("id", out var id)) {
-        if (result.TryGetProperty("releases", out var releases)) {
-          this.Disc = Query.Deserialize<Disc>(json);
+      if (result.ValueKind == JsonValueKind.Object) {
+        if (result.TryGetProperty("id", out _)) {
+          if (result.TryGetProperty("releases", out _)) {
+            this.Disc = Query.Deserialize<Disc>(json);
+            return;
+          }
+          else if (result.TryGetProperty("tracks", out _)) {
+            this.Stub = Query.Deserialize<CdStub>(json);
+            return;
+          }
+        }
+        else if (result.TryGetProperty("releases", out var releases) && releases.ValueKind == JsonValueKind.Array) {
+          this.Releases = Query.Deserialize<Release[]>(releases.ToString());
           return;
         }
-        else if (result.TryGetProperty("tracks", out var tracks)) {
-          this.Stub = Query.Deserialize<CdStub>(json);
-          return;
-        }
-      }
-      else if (result.TryGetProperty("releases", out var releases) && releases.ValueKind == JsonValueKind.Array) {
-        this.Releases = Query.Deserialize<Release[]>(releases.ToString());
-        return;
       }
       throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
     }
