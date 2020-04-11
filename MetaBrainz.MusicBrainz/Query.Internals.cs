@@ -95,18 +95,22 @@ namespace MetaBrainz.MusicBrainz {
       [JsonPropertyName("error")]
       public string? Error { get; set; }
 
+      [JsonPropertyName("help")]
+      public string? Help { get; set; }
+
       [JsonPropertyName("message")]
       public string? Message { get; set; }
 
     }
 
-    private static string? ExtractError(WebResponse response) {
-      if (response.ContentLength == 0)
-        return null;
+    private static void MaybeMapException(WebException we) {
+      var response = we.Response;
+      if (response == null || response.ContentLength == 0)
+        return;
       try {
         using var stream = response.GetResponseStream();
         if (stream == null)
-          return null;
+          return;
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
           StringBuilder? sb = null;
@@ -118,8 +122,12 @@ namespace MetaBrainz.MusicBrainz {
               sb.AppendLine();
             sb.Append(xpath.Current?.InnerXml);
           }
+          if (sb == null) {
+            Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
+            return;
+          }
           Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
-          return sb?.ToString();
+          throw new QueryException(sb.ToString(), we);
         }
         if (response.ContentType.StartsWith("application/json")) {
           var characterSet = "utf-8";
@@ -133,21 +141,26 @@ namespace MetaBrainz.MusicBrainz {
           var json = sr.ReadToEnd();
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
           var moe = JsonUtils.Deserialize<MessageOrError>(json);
-          Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe?.Error}\"");
-          return moe?.Error;
+          if (moe?.Error == null) {
+            Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
+            return;
+          }
+          Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe.Error}\" ({moe.Help})");
+          throw new QueryException(moe.Error, we) { HelpLink = moe.Help };
         }
         Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
       }
+      catch (QueryException) { throw; }
       catch (Exception e) {
         Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
         /* keep calm and fall through */
       }
-      return null;
     }
 
-    private static async Task<string?> ExtractErrorAsync(WebResponse response) {
+    private static async Task MaybeMapExceptionAsync(WebException we) {
+      var response = we.Response;
       if (response == null || response.ContentLength == 0)
-        return null;
+        return;
       try {
 #if NETSTD_GE_2_1 || NETCORE_GE_3_0
         var stream = response.GetResponseStream();
@@ -156,7 +169,7 @@ namespace MetaBrainz.MusicBrainz {
         using var stream = response.GetResponseStream();
 #endif
         if (stream == null)
-          return null;
+          return;
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
           StringBuilder? sb = null;
@@ -168,8 +181,13 @@ namespace MetaBrainz.MusicBrainz {
               sb.AppendLine();
             sb.Append(xpath.Current?.InnerXml);
           }
+          if (sb == null) {
+            Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
+            return;
+          }
+          // FIXME: Does this return a help string too?
           Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
-          return sb?.ToString();
+          throw new QueryException(sb.ToString(), we);
         }
         if (response.ContentType.StartsWith("application/json")) {
           var characterSet = "utf-8";
@@ -183,16 +201,20 @@ namespace MetaBrainz.MusicBrainz {
           var json = await sr.ReadToEndAsync().ConfigureAwait(false);
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
           var moe = JsonUtils.Deserialize<MessageOrError>(json);
-          Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe?.Error}\"");
-          return moe?.Error;
+          if (moe?.Error == null) {
+            Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
+            return;
+          }
+          Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe.Error}\" ({moe.Help})");
+          throw new QueryException(moe.Error, we) { HelpLink = moe.Help };
         }
         Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
       }
+      catch (QueryException) { throw; }
       catch (Exception e) {
         Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
         // keep calm and fall through
       }
-      return null;
     }
 
     private static string? ExtractMessage(string response) {
@@ -460,9 +482,7 @@ namespace MetaBrainz.MusicBrainz {
           return wc.UploadString(address, method.ToString(), body ?? string.Empty);
         }
         catch (WebException we) {
-          var msg = ExtractError(we.Response);
-          if (msg != null)
-            throw new QueryException(msg, we);
+          Query.MaybeMapException(we);
           throw;
         }
       }
@@ -473,7 +493,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal string PerformRequest(string entity, string? id, string extra) {
       var address = $"{entity}/{id}{extra}";
-      var json = ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
+      var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
       Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
       return json;
     }
@@ -498,9 +518,7 @@ namespace MetaBrainz.MusicBrainz {
           return await wc.UploadStringTaskAsync(address, method.ToString(), body ?? string.Empty).ConfigureAwait(false);
         }
         catch (WebException we) {
-          var msg = await ExtractErrorAsync(we.Response);
-          if (msg != null)
-            throw new QueryException(msg, we);
+          await Query.MaybeMapExceptionAsync(we);
           throw;
         }
       }
@@ -511,7 +529,7 @@ namespace MetaBrainz.MusicBrainz {
 
     internal async Task<string> PerformRequestAsync(string entity, string? id, string extra) {
       var address = $"{entity}/{id}{extra}";
-      var json = await ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
+      var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
       Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
       return json;
     }
