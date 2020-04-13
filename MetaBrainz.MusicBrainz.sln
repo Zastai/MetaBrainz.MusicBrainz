@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Fi
 		build\TargetFrameworkVersionDefineConstants.targets = build\TargetFrameworkVersionDefineConstants.targets
 		build\Versioning.targets = build\Versioning.targets
 		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
 	EndProjectSection
 EndProject
 Global
