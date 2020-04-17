@@ -13,9 +13,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" IncludeAssets="compile" PrivateAssets="all" />
-    <PackageReference Include="MetaBrainz.Common.Json" Version="1.0.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.0" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="MetaBrainz.Common.Json" Version="1.1.1" />
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
 
 </Project>

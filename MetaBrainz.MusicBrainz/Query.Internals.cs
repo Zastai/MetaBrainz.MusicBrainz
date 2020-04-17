@@ -13,11 +13,8 @@ using System.Xml.XPath;
 using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
-using MetaBrainz.Common.Json.Converters;
-using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
-using MetaBrainz.MusicBrainz.Objects;
-using MetaBrainz.MusicBrainz.Objects.Entities;
+using MetaBrainz.MusicBrainz.Json;
 
 namespace MetaBrainz.MusicBrainz {
 
@@ -33,57 +30,16 @@ namespace MetaBrainz.MusicBrainz {
       PropertyNameCaseInsensitive = false,
       WriteIndented               = true,
       // @formatter:on
-      Converters = {
-        // Mappers for interfaces that appear in scalar properties.
-        // @formatter:off
-        new InterfaceConverter<IArea,               Area              >(),
-        new InterfaceConverter<IArtist,             Artist            >(),
-        new InterfaceConverter<ICoordinates,        Coordinates       >(),
-        new InterfaceConverter<ICoverArtArchive,    CoverArtArchive   >(),
-        new InterfaceConverter<IEvent,              Event             >(),
-        new InterfaceConverter<IInstrument,         Instrument        >(),
-        new InterfaceConverter<ILabel,              Label             >(),
-        new InterfaceConverter<ILifeSpan,           LifeSpan          >(),
-        new InterfaceConverter<IPlace,              Place             >(),
-        new InterfaceConverter<IRating,             Rating            >(),
-        new InterfaceConverter<IRecording,          Recording         >(),
-        new InterfaceConverter<IRelease,            Release           >(),
-        new InterfaceConverter<IReleaseGroup,       ReleaseGroup      >(),
-        new InterfaceConverter<ISeries,             Series            >(),
-        new InterfaceConverter<ITextRepresentation, TextRepresentation>(),
-        new InterfaceConverter<ITrack,              Track             >(),
-        new InterfaceConverter<IUrl,                Url               >(),
-        new InterfaceConverter<IUserRating,         UserRating        >(),
-        new InterfaceConverter<IWork,               Work              >(),
-        // @formatter:on
-        // Mappers for interfaces that appear in array properties.
-        // @formatter:off
-        new ReadOnlyListOfInterfaceConverter<IAlias,         Alias        >(),
-        new ReadOnlyListOfInterfaceConverter<ICollection,    Collection   >(),
-        new ReadOnlyListOfInterfaceConverter<IDisc,          Disc         >(),
-        new ReadOnlyListOfInterfaceConverter<ILabelInfo,     LabelInfo    >(),
-        new ReadOnlyListOfInterfaceConverter<IMedium,        Medium       >(),
-        new ReadOnlyListOfInterfaceConverter<INameCredit,    NameCredit   >(),
-        new ReadOnlyListOfInterfaceConverter<IRecording,     Recording    >(),
-        new ReadOnlyListOfInterfaceConverter<IRelationship,  Relationship >(),
-        new ReadOnlyListOfInterfaceConverter<IRelease,       Release      >(),
-        new ReadOnlyListOfInterfaceConverter<IReleaseEvent,  ReleaseEvent >(),
-        new ReadOnlyListOfInterfaceConverter<IReleaseGroup,  ReleaseGroup >(),
-        new ReadOnlyListOfInterfaceConverter<ISimpleTrack,   SimpleTrack  >(),
-        new ReadOnlyListOfInterfaceConverter<ITag,           Tag          >(),
-        new ReadOnlyListOfInterfaceConverter<ITrack,         Track        >(),
-        new ReadOnlyListOfInterfaceConverter<IUserTag,       UserTag      >(),
-        new ReadOnlyListOfInterfaceConverter<IWork,          Work         >(),
-        new ReadOnlyListOfInterfaceConverter<IWorkAttribute, WorkAttribute>(),
-        // @formatter:on
-        // This one is for UnhandledProperties - it tries to create useful types for a field of type 'object'
-        new AnyObjectConverter(),
-      }
     };
 
-    internal static T Deserialize<T>(string json) {
-      return JsonUtils.Deserialize<T>(json, Query.SerializerOptions);
+    static Query() {
+      foreach (var reader in Converters.Readers)
+        Query.SerializerOptions.Converters.Add(reader);
+      foreach (var writers in Converters.Writers)
+        Query.SerializerOptions.Converters.Add(writers);
     }
+
+    internal static T Deserialize<T>(string json) => JsonUtils.Deserialize<T>(json, Query.SerializerOptions);
 
     #endregion
 
