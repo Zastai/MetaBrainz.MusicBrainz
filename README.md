@@ -8,6 +8,19 @@ This also contains OAuth2 functionality.
 
 ## Release Notes
 
+### v2.0.1 (2020-04-17)
+
+#### GitHub Issues
+
+- [#1](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues/1): a workaround has been applied for
+  [SEARCH-579](https://tickets.metabrainz.org/browse/SEARCH-579).
+
+#### Other Changes
+
+- `QueryException` now has its `HelpLink` field set to the contents of the `help` field in the JSON error response body.
+- Fixed a build issue causing the XML documentation to be missing from the NuGet package.
+
+
 ### v2.0 (2020-03-22)
 
 - Target .NET Standard 2.0 and 2.1, .NET Core 2.1 and 3.1 (the current LTS releases) and .NET Framework 4.6.1, 4.7.2 and 4.8.
