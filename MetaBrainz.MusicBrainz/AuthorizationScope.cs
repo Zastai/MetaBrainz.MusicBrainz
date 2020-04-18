@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of the scopes available through MusicBrainz OAuth2 authentication.</summary>
   [Flags]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public enum AuthorizationScope {
 
     /// <summary>No authorization requested.</summary>
@@ -15,25 +16,25 @@ namespace MetaBrainz.MusicBrainz {
     Everything    = -1,
 
     /// <summary>View the user's public profile information (username, age, country, homepage).</summary>
-    Profile       = 0x00000001,
+    Profile       = 1 << 0,
 
     /// <summary>View the user's email address.</summary>
-    EMail         = 0x00000002,
+    EMail         = 1 << 1,
 
     /// <summary>View and modify the user's private tags.</summary>
-    Tag           = 0x00000004,
+    Tag           = 1 << 2,
 
     /// <summary>View and modify the user's private ratings.</summary>
-    Rating        = 0x00000008,
+    Rating        = 1 << 3,
 
     /// <summary>View and modify the user's private collections.</summary>
-    Collection    = 0x00000010,
+    Collection    = 1 << 4,
 
     /// <summary>Submit new ISRCs to the database.</summary>
-    SubmitIsrc    = 0x00000020,
+    SubmitIsrc    = 1 << 5,
 
     /// <summary>Submit barcodes to the database.</summary>
-    SubmitBarcode = 0x00000040,
+    SubmitBarcode = 1 << 6,
 
   }
 

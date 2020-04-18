@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
@@ -8,7 +7,6 @@ namespace MetaBrainz.MusicBrainz {
   /// <summary>Enumeration of the release type values (combines primary and secondary types).</summary>
   [Flags]
   [PublicAPI]
-  [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]
   public enum ReleaseType {
 
     #region Primary Types

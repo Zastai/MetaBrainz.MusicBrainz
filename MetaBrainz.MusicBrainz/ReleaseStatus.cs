@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 using JetBrains.Annotations;
 
@@ -8,8 +7,6 @@ namespace MetaBrainz.MusicBrainz {
   /// <summary>Enumeration of the release status values.</summary>
   [Flags]
   [PublicAPI]
-  [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
   public enum ReleaseStatus : byte {
 
     /// <summary>An unofficial/underground release that was not sanctioned by the artist and/or the record company. This includes unofficial live recordings and pirated releases.</summary>

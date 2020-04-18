@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>Enumeration of additional information that can be requested to be included in query results.</summary>
   [Flags]
-  [SuppressMessage("ReSharper", "ShiftExpressionRealShiftCountIsZero")]
-  [SuppressMessage("ReSharper", "UnusedMember.Global")]
+  [PublicAPI]
   public enum Include : long {
 
     /// <summary>No extra information requested.</summary>

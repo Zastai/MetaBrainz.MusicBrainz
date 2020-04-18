@@ -1,6 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz {
+﻿using JetBrains.Annotations;
+
+namespace MetaBrainz.MusicBrainz {
 
   /// <summary>A MusicBrainz entity type.</summary>
+  [PublicAPI]
   public enum EntityType {
 
     /// <summary>An unknown entity.</summary>
