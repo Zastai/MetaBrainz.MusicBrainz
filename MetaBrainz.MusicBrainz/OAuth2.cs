@@ -134,16 +134,16 @@ namespace MetaBrainz.MusicBrainz {
     private HttpWebRequest CreateTokenRequest() {
       var uri = this.BuildEndPointUri(OAuth2.TokenEndPoint);
       Debug.Print($"[{DateTime.UtcNow}] OAUTH2 REQUEST: {uri.Uri}");
-      var req = WebRequest.Create(uri.Uri) as HttpWebRequest;
-      if (req == null)
-        throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
-      req.Method      = "POST";
-      req.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
-      {
-        var an = Assembly.GetExecutingAssembly().GetName();
-        req.UserAgent = $"{an.Name}/{an.Version}";
+      if (WebRequest.Create(uri.Uri) is HttpWebRequest req) {
+        req.Method = "POST";
+        req.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
+        {
+          var an = Assembly.GetExecutingAssembly().GetName();
+          req.UserAgent = $"{an.Name}/{an.Version}";
+        }
+        return req;
       }
-      return req;
+      throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
     }
 
     private string CreateTokenRequestBody(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
@@ -165,15 +165,17 @@ namespace MetaBrainz.MusicBrainz {
 
     private AuthorizationToken ProcessResponse(HttpWebResponse response) {
       Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-      var stream = response.GetResponseStream();
+      using var stream = response.GetResponseStream();
       if (stream == null)
         throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
-      var encoding = Encoding.UTF8;
-      if (response.CharacterSet != null && response.CharacterSet.Trim().Length > 0)
-        encoding = Encoding.GetEncoding(response.CharacterSet);
-      using var sr = new StreamReader(stream, encoding);
+      var characterSet = response.CharacterSet;
+      if (characterSet == null || characterSet.Trim().Length == 0)
+        characterSet = "utf-8";
+      // Note: No direct stream use here (available in async mode only)
+      var enc = Encoding.GetEncoding(characterSet);
+      using var sr = new StreamReader(stream, enc);
       var json = sr.ReadToEnd();
-      Debug.Print($"[{DateTime.UtcNow}] => JSON: {json}");
+      Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
       return JsonUtils.Deserialize<AuthorizationToken>(json);
     }
 
@@ -190,15 +192,14 @@ namespace MetaBrainz.MusicBrainz {
       var characterSet = response.CharacterSet;
       if (characterSet == null || characterSet.Trim().Length == 0)
         characterSet = "utf-8";
-#if NETSTD_GE_2_1 || NETCORE_GE_3_0
-      // FIXME: Because this uses the stream directly, we can't show the JSON in debug builds.
+#if !DEBUG
       if (characterSet == "utf-8") // Directly use the stream
         return await JsonSerializer.DeserializeAsync<AuthorizationToken>(stream);
 #endif
       var enc = Encoding.GetEncoding(characterSet);
       using var sr = new StreamReader(stream, enc);
       var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-      Debug.Print($"[{DateTime.UtcNow}] => JSON: {json}");
+      Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
       return JsonUtils.Deserialize<AuthorizationToken>(json);
     }
 
@@ -212,7 +213,7 @@ namespace MetaBrainz.MusicBrainz {
     private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
       var req = this.CreateTokenRequest();
       var body = this.CreateTokenRequestBody(type, codeOrToken, clientSecret, redirectUri, refresh);
-      using var response = this.SendRequest(req, body);
+      using var response = await this.SendRequestAsync(req, body);
       return this.ValidateToken(await this.ProcessResponseAsync(response), type);
     }
 
@@ -234,7 +235,12 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
+#if NETSTD_GE_2_1 || NETCORE_GE_3_0
+      var rs = req.GetRequestStream();
+      await using var _ = rs.ConfigureAwait(false);
+#else
       using var rs = req.GetRequestStream();
+#endif
       var bytes = Encoding.UTF8.GetBytes(body);
       await rs.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
       return (HttpWebResponse) await req.GetResponseAsync().ConfigureAwait(false);
