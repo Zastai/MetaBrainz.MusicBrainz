@@ -12,6 +12,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
+using MetaBrainz.MusicBrainz.Json.Readers;
 using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz {
@@ -121,6 +122,18 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
+    private static readonly JsonSerializerOptions JsonReaderOptions = new JsonSerializerOptions {
+      // @formatter:off
+      AllowTrailingCommas         = false,
+      IgnoreNullValues            = false,
+      PropertyNameCaseInsensitive = false,
+      // @formatter:on
+    };
+
+    static OAuth2() {
+      OAuth2.JsonReaderOptions.Converters.Add(AuthorizationTokenReader.Instance);
+    }
+
     private UriBuilder BuildEndPointUri(string endpoint) {
       if (string.IsNullOrWhiteSpace(this.UrlScheme))
         throw new InvalidOperationException("No URL scheme has been set.");
@@ -176,7 +189,7 @@ namespace MetaBrainz.MusicBrainz {
       using var sr = new StreamReader(stream, enc);
       var json = sr.ReadToEnd();
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-      return JsonUtils.Deserialize<AuthorizationToken>(json);
+      return JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
     }
 
     private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
@@ -194,13 +207,13 @@ namespace MetaBrainz.MusicBrainz {
         characterSet = "utf-8";
 #if !DEBUG
       if (characterSet == "utf-8") // Directly use the stream
-        return await JsonSerializer.DeserializeAsync<AuthorizationToken>(stream);
+        return await JsonSerializer.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
 #endif
       var enc = Encoding.GetEncoding(characterSet);
       using var sr = new StreamReader(stream, enc);
       var json = await sr.ReadToEndAsync().ConfigureAwait(false);
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-      return JsonUtils.Deserialize<AuthorizationToken>(json);
+      return JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
     }
 
     private IAuthorizationToken RequestToken(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {

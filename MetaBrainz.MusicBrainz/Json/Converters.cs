@@ -58,7 +58,7 @@ namespace MetaBrainz.MusicBrainz.Json {
 
     public static IEnumerable<JsonConverter> Readers {
       get {
-        yield return AuthorizationTokenReader.Instance;
+        yield return PartialDateReader.Instance;
         foreach (var removeMe in Converters._toBeReplacedByReaders)
           yield return removeMe;
         // This one tries to create useful types for a field of type 'object' (used for all unknown properties)
