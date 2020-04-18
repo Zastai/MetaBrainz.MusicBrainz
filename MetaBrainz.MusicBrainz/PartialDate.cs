@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
 using JetBrains.Annotations;
 
-using MetaBrainz.Common.Json;
+using MetaBrainz.MusicBrainz.Json.Readers;
 
 namespace MetaBrainz.MusicBrainz {
 
   /// <summary>A partial date. Can contain any or all of year, month and day.</summary>
-  [JsonConverter(typeof(Converter))]
+  [JsonConverter(typeof(PartialDateReader))]
   [PublicAPI]
   public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDate> {
 
@@ -47,6 +46,8 @@ namespace MetaBrainz.MusicBrainz {
       this.Month = month;
       this.Day   = day;
     }
+
+    private static readonly Regex Format = new Regex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
 
     /// <summary>Creates a new partial date based on the given string representation.</summary>
     /// <param name="text">
@@ -280,40 +281,6 @@ namespace MetaBrainz.MusicBrainz {
     public static bool operator!=(PartialDate? lhs, PartialDate? rhs) => !(lhs == rhs);
 
     #endregion
-
-    #endregion
-
-    #region Internals
-
-    private static readonly Regex Format = new Regex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
-
-    private sealed class Converter : JsonConverter<PartialDate?> {
-
-      public override PartialDate? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
-        switch (reader.TokenType) {
-          case JsonTokenType.Null:
-            return null;
-          case JsonTokenType.String: {
-            var text = reader.GetString();
-            return (text == null) ? null : new PartialDate(text);
-          }
-          case JsonTokenType.Number: // Consider this to be an unquoted string, i.e. a year value.
-            if (reader.TryGetInt16(out var year)) {
-              if (year < MinYear || year > MaxYear)
-                throw new JsonException($"Could not deserialize {year} as a partial date (out of range for a year component).");
-              return new PartialDate(year);
-            }
-            goto default;
-          default:
-            throw new JsonException($"Could not deserialize the value ({reader.GetRawStringValue()}) of a token of type '{reader.TokenType}' as a partial date.");
-        }
-      }
-
-      public override void Write(Utf8JsonWriter writer, PartialDate? value, JsonSerializerOptions options) {
-        writer.WriteStringValue(value?.ToString());
-      }
-
-    }
 
     #endregion
 
