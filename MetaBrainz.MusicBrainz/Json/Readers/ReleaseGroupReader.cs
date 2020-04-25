@@ -65,7 +65,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               primaryType = reader.GetString();
               break;
             case "primary-type-id":
-              primaryTypeId = reader.GetGuid();
+              primaryTypeId = reader.GetOptionalGuid();
               break;
             case "rating":
               rating = reader.GetObject(RatingReader.Instance, options);
