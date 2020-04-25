@@ -80,26 +80,30 @@ namespace MetaBrainz.MusicBrainz {
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri) => this.RequestToken("bearer", code, clientSecret, redirectUri, false);
+    public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
+      => this.RequestToken("bearer", code, clientSecret, redirectUri, false);
 
     /// <summary>Exchanges an authorization code for a bearer token.</summary>
     /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public async Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri) => await this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, false);
+    public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri)
+      => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, false);
 
     /// <summary>Refreshes a bearer token.</summary>
     /// <param name="refreshToken">The refresh token to use.</param>
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret) => this.RequestToken("bearer", refreshToken, clientSecret, null, true);
+    public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret)
+      => this.RequestToken("bearer", refreshToken, clientSecret, null, true);
 
     /// <summary>Refreshes a bearer token.</summary>
     /// <param name="refreshToken">The refresh token to use.</param>
     /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
     /// <returns>The obtained bearer token.</returns>
-    public async Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret) => await this.RequestTokenAsync("bearer", refreshToken, clientSecret, null, true);
+    public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret)
+      => this.RequestTokenAsync("bearer", refreshToken, clientSecret, null, true);
 
     #endregion
 
@@ -122,17 +126,8 @@ namespace MetaBrainz.MusicBrainz {
 
     #region Internals
 
-    private static readonly JsonSerializerOptions JsonReaderOptions = new JsonSerializerOptions {
-      // @formatter:off
-      AllowTrailingCommas         = false,
-      IgnoreNullValues            = false,
-      PropertyNameCaseInsensitive = false,
-      // @formatter:on
-    };
-
-    static OAuth2() {
-      OAuth2.JsonReaderOptions.Converters.Add(AuthorizationTokenReader.Instance);
-    }
+    private static readonly JsonSerializerOptions JsonReaderOptions =
+      JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
 
     private UriBuilder BuildEndPointUri(string endpoint) {
       if (string.IsNullOrWhiteSpace(this.UrlScheme))
@@ -207,7 +202,7 @@ namespace MetaBrainz.MusicBrainz {
         characterSet = "utf-8";
 #if !DEBUG
       if (characterSet == "utf-8") // Directly use the stream
-        return await JsonSerializer.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
+        return await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
 #endif
       var enc = Encoding.GetEncoding(characterSet);
       using var sr = new StreamReader(stream, enc);

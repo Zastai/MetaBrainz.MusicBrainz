@@ -1,37 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Track : JsonBasedObject, ITrack {
 
-    [JsonPropertyName("id")]
-    public Guid MbId { get; set; }
+    public Track(Guid id, string title) {
+      this.Id = id;
+      this.Title = title;
+    }
 
-    [JsonPropertyName("artist-credit")]
     public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
 
-    [JsonPropertyName("length")]
-    public int? Length { get; set; }
+    public Guid Id { get; }
 
-    [JsonPropertyName("number")]
+    public TimeSpan? Length { get; set; }
+
     public string? Number { get; set; }
 
-    [JsonPropertyName("position")]
     public int? Position { get; set; }
 
-    [JsonPropertyName("recording")]
     public IRecording? Recording { get; set; }
 
-    [JsonPropertyName("title")]
-    public string? Title { get; set; }
+    public string Title { get; }
 
     public override string ToString() {
       var text = string.Empty;
@@ -44,8 +38,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
       }
       text += this.Title;
       if (this.Length.HasValue) {
-        var ts = new TimeSpan(0, 0, 0, 0, this.Length.Value);
-        text += $" ({ts:g})";
+        text += $" ({this.Length.Value:g})";
       }
       return text;
     }

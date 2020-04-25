@@ -20,6 +20,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The area's lifespan.</summary>
     ILifeSpan? LifeSpan { get; }
 
+    /// <summary>The area's sort name, if any.</summary>
+    string? SortName { get; }
+
   }
 
 }

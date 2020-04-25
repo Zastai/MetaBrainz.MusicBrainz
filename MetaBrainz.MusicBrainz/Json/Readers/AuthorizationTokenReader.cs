@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Objects;
 
@@ -36,7 +37,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               break;
             default:
               rest ??= new Dictionary<string, object?>();
-              rest[prop] = AnyObjectReader.Instance.Read(ref reader, typeof(object), options);
+              rest[prop] = reader.GetOptionalObject(options);
               break;
           }
         }

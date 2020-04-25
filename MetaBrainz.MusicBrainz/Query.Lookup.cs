@@ -88,11 +88,14 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     /// <summary>Looks up the specified disc ID.</summary>
-    /// <param name="discid">The disc ID to look up.</param>
+    /// <param name="discid">
+    /// The disc ID to look up.
+    /// When <paramref name="toc"/> is specified, this can be <c>"-"</c> to indicate that only a fuzzy TOC lookup should be done.
+    /// </param>
     /// <param name="toc">
-    ///   The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
-    ///   The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
-    ///   followed by the start address of each track (in sectors).
+    /// The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
+    /// The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
+    /// followed by the start address of each track (in sectors).
     /// </param>
     /// <param name="inc">Additional information to include in the result.</param>
     /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
@@ -102,15 +105,18 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IDiscIdLookupResult LookupDiscId(string discid, int[]? toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
       var json = this.PerformRequest("discid", discid, BuildExtraText(inc, toc, allMedia, noStubs));
-      return new DiscIdLookupResult(discid, json);
+      return Query.Deserialize<DiscIdLookupResult>(json);
     }
 
     /// <summary>Looks up the specified disc ID.</summary>
-    /// <param name="discid">The disc ID to look up.</param>
+    /// <param name="discid">
+    /// The disc ID to look up.
+    /// When <paramref name="toc"/> is specified, this can be <c>"-"</c> to indicate that only a fuzzy TOC lookup should be done.
+    /// </param>
     /// <param name="toc">
-    ///   The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
-    ///   The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
-    ///   followed by the start address of each track (in sectors).
+    /// The TOC (table of contents) to use for a fuzzy lookup if <paramref name="discid"/> has no exact matches.
+    /// The array should contain the first track number, last track number and the address of the disc's lead-out (in sectors),
+    /// followed by the start address of each track (in sectors).
     /// </param>
     /// <param name="inc">Additional information to include in the result.</param>
     /// <param name="allMediaFormats">If true, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
@@ -120,7 +126,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None, bool allMediaFormats = false, bool noStubs = false) {
       var json = await this.PerformRequestAsync("discid", discid, BuildExtraText(inc, toc, allMediaFormats, noStubs)).ConfigureAwait(false);
-      return new DiscIdLookupResult(discid, json);
+      return Query.Deserialize<DiscIdLookupResult>(json);
     }
 
     /// <summary>Looks up the specified event.</summary>

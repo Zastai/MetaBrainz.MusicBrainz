@@ -32,7 +32,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="recording">The recording to which <paramref name="isrcs"/> should be added.</param>
     /// <param name="isrcs">One or more (valid) ISRCs to add to the recording.</param>
     /// <returns>This submission request.</returns>
-    public IsrcSubmission Add(IRecording recording, params string[] isrcs) => this.Add(recording.MbId, isrcs);
+    public IsrcSubmission Add(IRecording recording, params string[] isrcs) => this.Add(recording.Id, isrcs);
 
     #endregion
 

@@ -29,6 +29,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The releases associated with the label, if any.</summary>
     IReadOnlyList<IRelease>? Releases { get; }
 
+    /// <summary>The label's sort name.</summary>
+    string? SortName { get; }
+
   }
 
 }

@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+
+using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
@@ -11,8 +13,8 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The artist for the track.</summary>
     string? Artist { get; }
 
-    /// <summary>The length for the track, in milliseconds.</summary>
-    int Length { get; }
+    /// <summary>The length for the track.</summary>
+    TimeSpan Length { get; }
 
     /// <summary>The title for the track.</summary>
     string? Title { get; }

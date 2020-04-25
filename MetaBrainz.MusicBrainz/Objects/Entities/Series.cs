@@ -9,42 +9,31 @@ using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Series : Entity, IFoundSeries {
 
-    public override EntityType EntityType => EntityType.Series;
+    public Series(Guid id) : base(EntityType.Series, id) {
+    }
 
-    [JsonPropertyName("aliases")]
     public IReadOnlyList<IAlias>? Aliases { get; set; }
 
-    [JsonPropertyName("annotation")]
     public string? Annotation { get; set; }
 
-    [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonPropertyName("genres")]
     public IReadOnlyList<ITag>? Genres { get; set; }
 
-    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonPropertyName("relations")]
     public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
-    [JsonPropertyName("tags")]
     public IReadOnlyList<ITag>? Tags { get; set; }
 
-    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
-    [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    [JsonPropertyName("user-genres")]
     public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    [JsonPropertyName("user-tags")]
     public IReadOnlyList<IUserTag>? UserTags { get; set; }
 
     public override string ToString() {

@@ -33,7 +33,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <returns>This submission request.</returns>
     public TagSubmission Add(ITaggableEntity entity, TagVote vote, params string[] tags) {
       foreach (var tag in tags)
-        this.Add(tag, vote, entity.EntityType, entity.MbId);
+        this.Add(tag, vote, entity.EntityType, entity.Id);
       return this;
     }
 
@@ -69,7 +69,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="entity">The entity to tag.</param>
     /// <returns>This submission request.</returns>
     public TagSubmission Add(string tag, TagVote vote, ITaggableEntity entity) {
-      return this.Add(tag, vote, entity.EntityType, entity.MbId);
+      return this.Add(tag, vote, entity.EntityType, entity.Id);
     }
 
     /// <summary>Votes for the specified tag on the specified entities.</summary>
@@ -81,7 +81,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
       foreach (var item in entities) {
         if (item == null)
           continue;
-        this.Add(tag, vote, item.EntityType, item.MbId);
+        this.Add(tag, vote, item.EntityType, item.Id);
       }
       return this;
     }

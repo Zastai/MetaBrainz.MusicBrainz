@@ -70,7 +70,7 @@ namespace MetaBrainz.MusicBrainz {
         throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
       { // Set full user agent, including this library's information
         var an = typeof(Query).Assembly.GetName();
-        this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
+        this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
       }
     }
 
@@ -101,7 +101,7 @@ namespace MetaBrainz.MusicBrainz {
       this.UserAgent = $"{application}/{version} ({contact})";
       { // Set full user agent, including this library's information
         var an = typeof(Query).Assembly.GetName();
-        this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
+        this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
       }
     }
 

@@ -1,35 +1,30 @@
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Disc : JsonBasedObject, IDisc {
 
-    [JsonPropertyName("id")]
-    public string? Id { get; set; }
+    public Disc(string id, IReadOnlyList<int> offsets, int sectors) {
+      this.Id = id;
+      this.Offsets = offsets;
+      this.Sectors = sectors;
+    }
 
-    [JsonPropertyName("offset-count")]
-    public int OffsetCount { get; set; }
+    public string Id { get; }
 
-    [JsonPropertyName("offsets")]
-    public IReadOnlyList<int>? Offsets { get; set; }
+    public IReadOnlyList<int> Offsets { get; }
 
-    [JsonPropertyName("releases")]
     public IReadOnlyList<IRelease>? Releases { get; set; }
 
-    [JsonPropertyName("sectors")]
-    public int Sectors { get; set; }
+    public int Sectors { get; }
 
     public override string ToString() {
-      var duration = new TimeSpan(0, 0, 0, 0, (int) (this.Sectors / 75.0 * 1000));
-      return $"{this.Id} ({this.OffsetCount} track(s), {duration:g})";
+      var duration = TimeSpan.FromSeconds(this.Sectors / 75.0);
+      return $"{this.Id} ({this.Offsets.Count} track(s), {duration:g})";
     }
 
   }

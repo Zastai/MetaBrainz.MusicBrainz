@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using JetBrains.Annotations;
 
@@ -14,8 +15,8 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>The ISRC (International Standard Recording Code) values associated with this release.</summary>
     IReadOnlyList<string>? Isrcs { get; }
 
-    /// <summary>The length of the recording, in milliseconds.</summary>
-    int? Length { get; }
+    /// <summary>The length of the recording.</summary>
+    TimeSpan? Length { get; }
 
     /// <summary>The releases that include the recording.</summary>
     IReadOnlyList<IRelease>? Releases { get; }

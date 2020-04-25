@@ -1,58 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 
-using JetBrains.Annotations;
-
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Objects.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-  internal sealed class DiscIdLookupResult : IDiscIdLookupResult {
+  internal sealed class DiscIdLookupResult : JsonBasedObject, IDiscIdLookupResult {
 
-    internal DiscIdLookupResult(string discid, string json) {
-      this.Id = discid;
-      // Currently this can return:
-      // - a serialized Disc (id + releases)
-      // - a serialized CD stub (id + tracks)
-      // - a list of releases (as a serialized object containing only a "releases" property)
-      // It would be nicer if the first two had a wrapper object with a disc and stub property, respectively.
-      JsonElement result;
-      try {
-        result = JsonDocument.Parse(json).RootElement;
-      }
-      catch (Exception e) {
-        throw new ArgumentException($"Disc ID lookup for '{discid}' did not return a usable JSON result.\nContents: {json}", e);
-      }
-      if (result.ValueKind == JsonValueKind.Object) {
-        if (result.TryGetProperty("id", out _)) {
-          if (result.TryGetProperty("releases", out _)) {
-            this.Disc = Query.Deserialize<Disc>(json);
-            return;
-          }
-          else if (result.TryGetProperty("tracks", out _)) {
-            this.Stub = Query.Deserialize<CdStub>(json);
-            return;
-          }
-        }
-        else if (result.TryGetProperty("releases", out var releases) && releases.ValueKind == JsonValueKind.Array) {
-          this.Releases = Query.Deserialize<Release[]>(releases.ToString());
-          return;
-        }
-      }
-      throw new ArgumentException($"Disc ID lookup for '{discid}' returned a JSON result that could not be identified as a disc, stub or release list.\nContents: {json}");
-    }
+    public IDisc? Disc { get; set; }
 
-    public string Id { get; }
+    public IReadOnlyList<IRelease>? Releases { get; set; }
 
-    public IDisc? Disc { get; }
-
-    public IReadOnlyList<IRelease>? Releases { get; }
-
-    public ICdStub? Stub { get; }
+    public ICdStub? Stub { get; set; }
 
     /// <summary>Gets the textual representation of the disc ID lookup result.</summary>
     /// <returns>A string describing the lookup results.</returns>

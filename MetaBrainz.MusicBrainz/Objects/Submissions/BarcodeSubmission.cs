@@ -27,7 +27,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="release">The release to which <paramref name="barcode"/> should be added.</param>
     /// <param name="barcode">The barcode to add. This must be a valid EAN.</param>
     /// <returns>This submission request.</returns>
-    public BarcodeSubmission Add(IRelease release, string barcode) => this.Add(release.MbId, barcode);
+    public BarcodeSubmission Add(IRelease release, string barcode) => this.Add(release.Id, barcode);
 
     #endregion
 

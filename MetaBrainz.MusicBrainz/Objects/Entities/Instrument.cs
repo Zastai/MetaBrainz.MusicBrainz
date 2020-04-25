@@ -1,53 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Instrument : Entity, IFoundInstrument {
 
-    public override EntityType EntityType => EntityType.Instrument;
+    public Instrument(Guid id) : base(EntityType.Instrument, id) {
+    }
 
-    [JsonPropertyName("aliases")]
     public IReadOnlyList<IAlias>? Aliases { get; set; }
 
-    [JsonPropertyName("annotation")]
     public string? Annotation { get; set; }
 
-    [JsonPropertyName("description")]
     public string? Description { get; set; }
 
-    [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonPropertyName("genres")]
     public IReadOnlyList<ITag>? Genres { get; set; }
 
-    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    [JsonPropertyName("relations")]
     public IReadOnlyList<IRelationship>? Relationships { get; set; }
 
-    [JsonPropertyName("tags")]
     public IReadOnlyList<ITag>? Tags { get; set; }
 
-    [JsonPropertyName("type")]
     public string? Type { get; set; }
 
-    [JsonPropertyName("type-id")]
     public Guid? TypeId { get; set; }
 
-    [JsonPropertyName("user-genres")]
     public IReadOnlyList<IUserTag>? UserGenres { get; set; }
 
-    [JsonPropertyName("user-tags")]
     public IReadOnlyList<IUserTag>? UserTags { get; set; }
 
     public override string ToString() {

@@ -26,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
 
     public ModifyCollection Add<T>(IEnumerable<T> items) where T : IEntity {
       foreach (var item in items)
-        this._request.Append(item.MbId.ToString("D")).Append(';');
+        this._request.Append(item.Id.ToString("D")).Append(';');
       return this;
     }
 

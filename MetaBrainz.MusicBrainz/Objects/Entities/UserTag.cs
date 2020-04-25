@@ -1,19 +1,17 @@
-﻿using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
-
-using MetaBrainz.Common.Json;
+﻿using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class UserTag : JsonBasedObject, IUserTag {
 
-    [JsonPropertyName("name")]
-    public string? Name { get; set; }
+    public UserTag(string name) {
+      this.Name = name;
+    }
 
-    public override string ToString() => this.Name ?? "";
+    public string Name { get; }
+
+    public override string ToString() => this.Name;
 
   }
 

@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class UserRating : JsonBasedObject, IUserRating {
 
-    [JsonPropertyName("value")]
     public decimal? Value { get; set; }
 
     public override string ToString() {

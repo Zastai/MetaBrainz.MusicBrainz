@@ -20,13 +20,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     string? Disambiguation { get; }
 
     /// <summary>The Musicbrainz disc ID for the CD.</summary>
-    string? Id { get; }
+    string Id { get; }
 
     /// <summary>The title for the CD.</summary>
-    string? Title { get; }
+    string Title { get; }
 
     /// <summary>The number of tracks on the CD.</summary>
-    int? TrackCount { get; }
+    int TrackCount { get; }
 
     /// <summary>The track list for the CD.</summary>
     IReadOnlyList<ISimpleTrack>? Tracks { get; }

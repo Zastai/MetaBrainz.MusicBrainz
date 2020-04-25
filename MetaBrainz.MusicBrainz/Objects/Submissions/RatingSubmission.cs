@@ -43,7 +43,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
     /// <param name="entity">The entity to rate.</param>
     /// <returns>This submission request.</returns>
     public RatingSubmission Add(byte rating, IRatableEntity entity) {
-      return this.Add(rating, entity.EntityType, entity.MbId);
+      return this.Add(rating, entity.EntityType, entity.Id);
     }
 
     /// <summary>Adds the specified rating to the specified entity.</summary>
@@ -54,7 +54,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions {
       foreach (var entity in entities) {
         if (entity == null)
           continue;
-        this.Add(rating, entity.EntityType, entity.MbId);
+        this.Add(rating, entity.EntityType, entity.Id);
       }
       return this;
     }

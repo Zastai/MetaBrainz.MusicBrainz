@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Isrc : JsonBasedObject, IIsrc {
 
-    [JsonPropertyName("recordings")]
-    public IReadOnlyList<IRecording>? Recordings { get; set; }
+    public Isrc(string value, IReadOnlyList<IRecording> recordings) {
+      this.Recordings = recordings;
+      this.Value = value;
+    }
 
-    [JsonPropertyName("isrc")]
-    public string? Value { get; set; }
+    public IReadOnlyList<IRecording> Recordings { get; }
+
+    public string Value { get; }
 
     public override string? ToString() => this.Value;
 

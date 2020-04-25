@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>
@@ -60,7 +60,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
     /// <param name="collection">The collection whose contained artists should be retrieved.</param>
@@ -71,7 +71,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
     /// <param name="recording">The recording whose artists should be retrieved.</param>
@@ -82,7 +82,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
     /// <param name="release">The release whose artists should be retrieved.</param>
@@ -93,7 +93,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
     /// <param name="releaseGroup">The release group whose artists should be retrieved.</param>
@@ -104,7 +104,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given work.</summary>
     /// <param name="work">The work whose artists should be retrieved.</param>
@@ -115,7 +115,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IArtist> BrowseArtists(IWork work, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.MbId:D}"), limit, offset).Next();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained artists should be retrieved.</param>
@@ -204,7 +204,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IArea area, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?area={area.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?area={area.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
     /// <param name="artist">The artist whose containing collections should be retrieved.</param>
@@ -214,7 +214,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IArtist artist, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?artist={artist.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?artist={artist.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
     /// <param name="event">The event whose containing collections should be retrieved.</param>
@@ -224,7 +224,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IEvent @event, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?event={@event.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?event={@event.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
     /// <param name="instrument">The instrument whose containing collections should be retrieved.</param>
@@ -234,7 +234,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IInstrument instrument, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?instrument={instrument.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?instrument={instrument.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
     /// <param name="label">The label whose containing collections should be retrieved.</param>
@@ -244,7 +244,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(ILabel label, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?label={label.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?label={label.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
     /// <param name="place">The place whose containing collections should be retrieved.</param>
@@ -254,7 +254,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IPlace place, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?place={place.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?place={place.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
     /// <param name="recording">The recording whose containing collections should be retrieved.</param>
@@ -264,7 +264,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IRecording recording, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?recording={recording.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?recording={recording.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
     /// <param name="release">The release whose containing collections should be retrieved.</param>
@@ -274,7 +274,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IRelease release, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?release={release.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?release={release.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
     /// <param name="releaseGroup">The release group whose containing collections should be retrieved.</param>
@@ -284,7 +284,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IReleaseGroup releaseGroup, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?release-group={releaseGroup.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?release-group={releaseGroup.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given series.</summary>
     /// <param name="series">The series whose containing collections should be retrieved.</param>
@@ -294,7 +294,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(ISeries series, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?series={series.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?series={series.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
     /// <param name="work">The work whose containing collections should be retrieved.</param>
@@ -304,7 +304,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ICollection> BrowseCollections(IWork work, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?work={work.MbId:D}", limit, offset).Next();
+      => new BrowseCollections(this, $"?work={work.Id:D}", limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the collections of the given editor.</summary>
     /// <param name="editor">The editor whose collections should be retrieved.</param>
@@ -452,7 +452,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IEvent> BrowseEvents(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
     /// <param name="artist">The artist whose events should be retrieved.</param>
@@ -463,7 +463,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IEvent> BrowseEvents(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
     /// <param name="collection">The collection whose contained events should be retrieved.</param>
@@ -474,7 +474,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IEvent> BrowseEvents(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
     /// <param name="place">The place whose events should be retrieved.</param>
@@ -485,7 +485,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IEvent> BrowseEvents(IPlace place, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.MbId:D}"), limit, offset).Next();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
     /// <param name="mbid">The MBID for the place whose events should be retrieved.</param>
@@ -511,7 +511,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
@@ -570,7 +570,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ILabel> BrowseLabels(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
     /// <param name="collection">The collection whose contained labels should be retrieved.</param>
@@ -581,7 +581,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
     /// <param name="release">The release whose labels should be retrieved.</param>
@@ -592,7 +592,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ILabel> BrowseLabels(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).Next();
 
     #endregion
 
@@ -629,7 +629,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IPlace> BrowsePlaces(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).Next();
+      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
     /// <param name="collection">The collection whose contained places should be retrieved.</param>
@@ -640,7 +640,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     #endregion
 
@@ -688,7 +688,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
     /// <param name="collection">The collection whose contained recordings should be retrieved.</param>
@@ -699,7 +699,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
     /// <param name="release">The release whose recordings should be retrieved.</param>
@@ -710,7 +710,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).Next();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).Next();
 
     #endregion
 
@@ -805,7 +805,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
     /// <param name="artist">The artist whose releases should be retrieved.</param>
@@ -818,7 +818,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
     /// <param name="collection">The collection whose contained releases should be retrieved.</param>
@@ -831,7 +831,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
     /// <param name="label">The label whose releases should be retrieved.</param>
@@ -844,7 +844,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
     /// <param name="recording">The recording whose releases should be retrieved.</param>
@@ -857,7 +857,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
     /// <param name="releaseGroup">The release group whose releases should be retrieved.</param>
@@ -870,7 +870,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
     /// <param name="track">The track whose releases should be retrieved.</param>
@@ -883,7 +883,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.Id:D}", type, status), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
     /// <param name="mbid">The MBID for the track whose releases should be retrieved.</param>
@@ -922,7 +922,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.MbId:D}", type, status), limit, offset).Next();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.Id:D}", type, status), limit, offset).Next();
 
     #endregion
 
@@ -977,7 +977,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type), limit, offset).Next();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
     /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
@@ -989,7 +989,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type), limit, offset).Next();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
     /// <param name="release">The release whose release groups should be retrieved.</param>
@@ -1002,7 +1002,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
     public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.MbId:D}", type), limit, offset).Next();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).Next();
 
     #endregion
 
@@ -1017,7 +1017,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained series should be retrieved.</param>
@@ -1065,7 +1065,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IWork> BrowseWorks(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).Next();
+      => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).Next();
 
     /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
     /// <param name="collection">The collection whose contained works should be retrieved.</param>
@@ -1076,7 +1076,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public IBrowseResults<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).Next();
+      => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
     #endregion
 
@@ -1095,7 +1095,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>
@@ -1132,7 +1132,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
     /// <param name="collection">The collection whose contained artists should be retrieved.</param>
@@ -1143,7 +1143,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
     /// <param name="recording">The recording whose artists should be retrieved.</param>
@@ -1154,7 +1154,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
     /// <param name="release">The release whose artists should be retrieved.</param>
@@ -1165,7 +1165,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
     /// <param name="releaseGroup">The release group whose artists should be retrieved.</param>
@@ -1176,7 +1176,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given work.</summary>
     /// <param name="work">The work whose artists should be retrieved.</param>
@@ -1187,7 +1187,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IWork work, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained artists should be retrieved.</param>
@@ -1276,7 +1276,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArea area, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?area={area.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?area={area.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
     /// <param name="artist">The artist whose containing collections should be retrieved.</param>
@@ -1286,7 +1286,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArtist artist, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?artist={artist.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?artist={artist.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
     /// <param name="event">The event whose containing collections should be retrieved.</param>
@@ -1296,7 +1296,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IEvent @event, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?event={@event.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?event={@event.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
     /// <param name="instrument">The instrument whose containing collections should be retrieved.</param>
@@ -1306,7 +1306,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IInstrument instrument, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?instrument={instrument.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?instrument={instrument.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
     /// <param name="label">The label whose containing collections should be retrieved.</param>
@@ -1316,7 +1316,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ILabel label, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?label={label.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?label={label.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
     /// <param name="place">The place whose containing collections should be retrieved.</param>
@@ -1326,7 +1326,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IPlace place, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?place={place.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?place={place.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
     /// <param name="recording">The recording whose containing collections should be retrieved.</param>
@@ -1336,7 +1336,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRecording recording, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?recording={recording.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?recording={recording.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
     /// <param name="release">The release whose containing collections should be retrieved.</param>
@@ -1346,7 +1346,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRelease release, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?release={release.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?release={release.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
     /// <param name="releaseGroup">The release group whose containing collections should be retrieved.</param>
@@ -1356,7 +1356,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?release-group={releaseGroup.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?release-group={releaseGroup.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given series.</summary>
     /// <param name="series">The series whose containing collections should be retrieved.</param>
@@ -1366,7 +1366,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ISeries series, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?series={series.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?series={series.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
     /// <param name="work">The work whose containing collections should be retrieved.</param>
@@ -1376,7 +1376,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IWork work, int? limit = null, int? offset = null)
-      => new BrowseCollections(this, $"?work={work.MbId:D}", limit, offset).NextAsync();
+      => new BrowseCollections(this, $"?work={work.Id:D}", limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the collections of the given editor.</summary>
     /// <param name="editor">The editor whose collections should be retrieved.</param>
@@ -1524,7 +1524,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
     /// <param name="artist">The artist whose events should be retrieved.</param>
@@ -1535,7 +1535,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
     /// <param name="collection">The collection whose contained events should be retrieved.</param>
@@ -1546,7 +1546,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IEvent>> BrowseEventsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
     /// <param name="place">The place whose events should be retrieved.</param>
@@ -1557,7 +1557,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
     /// <param name="mbid">The MBID for the place whose events should be retrieved.</param>
@@ -1583,7 +1583,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
@@ -1642,7 +1642,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
     /// <param name="collection">The collection whose contained labels should be retrieved.</param>
@@ -1653,7 +1653,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
     /// <param name="release">The release whose labels should be retrieved.</param>
@@ -1664,7 +1664,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
     #endregion
 
@@ -1701,7 +1701,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.MbId:D}"), limit, offset).NextAsync();
+      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
     /// <param name="collection">The collection whose contained places should be retrieved.</param>
@@ -1712,7 +1712,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     #endregion
 
@@ -1760,7 +1760,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
     /// <param name="collection">The collection whose contained recordings should be retrieved.</param>
@@ -1771,7 +1771,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
     /// <param name="release">The release whose recordings should be retrieved.</param>
@@ -1782,7 +1782,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
     #endregion
 
@@ -1877,7 +1877,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
     /// <param name="artist">The artist whose releases should be retrieved.</param>
@@ -1890,7 +1890,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
     /// <param name="collection">The collection whose contained releases should be retrieved.</param>
@@ -1903,7 +1903,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
     /// <param name="label">The label whose releases should be retrieved.</param>
@@ -1916,7 +1916,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
     /// <param name="recording">The recording whose releases should be retrieved.</param>
@@ -1929,7 +1929,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
     /// <param name="releaseGroup">The release group whose releases should be retrieved.</param>
@@ -1942,7 +1942,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
     /// <param name="track">The track whose releases should be retrieved.</param>
@@ -1955,7 +1955,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.Id:D}", type, status), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
     /// <param name="mbid">The MBID for the track whose releases should be retrieved.</param>
@@ -1994,7 +1994,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.MbId:D}", type, status), limit, offset).NextAsync();
+      => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.Id:D}", type, status), limit, offset).NextAsync();
 
     #endregion
 
@@ -2049,7 +2049,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}", type), limit, offset).NextAsync();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
     /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
@@ -2061,7 +2061,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}", type), limit, offset).NextAsync();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
     /// <param name="release">The release whose release groups should be retrieved.</param>
@@ -2074,7 +2074,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
     public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.MbId:D}", type), limit, offset).NextAsync();
+      => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).NextAsync();
 
     #endregion
 
@@ -2089,7 +2089,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<ISeries>> BrowseSeriesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
     /// <param name="mbid">The MBID for the collection whose contained series should be retrieved.</param>
@@ -2137,7 +2137,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IWork>> BrowseWorksAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
     /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
     /// <param name="collection">The collection whose contained works should be retrieved.</param>
@@ -2148,7 +2148,7 @@ namespace MetaBrainz.MusicBrainz {
     /// <exception cref="QueryException">When the web service reports an error.</exception>
     /// <exception cref="WebException">When something goes wrong with the web request.</exception>
     public Task<IBrowseResults<IWork>> BrowseWorksAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
-      => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.MbId:D}"), limit, offset).NextAsync();
+      => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
     #endregion
 

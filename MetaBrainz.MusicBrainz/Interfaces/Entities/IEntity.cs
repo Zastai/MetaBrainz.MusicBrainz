@@ -14,7 +14,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     EntityType EntityType { get; }
 
     /// <summary>The MBID that identifies this entity.</summary>
-    Guid MbId { get; }
+    Guid Id { get; }
 
   }
 

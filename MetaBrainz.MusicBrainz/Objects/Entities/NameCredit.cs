@@ -1,22 +1,14 @@
-﻿using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
-
-using MetaBrainz.Common.Json;
+﻿using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
-    [JsonPropertyName("artist")]
     public IArtist? Artist { get; set; }
 
-    [JsonPropertyName("joinphrase")]
     public string? JoinPhrase { get; set; }
 
-    [JsonPropertyName("name")]
     public string? Name { get; set; }
 
     public override string ToString() {

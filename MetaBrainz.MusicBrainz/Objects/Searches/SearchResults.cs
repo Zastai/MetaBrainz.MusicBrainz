@@ -86,7 +86,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
       public ReleaseGroup[]? ReleaseGroups { get; set; }
 
       [JsonPropertyName("releases")]
-      [JsonConverter(typeof(FoundReleases.WorkaroundForSearchBug579))]
       public Release[]? Releases { get; set; }
 
       [JsonPropertyName("series")]

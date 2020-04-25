@@ -1,7 +1,4 @@
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
@@ -9,32 +6,25 @@ using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class CdStub : SearchResult, IFoundCdStub {
 
-    [JsonPropertyName("id")]
-    public string? Id { get; set; }
+    public CdStub(string id, string title) {
+      this.Id = id;
+      this.Title = title;
+    }
 
-    [JsonPropertyName("artist")]
+    public string Id { get; }
+
     public string? Artist { get; set; }
 
-    [JsonPropertyName("barcode")]
     public string? Barcode { get; set; }
 
-    // The search server uses 'count' instead of 'track-count' -> forward to the track count.
-    [JsonPropertyName("count")]
-    public int SearchTrackCount { set => this.TrackCount = value; }
-
-    [JsonPropertyName("disambiguation")]
     public string? Disambiguation { get; set; }
 
-    [JsonPropertyName("title")]
-    public string? Title { get; set; }
+    public string Title { get; }
 
-    [JsonPropertyName("track-count")]
-    public int? TrackCount { get; set; }
+    public int TrackCount { get; set; }
 
-    [JsonPropertyName("tracks")]
     public IReadOnlyList<ISimpleTrack>? Tracks { get; set; }
 
     public override string ToString() {

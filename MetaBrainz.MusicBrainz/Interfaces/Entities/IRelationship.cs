@@ -23,10 +23,13 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// </summary>
     IReadOnlyList<string>? Attributes { get; }
 
-    /// <summary>The credits attached to specified attributes of the relationship (if any).</summary>
+    /// <summary>The credits attached to specific attributes of the relationship (if any).</summary>
     IReadOnlyDictionary<string, string>? AttributeCredits { get; }
 
-    /// <summary>The values attached to specified attributes of the relationship (if any).</summary>
+    /// <summary>The MBIDs linked to specific attributes of the relationship (if any).</summary>
+    IReadOnlyDictionary<string, Guid>? AttributeIds { get; }
+
+    /// <summary>The values attached to specific attributes of the relationship (if any).</summary>
     IReadOnlyDictionary<string, string>? AttributeValues { get; }
 
     /// <summary>The date the relationship began.</summary>
@@ -71,17 +74,23 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     /// <summary>An optional alternate name for the source of the relationship.</summary>
     string? SourceCredit { get; }
 
-    /// <summary>The target of the relationship.</summary>
+    /// <summary>
+    /// The target of the relationship. Will be <see langword="null"/> unless <see cref="TargetType"/> is set to known entity type.
+    /// </summary>
     IRelatableEntity? Target { get; }
 
     /// <summary>An optional alternate name for the target of the relationship.</summary>
     string? TargetCredit { get; }
 
-    /// <summary>The type of entity targeted by the relationship (as an enumeration value).</summary>
-    EntityType TargetType { get; }
+    /// <summary>The MBID of the target of the relationship, if provided.</summary>
+    Guid? TargetId { get; }
 
-    /// <summary>The type of entity targeted by the relationship (as text).</summary>
-    string? TargetTypeText { get; }
+    /// <summary>The type of entity targeted by the relationship, if provided.</summary>
+    /// <remarks>
+    /// If this is set to <see cref="EntityType.Unknown"/>, the actual entity type string will be stored in
+    /// <see cref="IJsonBasedObject.UnhandledProperties"/> with key "target-type".
+    /// </remarks>
+    EntityType? TargetType { get; }
 
     /// <summary>The relationship type.</summary>
     string? Type { get; }

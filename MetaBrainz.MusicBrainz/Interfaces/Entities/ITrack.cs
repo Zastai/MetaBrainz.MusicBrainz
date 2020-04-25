@@ -11,14 +11,14 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   [PublicAPI]
   public interface ITrack : IJsonBasedObject {
 
-    /// <summary>The MBID for the track.</summary>
-    Guid MbId { get; }
-
     /// <summary>The artist credit for the track.</summary>
     IReadOnlyList<INameCredit>? ArtistCredit { get; }
 
-    /// <summary>The length of the track, in milliseconds.</summary>
-    int? Length { get; }
+    /// <summary>The MBID for the track.</summary>
+    Guid Id { get; }
+
+    /// <summary>The length of the track.</summary>
+    TimeSpan? Length { get; }
 
     /// <summary>The number of the track on its medium.</summary>
     string? Number { get; }

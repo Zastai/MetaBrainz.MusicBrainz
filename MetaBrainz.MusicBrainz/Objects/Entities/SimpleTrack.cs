@@ -1,31 +1,28 @@
 ﻿using System;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
 
-    [JsonPropertyName("artist")]
+    public SimpleTrack(string title, TimeSpan length) {
+      this.Title = title;
+      this.Length = length;
+    }
+
     public string? Artist { get; set; }
 
-    [JsonPropertyName("length")]
-    public int Length { get; set; }
+    public TimeSpan Length { get; }
 
-    [JsonPropertyName("title")]
-    public string? Title { get; set; }
+    public string Title { get; }
 
     public override string ToString() {
       var text = string.Empty;
       if (this.Artist != null)
         text += this.Artist + " / ";
-      var ts = new TimeSpan(0, 0, 0, 0, this.Length);
-      text += $"{this.Title} ({ts:g})";
+      text += $"{this.Title} ({this.Length:g})";
       return text;
     }
 

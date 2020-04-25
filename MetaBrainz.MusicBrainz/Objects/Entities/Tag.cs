@@ -1,20 +1,18 @@
-﻿using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
-
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
   internal sealed class Tag : SearchResult, IFoundTag {
 
-    [JsonPropertyName("name")]
-    public string? Name { get; set; }
+    public Tag(string name, int voteCount) {
+      this.Name = name;
+      this.VoteCount = voteCount;
+    }
 
-    [JsonPropertyName("count")]
-    public int VoteCount { get; set; }
+    public string Name { get; }
+
+    public int VoteCount { get; }
 
     public override string ToString() {
       var text = string.Empty;

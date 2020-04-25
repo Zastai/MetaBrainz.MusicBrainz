@@ -16,7 +16,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     string? Asin { get; }
 
     /// <summary>The "barcode" (i.e. the UPC or EAN) associated with the release.</summary>
-    string? BarCode { get; }
+    string? Barcode { get; }
 
     /// <summary>The collections containing the release, if any.</summary>
     IReadOnlyList<ICollection>? Collections { get; }

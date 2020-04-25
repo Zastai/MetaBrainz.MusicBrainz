@@ -20,7 +20,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
         if (text != null)
           return new PartialDate(text);
       }
-      throw new JsonException($"Expected a (partial) date but received a JSON token of type '{reader.TokenType}' ({reader.GetRawStringValue()}).");
+      throw new JsonException($"Token ({reader.TokenType}: {reader.GetRawStringValue()}) cannot be converted to a (partial) date.");
     }
 
   }
