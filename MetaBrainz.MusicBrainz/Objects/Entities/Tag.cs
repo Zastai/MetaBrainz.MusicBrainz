@@ -5,20 +5,21 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
   internal sealed class Tag : SearchResult, IFoundTag {
 
-    public Tag(string name, int voteCount) {
+    public Tag(string name) {
       this.Name = name;
-      this.VoteCount = voteCount;
     }
 
     public string Name { get; }
 
-    public int VoteCount { get; }
+    public int? VoteCount { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
       if (this.SearchScore.HasValue)
         text += $"[Score: {this.SearchScore.Value}] ";
-      text += $"{this.Name} (votes: {this.VoteCount})";
+      text += this.Name;
+      if (this.VoteCount.HasValue)
+        text += $" (votes: {this.VoteCount})";
       return text;
     }
 

@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
     IRating? Rating { get; }
 
     /// <summary>The rating given to the entity by the authenticated user.</summary>
-    IUserRating? UserRating { get; }
+    IRating? UserRating { get; }
 
   }
 

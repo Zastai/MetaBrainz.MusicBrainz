@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IReadOnlyList<INameCredit>? artistCredit = null;
       string? disambiguation = null;
       PartialDate? firstReleaseDate = null;
-      IReadOnlyList<ITag>? genres = null;
+      IReadOnlyList<IGenre>? genres = null;
       Guid? id = null;
       string? primaryType = null;
       Guid? primaryTypeId = null;
@@ -31,9 +31,9 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IReadOnlyList<Guid>? secondaryTypeIds = null;
       IReadOnlyList<ITag>? tags = null;
       string? title = null;
-      IReadOnlyList<IUserTag>? userGenres = null;
-      IUserRating? userRating = null;
-      IReadOnlyList<IUserTag>? userTags = null;
+      IReadOnlyList<IGenre>? userGenres = null;
+      IRating? userRating = null;
+      IReadOnlyList<ITag>? userTags = null;
       Dictionary<string, object?>? rest = null;
       while (reader.TokenType == JsonTokenType.PropertyName) {
         var prop = reader.GetString();
@@ -56,7 +56,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               firstReleaseDate = reader.GetOptionalObject(PartialDateReader.Instance, options);
               break;
             case "genres":
-              genres = reader.ReadList(TagReader.Instance, options);
+              genres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "id":
               id = reader.GetGuid();
@@ -92,13 +92,13 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               title = reader.GetString();
               break;
             case "user-genres":
-              userGenres = reader.ReadList(UserTagReader.Instance, options);
+              userGenres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "user-rating":
-              userRating = reader.GetObject(UserRatingReader.Instance, options);
+              userRating = reader.GetObject(RatingReader.Instance, options);
               break;
             case "user-tags":
-              userTags = reader.ReadList(UserTagReader.Instance, options);
+              userTags = reader.ReadList(TagReader.Instance, options);
               break;
             default:
               rest ??= new Dictionary<string, object?>();

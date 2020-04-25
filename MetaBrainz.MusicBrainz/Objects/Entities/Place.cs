@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag>? Genres { get; set; }
+    public IReadOnlyList<IGenre>? Genres { get; set; }
 
     public ILifeSpan? LifeSpan { get; set; }
 
@@ -37,9 +37,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
+    public IReadOnlyList<IGenre>? UserGenres { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags { get; set; }
+    public IReadOnlyList<ITag>? UserTags { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

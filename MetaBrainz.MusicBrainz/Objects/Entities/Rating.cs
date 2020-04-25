@@ -9,7 +9,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public decimal? Value { get; set; }
 
-    public int VoteCount { get; set; }
+    public int? VoteCount { get; set; }
 
     public override string ToString() {
       var text = string.Empty;
@@ -17,8 +17,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
         for (var i = 1; i <= 5; ++i)
           text = string.Concat(text, (stars >= i) ? "★" : "☆");
-        text += $" (votes: {this.VoteCount})";
       }
+      if (this.VoteCount.HasValue)
+        text += $" (votes: {this.VoteCount})";
       return text;
     }
 

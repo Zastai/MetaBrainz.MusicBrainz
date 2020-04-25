@@ -9,16 +9,16 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
   public interface ITaggableEntity : IEntity {
 
     /// <summary>The genres associated with this entity.</summary>
-    IReadOnlyList<ITag>? Genres { get; }
+    IReadOnlyList<IGenre>? Genres { get; }
 
     /// <summary>The tags associated with this entity.</summary>
     IReadOnlyList<ITag>? Tags { get; }
 
     /// <summary>The genres set on this entity by the authenticated user.</summary>
-    IReadOnlyList<IUserTag>? UserGenres { get; }
+    IReadOnlyList<IGenre>? UserGenres { get; }
 
     /// <summary>The tags set on this entity by the authenticated user.</summary>
-    IReadOnlyList<IUserTag>? UserTags { get; }
+    IReadOnlyList<ITag>? UserTags { get; }
 
   }
 

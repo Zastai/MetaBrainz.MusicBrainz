@@ -29,7 +29,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public Guid? GenderId { get; set; }
 
-    public IReadOnlyList<ITag>? Genres { get; set; }
+    public IReadOnlyList<IGenre>? Genres { get; set; }
 
     public IReadOnlyList<string>? Ipis { get; set; }
 
@@ -57,11 +57,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public Guid? TypeId { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
+    public IReadOnlyList<IGenre>? UserGenres { get; set; }
 
-    public IUserRating? UserRating { get; set; }
+    public IRating? UserRating { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags { get; set; }
+    public IReadOnlyList<ITag>? UserTags { get; set; }
 
     public IReadOnlyList<IWork>? Works { get; set; }
 

@@ -27,6 +27,7 @@ namespace MetaBrainz.MusicBrainz.Json {
         // Other objects we deserialize
         yield return DiscIdLookupResultReader.Instance;
         yield return MessageOrErrorReader.Instance;
+        yield return TagReader.Instance;
       }
     }
 

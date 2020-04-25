@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 using JetBrains.Annotations;
 
@@ -25,7 +24,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public PartialDate? FirstReleaseDate { get; set; }
 
-    public IReadOnlyList<ITag>? Genres { get; set; }
+    public IReadOnlyList<IGenre>? Genres { get; set; }
 
     public string? PrimaryType { get; set; }
 
@@ -45,11 +44,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public string? Title { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
+    public IReadOnlyList<IGenre>? UserGenres { get; set; }
 
-    public IUserRating? UserRating { get; set; }
+    public IRating? UserRating { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags { get; set; }
+    public IReadOnlyList<ITag>? UserTags { get; set; }
 
     public override string ToString() {
       var text = string.Empty;

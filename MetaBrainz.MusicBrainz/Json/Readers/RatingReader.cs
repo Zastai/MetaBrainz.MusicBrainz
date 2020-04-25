@@ -41,7 +41,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       return new Rating {
         UnhandledProperties = rest,
         Value = value,
-        VoteCount = voteCount ?? 0,
+        VoteCount = voteCount,
       };
     }
 

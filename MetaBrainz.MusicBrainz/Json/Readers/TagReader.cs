@@ -44,11 +44,10 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       }
       if (name == null)
         throw new JsonException("Expected tag name not found or null.");
-      if (!count.HasValue)
-        throw new JsonException("Expected vote count not found or null.");
-      return new Tag(name, count.Value) {
+      return new Tag(name) {
         SearchScore = score,
         UnhandledProperties = rest,
+        VoteCount = count,
       };
     }
 

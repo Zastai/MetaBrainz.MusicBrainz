@@ -23,7 +23,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IArea? endArea = null;
       string? gender = null;
       Guid? genderId = null;
-      IReadOnlyList<ITag>? genres = null;
+      IReadOnlyList<IGenre>? genres = null;
       Guid? id = null;
       IReadOnlyList<string>? ipis = null;
       IReadOnlyList<string>? isnis = null;
@@ -39,9 +39,9 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IReadOnlyList<ITag>? tags = null;
       string? type = null;
       Guid? typeId = null;
-      IReadOnlyList<IUserTag>? userGenres = null;
-      IUserRating? userRating = null;
-      IReadOnlyList<IUserTag>? userTags = null;
+      IReadOnlyList<IGenre>? userGenres = null;
+      IRating? userRating = null;
+      IReadOnlyList<ITag>? userTags = null;
       IReadOnlyList<IWork>? works = null;
       Dictionary<string, object?>? rest = null;
       while (reader.TokenType == JsonTokenType.PropertyName) {
@@ -79,7 +79,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               genderId = reader.GetOptionalGuid();
               break;
             case "genres":
-              genres = reader.ReadList(TagReader.Instance, options);
+              genres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "id":
               id = reader.GetGuid();
@@ -127,13 +127,13 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               typeId = reader.GetOptionalGuid();
               break;
             case "user-genres":
-              userGenres = reader.ReadList(UserTagReader.Instance, options);
+              userGenres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "user-rating":
-              userRating = reader.GetObject(UserRatingReader.Instance, options);
+              userRating = reader.GetObject(RatingReader.Instance, options);
               break;
             case "user-tags":
-              userTags = reader.ReadList(UserTagReader.Instance, options);
+              userTags = reader.ReadList(TagReader.Instance, options);
               break;
             case "works":
               works = reader.ReadList(WorkReader.Instance, options);

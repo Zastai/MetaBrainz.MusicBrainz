@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public string? Disambiguation { get; set; }
 
-    public IReadOnlyList<ITag>? Genres { get; set; }
+    public IReadOnlyList<IGenre>? Genres { get; set; }
 
     public IReadOnlyList<string>? Isrcs { get; set; }
 
@@ -35,11 +35,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public string? Title { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserGenres { get; set; }
+    public IReadOnlyList<IGenre>? UserGenres { get; set; }
 
-    public IUserRating? UserRating { get; set; }
+    public IRating? UserRating { get; set; }
 
-    public IReadOnlyList<IUserTag>? UserTags { get; set; }
+    public IReadOnlyList<ITag>? UserTags { get; set; }
 
     public bool Video { get; set; }
 

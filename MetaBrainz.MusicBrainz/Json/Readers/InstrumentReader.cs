@@ -18,7 +18,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       string? annotation = null;
       string? description = null;
       string? disambiguation = null;
-      IReadOnlyList<ITag>? genres = null;
+      IReadOnlyList<IGenre>? genres = null;
       Guid? id = null;
       string? name = null;
       IReadOnlyList<IRelationship>? relations = null;
@@ -26,8 +26,8 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IReadOnlyList<ITag>? tags = null;
       string? type = null;
       Guid? typeId = null;
-      IReadOnlyList<IUserTag>? userGenres = null;
-      IReadOnlyList<IUserTag>? userTags = null;
+      IReadOnlyList<IGenre>? userGenres = null;
+      IReadOnlyList<ITag>? userTags = null;
       Dictionary<string, object?>? rest = null;
       while (reader.TokenType == JsonTokenType.PropertyName) {
         var prop = reader.GetString();
@@ -47,7 +47,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               disambiguation = reader.GetString();
               break;
             case "genres":
-              genres = reader.ReadList(TagReader.Instance, options);
+              genres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "id":
               id = reader.GetGuid();
@@ -71,10 +71,10 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               typeId = reader.GetOptionalGuid();
               break;
             case "user-genres":
-              userGenres = reader.ReadList(UserTagReader.Instance, options);
+              userGenres = reader.ReadList(GenreReader.Instance, options);
               break;
             case "user-tags":
-              userTags = reader.ReadList(UserTagReader.Instance, options);
+              userTags = reader.ReadList(TagReader.Instance, options);
               break;
             default:
               rest ??= new Dictionary<string, object?>();
