@@ -17,7 +17,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       Guid? id = null;
       IReadOnlyList<IRelationship>? relations = null;
       Uri? resource = null;
-      byte? score = null;
       Dictionary<string, object?>? rest = null;
       while (reader.TokenType == JsonTokenType.PropertyName) {
         var prop = reader.GetString();
@@ -32,9 +31,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               break;
             case "resource":
               resource = reader.GetOptionalUri();
-              break;
-            case "score":
-              score = reader.GetByte();
               break;
             default:
               rest ??= new Dictionary<string, object?>();
@@ -53,7 +49,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
         throw new JsonException("Expected property 'resource' not found or null.");
       return new Url(id.Value, resource) {
         Relationships = relations,
-        SearchScore = score,
         UnhandledProperties = rest,
       };
     }

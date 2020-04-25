@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  internal sealed class FoundWorks : SearchResults<IFoundWork> {
+  internal sealed class FoundWorks : SearchResults<ISearchResult<IWork>> {
 
     public FoundWorks(Query query, string queryString, int? limit = null, int? offset = null)
     : base(query, "work", queryString, limit, offset)
     { }
 
-    public override IReadOnlyList<IFoundWork> Results => this.CurrentResult?.Works ?? Array.Empty<IFoundWork>();
+    public override IReadOnlyList<ISearchResult<IWork>> Results => this.CurrentResult?.Works ?? Array.Empty<ISearchResult<IWork>>();
 
   }
 

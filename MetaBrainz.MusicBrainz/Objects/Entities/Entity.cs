@@ -1,11 +1,11 @@
 using System;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  internal abstract class Entity : SearchResult, IEntity {
+  internal abstract class Entity : JsonBasedObject, IEntity {
 
     protected Entity(EntityType type, Guid id) {
       this.EntityType = type;

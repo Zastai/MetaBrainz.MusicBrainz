@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  internal sealed class Release : Entity, IFoundRelease {
+  internal sealed class Release : Entity, IRelease {
 
     public Release(Guid id) : base(EntityType.Release, id) {
     }
@@ -65,8 +64,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override string ToString() {
       var text = string.Empty;
-      if (this.SearchScore.HasValue)
-        text += $"[Score: {this.SearchScore.Value}] ";
       if (this.ArtistCredit != null) {
         foreach (var nc in this.ArtistCredit)
           text += nc.ToString();

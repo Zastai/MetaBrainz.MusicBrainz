@@ -25,7 +25,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       ILifeSpan? lifeSpan = null;
       string? name = null;
       IReadOnlyList<IRelationship>? relations = null;
-      byte? score = null;
       string? sortName = null;
       IReadOnlyList<ITag>? tags = null;
       string? type = null;
@@ -97,9 +96,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
             case "relations":
               relations = reader.ReadList(RelationshipReader.Instance, options);
               break;
-            case "score":
-              score = reader.GetByte();
-              break;
             case "sort-name":
               sortName = reader.GetString();
               break;
@@ -142,7 +138,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
         LifeSpan = lifeSpan,
         Name = name,
         Relationships = relations,
-        SearchScore = score,
         SortName = sortName,
         Tags = tags,
         Type = type,

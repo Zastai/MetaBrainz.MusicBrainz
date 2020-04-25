@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  internal sealed class FoundAreas : SearchResults<IFoundArea> {
+  internal sealed class FoundAreas : SearchResults<ISearchResult<IArea>> {
 
     public FoundAreas(Query query, string queryString, int? limit = null, int? offset = null)
     : base(query, "area", queryString, limit, offset)
     { }
 
-    public override IReadOnlyList<IFoundArea> Results => this.CurrentResult?.Areas ?? Array.Empty<IFoundArea>();
+    public override IReadOnlyList<ISearchResult<IArea>> Results => this.CurrentResult?.Areas ?? Array.Empty<ISearchResult<IArea>>();
 
   }
 

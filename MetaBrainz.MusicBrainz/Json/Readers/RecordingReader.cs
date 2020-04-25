@@ -25,7 +25,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IRating? rating = null;
       IReadOnlyList<IRelationship>? relations = null;
       IReadOnlyList<IRelease>? releases = null;
-      byte? score = null;
       IReadOnlyList<ITag>? tags = null;
       string? title = null;
       IReadOnlyList<IGenre>? userGenres = null;
@@ -71,9 +70,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
             case "releases":
               releases = reader.ReadList(ReleaseReader.Instance, options);
               break;
-            case "score":
-              score = reader.GetByte();
-              break;
             case "tags":
               tags = reader.ReadList(TagReader.Instance, options);
               break;
@@ -116,7 +112,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
         Rating = rating,
         Relationships = relations,
         Releases = releases,
-        SearchScore = score,
         Tags = tags,
         Title = title,
         UnhandledProperties = rest,

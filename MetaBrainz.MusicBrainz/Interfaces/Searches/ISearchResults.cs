@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Searches {
   public interface ISearchResults<T> : IPagedQueryResults<ISearchResults<T>, T> where T : ISearchResult {
 
     /// <summary>The date and time at which this search result was created, if available.</summary>
-    DateTime? Created { get; }
+    DateTimeOffset? Created { get; }
 
   }
 

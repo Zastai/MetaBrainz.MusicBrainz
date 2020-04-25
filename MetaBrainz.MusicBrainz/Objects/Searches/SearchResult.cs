@@ -1,16 +1,19 @@
-﻿using JetBrains.Annotations;
-
-using MetaBrainz.Common.Json;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
-  [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-  internal abstract class SearchResult : JsonBasedObject, ISearchResult {
+  internal sealed class SearchResult<T> : ISearchResult<T> {
 
-    public byte? SearchScore { get; set; }
+    public SearchResult(T item, byte score) {
+      this.Item = item;
+      this.Score = score;
+    }
 
-    public byte Score => this.SearchScore.GetValueOrDefault(0);
+    public T Item { get; }
+
+    public byte Score { get; }
+
+    public override string ToString() => $"[Score: {this.Score}] {this.Item}";
 
   }
 

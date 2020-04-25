@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  internal sealed class Url : Entity, IFoundUrl {
+  internal sealed class Url : Entity, IUrl {
 
     public Url(Guid id, Uri resource) : base(EntityType.Url, id) {
       this.Resource = resource;

@@ -27,7 +27,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       int? recordingCount = null;
       int? releaseCount = null;
       int? releaseGroupCount = null;
-      byte? score = null;
       int? seriesCount = null;
       string? type = null;
       Guid? typeId = null;
@@ -78,9 +77,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               break;
             case "release-group-count":
               releaseGroupCount = reader.GetInt32();
-              break;
-            case "score":
-              score = reader.GetByte();
               break;
             case "series-count":
               seriesCount = reader.GetInt32();
@@ -164,7 +160,6 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       return new Collection(id.Value, contentType.Value, itemCount) {
         Editor = editor,
         Name = name,
-        SearchScore = score,
         Type = type,
         TypeId = typeId,
         UnhandledProperties = rest,

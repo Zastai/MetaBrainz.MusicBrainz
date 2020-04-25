@@ -1,37 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-
-using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
+using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
-using MetaBrainz.MusicBrainz.Objects.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
+  internal sealed class SearchResults : JsonBasedObject {
+
+    public SearchResults(int count, int offset, DateTimeOffset created) {
+      this.Count = count;
+      this.Offset = offset;
+      this.Created = created;
+    }
+
+    public IReadOnlyList<ISearchResult<IAnnotation>>? Annotations;
+
+    public IReadOnlyList<ISearchResult<IArea>>? Areas;
+
+    public IReadOnlyList<ISearchResult<IArtist>>? Artists;
+
+    public IReadOnlyList<ISearchResult<ICdStub>>? CdStubs;
+
+    public readonly int Count;
+
+    public readonly DateTimeOffset Created;
+
+    public IReadOnlyList<ISearchResult<IEvent>>? Events;
+
+    public IReadOnlyList<ISearchResult<IInstrument>>? Instruments;
+
+    public IReadOnlyList<ISearchResult<ILabel>>? Labels;
+
+    public readonly int Offset;
+
+    public IReadOnlyList<ISearchResult<IPlace>>? Places;
+
+    public IReadOnlyList<ISearchResult<IRecording>>? Recordings;
+
+    public IReadOnlyList<ISearchResult<IReleaseGroup>>? ReleaseGroups;
+
+    public IReadOnlyList<ISearchResult<IRelease>>? Releases;
+
+    public IReadOnlyList<ISearchResult<ISeries>>? Series;
+
+    public IReadOnlyList<ISearchResult<ITag>>? Tags;
+
+    public IReadOnlyList<ISearchResult<IUrl>>? Urls;
+
+    public IReadOnlyList<ISearchResult<IWork>>? Works;
+
+  }
+
   internal abstract class SearchResults<TInterface>
-  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults<TInterface>.JSON>,
+  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults>,
     ISearchResults<TInterface>
   where TInterface : ISearchResult {
 
     protected SearchResults(Query query, string endpoint, string queryString, int? limit = null, int? offset = null)
     : base(query, endpoint, null, limit, offset) {
-      this._queryString = queryString;
+      this.QueryString = queryString;
     }
 
-    private readonly string _queryString;
+    private readonly string QueryString;
 
-    public DateTime? Created => this.CurrentResult?.Created;
+    public DateTimeOffset? Created => this.CurrentResult?.Created;
 
     protected sealed override ISearchResults<TInterface> Deserialize(string json) {
-      this.CurrentResult = Query.Deserialize<JSON>(json);
+      this.CurrentResult = Query.Deserialize<SearchResults>(json);
       return this;
     }
 
     protected sealed override string FullExtraText() {
       var extra = "?query=";
-      extra += Uri.EscapeDataString(this._queryString);
+      extra += Uri.EscapeDataString(this.QueryString);
       if (this.Offset > 0)
         extra += $"&offset={this.Offset}";
       if (this.Limit.HasValue)
@@ -42,65 +85,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     public sealed override int TotalResults => this.CurrentResult?.Count ?? 0;
 
     public override IReadOnlyDictionary<string, object?>? UnhandledProperties => this.CurrentResult?.UnhandledProperties;
-
-    [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-    internal sealed class JSON : JsonBasedObject {
-
-      [JsonPropertyName("count")]
-      public int Count { get; set; }
-
-      [JsonPropertyName("created")]
-      public DateTime? Created { get; set; }
-
-      [JsonPropertyName("offset")]
-      public int Offset { get; set; }
-
-      [JsonPropertyName("annotations")]
-      public Annotation[]? Annotations { get; set; }
-
-      [JsonPropertyName("areas")]
-      public Area[]? Areas { get; set; }
-
-      [JsonPropertyName("artists")]
-      public Artist[]? Artists { get; set; }
-
-      [JsonPropertyName("cdstubs")]
-      public CdStub[]? CdStubs { get; set; }
-
-      [JsonPropertyName("events")]
-      public Event[]? Events { get; set; }
-
-      [JsonPropertyName("instruments")]
-      public Instrument[]? Instruments { get; set; }
-
-      [JsonPropertyName("labels")]
-      public Label[]? Labels { get; set; }
-
-      [JsonPropertyName("places")]
-      public Place[]? Places { get; set; }
-
-      [JsonPropertyName("recordings")]
-      public Recording[]? Recordings { get; set; }
-
-      [JsonPropertyName("release-groups")]
-      public ReleaseGroup[]? ReleaseGroups { get; set; }
-
-      [JsonPropertyName("releases")]
-      public Release[]? Releases { get; set; }
-
-      [JsonPropertyName("series")]
-      public Series[]? Series { get; set; }
-
-      [JsonPropertyName("tags")]
-      public Tag[]? Tags { get; set; }
-
-      [JsonPropertyName("urls")]
-      public Url[]? Urls { get; set; }
-
-      [JsonPropertyName("works")]
-      public Work[]? Works { get; set; }
-
-    }
 
   }
 

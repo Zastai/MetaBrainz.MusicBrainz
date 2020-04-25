@@ -13,7 +13,8 @@ namespace MetaBrainz.MusicBrainz.Objects {
         "place"         => EntityType.Place,
         "recording"     => EntityType.Recording,
         "release"       => EntityType.Release,
-        "release_group" => EntityType.ReleaseGroup,
+        "release-group" => EntityType.ReleaseGroup, // for Annotation
+        "release_group" => EntityType.ReleaseGroup, // for Collection and Relationship
         "series"        => EntityType.Series,
         "url"           => EntityType.Url,
         "work"          => EntityType.Work,

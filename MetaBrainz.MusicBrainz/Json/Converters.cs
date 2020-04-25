@@ -24,10 +24,14 @@ namespace MetaBrainz.MusicBrainz.Json {
         yield return SeriesReader.Instance;
         yield return UrlReader.Instance;
         yield return WorkReader.Instance;
+        // Search Results
+        yield return AnnotationReader.Instance;
+        yield return CdStubReader.Instance;
+        yield return SearchResultsReader.Instance;
+        yield return TagReader.Instance;
         // Other objects we deserialize
         yield return DiscIdLookupResultReader.Instance;
         yield return MessageOrErrorReader.Instance;
-        yield return TagReader.Instance;
       }
     }
 

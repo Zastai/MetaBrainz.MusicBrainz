@@ -4,12 +4,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
   [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-  internal sealed class ReleaseGroup : Entity, IFoundReleaseGroup {
+  internal sealed class ReleaseGroup : Entity, IReleaseGroup {
 
     public ReleaseGroup(Guid id) : base(EntityType.ReleaseGroup, id) {
     }
@@ -52,8 +51,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
     public override string ToString() {
       var text = string.Empty;
-      if (this.SearchScore.HasValue)
-        text += $"[Score: {this.SearchScore.Value}] ";
       if (this.ArtistCredit != null) {
         foreach (var nc in this.ArtistCredit)
           text += nc.ToString();

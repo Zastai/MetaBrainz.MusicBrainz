@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  internal sealed class Work : Entity, IFoundWork {
+  internal sealed class Work : Entity, IWork {
 
     public Work(Guid id) : base(EntityType.Work, id) {
     }
@@ -46,11 +45,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
     public IReadOnlyList<ITag>? UserTags { get; set; }
 
     public override string ToString() {
-      var text = string.Empty;
-      if (this.SearchScore.HasValue)
-        text += $"[Score: {this.SearchScore.Value}] ";
-      if (this.Title != null)
-        text += this.Title;
+      var text = this.Title ?? string.Empty;
       if (!string.IsNullOrEmpty(this.Disambiguation))
         text += $" ({this.Disambiguation})";
       if (this.Type != null)
