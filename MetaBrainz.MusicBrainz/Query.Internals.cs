@@ -414,6 +414,13 @@ namespace MetaBrainz.MusicBrainz {
       }
     }
 
+    internal string PerformRequest(string entity, Guid id, string extra) {
+      var address = $"{entity}/{id:D}{extra}";
+      var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
+      Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
+      return json;
+    }
+
     internal string PerformRequest(string entity, string? id, string extra) {
       var address = $"{entity}/{id}{extra}";
       var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
@@ -448,6 +455,13 @@ namespace MetaBrainz.MusicBrainz {
       finally {
         this.ClientLock.Release();
       }
+    }
+
+    internal async Task<string> PerformRequestAsync(string entity, Guid id, string extra) {
+      var address = $"{entity}/{id:D}{extra}";
+      var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
+      Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
+      return json;
     }
 
     internal async Task<string> PerformRequestAsync(string entity, string? id, string extra) {

@@ -9,13 +9,12 @@ namespace MetaBrainz.MusicBrainz.Json {
 
     public static IEnumerable<JsonConverter> Readers {
       get {
-        // First-Class Entities
+        // Primary Entities
         yield return AreaReader.Instance;
         yield return ArtistReader.Instance;
-        yield return CollectionReader.Instance;
         yield return EventReader.Instance;
+        yield return GenreReader.Instance;
         yield return InstrumentReader.Instance;
-        yield return IsrcReader.Instance;
         yield return LabelReader.Instance;
         yield return PlaceReader.Instance;
         yield return RecordingReader.Instance;
@@ -24,13 +23,16 @@ namespace MetaBrainz.MusicBrainz.Json {
         yield return SeriesReader.Instance;
         yield return UrlReader.Instance;
         yield return WorkReader.Instance;
+        // Secondary Lookup Results
+        yield return CollectionReader.Instance;
+        yield return DiscIdLookupResultReader.Instance;
+        yield return IsrcReader.Instance;
         // Search Results
         yield return AnnotationReader.Instance;
         yield return CdStubReader.Instance;
         yield return SearchResultsReader.Instance;
         yield return TagReader.Instance;
         // Other objects we deserialize
-        yield return DiscIdLookupResultReader.Instance;
         yield return MessageOrErrorReader.Instance;
       }
     }
