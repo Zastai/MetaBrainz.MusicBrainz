@@ -11,13 +11,13 @@ namespace MetaBrainz.MusicBrainz.Objects {
   where TInterface : IPagedQueryResults<TInterface, TItem>
   where TResultObject : class {
 
-    protected PagedQueryResults(Query query, string endpoint, string? value, int? limit = null, int? offset = null) {
-      this.Query      = query;
-      this.Endpoint   = endpoint;
-      this.Value      = value;
-      this.Limit      = limit;
-      this.Offset     = 0;
+    protected PagedQueryResults(Query query, string endpoint, string? value, int? limit, int? offset) {
+      this.Endpoint = endpoint;
+      this.Limit = limit;
       this.NextOffset = offset;
+      this.Offset = 0;
+      this.Query = query;
+      this.Value = value;
     }
 
     protected TResultObject? CurrentResult;

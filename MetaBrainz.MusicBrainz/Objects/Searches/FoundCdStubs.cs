@@ -8,8 +8,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
   internal sealed class FoundCdStubs : SearchResults<ISearchResult<ICdStub>> {
 
-    public FoundCdStubs(Query query, string queryString, int? limit = null, int? offset = null)
-    : base(query, "cdstub", queryString, limit, offset)
+    public FoundCdStubs(Query query, string queryString, int? limit, int? offset, bool simple)
+    : base(query, "cdstub", queryString, limit, offset, simple)
     { }
 
     public override IReadOnlyList<ISearchResult<ICdStub>> Results => this.CurrentResult?.CdStubs ?? Array.Empty<ISearchResult<ICdStub>>();

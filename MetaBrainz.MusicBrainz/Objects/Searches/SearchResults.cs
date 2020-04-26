@@ -58,12 +58,15 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     ISearchResults<TInterface>
   where TInterface : ISearchResult {
 
-    protected SearchResults(Query query, string endpoint, string queryString, int? limit = null, int? offset = null)
+    protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset, bool simple)
     : base(query, endpoint, null, limit, offset) {
       this.QueryString = queryString;
+      this.Simple = simple;
     }
 
     private readonly string QueryString;
+
+    private readonly bool Simple;
 
     public DateTimeOffset? Created => this.CurrentResult?.Created;
 
@@ -73,12 +76,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
     }
 
     protected sealed override string FullExtraText() {
-      var extra = "?query=";
-      extra += Uri.EscapeDataString(this.QueryString);
+      var extra = "?query=" + Uri.EscapeDataString(this.QueryString);
       if (this.Offset > 0)
         extra += $"&offset={this.Offset}";
       if (this.Limit.HasValue)
         extra += $"&limit={this.Limit}";
+      if (this.Simple)
+        extra += "&dismax=true";
       return extra;
     }
 

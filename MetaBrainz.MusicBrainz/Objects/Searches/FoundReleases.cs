@@ -8,8 +8,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Searches {
 
   internal sealed class FoundReleases : SearchResults<ISearchResult<IRelease>> {
 
-    public FoundReleases(Query query, string queryString, int? limit = null, int? offset = null)
-    : base(query, "release", queryString, limit, offset)
+    public FoundReleases(Query query, string queryString, int? limit, int? offset, bool simple)
+    : base(query, "release", queryString, limit, offset, simple)
     { }
 
     public override IReadOnlyList<ISearchResult<IRelease>> Results => this.CurrentResult?.Releases ?? Array.Empty<ISearchResult<IRelease>>();
