@@ -1,18 +1,14 @@
 ﻿using System;
 
-using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities {
 
-  internal sealed class Genre : JsonBasedObject, IGenre {
+  internal sealed class Genre : Entity, IGenre {
 
-    public Genre(Guid id, string name) {
-      this.Id = id;
+    public Genre(Guid id, string name) : base(EntityType.Genre, id) {
       this.Name = name;
     }
-
-    public Guid Id { get; }
 
     public string? Disambiguation { get; set; }
 

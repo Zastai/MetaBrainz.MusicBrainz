@@ -21,6 +21,9 @@ namespace MetaBrainz.MusicBrainz {
     /// <summary>An event (i.e. an object implementing <see cref="Interfaces.Entities.IEvent"/>).</summary>
     Event,
 
+    /// <summary>A genre (i.e. an object implementing <see cref="Interfaces.Entities.IGenre"/>).</summary>
+    Genre,
+
     /// <summary>An instrument (i.e. an object implementing <see cref="Interfaces.Entities.IInstrument"/>).</summary>
     Instrument,
 

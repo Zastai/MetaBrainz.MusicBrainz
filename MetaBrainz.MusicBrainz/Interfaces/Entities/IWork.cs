@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz work.</summary>
   [PublicAPI]
-  public interface IWork : IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
+  public interface IWork : IAliasedEntity, IAnnotatedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity {
 
     /// <summary>The attributes attached to this work (if any).</summary>
     IReadOnlyList<IWorkAttribute>? Attributes { get; }

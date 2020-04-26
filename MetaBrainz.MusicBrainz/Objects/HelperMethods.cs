@@ -8,6 +8,7 @@ namespace MetaBrainz.MusicBrainz.Objects {
         "artist"        => EntityType.Artist,
         "collection"    => EntityType.Collection,
         "event"         => EntityType.Event,
+        "genre"         => EntityType.Genre,
         "instrument"    => EntityType.Instrument,
         "label"         => EntityType.Label,
         "place"         => EntityType.Place,

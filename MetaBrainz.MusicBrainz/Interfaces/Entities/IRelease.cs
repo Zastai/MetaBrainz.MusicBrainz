@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz release.</summary>
   [PublicAPI]
-  public interface IRelease : IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
+  public interface IRelease : IAliasedEntity, IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
     /// <summary>The artist credit for the release.</summary>
     IReadOnlyList<INameCredit>? ArtistCredit { get; }

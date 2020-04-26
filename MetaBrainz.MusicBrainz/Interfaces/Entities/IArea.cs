@@ -6,7 +6,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
 
   /// <summary>A MusicBrainz area.</summary>
   [PublicAPI]
-  public interface IArea : IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+  public interface IArea : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
     /// <summary>The ISO 3166-1 codes associated with this area, if any.</summary>
     IReadOnlyList<string>? Iso31661Codes { get; }
