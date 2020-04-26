@@ -18,6 +18,8 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities {
         for (var i = 1; i <= 5; ++i)
           text = string.Concat(text, (stars >= i) ? "★" : "☆");
       }
+      else
+        text += "<not rated>";
       if (this.VoteCount.HasValue)
         text += $" (votes: {this.VoteCount})";
       return text;
