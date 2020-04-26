@@ -74,7 +74,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               //     "relations": [ ... ]
               //   }
               // ]
-              // Assumption: it only persists the part-of relationship, so the list will only ever contain a single wrapper object.
+              // Assumption: relation-list will only ever contain a single wrapper object.
               if (reader.TokenType != JsonTokenType.StartArray)
                 throw new JsonException("Expected start of list not found.");
               reader.Read();

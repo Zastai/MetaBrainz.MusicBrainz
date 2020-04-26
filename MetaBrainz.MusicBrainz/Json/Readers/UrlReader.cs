@@ -26,6 +26,32 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
             case "id":
               id = reader.GetGuid();
               break;
+            case "relation-list": { // SEARCH-444
+              // The search server wraps the 'relations' list in:
+              // "relation-list": [
+              //   {
+              //     "relations": [ ... ]
+              //   }
+              // ]
+              // Assumption: relation-list will only ever contain a single wrapper object.
+              if (reader.TokenType != JsonTokenType.StartArray)
+                throw new JsonException("Expected start of list not found.");
+              reader.Read();
+              if (reader.TokenType != JsonTokenType.StartObject)
+                throw new JsonException("Expected start of object not found.");
+              reader.Read();
+              if (reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "relations")
+                throw new JsonException("Expected 'relations' property not found.");
+              reader.Read();
+              relations = reader.ReadList(RelationshipReader.Instance, options);
+              reader.Read();
+              if (reader.TokenType != JsonTokenType.EndObject)
+                throw new JsonException("Expected end of object not found.");
+              reader.Read();
+              if (reader.TokenType != JsonTokenType.EndArray)
+                throw new JsonException("Expected end of list not found.");
+              break;
+            }
             case "relations":
               relations = reader.ReadList(RelationshipReader.Instance, options);
               break;
