@@ -1,4 +1,4 @@
-version: 3.0.1
+version: 3.0.2-appveyor.{build}
 image: Visual Studio 2019
 configuration: Debug
 install:
