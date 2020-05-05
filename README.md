@@ -8,6 +8,7 @@ In addition, interfaces, not classes, are used for the public API (to allow more
 
 This also contains OAuth2 functionality.
 
+
 ## Examples of Use
 
 ### Getting started
@@ -31,58 +32,6 @@ If you intend to create multiple `Query` objects, you can also set up a default 
 property, so you can just use `new Query()` to create instances. You must ensure that it's a valid user agent string
 (`Name/Version (Contact)`); requests without one may be subject to rate limiting.
 
-### Authentication
-
-When you want to submit data or retrieve tags/genres/ratings/collections added by a user, you need to set up authentication for
-your requests. This can be done using the `OAuth2` class to generate an access token, and assigning it to the `BearerToken`
-property of a `Query` object.
-
-#### Initial Permissions
-
-As a first step, you will need to go to [your MusicBrainz account page](https://musicbrainz.org/account/applications) and register
-an application. That provides you with both a client ID and a client secret.
-
-The second is to get the user to provide your application with the required authorization. You do this by calling the
-`OCreateAuthorizationRequest` method, passing the callback URI you configured for your application in step one. If you set up an
-installed application without callback, pass `OAuth2.OutOfBandUri`. The other thing to pass is the scopes you want to request
-permission for. This will return the URL to send the user to. If they confirm access, the callback URI will be accessed to provide
-the authorization token; if there is no callback, they will be asked to copy the token off the page, to pass to your application
-themselves.
-
-```c#
-var oa = new OAuth2()
-// If using a local MusicBrainz server instance, make sure to set up the correct address and port.
-var url = oa.CreateAuthorizationRequest(OAuth2.OutOfBandUri, AuthorizationScope.Ratings | AuthorizationScope.Tags);
-```
-
-Finally, you need to use the authorization token (which you should store along with the user's ID) to generate an access token.
-The `GetBearerToken` is used for that; you pass in the token and your callback URI, to be given 3 pieces of information:
-
-1. an access token
-2. the access token's lifetime
-3. a refresh token
-
-The access token is what you need; assign it to the `BearerToken` property of your `Query` object. You may want to store the
-refresh token with the rest of the user information, for later use.
-
-```c#
-var at = await oa.GetBearerTokenAsync(authorizationToken, clientSecret, OAuth2.OutOfBandUri);
-q.BearerToken = at.AccessToken;
-```
-
-#### Refreshing Permissions
-
-An access token is typically only valid for an hour. However, you can use the refresh token (obtained at the same time as the
-access token) and your client secret to generate a new access token without user interaction. This is done by calling the
-`RefreshBearerToken` method.
-
-```c#
-var at = oa.RefreshBearerToken(refreshToken, clientSecret);
-q.BearerToken = at.AccessToken;
-```
-
-Note that if this method fails, it may be required to use `GetBearerToken` again, to have the user re-confirm your access
-privileges.
 
 ### Accessing Data
 
@@ -147,7 +96,6 @@ foreach (var work in works.Results) {
 }
 ```
 
-
 #### Find: Text Search
 
 You can also search for entities using a textual search query, using the `FindXxx()` methods. When you pass `true` as the `simple`
@@ -168,6 +116,68 @@ For example:
 var elvises = q.FindArtist("Elvis", simple: true); // at the time of writing, TotalResults is 248 for this query
 var elvisesFromTupelo = q.FindArtist("name:Elvis AND beginarea:Tupelo"); // but for this one it's 1 
 ```
+
+#### Unhandled Information
+
+Almost all objects returned by the API implement `IJsonBasedObject`. Its `UnhandledProperties` property provides access to a
+(read-only) dictionary containing any and all JSON properties that were returned by the server but not recognized by the library.
+Under normal circumstances, this dictionary should be `null`; if it isn't please file
+[a ticket](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues) to add support for the field(s) in question.
+
+
+### Authentication
+
+When you want to submit data or retrieve tags/genres/ratings/collections added by a user, you need to set up authentication for
+your requests. This can be done using the `OAuth2` class to generate an access token, and assigning it to the `BearerToken`
+property of a `Query` object.
+
+#### Initial Permissions
+
+As a first step, you will need to go to [your MusicBrainz account page](https://musicbrainz.org/account/applications) and register
+an application. That provides you with both a client ID and a client secret.
+
+The second is to get the user to provide your application with the required authorization. You do this by calling the
+`CreateAuthorizationRequest` method, passing the callback URI you configured for your application in step one. If you set up an
+installed application without callback, pass `OAuth2.OutOfBandUri`. The other thing to pass is the scopes you want to request
+permission for. This will return the URL to send the user to. If they confirm access, the callback URI will be accessed to provide
+the authorization token; if there is no callback, they will be asked to copy the token off the page, to pass to your application
+themselves.
+
+```c#
+var oa = new OAuth2()
+// If using a local MusicBrainz server instance, make sure to set up the correct address and port.
+var url = oa.CreateAuthorizationRequest(OAuth2.OutOfBandUri, AuthorizationScope.Ratings | AuthorizationScope.Tags);
+```
+
+Finally, you need to use the authorization token (which you should store along with the user's ID) to generate an access token.
+The `GetBearerToken` is used for that; you pass in the token and your callback URI, to be given 3 pieces of information:
+
+1. an access token
+2. the access token's lifetime
+3. a refresh token
+
+The access token is what you need; assign it to the `BearerToken` property of your `Query` object. You may want to store the
+refresh token with the rest of the user information, for later use.
+
+```c#
+var at = await oa.GetBearerTokenAsync(authorizationToken, clientSecret, OAuth2.OutOfBandUri);
+q.BearerToken = at.AccessToken;
+```
+
+#### Refreshing Permissions
+
+An access token is typically only valid for an hour. However, you can use the refresh token (obtained at the same time as the
+access token) and your client secret to generate a new access token without user interaction. This is done by calling the
+`RefreshBearerToken` method.
+
+```c#
+var at = oa.RefreshBearerToken(refreshToken, clientSecret);
+q.BearerToken = at.AccessToken;
+```
+
+Note that if this method fails, it may be required to use `GetBearerToken` again, to have the user re-confirm your access
+privileges.
+
 
 
 ## Release Notes
