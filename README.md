@@ -10,7 +10,16 @@ This also contains OAuth2 functionality.
 
 A [user guide](UserGuide.md) is available, which explains the main functionality of the library, with some examples.
 
+
 ## Release Notes
+
+### v3.0.1 (2020-05-05)
+
+#### GitHub Issues
+
+- [#3](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues/3): `null` values for a recording or track's length caused
+  exceptions, as did `null` values for the status ID of a release. Both cases should now be handled properly.
+
 
 ### v3.0.0 (2020-04-26)
 
