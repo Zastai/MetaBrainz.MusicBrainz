@@ -33,12 +33,9 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
             case "id":
               id = reader.GetGuid();
               break;
-            case "length": {
-              var ms = reader.GetOptionalDouble();
-              if (ms != null)
-                length = TimeSpan.FromMilliseconds(ms.Value);
+            case "length":
+              length = reader.GetOptionalTimeSpanFromMilliseconds();
               break;
-            }
             case "number":
               number = reader.GetString();
               break;
@@ -62,7 +59,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
         }
         reader.Read();
       }
-      if (!id.HasValue)
+      if (id == null)
         throw new JsonException("Expected property 'id' not found or null.");
       if (title == null)
         throw new JsonException("Expected track title not found or null.");

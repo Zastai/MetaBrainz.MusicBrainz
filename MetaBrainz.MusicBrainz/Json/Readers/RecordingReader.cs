@@ -59,7 +59,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               isrcs = reader.ReadList<string>(options);
               break;
             case "length":
-              length = TimeSpan.FromMilliseconds(reader.GetDouble());
+              length = reader.GetOptionalTimeSpanFromMilliseconds();
               break;
             case "rating":
               rating = reader.GetObject(RatingReader.Instance, options);

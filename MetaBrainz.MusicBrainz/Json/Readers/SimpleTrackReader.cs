@@ -26,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               artist = reader.GetString();
               break;
             case "length":
-              length = TimeSpan.FromMilliseconds(reader.GetDouble());
+              length = reader.GetOptionalTimeSpanFromMilliseconds();
               break;
             case "title":
               title = reader.GetString();
@@ -44,7 +44,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       }
       if (title == null)
         throw new JsonException("Expected track title not found or null.");
-      if (!length.HasValue)
+      if (length == null)
         throw new JsonException("Expected track length not found or null.");
       return new SimpleTrack(title, length.Value) {
         Artist = artist,

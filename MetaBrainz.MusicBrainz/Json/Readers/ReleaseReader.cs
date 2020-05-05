@@ -105,7 +105,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
                     if (subprop == "name")
                       packaging = reader.GetString();
                     else if (subprop == "id")
-                      packagingId = reader.GetGuid();
+                      packagingId = reader.GetOptionalGuid();
                     else {
                       rest ??= new Dictionary<string, object?>();
                       rest[prop + ":" + subprop] = reader.GetOptionalObject(options);
@@ -141,7 +141,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
               status = reader.GetString();
               break;
             case "status-id":
-              statusId = reader.GetGuid();
+              statusId = reader.GetOptionalGuid();
               break;
             case "tags":
               tags = reader.ReadList(TagReader.Instance, options);

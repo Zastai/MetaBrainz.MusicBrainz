@@ -1,6 +1,18 @@
-namespace MetaBrainz.MusicBrainz.Objects {
+using System;
+using System.Text.Json;
+
+using MetaBrainz.Common.Json;
+
+namespace MetaBrainz.MusicBrainz.Json {
 
   internal static class HelperMethods {
+
+    public static TimeSpan? GetOptionalTimeSpanFromMilliseconds(this ref Utf8JsonReader reader) {
+      var ms = reader.GetOptionalDouble();
+      if (ms == null)
+        return null;
+      return TimeSpan.FromMilliseconds(ms.Value);
+    }
 
     public static EntityType ParseEntityType(string? text) {
       return text switch {
