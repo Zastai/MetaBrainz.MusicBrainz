@@ -1,6 +1,6 @@
 # MetaBrainz.MusicBrainz User Guide
 
-## Getting started
+## Getting Started
 
 All the real functionality is exposed by the `Query` class. There are some static properties to set up defaults for the web service
 you want to access. If you are accessing the official MusicBrainz site, no changes are needed.
@@ -20,6 +20,24 @@ var q = new Query("Red Stapler", "19.99", "mailto:milton.waddams@initech.com");
 If you intend to create multiple `Query` objects, you can also set up a default user agent string as the static `DefaultUserAgent`
 property, so you can just use `new Query()` to create instances. You must ensure that it's a valid user agent string
 (`Name/Version (Contact)`); requests without one may be subject to rate limiting.
+
+### Software Suggestion
+
+When playing around with these APIs and familiarizing yourself with the various objects involved, it can be very useful to get a
+nice overview of the objects' structures. Rather than writing some code and relying on the debugger's interface to browse the
+contents, I can strongly recommend [LINQPad](https://www.linqpad.net/). It's free (although there is a premium version with more
+advanced features).
+
+With it, you just set up a query that references the `MetaBrainz.MusicBrainz` assembly and the corresponding namespace.
+Then you write the code to set up a query object (like above), and call one of its methods, chaining a call to `Dump()` to those
+for which you want the result to be formatted in the output window. Pressing `F5` will then run that code, and provide you with
+a nice view of the object(s) in question.
+
+For example:
+```c#
+var q = new Query("Red Stapler", "19.99", "mailto:milton.waddams@initech.com");
+q.FindReleaseGroups("releasegroup:\"Office Space\"").Dump();
+```
 
 
 ## Accessing Data
