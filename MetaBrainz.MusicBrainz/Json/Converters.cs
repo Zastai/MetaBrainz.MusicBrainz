@@ -27,6 +27,8 @@ namespace MetaBrainz.MusicBrainz.Json {
         yield return CollectionReader.Instance;
         yield return DiscIdLookupResultReader.Instance;
         yield return IsrcReader.Instance;
+        // Browse Results
+        yield return BrowseResultReader.Instance;
         // Search Results
         yield return AnnotationReader.Instance;
         yield return CdStubReader.Instance;
