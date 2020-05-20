@@ -167,7 +167,7 @@ namespace MetaBrainz.MusicBrainz {
     /// -1 if this partial date precedes <paramref name="other"/>, 1 if <paramref name="other"/> precedes this partial date, and 0
     /// otherwise.
     /// </returns>
-    public int CompareTo(PartialDate other) {
+    public int CompareTo(PartialDate? other) {
       if (object.ReferenceEquals(other, null))
         return +1;
       if (this.Year.HasValue) {
