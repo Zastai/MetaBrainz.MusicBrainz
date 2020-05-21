@@ -4,7 +4,7 @@
 
 ### GitHub Issues
 
-- [#4](/../../issues/4): Browse results no deserialize correctly.
+- [#4](/../../issues/4): Browse results now deserialize correctly.
 
 ## v3.0.1 (2020-05-05)
 
