@@ -1,10 +1,16 @@
 # Release Notes
 
+## v3.0.2 (2020-05-21)
+
+### GitHub Issues
+
+- [#4](/../../issues/4): Browse results no deserialize correctly.
+
 ## v3.0.1 (2020-05-05)
 
 ### GitHub Issues
 
-- [#3](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues/3): `null` values for a recording or track's length caused
+- [#3](/../../issues/3): `null` values for a recording or track's length caused
   exceptions, as did `null` values for the status ID of a release. Both cases should now be handled properly.
 
 ## v3.0.0 (2020-04-26)
@@ -117,19 +123,17 @@ Note that there are several breaking API changes in this release (hence the majo
 - MetaBrainz.Common.Json → 3.0.0
 - System.Text.Json → 4.7.1
 
-
 ## v2.0.1 (2020-04-17)
 
 ### GitHub Issues
 
-- [#1](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues/1): a workaround has been applied for
+- [#1](/../../issues/1): a workaround has been applied for
   [SEARCH-579](https://tickets.metabrainz.org/browse/SEARCH-579).
 
 ### Other Changes
 
 - `QueryException` now has its `HelpLink` field set to the contents of the `help` field in the JSON error response body.
 - Fixed a build issue causing the XML documentation to be missing from the NuGet package.
-
 
 ## v2.0 (2020-03-22)
 
