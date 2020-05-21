@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using System.Net;
 
 using JetBrains.Annotations;
 
@@ -103,6 +104,14 @@ namespace MetaBrainz.MusicBrainz {
         var an = typeof(Query).Assembly.GetName();
         this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
       }
+    }
+
+    /// <summary>
+    /// Creates a new instance of the <see cref="Query"/> class with the specified <see cref="WebClient"/> instance, useful for testing.
+    /// </summary>
+    /// <param name="webClient">The instance of the WebClient to use for requests - provide a mocked instance to test.</param>
+    public Query(WebClient webClient) : this("xUnit Tests") {
+      this.TheClient = webClient;
     }
 
     #endregion
