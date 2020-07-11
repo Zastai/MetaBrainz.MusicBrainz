@@ -86,7 +86,7 @@ namespace MetaBrainz.MusicBrainz {
       if (response == null || response.ContentLength == 0)
         return;
       try {
-#if NETSTD_GE_2_1 || NETCORE_GE_3_0
+#if NETSTANDARD2_1 || NETCOREAPP3_1
         var stream = response.GetResponseStream();
         await using var _ = stream.ConfigureAwait(false);
 #else

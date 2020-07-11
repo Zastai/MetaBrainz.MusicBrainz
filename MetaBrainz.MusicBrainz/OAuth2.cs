@@ -189,7 +189,7 @@ namespace MetaBrainz.MusicBrainz {
 
     private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
       Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-#if NETSTD_GE_2_1 || NETCORE_GE_3_0
+#if NETSTANDARD2_1 || NETCOREAPP3_1
       var stream = response.GetResponseStream();
       await using var _ = stream.ConfigureAwait(false);
 #else
@@ -243,7 +243,7 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
-#if NETSTD_GE_2_1 || NETCORE_GE_3_0
+#if NETSTANDARD2_1 || NETCOREAPP3_1
       var rs = req.GetRequestStream();
       await using var _ = rs.ConfigureAwait(false);
 #else
