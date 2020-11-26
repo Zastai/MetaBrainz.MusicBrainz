@@ -1,12 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaBrainz.MusicBrainz", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		appveyor.yml = appveyor.yml
 		build\Common.props = build\Common.props
 		build\Common.targets = build\Common.targets
 		Directory.Build.props = Directory.Build.props
@@ -16,9 +18,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Fi
 		build\TargetFrameworkVersionDefineConstants.targets = build\TargetFrameworkVersionDefineConstants.targets
 		UserGuide.md = UserGuide.md
 		build\Versioning.targets = build\Versioning.targets
-		.editorconfig = .editorconfig
-		appveyor.yml = appveyor.yml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz.Tests", "MetaBrainz.MusicBrainz.Tests\MetaBrainz.MusicBrainz.Tests.csproj", "{5E31D16D-1F9E-49E9-B627-C6F2147341B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,10 +32,15 @@ Global
 		{662BD624-2529-405F-9AC5-925C4401FB45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{662BD624-2529-405F-9AC5-925C4401FB45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{662BD624-2529-405F-9AC5-925C4401FB45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E31D16D-1F9E-49E9-B627-C6F2147341B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E31D16D-1F9E-49E9-B627-C6F2147341B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E31D16D-1F9E-49E9-B627-C6F2147341B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E31D16D-1F9E-49E9-B627-C6F2147341B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {67EFA56C-E953-4D42-AD3B-BE071D4A5781}
 	EndGlobalSection
 EndGlobal
