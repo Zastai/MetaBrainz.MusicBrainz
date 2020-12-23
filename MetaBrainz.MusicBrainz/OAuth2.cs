@@ -184,16 +184,17 @@ namespace MetaBrainz.MusicBrainz {
       using var sr = new StreamReader(stream, enc);
       var json = sr.ReadToEnd();
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-      return JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
+      var token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
+      return token ?? throw new JsonException("Received null authorization token.");
     }
 
     private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
       Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-#if NETSTANDARD2_1 || NETCOREAPP3_1
+#if NETFRAMEWORK || NETCOREAPP2_1
+      using var stream = response.GetResponseStream();
+#else
       var stream = response.GetResponseStream();
       await using var _ = stream.ConfigureAwait(false);
-#else
-      using var stream = response.GetResponseStream();
 #endif
       if (stream == null)
         throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
@@ -208,7 +209,8 @@ namespace MetaBrainz.MusicBrainz {
       using var sr = new StreamReader(stream, enc);
       var json = await sr.ReadToEndAsync().ConfigureAwait(false);
       Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-      return JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
+      var token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
+      return token ?? throw new JsonException("Received null authorization token.");
     }
 
     private IAuthorizationToken RequestToken(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
@@ -243,11 +245,11 @@ namespace MetaBrainz.MusicBrainz {
     }
 
     private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
-#if NETSTANDARD2_1 || NETCOREAPP3_1
+#if NETFRAMEWORK || NETCOREAPP2_1
+      using var rs = req.GetRequestStream();
+#else
       var rs = req.GetRequestStream();
       await using var _ = rs.ConfigureAwait(false);
-#else
-      using var rs = req.GetRequestStream();
 #endif
       var bytes = Encoding.UTF8.GetBytes(body);
       await rs.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);

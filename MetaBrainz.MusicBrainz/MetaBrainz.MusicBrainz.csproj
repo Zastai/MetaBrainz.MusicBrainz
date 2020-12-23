@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MetaBrainz.Build.Sdk">
 
   <PropertyGroup>
     <Title>MusicBrainz Web Service Client Library</Title>
     <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
+    <PackageCopyrightYears>2016-2020</PackageCopyrightYears>
+    <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <Version>3.0.3-pre</Version>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.1;netcoreapp2.1;netstandard2.1;netstandard2.0;net48;net472;net461</TargetFrameworks>
+    <Version>4.0.0-pre</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" IncludeAssets="compile" PrivateAssets="all" />
-    <PackageReference Include="MetaBrainz.Common.Json" Version="3.0.0" />
-    <PackageReference Include="System.Text.Json" Version="4.7.2" />
+    <PackageReference Include="JetBrains.Annotations" IncludeAssets="compile" PrivateAssets="all" />
+    <PackageReference Include="MetaBrainz.Common.Json" />
+    <PackageReference Include="System.Text.Json" />
   </ItemGroup>
 
 </Project>

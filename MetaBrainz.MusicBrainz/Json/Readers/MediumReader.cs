@@ -26,7 +26,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers {
       IReadOnlyList<ITrack>? tracks = null;
       Dictionary<string, object?>? rest = null;
       while (reader.TokenType == JsonTokenType.PropertyName) {
-        var prop = reader.GetString();
+        var prop = reader.GetPropertyName();
         try {
           reader.Read();
           switch (prop) {

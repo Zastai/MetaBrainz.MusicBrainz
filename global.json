@@ -1,0 +1,5 @@
+{
+  "msbuild-sdks": {
+    "MetaBrainz.Build.Sdk" : "1.0.0"
+  }
+}

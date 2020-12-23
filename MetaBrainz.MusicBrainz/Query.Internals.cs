@@ -21,7 +21,10 @@ namespace MetaBrainz.MusicBrainz {
 
     private static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.Readers);
 
-    internal static T Deserialize<T>(string json) => JsonUtils.Deserialize<T>(json, Query.JsonReaderOptions);
+    internal static T Deserialize<T>(string json) {
+      var obj = JsonUtils.Deserialize<T>(json, Query.JsonReaderOptions);
+      return obj ?? throw new JsonException("A null object was received.");
+    }
 
     #endregion
 
@@ -86,14 +89,14 @@ namespace MetaBrainz.MusicBrainz {
       if (response == null || response.ContentLength == 0)
         return;
       try {
-#if NETSTANDARD2_1 || NETCOREAPP3_1
-        var stream = response.GetResponseStream();
-        await using var _ = stream.ConfigureAwait(false);
-#else
+#if NETFRAMEWORK || NETCOREAPP2_1
         using var stream = response.GetResponseStream();
-#endif
         if (stream == null)
           return;
+#else
+        var stream = response.GetResponseStream();
+        await using var _ = stream.ConfigureAwait(false);
+#endif
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
           StringBuilder? sb = null;
