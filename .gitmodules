@@ -1,4 +1,0 @@
-[submodule "build"]
-	path = build
-	url = ../MetaBrainz.Build.git
-	branch = master

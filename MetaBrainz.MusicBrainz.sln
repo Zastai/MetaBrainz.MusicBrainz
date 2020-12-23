@@ -1,23 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetaBrainz.MusicBrainz", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaBrainz.MusicBrainz", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Files", "{F997B31A-CF25-4C63-BEB5-172F7E13D9B3}"
 	ProjectSection(SolutionItems) = preProject
-		build\Common.props = build\Common.props
-		build\Common.targets = build\Common.targets
-		Directory.Build.props = Directory.Build.props
-		Directory.Build.targets = Directory.Build.targets
-		build\PackageIcon.targets = build\PackageIcon.targets
-		README.md = README.md
-		build\TargetFrameworkVersionDefineConstants.targets = build\TargetFrameworkVersionDefineConstants.targets
-		UserGuide.md = UserGuide.md
-		build\Versioning.targets = build\Versioning.targets
 		.editorconfig = .editorconfig
 		appveyor.yml = appveyor.yml
+		Directory.Packages.props = Directory.Packages.props
+		README.md = README.md
+		UserGuide.md = UserGuide.md
+		global.json = global.json
 	EndProjectSection
 EndProject
 Global
@@ -34,6 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0A6B091-8EF6-4A34-AD74-75F1C25A9121}
 	EndGlobalSection
 EndGlobal

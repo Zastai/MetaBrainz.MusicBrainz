@@ -1,13 +1,8 @@
-version: 3.0.3-appveyor.{build}
+version: 'Build #{build}'
 image: Visual Studio 2019
-configuration: Debug
-install:
-- cmd: git submodule update --init --recursive
 before_build:
-- cmd: dotnet restore
-build:
-  publish_nuget: true
-  publish_nuget_symbols: true
-  use_snupkg_format: true
-  parallel: true
-  verbosity: minimal
+- ps: dotnet restore
+build_script:
+- ps: dotnet pack --nologo --no-restore -c:Debug '-p:Deterministic=true' '-p:ContinuousIntegrationBuild=true'
+after_build:
+- ps: Get-ChildItem output/package/*/*.nupkg | % { appveyor PushArtifact $_ }
