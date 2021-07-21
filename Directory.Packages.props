@@ -3,7 +3,7 @@
 
   <!-- Package Versions -->
   <ItemGroup>
-    <PackageVersion Include="JetBrains.Annotations" Version="2020.3.0" />
+    <PackageVersion Include="JetBrains.Annotations" Version="2021.2.0" />
     <PackageVersion Include="MetaBrainz.Common.Json" Version="4.0.0" />
     <PackageVersion Include="System.Text.Json" Version="5.0.0" />
   </ItemGroup>
