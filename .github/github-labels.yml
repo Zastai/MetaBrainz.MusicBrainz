@@ -1,0 +1,65 @@
+# Labels for Release Drafter Categories
+- name: breaking
+  color: 'ec1f04'
+  description: "An incompatible change to a feature or API (requires a bump of the major version)"
+- name: dependencies
+  color: '1d0128'
+  description: "Updates to dependencies"
+- name: deprecated
+  color: 'b19d21'
+  description: "A feature or API was marked as deprecated and will be removed in a future release"
+- name: documentation
+  color: '0075ca'
+  description: "Improvements or additions to documentation"
+- name: enhancement
+  color: 'a2eeef'
+  description: "Changes that do not impact any API"
+- name: feature
+  color: '1a56fa'
+  description: "A new feature or API was added (requires a bump of the minor version)"
+- name: fix
+  color: 'd73a4a'
+  description: "Changes to fix broken behaviour"
+- name: maintenance
+  color: 'a2eeef'
+  description: "Internal changes that do not impact functionality or API"
+- name: no-changelog
+  color: 'cfd3d7'
+  description: "Changes that should not be included in the release notes"
+- name: removed
+  color: 'bd0453'
+  description: "A feature or API was removed (requires a bump of the major version)"
+- name: reverted
+  color: 'cfd3d7'
+  description: "Changes that were completely reverted by a later change"
+- name: tests
+  color: '008672'
+  description: "Changes related to unit tests"
+
+# Additional Labels for Release Drafter Version Resolution
+- name: bump-major-version
+  color: 'cf996b'
+  description: "Changes requiring a bump to the major version"
+- name: bump-minor-version
+  color: 'cf996b'
+  description: "Changes requiring a bump to the minor version"
+
+# Issue Labels
+- name: bug
+  color: 'd73a4a'
+  description: "Something isn't working right"
+- name: duplicate
+  color: 'cfd3d7'
+  description: "An issue or pull request already exists for this"
+- name: invalid
+  color: '554505'
+  description: "This issue or pull request is not valid"
+- name: need-info
+  color: '01ca82'
+  description: "More information is needed"
+- name: regression
+  color: 'd73a4a'
+  description: "Something isn't working right, but it was previously fixed"
+- name: wontfix
+  color: '554505'
+  description: "This will not be worked on"

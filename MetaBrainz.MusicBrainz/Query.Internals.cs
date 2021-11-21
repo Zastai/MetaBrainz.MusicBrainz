@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -89,13 +89,13 @@ namespace MetaBrainz.MusicBrainz {
       if (response == null || response.ContentLength == 0)
         return;
       try {
-#if NETFRAMEWORK || NETCOREAPP2_1
+#if NET || NETCOREAPP2_1_OR_GREATER
+        var stream = response.GetResponseStream();
+        await using var _ = stream.ConfigureAwait(false);
+#else
         using var stream = response.GetResponseStream();
         if (stream == null)
           return;
-#else
-        var stream = response.GetResponseStream();
-        await using var _ = stream.ConfigureAwait(false);
 #endif
         if (response.ContentType.StartsWith("application/xml")) {
           Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
@@ -328,6 +328,8 @@ namespace MetaBrainz.MusicBrainz {
     #endregion
 
     #region Web Client / IDisposable
+
+#pragma warning disable SYSLIB0014 // Disable complaints about WebClient until this is rewritten for HttpClient
 
     private readonly SemaphoreSlim ClientLock = new SemaphoreSlim(1);
 

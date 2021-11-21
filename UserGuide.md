@@ -25,8 +25,7 @@ property, so you can just use `new Query()` to create instances. You must ensure
 
 When playing around with these APIs and familiarizing yourself with the various objects involved, it can be very useful to get a
 nice overview of the objects' structures. Rather than writing some code and relying on the debugger's interface to browse the
-contents, I can strongly recommend [LINQPad](https://www.linqpad.net/). It's free (although there is a premium version with more
-advanced features).
+contents, I can strongly recommend [LINQPad][LINQPad]. It's free (although there is a premium version with more advanced features).
 
 With it, you just set up a query that references the `MetaBrainz.MusicBrainz` assembly and the corresponding namespace.
 Then you write the code to set up a query object (like above), and call one of its methods, chaining a call to `Dump()` to those
@@ -39,6 +38,7 @@ var q = new Query("Red Stapler", "19.99", "mailto:milton.waddams@initech.com");
 q.FindReleaseGroups("releasegroup:\"Office Space\"").Dump();
 ```
 
+[LINQPad]: https://www.linqpad.net/
 
 ## Accessing Data
 
@@ -107,8 +107,8 @@ foreach (var work in works.Results) {
 
 You can also search for entities using a textual search query, using the `FindXxx()` methods. When you pass `true` as the `simple`
 parameter, the query is a simple bit of text that gets matched against the main fields for an entity. Otherwise, the more complex
-[Indexed Search syntax](https://musicbrainz.org/doc/Indexed_Search_Syntax) applies (note: the list of fields for each entity is
-also included in the corresponding Find method's XML docs).
+[Indexed Search syntax][ISSyntax] applies (note: the list of fields for each entity is also included in the corresponding `Find`
+method's XML docs).
 
 Calls to the Find API methods return objects of type `ISearchResults<ISearchResult<T>>`, where `T` is the specific entity type
 you're looking for. `ISearchResults` is more or less identical to `IBrowseResults` (see above); it just adds a `Created` property
@@ -124,13 +124,16 @@ var elvises = q.FindArtist("Elvis", simple: true); // at the time of writing, To
 var elvisesFromTupelo = q.FindArtist("name:Elvis AND beginarea:Tupelo"); // but for this one it's 1 
 ```
 
+[ISSyntax]: https://musicbrainz.org/doc/Indexed_Search_Syntax
+
 ### Unhandled Information
 
 Almost all objects returned by the API implement `IJsonBasedObject`. Its `UnhandledProperties` property provides access to a
 (read-only) dictionary containing any and all JSON properties that were returned by the server but not recognized by the library.
-Under normal circumstances, this dictionary should be `null`; if it isn't please file
-[a ticket](https://github.com/Zastai/MetaBrainz.MusicBrainz/issues) to add support for the field(s) in question.
+Under normal circumstances, this dictionary should be `null`; if it isn't, please [file a ticket][GHIssues] to add support for the
+field(s) in question.
 
+[GHIssues]: https://github.com/Zastai/MetaBrainz.MusicBrainz/issues
 
 ## Authentication
 
@@ -140,8 +143,8 @@ property of a `Query` object.
 
 ### Initial Permissions
 
-As a first step, you will need to go to [your MusicBrainz account page](https://musicbrainz.org/account/applications) and register
-an application. That provides you with both a client ID and a client secret.
+As a first step, you will need to go to [your MusicBrainz account page][MBAccount] and register an application. That provides you
+with both a client ID and a client secret.
 
 The second is to get the user to provide your application with the required authorization. You do this by calling the
 `CreateAuthorizationRequest` method, passing the callback URI you configured for your application in step one. If you set up an
@@ -170,6 +173,8 @@ refresh token with the rest of the user information, for later use.
 var at = await oa.GetBearerTokenAsync(authorizationToken, clientSecret, OAuth2.OutOfBandUri);
 q.BearerToken = at.AccessToken;
 ```
+
+[MBAccount]: https://musicbrainz.org/account/applications
 
 ### Refreshing Permissions
 
