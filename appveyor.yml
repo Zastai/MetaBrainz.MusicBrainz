@@ -1,8 +1,6 @@
 version: 'Build #{build}'
-image: Visual Studio 2019
-before_build:
-- ps: dotnet restore
+image: Visual Studio 2022
 build_script:
-- ps: dotnet pack --nologo --no-restore -c:Debug '-p:Deterministic=true' '-p:ContinuousIntegrationBuild=true'
+  - ps: .\build-package.ps1 -Configuration Debug
 after_build:
-- ps: Get-ChildItem output/package/*/*.nupkg | % { appveyor PushArtifact $_ }
+  - ps: Get-ChildItem output/package/*/*.nupkg | % { appveyor PushArtifact $_ }

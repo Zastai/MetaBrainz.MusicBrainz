@@ -2,7 +2,8 @@
 /.vs/
 /.vscode/
 /output/
-/msbuild.binlog
+msbuild.binlog
+msbuild.*.binlog
 *.*proj.user
 *.DotSettings.user
 *.userprefs

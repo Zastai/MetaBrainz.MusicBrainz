@@ -1,0 +1,48 @@
+name-template: $RESOLVED_VERSION
+tag-template: v$RESOLVED_VERSION
+version-template: $MAJOR.$MINOR.$PATCH
+
+template: |
+  <!-- Optional: add a release summary here -->
+  $CHANGES
+
+# Emoji reference: https://gitmoji.carloscuesta.me/
+categories:
+  - title: 💥 Breaking Changes
+    label: breaking
+  - title: 🚨 Removed
+    label: removed
+  - title: ⚠️ Deprecated
+    label: deprecated
+  - title: 🚀 New Features and Improvements
+    labels:
+      - enhancement
+      - feature
+  - title: 🐛 Bug Fixes
+    label: fix
+  - title: 📦 Dependency Updates
+    label: dependencies # Used by Dependabot
+  - title: 📝 Documentation Updates
+    label: documentation
+  - title: 👻 Maintenance
+    label: maintenance
+  - title: 🚦 Tests
+    label: tests
+
+exclude-labels:
+  - duplicate
+  - invalid
+  - no-changelog
+  - reverted
+
+version-resolver:
+  major:
+    labels:
+      - breaking
+      - removed
+      - bump-major-version
+  minor:
+    labels:
+      - feature
+      - bump-minor-version
+  default: patch
