@@ -16,14 +16,18 @@ public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject
 where TInterface : IPagedQueryResults<TInterface, TItem> {
 
   /// <summary>
-  ///   The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in <see cref="Results"/>).
-  ///   Valid range is 1-100; if not specifically set, the server's default (normally 25) is used.
+  /// The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in
+  /// <see cref="Results"/>).<br/>
+  /// Valid range is 1-100; if not specifically set, the server's default (normally 25) is used.
   /// </summary>
-  /// <remarks>Setting this only affects further web requests made via calls to <see cref="Next()"/> and/or <see cref="Previous()"/>.</remarks>
+  /// <remarks>
+  /// Setting this only affects further web requests made via calls to <see cref="Next()"/> and/or <see cref="Previous()"/>.
+  /// </remarks>
   int? Limit { get; set; }
 
   /// <summary>
-  ///   Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on
+  /// <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
@@ -31,7 +35,8 @@ where TInterface : IPagedQueryResults<TInterface, TItem> {
   TInterface Next();
 
   /// <summary>
-  ///   Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on
+  /// <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>An asynchronous task returning this result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
@@ -39,16 +44,20 @@ where TInterface : IPagedQueryResults<TInterface, TItem> {
   Task<TInterface> NextAsync();
 
   /// <summary>
-  ///   The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or null to continue where the current results end.
+  /// The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or <see langword="null"/>
+  /// to continue where the current results end.
   /// </summary>
-  /// <remarks>This is reset to null when a request is made, so when set to a specific value, that value is only used once.</remarks>
+  /// <remarks>
+  /// This is reset to <see langword="null"/> when a request is made, so when set to a specific value, that value is only used once.
+  /// </remarks>
   int? NextOffset { get; set; }
 
   /// <summary>The starting offset within the total set of matches for the current result set.</summary>
   int Offset { get; }
 
   /// <summary>
-  ///   Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on
+  /// <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
@@ -56,7 +65,8 @@ where TInterface : IPagedQueryResults<TInterface, TItem> {
   TInterface Previous();
 
   /// <summary>
-  ///   Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on
+  /// <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>An asynchronous task returning this result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>

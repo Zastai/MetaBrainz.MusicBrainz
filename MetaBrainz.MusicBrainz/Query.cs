@@ -89,9 +89,15 @@ public sealed partial class Query {
   /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
   /// <param name="application">The application name to use in the user agent property for all requests.</param>
   /// <param name="version">The version number to use in the user agent property for all requests.</param>
-  /// <param name="contact">The contact address (typically a URL or email address) to use in the user agent property for all requests.</param>
-  /// <exception cref="ArgumentNullException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.</exception>
-  /// <exception cref="ArgumentException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are blank.</exception>
+  /// <param name="contact">
+  /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
+  /// </param>
+  /// <exception cref="ArgumentNullException">
+  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.
+  /// </exception>
+  /// <exception cref="ArgumentException">
+  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are blank.
+  /// </exception>
   public Query(string application, string version, string contact) {
     if (string.IsNullOrWhiteSpace(application)) {
       throw new ArgumentException("The application name must not be blank.", nameof(application));

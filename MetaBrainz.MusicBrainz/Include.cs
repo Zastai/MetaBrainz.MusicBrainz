@@ -118,8 +118,9 @@ public enum Include : long {
 
   /// <summary>Include information about relationships involving the recordings on the release.</summary>
   /// <remarks>
-  ///   Only valid on queries for releases. Will have no real effect unless information about the release's recordings (via <see cref="Recordings"/>)
-  ///   and one or more relationships (via <see cref="ArtistRelationships"/>, <see cref="WorkRelationships"/>, ...) is being requested at the same time.
+  /// Only valid on queries for releases. Will have no real effect unless information about the release's recordings (via
+  /// <see cref="Recordings"/>) and one or more relationships (via <see cref="ArtistRelationships"/>,
+  /// <see cref="WorkRelationships"/>, ...) is being requested at the same time.
   /// </remarks>
   RecordingLevelRelationships = 1L << 46,
 
@@ -140,8 +141,9 @@ public enum Include : long {
 
   /// <summary>Include information about relationships involving the works associated with the recordings.</summary>
   /// <remarks>
-  ///   Only valid on queries for releases or recordings. Will have no real effect unless information about related works (<see cref="WorkRelationships"/>)
-  ///   and one or more relationships (<see cref="ArtistRelationships"/>, ...) is being requested at the same time.
+  /// Only valid on queries for releases or recordings. Will have no real effect unless information about related works
+  /// (<see cref="WorkRelationships"/>) and one or more relationships (<see cref="ArtistRelationships"/>, ...) is being requested at
+  /// the same time.
   /// </remarks>
   WorkLevelRelationships = 1L << 52,
 

@@ -214,7 +214,9 @@ public sealed partial class Query {
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
   /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
+  /// <param name="items">
+  /// The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.
+  /// </param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
@@ -429,7 +431,9 @@ public sealed partial class Query {
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
   /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
+  /// <param name="items">
+  /// The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.
+  /// </param>
   /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
@@ -644,7 +648,9 @@ public sealed partial class Query {
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
   /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
+  /// <param name="items">
+  /// The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.
+  /// </param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
@@ -859,7 +865,9 @@ public sealed partial class Query {
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
   /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.</param>
+  /// <param name="items">
+  /// The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.
+  /// </param>
   /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>

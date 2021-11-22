@@ -18,8 +18,8 @@ public interface IRelationship : IJsonBasedObject {
   IArtist? Artist { get; }
 
   /// <summary>
-  ///   The attributes attached to the relationship (if any).
-  ///   These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
+  /// The attributes attached to the relationship (if any).
+  /// These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
   /// </summary>
   IReadOnlyList<string>? Attributes { get; }
 

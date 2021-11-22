@@ -16,7 +16,9 @@ public sealed class RatingSubmission : Submission {
 
   /// <summary>Adds the specified rating to the specified entity.</summary>
   /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
-  /// <param name="entityType">The type of entity identified by <paramref name="mbid"/>; must be an entity that supports ratings.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports ratings.
+  /// </param>
   /// <param name="mbid">The MBID of the entity to rate.</param>
   /// <returns>This submission request.</returns>
   public RatingSubmission Add(byte rating, EntityType entityType, Guid mbid) {
@@ -30,7 +32,9 @@ public sealed class RatingSubmission : Submission {
 
   /// <summary>Adds the specified rating to the specified entities.</summary>
   /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
-  /// <param name="entityType">The type of entity identified by <paramref name="mbids"/>; must be an entity that supports ratings.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbids"/>; must be an entity that supports ratings.
+  /// </param>
   /// <param name="mbids">The MBIDs of the entities to rate.</param>
   /// <returns>This submission request.</returns>
   public RatingSubmission Add(byte rating, EntityType entityType, params Guid[] mbids) {

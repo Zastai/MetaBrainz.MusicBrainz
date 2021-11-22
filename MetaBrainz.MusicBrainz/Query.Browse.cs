@@ -1825,7 +1825,9 @@ public sealed partial class Query {
                                                             ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.Id:D}", type, status), limit, offset).NextAsync();
 
-  /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
+  /// <summary>
+  /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
+  /// </summary>
   /// <param name="mbid">The MBID for the artist whose releases should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
@@ -1840,7 +1842,9 @@ public sealed partial class Query {
                                                             ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={mbid:D}", type, status), limit, offset).Next();
 
-  /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
+  /// <summary>
+  /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
+  /// </summary>
   /// <param name="artist">The artist whose releases should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
@@ -1855,7 +1859,9 @@ public sealed partial class Query {
                                                             ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.Id:D}", type, status), limit, offset).Next();
 
-  /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
+  /// <summary>
+  /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
+  /// </summary>
   /// <param name="mbid">The MBID for the artist whose releases should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
@@ -1870,7 +1876,9 @@ public sealed partial class Query {
                                                                        ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={mbid:D}", type, status), limit, offset).NextAsync();
 
-  /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
+  /// <summary>
+  /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
+  /// </summary>
   /// <param name="artist">The artist whose releases should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
@@ -1980,7 +1988,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>
-  ///   Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should always return exactly one result.
+  /// Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should
+  /// always return exactly one result.
   /// </remarks>
   public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None, ReleaseType? type = null)
@@ -1996,7 +2005,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>
-  ///   Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should always return exactly one result.
+  /// Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should
+  /// always return exactly one result.
   /// </remarks>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                              Include inc = Include.None, ReleaseType? type = null)
@@ -2037,7 +2047,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
+  /// <remarks>
+  /// Currently a release can only be part of a single release group, so this should always return exactly one result.
+  /// </remarks>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).Next();
@@ -2077,7 +2089,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
+  /// <remarks>
+  /// Currently a release can only be part of a single release group, so this should always return exactly one result.
+  /// </remarks>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).NextAsync();

@@ -17,7 +17,9 @@ public interface ICoverArtArchive : IJsonBasedObject {
   /// <summary>The number of items available.</summary>
   int Count { get; }
 
-  /// <summary>Flag indicating that the CoverArt Archive has received a take-down request for this release (preventing further uploads).</summary>
+  /// <summary>
+  /// Flag indicating that the CoverArt Archive has received a take-down request for this release (preventing further uploads).
+  /// </summary>
   bool Darkened { get; }
 
   /// <summary>Flag indicating that a front cover image is available.</summary>
