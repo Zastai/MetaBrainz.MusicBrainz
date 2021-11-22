@@ -14,13 +14,16 @@ internal sealed class LifeSpan : JsonBasedObject, ILifeSpan {
   public override string ToString() {
     var text = this.Begin?.ToString() ?? "????";
     if (!object.ReferenceEquals(this.End, null)) {
-      if (this.End != this.Begin)
+      if (this.End != this.Begin) {
         text += $" – {this.End}";
+      }
     }
-    else if (this.Ended)
+    else if (this.Ended) {
       text += " – ????";
-    else
+    }
+    else {
       text += " –";
+    }
     return text;
   }
 

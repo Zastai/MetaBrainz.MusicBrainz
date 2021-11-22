@@ -109,10 +109,12 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
       }
       reader.Read();
     }
-    if (count == null)
+    if (count == null) {
       throw new JsonException("Expected result count not found or null.");
-    if (offset == null)
+    }
+    if (offset == null) {
       throw new JsonException("Expected result offset not found or null.");
+    }
     return new BrowseResult(count.Value, offset.Value) {
       Areas = areas,
       Artists = artists,

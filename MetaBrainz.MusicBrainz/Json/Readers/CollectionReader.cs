@@ -48,8 +48,9 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
             break;
           case "entity-type":
             contentType = HelperMethods.ParseEntityType(reader.GetString());
-            if (contentType == EntityType.Unknown)
+            if (contentType == EntityType.Unknown) {
               goto default; // put the actual value in UnhandledProperties
+            }
             break;
           case "event-count":
             eventCount = reader.GetInt32();
@@ -101,10 +102,12 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
-    if (!contentType.HasValue)
+    }
+    if (!contentType.HasValue) {
       throw new JsonException("Expected entity type not found or null.");
+    }
     int itemCount;
     switch (contentType.Value) {
       case EntityType.Area:
@@ -167,8 +170,9 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
   }
 
   private static void CheckCount(ref Dictionary<string, object?>? dictionary, bool ok, string name, int? count) {
-    if (ok || !count.HasValue)
+    if (ok || !count.HasValue) {
       return;
+    }
     dictionary ??= new Dictionary<string, object?>();
     dictionary[name] = count.Value;
   }

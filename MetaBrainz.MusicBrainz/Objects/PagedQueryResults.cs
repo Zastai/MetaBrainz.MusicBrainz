@@ -79,12 +79,14 @@ where TResultObject : class {
     }
     else {
       var limit = Math.Min(this.Limit.GetValueOrDefault(Query.DefaultPageSize), Query.MaximumPageSize);
-      if (limit < 1)
+      if (limit < 1) {
         limit = Query.DefaultPageSize;
+      }
       this.Offset -= limit;
     }
-    if (this.Offset < 0)
+    if (this.Offset < 0) {
       this.Offset = 0;
+    }
   }
 
   private void UpdateOffset(int lastResultCount) {
@@ -92,10 +94,12 @@ where TResultObject : class {
       this.Offset = this.NextOffset.Value;
       this.NextOffset = null;
     }
-    else
+    else {
       this.Offset += lastResultCount;
-    if (this.Offset < 0)
+    }
+    if (this.Offset < 0) {
       this.Offset = 0;
+    }
   }
 
   private readonly string? Value;

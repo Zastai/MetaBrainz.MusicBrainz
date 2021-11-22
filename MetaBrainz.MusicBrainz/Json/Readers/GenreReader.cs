@@ -46,10 +46,12 @@ internal sealed class GenreReader : ObjectReader<Genre> {
       }
       reader.Read();
     }
-    if (id == null)
+    if (id == null) {
       throw new JsonException("Expected genre id not found or null.");
-    if (name == null)
+    }
+    if (name == null) {
       throw new JsonException("Expected genre name not found or null.");
+    }
     return new Genre(id.Value, name) {
       Disambiguation = disambiguation,
       UnhandledProperties = rest,

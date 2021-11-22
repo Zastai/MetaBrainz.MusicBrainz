@@ -65,13 +65,15 @@ internal sealed class Release : Entity, IRelease {
   public override string ToString() {
     var text = string.Empty;
     if (this.ArtistCredit != null) {
-      foreach (var nc in this.ArtistCredit)
+      foreach (var nc in this.ArtistCredit) {
         text += nc.ToString();
+      }
       text += " / ";
     }
     text += this.Title;
-    if (!string.IsNullOrEmpty(this.Disambiguation))
+    if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += $" ({this.Disambiguation})";
+    }
     return text;
   }
 

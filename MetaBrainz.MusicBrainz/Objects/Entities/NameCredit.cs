@@ -13,14 +13,18 @@ internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Artist != null && this.Name != null && this.Artist.Name != this.Name)
+    if (this.Artist != null && this.Name != null && this.Artist.Name != this.Name) {
       text += $"[{this.Artist} as “{this.Name}”]";
-    else if (this.Artist != null)
+    }
+    else if (this.Artist != null) {
       text += this.Artist.ToString();
-    else if (this.Name != null)
+    }
+    else if (this.Name != null) {
       text += this.Name;
-    if (this.JoinPhrase != null)
+    }
+    if (this.JoinPhrase != null) {
       text += this.JoinPhrase;
+    }
     return text;
   }
 

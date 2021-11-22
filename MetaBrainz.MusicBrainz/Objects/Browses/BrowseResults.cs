@@ -24,12 +24,15 @@ where TResult : IEntity {
 
   protected sealed override string FullExtraText() {
     var extra = this.Extra;
-    if (string.IsNullOrEmpty(extra))
+    if (string.IsNullOrEmpty(extra)) {
       extra = $"?offset={this.Offset}";
-    else
+    }
+    else {
       extra += $"&offset={this.Offset}";
-    if (this.Limit.HasValue)
+    }
+    if (this.Limit.HasValue) {
       extra += $"&limit={this.Limit}";
+    }
     return extra;
   }
 

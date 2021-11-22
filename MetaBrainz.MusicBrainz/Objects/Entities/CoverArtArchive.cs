@@ -16,8 +16,9 @@ internal sealed class CoverArtArchive : JsonBasedObject, ICoverArtArchive {
   public bool Front { get; set; }
 
   public override string ToString() {
-    if (this.Darkened)
+    if (this.Darkened) {
       return "<cover art taken down>";
+    }
     return (this.Count == 0) ? "<no cover art>" : $"{this.Count} item(s)";
   }
 

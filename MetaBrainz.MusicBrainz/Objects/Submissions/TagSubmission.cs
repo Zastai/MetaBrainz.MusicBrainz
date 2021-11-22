@@ -21,8 +21,9 @@ public sealed class TagSubmission : Submission {
   /// <param name="tags">The tags to vote for.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(EntityType entityType, Guid mbid, TagVote vote, params string[] tags) {
-    foreach (var tag in tags)
+    foreach (var tag in tags) {
       this.Add(tag, vote, entityType, mbid);
+    }
     return this;
   }
 
@@ -32,8 +33,9 @@ public sealed class TagSubmission : Submission {
   /// <param name="tags">The tags to vote for.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(ITaggableEntity entity, TagVote vote, params string[] tags) {
-    foreach (var tag in tags)
+    foreach (var tag in tags) {
       this.Add(tag, vote, entity.EntityType, entity.Id);
+    }
     return this;
   }
 
@@ -45,8 +47,9 @@ public sealed class TagSubmission : Submission {
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, EntityType entityType, Guid mbid) {
     var map = this.GetMap(entityType);
-    if (!map.TryGetValue(mbid, out var tagVote))
+    if (!map.TryGetValue(mbid, out var tagVote)) {
       map.Add(mbid, tagVote = new VoteMap());
+    }
     tagVote[tag] = vote;
     return this;
   }
@@ -58,8 +61,9 @@ public sealed class TagSubmission : Submission {
   /// <param name="mbids">The MBIDs of the entities to tag.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params Guid[] mbids) {
-    foreach (var mbid in mbids)
+    foreach (var mbid in mbids) {
       this.Add(tag, vote, entityType, mbid);
+    }
     return this;
   }
 
@@ -79,8 +83,9 @@ public sealed class TagSubmission : Submission {
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, params ITaggableEntity[] entities) {
     foreach (var item in entities) {
-      if (item == null)
+      if (item == null) {
         continue;
+      }
       this.Add(tag, vote, item.EntityType, item.Id);
     }
     return this;
@@ -149,8 +154,9 @@ public sealed class TagSubmission : Submission {
   }
 
   private static void Write(XmlWriter xml, TagMap items, string element) {
-    if (items.Count == 0)
+    if (items.Count == 0) {
       return;
+    }
     xml.WriteStartElement(element + "-list");
     foreach (var entry in items) {
       xml.WriteStartElement(element);

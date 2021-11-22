@@ -32,8 +32,9 @@ internal sealed class Alias : JsonBasedObject, IAlias {
 
   public override string ToString() {
     var text = this.Name ?? string.Empty;
-    if (!string.IsNullOrEmpty(this.Type))
+    if (!string.IsNullOrEmpty(this.Type)) {
       text += $" ({this.Type})";
+    }
     return text;
   }
 

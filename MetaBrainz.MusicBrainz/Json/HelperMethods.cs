@@ -9,8 +9,9 @@ internal static class HelperMethods {
 
   public static TimeSpan? GetOptionalTimeSpanFromMilliseconds(this ref Utf8JsonReader reader) {
     var ms = reader.GetOptionalDouble();
-    if (ms == null)
+    if (ms == null) {
       return null;
+    }
     return TimeSpan.FromMilliseconds(ms.Value);
   }
 

@@ -83,8 +83,9 @@ internal sealed class InstrumentReader : ObjectReader<Instrument> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
+    }
     return new Instrument(id.Value) {
       Aliases = aliases,
       Annotation = annotation,

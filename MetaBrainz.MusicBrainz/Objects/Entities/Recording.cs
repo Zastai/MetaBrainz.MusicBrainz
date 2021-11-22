@@ -45,15 +45,18 @@ internal sealed class Recording : Entity, IRecording {
   public override string ToString() {
     var text = string.Empty;
     if (this.ArtistCredit != null) {
-      foreach (var nc in this.ArtistCredit)
+      foreach (var nc in this.ArtistCredit) {
         text += nc.ToString();
+      }
       text += " / ";
     }
     text += this.Title;
-    if (!string.IsNullOrEmpty(this.Disambiguation))
+    if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += $" ({this.Disambiguation})";
-    if (this.Length.HasValue)
+    }
+    if (this.Length.HasValue) {
       text += $" ({this.Length.Value:g})";
+    }
     return text;
   }
 

@@ -19,8 +19,9 @@ internal sealed class SearchResultReader<T> : JsonReader<SearchResult<T>> where 
         if (rawScore is int intValue) {
           score = (byte) intValue;
           item.UnhandledProperties.Remove("score");
-          if (item.UnhandledProperties.Count == 0)
+          if (item.UnhandledProperties.Count == 0) {
             item.UnhandledProperties = null;
+          }
         }
       }
     }

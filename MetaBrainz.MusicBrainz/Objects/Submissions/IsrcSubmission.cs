@@ -19,12 +19,15 @@ public sealed class IsrcSubmission : Submission {
   /// <param name="isrcs">One or more (valid) ISRCs to add to the recording.</param>
   /// <returns>This submission request.</returns>
   public IsrcSubmission Add(Guid mbid, params string[] isrcs) {
-    if (isrcs.Length == 0)
+    if (isrcs.Length == 0) {
       return this;
-    if (this._isrcs.TryGetValue(mbid, out var current))
+    }
+    if (this._isrcs.TryGetValue(mbid, out var current)) {
       current.AddRange(isrcs);
-    else
+    }
+    else {
       this._isrcs.Add(mbid, new List<string>(isrcs));
+    }
     return this;
   }
 
@@ -50,8 +53,9 @@ public sealed class IsrcSubmission : Submission {
         xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
         xml.WriteStartElement("recording-list");
         foreach (var entry in this._isrcs) {
-          if (entry.Value == null || entry.Value.Count == 0)
+          if (entry.Value == null || entry.Value.Count == 0) {
             continue;
+          }
           xml.WriteStartElement("recording");
           xml.WriteAttributeString("id", entry.Key.ToString("D"));
           xml.WriteStartElement("isrc-list");

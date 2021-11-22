@@ -42,10 +42,12 @@ internal sealed class Place : Entity, IPlace {
 
   public override string ToString() {
     var text = this.Name ?? string.Empty;
-    if (!string.IsNullOrEmpty(this.Disambiguation))
+    if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += $" ({this.Disambiguation})";
-    if (this.Type != null)
+    }
+    if (this.Type != null) {
       text += $" ({this.Type})";
+    }
     return text;
   }
 

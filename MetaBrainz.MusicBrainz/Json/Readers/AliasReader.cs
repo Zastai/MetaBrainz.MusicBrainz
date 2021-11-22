@@ -68,8 +68,9 @@ internal sealed class AliasReader : ObjectReader<Alias> {
       }
       reader.Read();
     }
-    if (name == null)
+    if (name == null) {
       throw new JsonException("Expected name not found or null.");
+    }
     return new Alias(name, primary) {
       Begin = begin,
       End = end,

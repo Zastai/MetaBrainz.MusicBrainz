@@ -18,8 +18,9 @@ internal sealed class Genre : Entity, IGenre {
 
   public override string ToString() {
     var text = this.Name;
-    if (this.VoteCount.HasValue)
+    if (this.VoteCount.HasValue) {
       text += $" (votes: {this.VoteCount})";
+    }
     return text;
   }
 

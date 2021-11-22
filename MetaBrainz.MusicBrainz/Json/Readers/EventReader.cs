@@ -103,8 +103,9 @@ internal sealed class EventReader : ObjectReader<Event> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
+    }
     return new Event(id.Value) {
       Aliases = aliases,
       Annotation = annotation,

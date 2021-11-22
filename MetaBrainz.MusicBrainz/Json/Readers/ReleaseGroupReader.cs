@@ -107,8 +107,9 @@ internal sealed class ReleaseGroupReader : ObjectReader<ReleaseGroup> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
+    }
     return new ReleaseGroup(id.Value) {
       Aliases = aliases,
       Annotation = annotation,
