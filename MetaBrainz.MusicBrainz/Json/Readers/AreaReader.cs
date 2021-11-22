@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class AreaReader : ObjectReader<Area> {
 
-  public static readonly AreaReader Instance = new AreaReader();
+  public static readonly AreaReader Instance = new();
 
   protected override Area ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

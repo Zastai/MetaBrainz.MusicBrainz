@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class ReleaseEventReader : ObjectReader<ReleaseEvent> {
 
-  public static readonly ReleaseEventReader Instance = new ReleaseEventReader();
+  public static readonly ReleaseEventReader Instance = new();
 
   protected override ReleaseEvent ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IArea? area = null;

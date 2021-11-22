@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class MessageOrErrorReader : ObjectReader<MessageOrError> {
 
-  public static readonly MessageOrErrorReader Instance = new MessageOrErrorReader();
+  public static readonly MessageOrErrorReader Instance = new();
 
   protected override MessageOrError ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? error = null;

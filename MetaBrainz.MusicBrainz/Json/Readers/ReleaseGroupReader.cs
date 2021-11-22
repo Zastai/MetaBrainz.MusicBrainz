@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class ReleaseGroupReader : ObjectReader<ReleaseGroup> {
 
-  public static readonly ReleaseGroupReader Instance = new ReleaseGroupReader();
+  public static readonly ReleaseGroupReader Instance = new();
 
   protected override ReleaseGroup ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

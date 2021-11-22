@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class SeriesReader : ObjectReader<Series> {
 
-  public static readonly SeriesReader Instance = new SeriesReader();
+  public static readonly SeriesReader Instance = new();
 
   protected override Series ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class CoverArtArchiveReader : ObjectReader<CoverArtArchive> {
 
-  public static readonly CoverArtArchiveReader Instance = new CoverArtArchiveReader();
+  public static readonly CoverArtArchiveReader Instance = new();
 
   protected override CoverArtArchive ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     var artwork = false;

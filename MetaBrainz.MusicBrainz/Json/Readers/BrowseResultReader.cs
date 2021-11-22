@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
 
-  public static readonly BrowseResultReader Instance = new BrowseResultReader();
+  public static readonly BrowseResultReader Instance = new();
 
   protected override BrowseResult ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IArea>? areas = null;

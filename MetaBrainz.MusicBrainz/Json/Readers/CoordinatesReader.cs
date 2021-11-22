@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
 
-  public static readonly CoordinatesReader Instance = new CoordinatesReader();
+  public static readonly CoordinatesReader Instance = new();
 
   protected override Coordinates ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     double? latitude = null;

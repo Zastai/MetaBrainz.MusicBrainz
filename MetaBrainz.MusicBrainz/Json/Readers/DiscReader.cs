@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class DiscReader : ObjectReader<Disc> {
 
-  public static readonly DiscReader Instance = new DiscReader();
+  public static readonly DiscReader Instance = new();
 
   protected override Disc ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? id = null;

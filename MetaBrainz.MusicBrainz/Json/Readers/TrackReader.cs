@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class TrackReader : ObjectReader<Track> {
 
-  public static readonly TrackReader Instance = new TrackReader();
+  public static readonly TrackReader Instance = new();
 
   protected override Track ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<INameCredit>? artistCredit = null;

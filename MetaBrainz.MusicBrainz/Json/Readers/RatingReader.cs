@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class RatingReader : ObjectReader<Rating> {
 
-  public static readonly RatingReader Instance = new RatingReader();
+  public static readonly RatingReader Instance = new();
 
   protected override Rating ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     decimal? value = null;

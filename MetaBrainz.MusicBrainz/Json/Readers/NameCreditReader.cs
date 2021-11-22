@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class NameCreditReader : ObjectReader<NameCredit> {
 
-  public static readonly NameCreditReader Instance = new NameCreditReader();
+  public static readonly NameCreditReader Instance = new();
 
   protected override NameCredit ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IArtist? artist = null;

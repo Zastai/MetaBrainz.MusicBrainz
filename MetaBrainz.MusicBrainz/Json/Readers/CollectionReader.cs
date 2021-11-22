@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class CollectionReader : ObjectReader<Collection> {
 
-  public static readonly CollectionReader Instance = new CollectionReader();
+  public static readonly CollectionReader Instance = new();
 
   protected override Collection ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     int? areaCount = null;

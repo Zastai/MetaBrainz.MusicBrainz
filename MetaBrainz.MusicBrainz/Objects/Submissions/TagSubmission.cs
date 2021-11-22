@@ -101,17 +101,17 @@ public sealed class TagSubmission : Submission {
 
   private class TagMap : Dictionary<Guid, VoteMap> { }
 
-  private readonly TagMap _areas         = new TagMap();
-  private readonly TagMap _artists       = new TagMap();
-  private readonly TagMap _events        = new TagMap();
-  private readonly TagMap _instruments   = new TagMap();
-  private readonly TagMap _labels        = new TagMap();
-  private readonly TagMap _places        = new TagMap();
-  private readonly TagMap _recordings    = new TagMap();
-  private readonly TagMap _releases      = new TagMap();
-  private readonly TagMap _releaseGroups = new TagMap();
-  private readonly TagMap _series        = new TagMap();
-  private readonly TagMap _works         = new TagMap();
+  private readonly TagMap _areas         = new();
+  private readonly TagMap _artists       = new();
+  private readonly TagMap _events        = new();
+  private readonly TagMap _instruments   = new();
+  private readonly TagMap _labels        = new();
+  private readonly TagMap _places        = new();
+  private readonly TagMap _recordings    = new();
+  private readonly TagMap _releases      = new();
+  private readonly TagMap _releaseGroups = new();
+  private readonly TagMap _series        = new();
+  private readonly TagMap _works         = new();
 
   private TagMap GetMap(EntityType entityType) {
     return entityType switch {

@@ -15,7 +15,7 @@ public sealed partial class Query {
   /// </param>
   /// <returns>A new barcode submission request.</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  public BarcodeSubmission SubmitBarcodes(string client) => new BarcodeSubmission(this, client);
+  public BarcodeSubmission SubmitBarcodes(string client) => new(this, client);
 
   /// <summary>Creates a submission request for adding one or more ISRCs to one or more recordings.</summary>
   /// <param name="client">
@@ -26,7 +26,7 @@ public sealed partial class Query {
   /// </param>
   /// <returns>A new ISRC submission request.</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  public IsrcSubmission SubmitIsrcs(string client) => new IsrcSubmission(this, client);
+  public IsrcSubmission SubmitIsrcs(string client) => new(this, client);
 
   /// <summary>Creates a submission request for rating one or more entities.</summary>
   /// <param name="client">
@@ -36,7 +36,7 @@ public sealed partial class Query {
   /// </param>
   /// <returns>A new rating submission request.</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  public RatingSubmission SubmitRatings(string client) => new RatingSubmission(this, client);
+  public RatingSubmission SubmitRatings(string client) => new(this, client);
 
   /// <summary>Creates a submission request for modifying tags on one or more entities.</summary>
   /// <param name="client">
@@ -46,6 +46,6 @@ public sealed partial class Query {
   /// </param>
   /// <returns>A new tag submission request.</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  public TagSubmission SubmitTags(string client) => new TagSubmission(this, client);
+  public TagSubmission SubmitTags(string client) => new(this, client);
 
 }

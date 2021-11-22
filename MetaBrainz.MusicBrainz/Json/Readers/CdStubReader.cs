@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class CdStubReader : ObjectReader<CdStub> {
 
-  public static readonly CdStubReader Instance = new CdStubReader();
+  public static readonly CdStubReader Instance = new();
 
   protected override CdStub ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? artist = null;
