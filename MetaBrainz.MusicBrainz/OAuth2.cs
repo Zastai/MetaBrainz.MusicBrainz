@@ -56,7 +56,8 @@ public class OAuth2 {
   /// <param name="offlineAccess">Requests offline use (a refresh token will be provided alongside the access token).</param>
   /// <param name="forcePrompt">If true, the user will be required to confirm authorization even if the requested scopes have already been granted.</param>
   /// <returns>The generated URI.</returns>
-  public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false, bool forcePrompt = false) {
+  public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false,
+                                        bool forcePrompt = false) {
     if (scope == AuthorizationScope.None) {
       throw new ArgumentException("At least one authorization scope must be selected.", nameof(scope));
     }
@@ -165,16 +166,16 @@ public class OAuth2 {
 
   private string CreateTokenRequestBody(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
     var body = new StringBuilder();
-    body.Append("client_id=")     .Append(Uri.EscapeDataString(this.ClientId));
+    body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
-    body.Append("&token_type=")   .Append(Uri.EscapeDataString(type));
+    body.Append("&token_type=").Append(Uri.EscapeDataString(type));
     if (refresh) {
       body.Append("&grant_type=refresh_token");
       body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
     }
     else {
       body.Append("&grant_type=authorization_code");
-      body.Append("&code=")        .Append(Uri.EscapeDataString(codeOrToken));
+      body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
       body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri!.ToString()));
     }
     return body.ToString();

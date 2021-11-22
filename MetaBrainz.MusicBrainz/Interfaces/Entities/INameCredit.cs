@@ -2,7 +2,7 @@
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A named credit for an artist.</summary>
 [PublicAPI]

@@ -3,7 +3,7 @@ using System;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities; 
+namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class WorkAttribute : JsonBasedObject, IWorkAttribute {
 

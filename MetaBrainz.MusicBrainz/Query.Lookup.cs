@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Objects;
 using MetaBrainz.MusicBrainz.Objects.Browses;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
 
@@ -66,7 +66,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested artist.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+  public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                               ReleaseStatus? status = null) {
     var json = await this.PerformRequestAsync("artist", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
     return Query.Deserialize<Artist>(json);
   }
@@ -109,7 +110,8 @@ public sealed partial class Query {
   /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IDiscIdLookupResult LookupDiscId(string discid, int[]? toc = null, Include inc = Include.None, bool allMedia = false, bool noStubs = false) {
+  public IDiscIdLookupResult LookupDiscId(string discid, int[]? toc = null, Include inc = Include.None, bool allMedia = false,
+                                          bool noStubs = false) {
     var json = this.PerformRequest("discid", discid, Query.BuildExtraText(inc, toc, allMedia, noStubs));
     return Query.Deserialize<DiscIdLookupResult>(json);
   }
@@ -130,8 +132,10 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None, bool allMediaFormats = false, bool noStubs = false) {
-    var json = await this.PerformRequestAsync("discid", discid, Query.BuildExtraText(inc, toc, allMediaFormats, noStubs)).ConfigureAwait(false);
+  public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
+                                                           bool allMediaFormats = false, bool noStubs = false) {
+    var json = await this.PerformRequestAsync("discid", discid, Query.BuildExtraText(inc, toc, allMediaFormats, noStubs))
+                         .ConfigureAwait(false);
     return Query.Deserialize<DiscIdLookupResult>(json);
   }
 
@@ -264,7 +268,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested label.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+  public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                             ReleaseStatus? status = null) {
     var json = await this.PerformRequestAsync("label", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
     return Query.Deserialize<Label>(json);
   }
@@ -312,7 +317,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested recording.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
+  public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                                     ReleaseStatus? status = null) {
     var json = await this.PerformRequestAsync("recording", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
     return Query.Deserialize<Recording>(json);
   }

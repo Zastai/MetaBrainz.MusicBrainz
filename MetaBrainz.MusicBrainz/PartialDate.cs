@@ -50,9 +50,9 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
         throw new ArgumentOutOfRangeException(nameof(day), day, msg);
       }
     }
-    this.Year  = year;
+    this.Year = year;
     this.Month = month;
-    this.Day   = day;
+    this.Day = day;
   }
 
   private static readonly Regex Format =
@@ -244,7 +244,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <returns>
   /// <see langword="true"/> if <paramref name="lhs"/> precedes <paramref name="rhs"/>; <see langword="false"/> otherwise.
   /// </returns>
-  public static bool operator<(PartialDate? lhs, PartialDate? rhs) => lhs is null ? rhs is not null : lhs.CompareTo(rhs) < 0;
+  public static bool operator <(PartialDate? lhs, PartialDate? rhs) => lhs is null ? rhs is not null : lhs.CompareTo(rhs) < 0;
 
   /// <summary>Compares two partial dates.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
@@ -252,7 +252,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <returns>
   /// <see langword="true"/> if <paramref name="rhs"/> does not precede <paramref name="lhs"/>; <see langword="false"/> otherwise.
   /// </returns>
-  public static bool operator<=(PartialDate? lhs, PartialDate? rhs) => lhs is null || lhs.CompareTo(rhs) <= 0;
+  public static bool operator <=(PartialDate? lhs, PartialDate? rhs) => lhs is null || lhs.CompareTo(rhs) <= 0;
 
   /// <summary>Compares two partial dates.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
@@ -260,7 +260,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <returns>
   /// <see langword="true"/> if <paramref name="lhs"/> does not precede <paramref name="rhs"/>; <see langword="false"/> otherwise.
   /// </returns>
-  public static bool operator>=(PartialDate? lhs, PartialDate? rhs) => lhs is null ? rhs is null : lhs.CompareTo(rhs) >= 0;
+  public static bool operator >=(PartialDate? lhs, PartialDate? rhs) => lhs is null ? rhs is null : lhs.CompareTo(rhs) >= 0;
 
   /// <summary>Compares two partial dates.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
@@ -268,7 +268,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <returns>
   /// <see langword="true"/> if <paramref name="rhs"/> precedes <paramref name="lhs"/>; <see langword="false"/> otherwise.
   /// </returns>
-  public static bool operator>(PartialDate? lhs, PartialDate? rhs) => lhs is not null && lhs.CompareTo(rhs) > 0;
+  public static bool operator >(PartialDate? lhs, PartialDate? rhs) => lhs is not null && lhs.CompareTo(rhs) > 0;
 
   #endregion
 
@@ -308,7 +308,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> have the same contents; <see langword="false"/>
   /// otherwise.
   /// </returns>
-  public static bool operator==(PartialDate? lhs, PartialDate? rhs) => lhs?.Equals(rhs) ?? rhs is null;
+  public static bool operator ==(PartialDate? lhs, PartialDate? rhs) => lhs?.Equals(rhs) ?? rhs is null;
 
   /// <summary>Determines whether or not two partial dates have the same contents.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
@@ -317,7 +317,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> do not have have the same contents;
   /// <see langword="false"/> otherwise.
   /// </returns>
-  public static bool operator!=(PartialDate? lhs, PartialDate? rhs) => !(lhs == rhs);
+  public static bool operator !=(PartialDate? lhs, PartialDate? rhs) => !(lhs == rhs);
 
   #endregion
 

@@ -5,7 +5,7 @@ using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
-namespace MetaBrainz.MusicBrainz.Objects.Searches; 
+namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
 internal sealed class SearchResults : JsonBasedObject {
 

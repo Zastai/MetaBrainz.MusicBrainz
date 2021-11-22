@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>Simple information about a track on a CD.</summary>
 [PublicAPI]

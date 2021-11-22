@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A MusicBrainz genre.</summary>
 [PublicAPI]

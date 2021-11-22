@@ -9,7 +9,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
 

@@ -1,6 +1,6 @@
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Objects; 
+namespace MetaBrainz.MusicBrainz.Objects;
 
 internal sealed class MessageOrError : JsonBasedObject {
 

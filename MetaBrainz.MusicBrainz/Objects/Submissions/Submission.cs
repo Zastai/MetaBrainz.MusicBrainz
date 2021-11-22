@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
-namespace MetaBrainz.MusicBrainz.Objects.Submissions; 
+namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>Base class for the submission request classes.</summary>
 [SuppressMessage("ReSharper", "UnusedMember.Global")]
@@ -29,7 +29,7 @@ public abstract class Submission : ISubmission {
   #endregion
 
   #region Internals
-    
+
   [SuppressMessage("ReSharper", "MemberCanBeProtected.Global")]
   internal abstract string RequestBody { get; }
 
@@ -37,20 +37,26 @@ public abstract class Submission : ISubmission {
     if (string.IsNullOrWhiteSpace(client)) {
       throw new ArgumentException("The client ID must not be blank.", nameof(client));
     }
-    this._query  = query;
+    this._query = query;
     this._client = client;
     this._entity = entity;
     this._method = method;
   }
 
-  private readonly Query  _query;
+  private readonly Query _query;
+
   private readonly string _client;
+
   private readonly string _entity;
+
   private readonly Method _method;
 
-  string ISubmission.Client      => this._client;
-  string ISubmission.Entity      => this._entity;
-  Method ISubmission.Method      => this._method;
+  string ISubmission.Client => this._client;
+
+  string ISubmission.Entity => this._entity;
+
+  Method ISubmission.Method => this._method;
+
   string? ISubmission.RequestBody => this.RequestBody;
 
   string? ISubmission.ContentType { get; } = "application/xml; charset=utf-8";

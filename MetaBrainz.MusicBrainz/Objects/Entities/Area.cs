@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities; 
+namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Area : Entity, IArea {
 
@@ -16,7 +16,7 @@ internal sealed class Area : Entity, IArea {
 
   public string? Disambiguation { get; set; }
 
-  public IReadOnlyList<IGenre>? Genres  { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; set; }
 
   public IReadOnlyList<string>? Iso31661Codes { get; set; }
 
@@ -40,7 +40,7 @@ internal sealed class Area : Entity, IArea {
 
   public IReadOnlyList<IGenre>? UserGenres { get; set; }
 
-  public IReadOnlyList<ITag>? UserTags  { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; set; }
 
   public override string? ToString() {
     var text = this.Name ?? string.Empty;

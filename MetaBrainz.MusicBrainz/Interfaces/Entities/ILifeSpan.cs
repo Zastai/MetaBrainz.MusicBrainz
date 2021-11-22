@@ -2,7 +2,7 @@
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>The lifespan of an entity.</summary>
 [PublicAPI]

@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Submissions; 
+namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for adding ratings to various entities.</summary>
 [PublicAPI]
@@ -68,23 +68,30 @@ public sealed class RatingSubmission : Submission {
 
   internal RatingSubmission(Query query, string client) : base(query, client, "rating", Method.POST) { }
 
-  private class RatingMap : Dictionary<Guid, byte> { }
+  private class RatingMap : Dictionary<Guid, byte> {
 
-  private readonly RatingMap _artists       = new();
-  private readonly RatingMap _events        = new();
-  private readonly RatingMap _labels        = new();
-  private readonly RatingMap _recordings    = new();
+  }
+
+  private readonly RatingMap _artists = new();
+
+  private readonly RatingMap _events = new();
+
+  private readonly RatingMap _labels = new();
+
+  private readonly RatingMap _recordings = new();
+
   private readonly RatingMap _releaseGroups = new();
-  private readonly RatingMap _works         = new();
+
+  private readonly RatingMap _works = new();
 
   private RatingMap GetMap(EntityType entityType) {
     return entityType switch {
-      EntityType.Artist       => this._artists,
-      EntityType.Event        => this._events,
-      EntityType.Label        => this._labels,
-      EntityType.Recording    => this._recordings,
+      EntityType.Artist => this._artists,
+      EntityType.Event => this._events,
+      EntityType.Label => this._labels,
+      EntityType.Recording => this._recordings,
       EntityType.ReleaseGroup => this._releaseGroups,
-      EntityType.Work         => this._works,
+      EntityType.Work => this._works,
       _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be rated.")
     };
   }
@@ -95,12 +102,12 @@ public sealed class RatingSubmission : Submission {
       using (var xml = XmlWriter.Create(sw)) {
         xml.WriteStartDocument();
         xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        Write(xml, this._artists,       "artist");
-        Write(xml, this._events,        "event");
-        Write(xml, this._labels,        "label");
-        Write(xml, this._recordings,    "recording");
+        Write(xml, this._artists, "artist");
+        Write(xml, this._events, "event");
+        Write(xml, this._labels, "label");
+        Write(xml, this._recordings, "recording");
         Write(xml, this._releaseGroups, "release-group");
-        Write(xml, this._works,         "work");
+        Write(xml, this._works, "work");
         xml.WriteEndElement();
       }
       return sw.ToString();

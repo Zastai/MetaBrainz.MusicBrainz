@@ -6,7 +6,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Browses;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
 
@@ -20,7 +20,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null,
+                                           Include inc = Include.None)
     => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
@@ -31,7 +32,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                      Include inc = Include.None)
     => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
@@ -53,7 +55,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArea>> BrowseCollectionAreasAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArea>> BrowseCollectionAreasAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None)
     => new BrowseAreas(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -79,7 +82,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseAreaArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseAreaArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                              Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
@@ -101,7 +105,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null,
+                                               Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -112,7 +117,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null,
+                                               Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
@@ -134,7 +140,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
+                                               Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given work.</summary>
@@ -156,7 +163,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IArea area, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
@@ -167,7 +175,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -178,7 +187,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRecording recording, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
@@ -189,7 +199,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRelease release, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -200,7 +211,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given work.</summary>
@@ -211,7 +223,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IWork work, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IWork work, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={work.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
@@ -222,7 +235,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null,
+                                                         Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
@@ -233,7 +247,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseCollectionArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseCollectionArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                    Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given recording.</summary>
@@ -244,7 +259,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given recording.</summary>
@@ -255,7 +271,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseRecordingArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseRecordingArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                   Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"recording={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release.</summary>
@@ -277,7 +294,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseReleaseArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseReleaseArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release group.</summary>
@@ -288,7 +306,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release group.</summary>
@@ -299,7 +318,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseReleaseGroupArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseReleaseGroupArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"release-group={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the artists associated with the given work.</summary>
@@ -321,7 +341,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IArtist>> BrowseWorkArtistsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IArtist>> BrowseWorkArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                              Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, $"work={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -811,7 +832,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseAreaEventsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseAreaEventsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
@@ -833,7 +855,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseArtistEventsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseArtistEventsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                              Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
@@ -855,7 +878,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseCollectionEventsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseCollectionEventsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events associated with the given area.</summary>
@@ -888,7 +912,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IEvent> BrowseEvents(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IEvent> BrowseEvents(ICollection collection, int? limit = null, int? offset = null,
+                                             Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
@@ -910,7 +935,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArea area, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
@@ -921,7 +947,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
@@ -932,7 +959,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
@@ -943,7 +971,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={place.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
@@ -965,7 +994,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IEvent>> BrowsePlaceEventsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IEvent>> BrowsePlaceEventsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                             Include inc = Include.None)
     => new BrowseEvents(this, Query.BuildExtraText(inc, $"place={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -980,7 +1010,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null,
+                                                       Include inc = Include.None)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
@@ -991,7 +1022,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
@@ -1002,7 +1034,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
@@ -1013,7 +1046,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IInstrument>> BrowseCollectionInstrumentsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IInstrument>> BrowseCollectionInstrumentsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                            Include inc = Include.None)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -1039,7 +1073,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseAreaLabelsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseAreaLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
@@ -1061,7 +1096,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseCollectionLabelsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseCollectionLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
@@ -1083,7 +1119,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null,
+                                             Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
@@ -1105,7 +1142,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
@@ -1116,7 +1154,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
@@ -1127,7 +1166,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
@@ -1149,7 +1189,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ILabel>> BrowseReleaseLabelsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ILabel>> BrowseReleaseLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                               Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -1175,7 +1216,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IPlace>> BrowseAreaPlacesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IPlace>> BrowseAreaPlacesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None)
     => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
@@ -1197,7 +1239,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IPlace>> BrowseCollectionPlacesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IPlace>> BrowseCollectionPlacesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None)
     => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
@@ -1219,7 +1262,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null,
+                                             Include inc = Include.None)
     => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
@@ -1230,7 +1274,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(IArea area, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowsePlaces(this, Query.BuildExtraText(inc, $"area={area.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
@@ -1241,7 +1286,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowsePlaces(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -1256,7 +1302,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseArtistRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseArtistRecordings(Guid mbid, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
@@ -1267,7 +1314,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseArtistRecordingsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseArtistRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -1278,7 +1326,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseCollectionRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseCollectionRecordings(Guid mbid, int? limit = null, int? offset = null,
+                                                               Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -1289,7 +1338,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseCollectionRecordingsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseCollectionRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                          Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
@@ -1300,7 +1350,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null,
+                                                     Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -1311,7 +1362,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null,
+                                                     Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
@@ -1322,7 +1374,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null,
+                                                     Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
@@ -1333,7 +1386,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -1344,7 +1398,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
@@ -1355,7 +1410,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IRelease release, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={release.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
@@ -1366,7 +1422,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRecording> BrowseReleaseRecordings(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IRecording> BrowseReleaseRecordings(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
@@ -1377,7 +1434,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                       Include inc = Include.None)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, $"release={mbid:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -1394,7 +1452,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                     ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
@@ -1407,7 +1466,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseAreaReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseAreaReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None, ReleaseType? type = null,
+                                                                ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
@@ -1420,7 +1481,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                       ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
@@ -1433,7 +1495,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None, ReleaseType? type = null,
+                                                                  ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
@@ -1446,7 +1510,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null,
+                                                           ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
@@ -1459,7 +1525,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseCollectionReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseCollectionReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null,
+                                                                      ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
@@ -1472,7 +1540,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                      ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
@@ -1485,7 +1554,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseLabelReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseLabelReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None, ReleaseType? type = null,
+                                                                 ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -1498,7 +1569,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null,
+                                                          Include inc = Include.None, ReleaseType? type = null,
+                                                          ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -1511,7 +1584,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseRecordingReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseRecordingReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                     Include inc = Include.None, ReleaseType? type = null,
+                                                                     ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -1524,7 +1599,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null,
+                                                             Include inc = Include.None, ReleaseType? type = null,
+                                                             ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -1537,7 +1614,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleaseGroupReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleaseGroupReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                        Include inc = Include.None, ReleaseType? type = null,
+                                                                        ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
@@ -1550,7 +1629,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                 ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
@@ -1563,7 +1643,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                 ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
@@ -1576,7 +1657,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null,
+                                                 Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
@@ -1589,7 +1671,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                 ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -1602,7 +1685,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null,
+                                                 Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -1615,8 +1699,10 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-    => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset).Next();
+  public IBrowseResults<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
+                                                 Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+    => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset)
+      .Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
   /// <param name="track">The track whose releases should be retrieved.</param>
@@ -1628,7 +1714,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                 ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
@@ -1641,7 +1728,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"area={area.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
@@ -1654,7 +1743,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
@@ -1667,8 +1758,11 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-    => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type, status), limit, offset).NextAsync();
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
+    => new BrowseReleases(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type, status), limit, offset)
+      .NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
   /// <param name="label">The label whose releases should be retrieved.</param>
@@ -1680,7 +1774,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"label={label.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -1693,7 +1789,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"recording={recording.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -1706,8 +1804,11 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-    => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset).NextAsync();
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
+    => new BrowseReleases(this, Query.BuildExtraText(inc, $"release-group={releaseGroup.Id:D}", type, status), limit, offset)
+      .NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
   /// <param name="track">The track whose releases should be retrieved.</param>
@@ -1719,7 +1820,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={track.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
@@ -1732,7 +1835,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
@@ -1745,7 +1850,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                            ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.Id:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
@@ -1758,7 +1865,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                       Include inc = Include.None, ReleaseType? type = null,
+                                                                       ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={mbid:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.</summary>
@@ -1771,7 +1880,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                                       Include inc = Include.None, ReleaseType? type = null,
+                                                                       ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track_artist={artist.Id:D}", type, status), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
@@ -1784,7 +1895,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public IBrowseResults<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
+                                                      ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={mbid:D}", type, status), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
@@ -1797,7 +1909,9 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IRelease>> BrowseTrackReleasesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+  public Task<IBrowseResults<IRelease>> BrowseTrackReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None, ReleaseType? type = null,
+                                                                 ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, $"track={mbid:D}", type, status), limit, offset).NextAsync();
 
   #endregion
@@ -1813,7 +1927,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
@@ -1825,7 +1940,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                            Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={mbid:D}", type), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
@@ -1837,7 +1953,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
+                                                                     Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
@@ -1849,7 +1966,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(
+    Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={mbid:D}", type), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
@@ -1864,7 +1982,8 @@ public sealed partial class Query {
   /// <remarks>
   ///   Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should always return exactly one result.
   /// </remarks>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
+                                                                  Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={mbid:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
@@ -1879,7 +1998,8 @@ public sealed partial class Query {
   /// <remarks>
   ///   Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should always return exactly one result.
   /// </remarks>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                             Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={mbid:D}", type), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
@@ -1891,7 +2011,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
@@ -1903,7 +2024,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
@@ -1916,7 +2038,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
@@ -1928,7 +2051,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}", type), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
@@ -1940,7 +2064,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}", type), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
@@ -1953,7 +2078,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>Currently a release can only be part of a single release group, so this should always return exactly one result.</remarks>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, $"release={release.Id:D}", type), limit, offset).NextAsync();
 
   #endregion
@@ -1968,7 +2094,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
@@ -1979,7 +2106,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ISeries>> BrowseCollectionSeriesAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ISeries>> BrowseCollectionSeriesAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                   Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
@@ -1990,7 +2118,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null,
+                                              Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
@@ -2001,7 +2130,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<ISeries>> BrowseSeriesAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<ISeries>> BrowseSeriesAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                         Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   #endregion
@@ -2027,7 +2157,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IWork>> BrowseArtistWorksAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IWork>> BrowseArtistWorksAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                            Include inc = Include.None)
     => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
@@ -2049,7 +2180,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IWork>> BrowseCollectionWorksAsync(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IWork>> BrowseCollectionWorksAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                Include inc = Include.None)
     => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={mbid:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
@@ -2071,7 +2203,8 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IBrowseResults<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public IBrowseResults<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null,
+                                           Include inc = Include.None)
     => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).Next();
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
@@ -2082,7 +2215,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IWork>> BrowseWorksAsync(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IWork>> BrowseWorksAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                      Include inc = Include.None)
     => new BrowseWorks(this, Query.BuildExtraText(inc, $"artist={artist.Id:D}"), limit, offset).NextAsync();
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
@@ -2093,7 +2227,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IWork>> BrowseWorksAsync(ICollection collection, int? limit = null, int? offset = null, Include inc = Include.None)
+  public Task<IBrowseResults<IWork>> BrowseWorksAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                      Include inc = Include.None)
     => new BrowseWorks(this, Query.BuildExtraText(inc, $"collection={collection.Id:D}"), limit, offset).NextAsync();
 
   #endregion

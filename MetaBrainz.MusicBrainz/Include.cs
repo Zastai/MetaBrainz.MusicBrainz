@@ -2,7 +2,7 @@
 
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Enumeration of additional information that can be requested to be included in query results.</summary>
 [Flags]
@@ -15,52 +15,52 @@ public enum Include : long {
   #region Linked Entities
 
   /// <summary>Include information about directly-linked artists.</summary>
-  Artists       = 1L << 0,
+  Artists = 1L << 0,
 
   /// <summary>Include information about directly-linked collections.</summary>
-  Collections   = 1L << 1,
+  Collections = 1L << 1,
 
   /// <summary>Include information about directly-linked labels.</summary>
-  Labels        = 1L << 2,
+  Labels = 1L << 2,
 
   /// <summary>Include information about directly-linked recordings.</summary>
-  Recordings    = 1L << 3,
+  Recordings = 1L << 3,
 
   /// <summary>Include information about directly-linked release groups.</summary>
   ReleaseGroups = 1L << 4,
 
   /// <summary>Include information about directly-linked releases.</summary>
-  Releases      = 1L << 5,
+  Releases = 1L << 5,
 
   /// <summary>Include information about directly-linked works.</summary>
-  Works         = 1L << 6,
+  Works = 1L << 6,
 
   #endregion
 
   #region Special Cases
 
   /// <summary>Include artist credits for all releases and recordings.</summary>
-  ArtistCredits      = 1L << 16,
+  ArtistCredits = 1L << 16,
 
   /// <summary>Include Disc IDs for all media in the release.</summary>
   /// <remarks>Only valid on queries for releases; implies <see cref="Media"/>.</remarks>
-  DiscIds            = 1L << 17,
+  DiscIds = 1L << 17,
 
   /// <summary>Include ISRC values for all recordings.</summary>
   /// <remarks>Only valid in combination with <see cref="Recordings"/>.</remarks>
-  Isrcs              = 1L << 18,
+  Isrcs = 1L << 18,
 
   /// <summary>Include information about media for all releases (track count and format).</summary>
   /// <remarks>Only valid on queries for releases; implied by either <see cref="DiscIds"/> or <see cref="Recordings"/>.</remarks>
-  Media              = 1L << 19,
+  Media = 1L << 19,
 
   /// <summary>Include private collections of the authenticated user.</summary>
   /// <remarks>Requires authentication. Applies only to queries for collections.</remarks>
-  UserCollections    = 1L << 20,
+  UserCollections = 1L << 20,
 
   /// <summary>Only include releases where the artist is credited on one or more tracks, but not on the release itself.</summary>
   /// <remarks>Only valid on artist queries, and only in combination with <see cref="Releases"/>.</remarks>
-  VariousArtists     = 1L << 21,
+  VariousArtists = 1L << 21,
 
   #endregion
 
@@ -68,16 +68,16 @@ public enum Include : long {
 
   /// <summary>Include aliases.</summary>
   /// <remarks>Aliases are not ordered, and only valid on queries for areas, artists, labels or works.</remarks>
-  Aliases     = 1L << 28,
+  Aliases = 1L << 28,
 
   /// <summary>Include the annotation.</summary>
-  Annotation  = 1L << 29,
+  Annotation = 1L << 29,
 
   /// <summary>Include ratings.</summary>
-  Ratings     = 1L << 30,
+  Ratings = 1L << 30,
 
   /// <summary>Include tags.</summary>
-  Tags        = 1L << 31,
+  Tags = 1L << 31,
 
   /// <summary>Like <see cref="Ratings"/>, but only returns the rating(s) set by the authenticated user.</summary>
   /// <remarks>Requires authentication.</remarks>
@@ -85,36 +85,36 @@ public enum Include : long {
 
   /// <summary>Like <see cref="Tags"/>, but only returns the tag(s) set by the authenticated user.</summary>
   /// <remarks>Requires authentication.</remarks>
-  UserTags    = 1L << 33,
+  UserTags = 1L << 33,
 
   /// <summary>Include genres (i.e. tags from the genre list).</summary>
-  Genres      = 1L << 34,
+  Genres = 1L << 34,
 
   /// <summary>Like <see cref="Genres"/>, but only returns the genre(s) set by the authenticated user.</summary>
   /// <remarks>Requires authentication.</remarks>
-  UserGenres  = 1L << 35,
+  UserGenres = 1L << 35,
 
   #endregion
 
   #region Relationships
 
   /// <summary>Include information about relationships with areas.</summary>
-  AreaRelationships           = 1L << 40,
+  AreaRelationships = 1L << 40,
 
   /// <summary>Include information about relationships with artists.</summary>
-  ArtistRelationships         = 1L << 41,
+  ArtistRelationships = 1L << 41,
 
   /// <summary>Include relationships with events.</summary>
-  EventRelationships          = 1L << 42,
+  EventRelationships = 1L << 42,
 
   /// <summary>Include relationships with instruments.</summary>
-  InstrumentRelationships     = 1L << 43,
+  InstrumentRelationships = 1L << 43,
 
   /// <summary>Include information about relationships with labels.</summary>
-  LabelRelationships          = 1L << 44,
+  LabelRelationships = 1L << 44,
 
   /// <summary>Include information about relationships with places.</summary>
-  PlaceRelationships          = 1L << 45,
+  PlaceRelationships = 1L << 45,
 
   /// <summary>Include information about relationships involving the recordings on the release.</summary>
   /// <remarks>
@@ -124,29 +124,29 @@ public enum Include : long {
   RecordingLevelRelationships = 1L << 46,
 
   /// <summary>Include relationships with recordings.</summary>
-  RecordingRelationships      = 1L << 47,
+  RecordingRelationships = 1L << 47,
 
   /// <summary>Include information about relationships with release groups.</summary>
-  ReleaseGroupRelationships   = 1L << 48,
+  ReleaseGroupRelationships = 1L << 48,
 
   /// <summary>Include information about relationships with releases.</summary>
-  ReleaseRelationships        = 1L << 49,
+  ReleaseRelationships = 1L << 49,
 
   /// <summary>Include information about relationships with releases.</summary>
-  SeriesRelationships         = 1L << 50,
+  SeriesRelationships = 1L << 50,
 
   /// <summary>Include information about relationships with URLs.</summary>
-  UrlRelationships            = 1L << 51,
+  UrlRelationships = 1L << 51,
 
   /// <summary>Include information about relationships involving the works associated with the recordings.</summary>
   /// <remarks>
   ///   Only valid on queries for releases or recordings. Will have no real effect unless information about related works (<see cref="WorkRelationships"/>)
   ///   and one or more relationships (<see cref="ArtistRelationships"/>, ...) is being requested at the same time.
   /// </remarks>
-  WorkLevelRelationships      = 1L << 52,
+  WorkLevelRelationships = 1L << 52,
 
   /// <summary>Include information about relationships with works.</summary>
-  WorkRelationships           = 1L << 53,
+  WorkRelationships = 1L << 53,
 
   #endregion
 

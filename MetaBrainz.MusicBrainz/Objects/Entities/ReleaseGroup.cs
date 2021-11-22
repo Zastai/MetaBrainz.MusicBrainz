@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities; 
+namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 internal sealed class ReleaseGroup : Entity, IReleaseGroup {

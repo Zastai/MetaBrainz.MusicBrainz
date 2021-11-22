@@ -2,7 +2,7 @@
 
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Enumeration of the release type values (combines primary and secondary types).</summary>
 [Flags]
@@ -15,7 +15,7 @@ public enum ReleaseType {
   /// An album, perhaps better defined as a "Long Play" (LP) release, generally consists of previously unreleased material (unless this type is combined with secondary
   /// types which change that, such as <see cref="Compilation"/>).
   /// </summary>
-  Album     = 1 << 0,
+  Album = 1 << 0,
 
   /// <summary>An episodic release that was originally broadcast via radio, television, or the Internet, including podcasts.</summary>
   Broadcast = 1 << 1,
@@ -25,10 +25,10 @@ public enum ReleaseType {
   /// (an LP or "Long Play") and the tracks are usually exclusive to the EP, in other words the tracks don't come from a previously issued release. EP is fairly
   /// difficult to define; usually it should only be assumed that a release is an EP if the artist defines it as such.
   /// </summary>
-  EP        = 1 << 2,
+  EP = 1 << 2,
 
   /// <summary>Any release that does not fit or can't decisively be placed in any of the categories above.</summary>
-  Other     = 1 << 3,
+  Other = 1 << 3,
 
   /// <summary>
   /// A single has different definitions depending on the market it is released for.
@@ -55,14 +55,14 @@ public enum ReleaseType {
   /// "B-Side" comes from the era when singles were released on 7 inch (or sometimes 12 inch) vinyl with a song on each side, and so side A is the track that the single
   /// is named for, and the other side -side B- would contain a bonus song, or sometimes even the same song.
   /// </summary>
-  Single    = 1 << 4,
+  Single = 1 << 4,
 
   #endregion
 
   #region Secondary Types
 
   /// <summary>An audiobook is a book read by a narrator without music.</summary>
-  Audiobook   = 1 << 10,
+  Audiobook = 1 << 10,
 
   /// <summary>
   /// A compilation, for the purposes of the MusicBrainz database, covers the following types of releases:
@@ -92,13 +92,13 @@ public enum ReleaseType {
   /// release requires that the recordings be modified in some manner, and the DJ who does this modification is usually (although not always) credited in a fairly
   /// prominent way.
   /// </summary>
-  DJMix       = 1 << 12,
+  DJMix = 1 << 12,
 
   /// <summary>An interview release contains an interview, generally with an artist.</summary>
-  Interview   = 1 << 13,
+  Interview = 1 << 13,
 
   /// <summary>A release that was recorded live.</summary>
-  Live        = 1 << 14,
+  Live = 1 << 14,
 
   /// <summary>
   /// Promotional in nature (but not necessarily free), mixtapes and street albums are often released by artists to promote new artists, or upcoming studio albums
@@ -108,19 +108,19 @@ public enum ReleaseType {
   /// new material, including original production or original vocals over top of other artists' instrumentals. They are distinct from demos in that they are designed
   /// for release directly to the public and fans; not to labels.
   /// </summary>
-  MixTape     = 1 << 15,
+  MixTape = 1 << 15,
 
   /// <summary>A release that primarily contains remixed material.</summary>
-  Remix       = 1 << 16,
+  Remix = 1 << 16,
 
   /// <summary>
   /// A soundtrack is the musical score to a movie, TV series, stage show, computer game etc. In the specific cases of computer games, a game CD with audio tracks
   /// should be classified as a soundtrack: the musical properties of the CD are more interesting to MusicBrainz than the data properties.
   /// </summary>
-  Soundtrack  = 1 << 17,
+  Soundtrack = 1 << 17,
 
   /// <summary>Non-music spoken word releases.</summary>
-  SpokenWord  = 1 << 18,
+  SpokenWord = 1 << 18,
 
   /// <summary>
   /// Promotional in nature (but not necessarily free), mixtapes and street albums are often released by artists to promote new artists, or upcoming studio albums

@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>A MusicBrainz entity type.</summary>
 [PublicAPI]

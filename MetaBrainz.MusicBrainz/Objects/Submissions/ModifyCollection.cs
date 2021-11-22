@@ -5,7 +5,7 @@ using System.Text;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
-namespace MetaBrainz.MusicBrainz.Objects.Submissions; 
+namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 internal sealed class ModifyCollection : ISubmission {
 
@@ -33,31 +33,37 @@ internal sealed class ModifyCollection : ISubmission {
     return this;
   }
 
-  private readonly Method        _method;
-  private readonly string        _client;
+  private readonly Method _method;
+
+  private readonly string _client;
+
   private readonly StringBuilder _request;
 
   string ISubmission.Client => this._client;
+
   string ISubmission.Entity => this._request.ToString();
+
   Method ISubmission.Method => this._method;
 
   string? ISubmission.ContentType { get; } = null;
+
   string? ISubmission.RequestBody { get; } = null;
 
   private static string MapType(EntityType entityType) {
     return entityType switch {
-      EntityType.Area         => "areas",
-      EntityType.Artist       => "artists",
-      EntityType.Event        => "events",
-      EntityType.Instrument   => "instruments",
-      EntityType.Label        => "labels",
-      EntityType.Place        => "places",
-      EntityType.Recording    => "recordings",
-      EntityType.Release      => "releases",
+      EntityType.Area => "areas",
+      EntityType.Artist => "artists",
+      EntityType.Event => "events",
+      EntityType.Instrument => "instruments",
+      EntityType.Label => "labels",
+      EntityType.Place => "places",
+      EntityType.Recording => "recordings",
+      EntityType.Release => "releases",
       EntityType.ReleaseGroup => "release-groups",
-      EntityType.Series       => "series",
-      EntityType.Work         => "works",
-      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType,"The specified entity type cannot be stored in a collection.")
+      EntityType.Series => "series",
+      EntityType.Work => "works",
+      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType,
+                                                 "The specified entity type cannot be stored in a collection.")
     };
   }
 

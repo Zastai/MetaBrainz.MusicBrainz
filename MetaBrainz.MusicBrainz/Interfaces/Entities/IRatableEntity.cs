@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A entity that can be rated.</summary>
 [PublicAPI]

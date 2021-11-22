@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>Information associated with an ISRC (International Standard Recording Code).</summary>
 [PublicAPI]

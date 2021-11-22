@@ -2,7 +2,7 @@
 
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A MusicBrainz entity that can be related to other MusicBrainz entities.</summary>
 [PublicAPI]

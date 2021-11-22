@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A relationship between two MusicBrainz entities.</summary>
 [PublicAPI]

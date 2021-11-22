@@ -6,7 +6,7 @@ using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Objects;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken> {
 
@@ -58,9 +58,7 @@ internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken
     if (tokenType == null) {
       throw new JsonException("Expected token type not found or null.");
     }
-    return new AuthorizationToken(accessToken, lifetime.Value, refreshToken, tokenType) {
-      UnhandledProperties = rest
-    };
+    return new AuthorizationToken(accessToken, lifetime.Value, refreshToken, tokenType) { UnhandledProperties = rest };
   }
 
 }

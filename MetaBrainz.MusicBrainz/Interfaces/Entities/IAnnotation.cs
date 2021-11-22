@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>An annotation on a MusicBrainz entity.</summary>
 [PublicAPI]

@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>An entity with a title.</summary>
 [PublicAPI]
