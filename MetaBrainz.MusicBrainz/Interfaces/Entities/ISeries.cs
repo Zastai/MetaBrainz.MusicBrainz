@@ -1,11 +1,9 @@
 ﻿using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
 
-  /// <summary>A MusicBrainz series.</summary>
-  [PublicAPI]
-  public interface ISeries : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
-
-  }
+/// <summary>A MusicBrainz series.</summary>
+[PublicAPI]
+public interface ISeries : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
 }

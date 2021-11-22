@@ -1,25 +1,23 @@
 ﻿using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities {
+namespace MetaBrainz.MusicBrainz.Objects.Entities; 
 
-  internal sealed class Tag : JsonBasedObject, ITag {
+internal sealed class Tag : JsonBasedObject, ITag {
 
-    public Tag(string name) {
-      this.Name = name;
-    }
+  public Tag(string name) {
+    this.Name = name;
+  }
 
-    public string Name { get; }
+  public string Name { get; }
 
-    public int? VoteCount { get; set; }
+  public int? VoteCount { get; set; }
 
-    public override string ToString() {
-      var text = this.Name;
-      if (this.VoteCount.HasValue)
-        text += $" (votes: {this.VoteCount})";
-      return text;
-    }
-
+  public override string ToString() {
+    var text = this.Name;
+    if (this.VoteCount.HasValue)
+      text += $" (votes: {this.VoteCount})";
+    return text;
   }
 
 }

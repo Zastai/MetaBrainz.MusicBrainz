@@ -1,17 +1,15 @@
-﻿namespace MetaBrainz.MusicBrainz.Interfaces.Submissions {
+﻿namespace MetaBrainz.MusicBrainz.Interfaces.Submissions; 
 
-  internal interface ISubmission {
+internal interface ISubmission {
 
-    string Client { get; }
+  string Client { get; }
 
-    string? ContentType { get; }
+  string? ContentType { get; }
 
-    string Entity { get; }
+  string Entity { get; }
 
-    Method Method { get; }
+  Method Method { get; }
 
-    string? RequestBody { get; }
-
-  }
+  string? RequestBody { get; }
 
 }

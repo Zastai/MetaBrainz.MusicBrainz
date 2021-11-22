@@ -2,18 +2,16 @@
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
 
-  /// <summary>A release event.</summary>
-  [PublicAPI]
-  public interface IReleaseEvent : IJsonBasedObject {
+/// <summary>A release event.</summary>
+[PublicAPI]
+public interface IReleaseEvent : IJsonBasedObject {
 
-    /// <summary>The area where the release event took place.</summary>
-    IArea? Area { get; }
+  /// <summary>The area where the release event took place.</summary>
+  IArea? Area { get; }
 
-    /// <summary>The date the release event took place.</summary>
-    PartialDate? Date { get; }
-
-  }
+  /// <summary>The date the release event took place.</summary>
+  PartialDate? Date { get; }
 
 }

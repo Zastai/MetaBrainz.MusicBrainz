@@ -6,46 +6,44 @@ using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers {
+namespace MetaBrainz.MusicBrainz.Json.Readers; 
 
-  internal sealed class TagReader : ObjectReader<Tag> {
+internal sealed class TagReader : ObjectReader<Tag> {
 
-    public static readonly TagReader Instance = new TagReader();
+  public static readonly TagReader Instance = new TagReader();
 
-    protected override Tag ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
-      int? count = null;
-      string? name = null;
-      Dictionary<string, object?>? rest = null;
-      while (reader.TokenType == JsonTokenType.PropertyName) {
-        var prop = reader.GetPropertyName();
-        try {
-          reader.Read();
-          switch (prop) {
-            case "count":
-              count = reader.GetInt32();
-              break;
-            case "name":
-              name = reader.GetString();
-              break;
-            default:
-              rest ??= new Dictionary<string, object?>();
-              rest[prop] = reader.GetOptionalObject(options);
-              break;
-          }
-        }
-        catch (Exception e) {
-          throw new JsonException($"Failed to deserialize the '{prop}' property.", e);
-        }
+  protected override Tag ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
+    int? count = null;
+    string? name = null;
+    Dictionary<string, object?>? rest = null;
+    while (reader.TokenType == JsonTokenType.PropertyName) {
+      var prop = reader.GetPropertyName();
+      try {
         reader.Read();
+        switch (prop) {
+          case "count":
+            count = reader.GetInt32();
+            break;
+          case "name":
+            name = reader.GetString();
+            break;
+          default:
+            rest ??= new Dictionary<string, object?>();
+            rest[prop] = reader.GetOptionalObject(options);
+            break;
+        }
       }
-      if (name == null)
-        throw new JsonException("Expected tag name not found or null.");
-      return new Tag(name) {
-        UnhandledProperties = rest,
-        VoteCount = count,
-      };
+      catch (Exception e) {
+        throw new JsonException($"Failed to deserialize the '{prop}' property.", e);
+      }
+      reader.Read();
     }
-
+    if (name == null)
+      throw new JsonException("Expected tag name not found or null.");
+    return new Tag(name) {
+      UnhandledProperties = rest,
+      VoteCount = count,
+    };
   }
 
 }

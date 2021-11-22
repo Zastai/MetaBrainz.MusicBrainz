@@ -1,11 +1,9 @@
-﻿namespace MetaBrainz.MusicBrainz.Objects.Browses {
+﻿namespace MetaBrainz.MusicBrainz.Objects.Browses; 
 
-  internal sealed class IswcLookup : BrowseWorksBase {
+internal sealed class IswcLookup : BrowseWorksBase {
 
-    public IswcLookup(Query query, string iswc, string extra)
+  public IswcLookup(Query query, string iswc, string extra)
     : base(query, "iswc", iswc, extra)
-    { }
-
-  }
+  { }
 
 }

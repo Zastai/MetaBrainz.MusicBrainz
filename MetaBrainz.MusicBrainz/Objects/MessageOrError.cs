@@ -1,15 +1,13 @@
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Objects {
+namespace MetaBrainz.MusicBrainz.Objects; 
 
-  internal sealed class MessageOrError : JsonBasedObject {
+internal sealed class MessageOrError : JsonBasedObject {
 
-    public string? Error;
+  public string? Error;
 
-    public string? Help;
+  public string? Help;
 
-    public string? Message;
-
-  }
+  public string? Message;
 
 }
