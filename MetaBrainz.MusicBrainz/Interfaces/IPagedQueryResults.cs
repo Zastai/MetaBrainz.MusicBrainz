@@ -6,13 +6,14 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces; 
+namespace MetaBrainz.MusicBrainz.Interfaces;
 
 /// <summary>The results for a query that supports paging (i.e. search or browse).</summary>
 /// <typeparam name="TInterface">The specific type of query result.</typeparam>
 /// <typeparam name="TItem">The type of item being returned.</typeparam>
 [PublicAPI]
-public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject where TInterface : IPagedQueryResults<TInterface, TItem> {
+public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject
+where TInterface : IPagedQueryResults<TInterface, TItem> {
 
   /// <summary>
   ///   The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in <see cref="Results"/>).

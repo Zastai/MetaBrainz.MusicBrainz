@@ -2,7 +2,7 @@
 
 using MetaBrainz.MusicBrainz.Objects.Submissions;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
 

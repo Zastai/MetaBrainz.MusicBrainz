@@ -4,7 +4,7 @@ using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects; 
+namespace MetaBrainz.MusicBrainz.Objects;
 
 internal sealed class DiscIdLookupResult : JsonBasedObject, IDiscIdLookupResult {
 

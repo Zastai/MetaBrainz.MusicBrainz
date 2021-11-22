@@ -2,7 +2,7 @@
 
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Class providing access to the MusicBrainz API.</summary>
 [PublicAPI]

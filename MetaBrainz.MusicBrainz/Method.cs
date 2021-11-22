@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Enumeration of the supported request methods.</summary>  
 [SuppressMessage("ReSharper", "InconsistentNaming")]
@@ -17,6 +17,5 @@ internal enum Method {
 
   /// <summary>HTTP PUT: Upload data representing a resource.</summary>
   PUT,
-
 
 }

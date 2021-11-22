@@ -4,7 +4,7 @@ using System.Text.Json;
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class PartialDateReader : JsonReader<PartialDate> {
 

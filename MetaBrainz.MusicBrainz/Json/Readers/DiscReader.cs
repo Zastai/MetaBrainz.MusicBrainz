@@ -7,7 +7,7 @@ using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class DiscReader : ObjectReader<Disc> {
 

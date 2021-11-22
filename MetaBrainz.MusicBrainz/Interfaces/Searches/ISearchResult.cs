@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Searches; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 /// <summary>A result returned by a search request.</summary>
 [PublicAPI]

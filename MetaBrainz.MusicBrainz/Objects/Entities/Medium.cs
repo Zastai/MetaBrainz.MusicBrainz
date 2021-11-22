@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities; 
+namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Medium : JsonBasedObject, IMedium {
 

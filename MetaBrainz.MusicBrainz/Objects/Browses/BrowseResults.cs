@@ -3,7 +3,7 @@
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Browses; 
+namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
 internal abstract class BrowseResults<TResult>
   : PagedQueryResults<IBrowseResults<TResult>, TResult, BrowseResult>,

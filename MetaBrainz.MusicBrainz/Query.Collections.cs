@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Submissions;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
 
@@ -160,7 +160,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, Guid collection, params IReleaseGroup[] items)
-    => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.ReleaseGroup).Add( items));
+    => this.PerformSubmission(new ModifyCollection(Method.PUT, client, collection, EntityType.ReleaseGroup).Add(items));
 
   /// <summary>Adds the specified series to the specified collection.</summary>
   /// <param name="client">
@@ -590,7 +590,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, Guid collection, params IReleaseGroup[] items)
-    => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
+    => this.PerformSubmission(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add(items));
 
   /// <summary>Removes the specified series from the specified collection.</summary>
   /// <param name="client">
@@ -805,7 +805,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IReleaseGroup[] items)
-    => this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add( items));
+    => this.PerformSubmissionAsync(new ModifyCollection(Method.DELETE, client, collection, EntityType.ReleaseGroup).Add(items));
 
   /// <summary>Removes the specified series from the specified collection.</summary>
   /// <param name="client">

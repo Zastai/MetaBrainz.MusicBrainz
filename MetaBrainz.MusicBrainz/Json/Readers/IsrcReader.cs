@@ -7,7 +7,7 @@ using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class IsrcReader : ObjectReader<Isrc> {
 
@@ -45,9 +45,7 @@ internal sealed class IsrcReader : ObjectReader<Isrc> {
     if (recordings == null) {
       throw new JsonException("Expected property 'recordings' not found or null.");
     }
-    return new Isrc(isrc, recordings) {
-      UnhandledProperties = rest
-    };
+    return new Isrc(isrc, recordings) { UnhandledProperties = rest };
   }
 
 }

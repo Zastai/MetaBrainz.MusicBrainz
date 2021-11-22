@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Browses; 
+namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
 internal sealed class BrowseResult : JsonBasedObject {
 

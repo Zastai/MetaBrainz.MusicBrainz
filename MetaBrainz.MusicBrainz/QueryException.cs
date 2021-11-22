@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>An error reported by the MusicBrainz web service.</summary>
 [Serializable]

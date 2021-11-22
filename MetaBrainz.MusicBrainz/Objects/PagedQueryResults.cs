@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
 
-namespace MetaBrainz.MusicBrainz.Objects; 
+namespace MetaBrainz.MusicBrainz.Objects;
 
 internal abstract class PagedQueryResults<TInterface, TItem, TResultObject>
   : IPagedQueryResults<TInterface, TItem>
@@ -34,7 +34,8 @@ where TResultObject : class {
 
   public TInterface Next() => this.Deserialize(this.NextResponse(this.CurrentResultCount));
 
-  public async Task<TInterface> NextAsync() => this.Deserialize(await this.NextResponseAsync(this.CurrentResultCount).ConfigureAwait(false));
+  public async Task<TInterface> NextAsync()
+    => this.Deserialize(await this.NextResponseAsync(this.CurrentResultCount).ConfigureAwait(false));
 
   public int? NextOffset { get; set; }
 

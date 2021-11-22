@@ -2,7 +2,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces; 
+namespace MetaBrainz.MusicBrainz.Interfaces;
 
 /// <summary>An OAuth2 authorization token.</summary>
 [PublicAPI]

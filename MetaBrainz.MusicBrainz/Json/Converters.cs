@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 using MetaBrainz.MusicBrainz.Json.Readers;
 
-namespace MetaBrainz.MusicBrainz.Json; 
+namespace MetaBrainz.MusicBrainz.Json;
 
 internal static class Converters {
 

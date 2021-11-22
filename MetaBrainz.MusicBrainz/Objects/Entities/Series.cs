@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Entities; 
+namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Series : Entity, ISeries {
 

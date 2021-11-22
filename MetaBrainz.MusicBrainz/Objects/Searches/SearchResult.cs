@@ -1,6 +1,6 @@
 ﻿using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
-namespace MetaBrainz.MusicBrainz.Objects.Searches; 
+namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
 internal sealed class SearchResult<T> : ISearchResult<T> {
 

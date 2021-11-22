@@ -5,7 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
 
@@ -41,7 +41,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IAnnotation>> FindAnnotations(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IAnnotation>> FindAnnotations(string query, int? limit = null, int? offset = null,
+                                                                    bool simple = false)
     => new FoundAnnotations(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for annotations using the given query.</summary>
@@ -74,7 +75,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IAnnotation>>> FindAnnotationsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IAnnotation>>> FindAnnotationsAsync(
+    string query, int? limit = null, int? offset = null, bool simple = false)
     => new FoundAnnotations(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -162,7 +164,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IArea>>> FindAreasAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IArea>>> FindAreasAsync(string query, int? limit = null, int? offset = null,
+                                                                   bool simple = false)
     => new FoundAreas(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -215,7 +218,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IArtist>> FindArtists(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IArtist>> FindArtists(string query, int? limit = null, int? offset = null,
+                                                            bool simple = false)
     => new FoundArtists(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for artists using the given query.</summary>
@@ -264,7 +268,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IArtist>>> FindArtistsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IArtist>>> FindArtistsAsync(string query, int? limit = null, int? offset = null,
+                                                                       bool simple = false)
     => new FoundArtists(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -303,7 +308,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<ICdStub>> FindCdStubs(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<ICdStub>> FindCdStubs(string query, int? limit = null, int? offset = null,
+                                                            bool simple = false)
     => new FoundCdStubs(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for CD stubs using the given query.</summary>
@@ -338,7 +344,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<ICdStub>>> FindCdStubsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<ICdStub>>> FindCdStubsAsync(string query, int? limit = null, int? offset = null,
+                                                                       bool simple = false)
     => new FoundCdStubs(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -424,7 +431,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IEvent>>> FindEventsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IEvent>>> FindEventsAsync(string query, int? limit = null, int? offset = null,
+                                                                     bool simple = false)
     => new FoundEvents(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -464,7 +472,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IInstrument>> FindInstruments(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IInstrument>> FindInstruments(string query, int? limit = null, int? offset = null,
+                                                                    bool simple = false)
     => new FoundInstruments(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for instruments using the given query.</summary>
@@ -500,7 +509,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IInstrument>>> FindInstrumentsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IInstrument>>> FindInstrumentsAsync(
+    string query, int? limit = null, int? offset = null, bool simple = false)
     => new FoundInstruments(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -598,7 +608,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<ILabel>>> FindLabelsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<ILabel>>> FindLabelsAsync(string query, int? limit = null, int? offset = null,
+                                                                     bool simple = false)
     => new FoundLabels(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -688,7 +699,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IPlace>>> FindPlacesAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IPlace>>> FindPlacesAsync(string query, int? limit = null, int? offset = null,
+                                                                     bool simple = false)
     => new FoundPlaces(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -782,7 +794,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IRecording>> FindRecordings(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IRecording>> FindRecordings(string query, int? limit = null, int? offset = null,
+                                                                  bool simple = false)
     => new FoundRecordings(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for recordings using the given query.</summary>
@@ -872,7 +885,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IRecording>>> FindRecordingsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IRecording>>> FindRecordingsAsync(string query, int? limit = null, int? offset = null,
+                                                                             bool simple = false)
     => new FoundRecordings(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -929,7 +943,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IReleaseGroup>> FindReleaseGroups(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IReleaseGroup>> FindReleaseGroups(string query, int? limit = null, int? offset = null,
+                                                                        bool simple = false)
     => new FoundReleaseGroups(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for release groups using the given query.</summary>
@@ -982,7 +997,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IReleaseGroup>>> FindReleaseGroupsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IReleaseGroup>>> FindReleaseGroupsAsync(
+    string query, int? limit = null, int? offset = null, bool simple = false)
     => new FoundReleaseGroups(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -1053,7 +1069,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public ISearchResults<ISearchResult<IRelease>> FindReleases(string query, int? limit = null, int? offset = null, bool simple = false)
+  public ISearchResults<ISearchResult<IRelease>> FindReleases(string query, int? limit = null, int? offset = null,
+                                                              bool simple = false)
     => new FoundReleases(this, query, limit, offset, simple).Next();
 
   /// <summary>Searches for releases using the given query.</summary>
@@ -1120,7 +1137,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IRelease>>> FindReleasesAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IRelease>>> FindReleasesAsync(string query, int? limit = null, int? offset = null,
+                                                                         bool simple = false)
     => new FoundReleases(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -1194,7 +1212,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<ISeries>>> FindSeriesAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<ISeries>>> FindSeriesAsync(string query, int? limit = null, int? offset = null,
+                                                                      bool simple = false)
     => new FoundSeries(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -1256,7 +1275,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<ITag>>> FindTagsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<ITag>>> FindTagsAsync(string query, int? limit = null, int? offset = null,
+                                                                 bool simple = false)
     => new FoundTags(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -1326,7 +1346,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IUrl>>> FindUrlsAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IUrl>>> FindUrlsAsync(string query, int? limit = null, int? offset = null,
+                                                                 bool simple = false)
     => new FoundUrls(this, query, limit, offset, simple).NextAsync();
 
   #endregion
@@ -1410,7 +1431,8 @@ public sealed partial class Query {
   /// Search API Docs</a> for more details.
   /// </para>
   /// </remarks>
-  public Task<ISearchResults<ISearchResult<IWork>>> FindWorksAsync(string query, int? limit = null, int? offset = null, bool simple = false)
+  public Task<ISearchResults<ISearchResult<IWork>>> FindWorksAsync(string query, int? limit = null, int? offset = null,
+                                                                   bool simple = false)
     => new FoundWorks(this, query, limit, offset, simple).NextAsync();
 
   #endregion

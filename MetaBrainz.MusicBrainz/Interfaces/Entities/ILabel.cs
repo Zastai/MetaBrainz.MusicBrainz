@@ -2,11 +2,12 @@
 
 using JetBrains.Annotations;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>A MusicBrainz label.</summary>
 [PublicAPI]
-public interface ILabel : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
+public interface ILabel : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity,
+                          ITypedEntity {
 
   /// <summary>The main area associated with the label.</summary>
   IArea? Area { get; }

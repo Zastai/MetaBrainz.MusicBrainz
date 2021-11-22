@@ -1,7 +1,7 @@
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 
-namespace MetaBrainz.MusicBrainz.Objects; 
+namespace MetaBrainz.MusicBrainz.Objects;
 
 /// <summary>Class representing an OAuth2 authorization token.</summary>
 internal sealed class AuthorizationToken : JsonBasedObject, IAuthorizationToken {

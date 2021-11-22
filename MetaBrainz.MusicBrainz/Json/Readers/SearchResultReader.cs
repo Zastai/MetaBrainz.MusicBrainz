@@ -5,7 +5,7 @@ using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Objects.Searches;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers; 
+namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class SearchResultReader<T> : JsonReader<SearchResult<T>> where T : JsonBasedObject {
 

@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Interfaces; 
+namespace MetaBrainz.MusicBrainz.Interfaces;
 
 /// <summary>The result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
 [PublicAPI]

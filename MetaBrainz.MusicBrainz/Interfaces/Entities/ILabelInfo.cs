@@ -2,7 +2,7 @@
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 /// <summary>Label information for a release.</summary>
 [PublicAPI]
@@ -12,6 +12,6 @@ public interface ILabelInfo : IJsonBasedObject {
   string? CatalogNumber { get; }
 
   /// <summary>The label associated with the release.</summary>
-  ILabel?  Label { get; }
+  ILabel? Label { get; }
 
 }

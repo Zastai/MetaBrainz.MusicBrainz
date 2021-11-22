@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Submissions; 
+namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for adding barcodes to releases.</summary>
 [PublicAPI]

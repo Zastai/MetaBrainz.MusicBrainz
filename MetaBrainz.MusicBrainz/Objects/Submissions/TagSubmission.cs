@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-namespace MetaBrainz.MusicBrainz.Objects.Submissions; 
+namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for modifying tags on various entities.</summary>
 [PublicAPI]
@@ -97,35 +97,49 @@ public sealed class TagSubmission : Submission {
 
   internal TagSubmission(Query query, string client) : base(query, client, "tag", Method.POST) { }
 
-  private class VoteMap : Dictionary<string, TagVote> { }
+  private class VoteMap : Dictionary<string, TagVote> {
 
-  private class TagMap : Dictionary<Guid, VoteMap> { }
+  }
 
-  private readonly TagMap _areas         = new();
-  private readonly TagMap _artists       = new();
-  private readonly TagMap _events        = new();
-  private readonly TagMap _instruments   = new();
-  private readonly TagMap _labels        = new();
-  private readonly TagMap _places        = new();
-  private readonly TagMap _recordings    = new();
-  private readonly TagMap _releases      = new();
+  private class TagMap : Dictionary<Guid, VoteMap> {
+
+  }
+
+  private readonly TagMap _areas = new();
+
+  private readonly TagMap _artists = new();
+
+  private readonly TagMap _events = new();
+
+  private readonly TagMap _instruments = new();
+
+  private readonly TagMap _labels = new();
+
+  private readonly TagMap _places = new();
+
+  private readonly TagMap _recordings = new();
+
+  private readonly TagMap _releases = new();
+
   private readonly TagMap _releaseGroups = new();
-  private readonly TagMap _series        = new();
-  private readonly TagMap _works         = new();
+
+  private readonly TagMap _series = new();
+
+  private readonly TagMap _works = new();
 
   private TagMap GetMap(EntityType entityType) {
     return entityType switch {
-      EntityType.Area         => this._areas,
-      EntityType.Artist       => this._artists,
-      EntityType.Event        => this._events,
-      EntityType.Instrument   => this._instruments,
-      EntityType.Label        => this._labels,
-      EntityType.Place        => this._places,
-      EntityType.Recording    => this._recordings,
-      EntityType.Release      => this._releases,
+      EntityType.Area => this._areas,
+      EntityType.Artist => this._artists,
+      EntityType.Event => this._events,
+      EntityType.Instrument => this._instruments,
+      EntityType.Label => this._labels,
+      EntityType.Place => this._places,
+      EntityType.Recording => this._recordings,
+      EntityType.Release => this._releases,
       EntityType.ReleaseGroup => this._releaseGroups,
-      EntityType.Series       => this._series,
-      EntityType.Work         => this._works,
+      EntityType.Series => this._series,
+      EntityType.Work => this._works,
       _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be tagged.")
     };
   }
@@ -136,17 +150,17 @@ public sealed class TagSubmission : Submission {
       using (var xml = XmlWriter.Create(sw)) {
         xml.WriteStartDocument();
         xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        Write(xml, this._areas,         "area");
-        Write(xml, this._artists,       "artist");
-        Write(xml, this._events,        "event");
-        Write(xml, this._instruments,   "instrument");
-        Write(xml, this._labels,        "label");
-        Write(xml, this._places,        "place");
-        Write(xml, this._recordings,    "recording");
-        Write(xml, this._releases,      "release");
+        Write(xml, this._areas, "area");
+        Write(xml, this._artists, "artist");
+        Write(xml, this._events, "event");
+        Write(xml, this._instruments, "instrument");
+        Write(xml, this._labels, "label");
+        Write(xml, this._places, "place");
+        Write(xml, this._recordings, "recording");
+        Write(xml, this._releases, "release");
         Write(xml, this._releaseGroups, "release-group");
-        Write(xml, this._series,        "series");
-        Write(xml, this._works,         "work");
+        Write(xml, this._series, "series");
+        Write(xml, this._works, "work");
         xml.WriteEndElement();
       }
       return sw.ToString();
@@ -165,8 +179,8 @@ public sealed class TagSubmission : Submission {
       foreach (var tag in entry.Value) {
         xml.WriteStartElement("user-tag");
         xml.WriteAttributeString("vote", tag.Value switch {
-          TagVote.Down     => "downvote",
-          TagVote.Up       => "upvote",
+          TagVote.Down => "downvote",
+          TagVote.Up => "upvote",
           TagVote.Withdraw => "withdraw",
           _ => throw new InvalidOperationException($"Encountered an invalid tag vote ({tag.Value}).")
         });
