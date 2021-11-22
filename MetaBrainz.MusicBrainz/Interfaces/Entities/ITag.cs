@@ -2,18 +2,16 @@
 
 using MetaBrainz.Common.Json;
 
-namespace MetaBrainz.MusicBrainz.Interfaces.Entities {
+namespace MetaBrainz.MusicBrainz.Interfaces.Entities; 
 
-  /// <summary>A tag attached to an entity.</summary>
-  [PublicAPI]
-  public interface ITag : IJsonBasedObject {
+/// <summary>A tag attached to an entity.</summary>
+[PublicAPI]
+public interface ITag : IJsonBasedObject {
 
-    /// <summary>The name of the tag.</summary>
-    string Name { get; }
+  /// <summary>The name of the tag.</summary>
+  string Name { get; }
 
-    /// <summary>The number of votes that have been registered for this tag, if applicable.</summary>
-    int? VoteCount { get; }
-
-  }
+  /// <summary>The number of votes that have been registered for this tag, if applicable.</summary>
+  int? VoteCount { get; }
 
 }
