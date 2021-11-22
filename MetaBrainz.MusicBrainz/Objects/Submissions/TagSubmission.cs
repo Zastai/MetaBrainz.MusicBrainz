@@ -15,7 +15,9 @@ public sealed class TagSubmission : Submission {
   #region Public API
 
   /// <summary>Votes for the specified tags on the specified entity.</summary>
-  /// <param name="entityType">The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.
+  /// </param>
   /// <param name="mbid">The MBID of the entity to tag.</param>
   /// <param name="vote">The vote to apply to the tags.</param>
   /// <param name="tags">The tags to vote for.</param>
@@ -42,7 +44,9 @@ public sealed class TagSubmission : Submission {
   /// <summary>Votes for the specified tag on the specified entity.</summary>
   /// <param name="tag">The tag to vote for.</param>
   /// <param name="vote">The vote to apply to the tag.</param>
-  /// <param name="entityType">The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.
+  /// </param>
   /// <param name="mbid">The MBID of the entity to tag.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, EntityType entityType, Guid mbid) {
@@ -57,7 +61,9 @@ public sealed class TagSubmission : Submission {
   /// <summary>Votes for the specified tag on the specified entities.</summary>
   /// <param name="tag">The tag to vote for.</param>
   /// <param name="vote">The vote to apply to the tag.</param>
-  /// <param name="entityType">The type of entity identified by <paramref name="mbids"/>; must be an entity that supports tags.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbids"/>; must be an entity that supports tags.
+  /// </param>
   /// <param name="mbids">The MBIDs of the entities to tag.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params Guid[] mbids) {
@@ -83,9 +89,6 @@ public sealed class TagSubmission : Submission {
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, params ITaggableEntity[] entities) {
     foreach (var item in entities) {
-      if (item == null) {
-        continue;
-      }
       this.Add(tag, vote, item.EntityType, item.Id);
     }
     return this;

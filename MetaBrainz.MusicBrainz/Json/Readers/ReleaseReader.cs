@@ -98,14 +98,14 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
                   break;
                 }
                 if (reader.TokenType != JsonTokenType.PropertyName) {
-                  throw new
-                    JsonException($"Token ({reader.TokenType}: {reader.GetRawStringValue()}) found instead of property name (at offset {reader.TokenStartIndex}).");
+                  throw new JsonException($"Token ({reader.TokenType}: {reader.GetRawStringValue()}) found instead of property " +
+                                          $"name (at offset {reader.TokenStartIndex}).");
                 }
                 var subprop = reader.GetString();
                 try {
                   if (!reader.Read()) {
-                    throw new
-                      JsonException($"Expected value for the '{subprop}' property of Release object's 'packaging' field not encountered.");
+                    throw new JsonException($"Expected value for the '{subprop}' property of Release object's 'packaging' field " +
+                                            "not encountered.");
                   }
                   if (subprop == "name") {
                     packaging = reader.GetString();

@@ -27,7 +27,10 @@ public class OAuth2 {
   public const string AuthorizationEndPoint = "/oauth2/authorize";
 
   /// <summary>The default client ID to use for requests.</summary>
-  /// <remarks>To register an application and obtain a client ID, go to <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.</remarks>
+  /// <remarks>
+  /// To register an application and obtain a client ID, go to
+  /// <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.
+  /// </remarks>
   public static string DefaultClientId { get; set; } = "";
 
   /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
@@ -50,11 +53,15 @@ public class OAuth2 {
   #region Public Methods
 
   /// <summary>Creates the URI to use to request an authorization code.</summary>
-  /// <param name="redirectUri">The URI that should receive the authorization code; use <see cref="OutOfBandUri"/> for out-of-band requests.</param>
+  /// <param name="redirectUri">
+  /// The URI that should receive the authorization code; use <see cref="OutOfBandUri"/> for out-of-band requests.
+  /// </param>
   /// <param name="scope">The authorization scopes that should be included in the authorization code.</param>
   /// <param name="state">An optional string that will be included in the response sent to <paramref name="redirectUri"/>.</param>
   /// <param name="offlineAccess">Requests offline use (a refresh token will be provided alongside the access token).</param>
-  /// <param name="forcePrompt">If true, the user will be required to confirm authorization even if the requested scopes have already been granted.</param>
+  /// <param name="forcePrompt">
+  /// If true, the user will be required to confirm authorization even if the requested scopes have already been granted.
+  /// </param>
   /// <returns>The generated URI.</returns>
   public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false,
                                         bool forcePrompt = false) {
@@ -83,7 +90,10 @@ public class OAuth2 {
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
-  /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
+  /// <param name="redirectUri">
+  /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
+  /// <paramref name="code"/>.
+  /// </param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
     => this.RequestToken("bearer", code, clientSecret, redirectUri, false);
@@ -91,7 +101,10 @@ public class OAuth2 {
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
-  /// <param name="redirectUri">The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain <paramref name="code"/>.</param>
+  /// <param name="redirectUri">
+  /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
+  /// <paramref name="code"/>.
+  /// </param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri)
     => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, false);
@@ -115,7 +128,10 @@ public class OAuth2 {
   #region Instance Fields / Properties
 
   /// <summary>The client ID to use for requests.</summary>
-  /// <remarks>To register an application and obtain a client ID, go to <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.</remarks>
+  /// <remarks>
+  /// To register an application and obtain a client ID, go to
+  /// <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.
+  /// </remarks>
   public string ClientId { get; set; } = OAuth2.DefaultClientId;
 
   /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>

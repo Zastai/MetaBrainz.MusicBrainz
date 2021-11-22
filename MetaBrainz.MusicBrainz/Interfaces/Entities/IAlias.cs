@@ -25,7 +25,9 @@ public interface IAlias : IJsonBasedObject {
   /// <summary>The alias.</summary>
   string Name { get; }
 
-  /// <summary>Flag indicating whether or not this is the primary alias within the locale specified by <see cref="Locale"/>.</summary>
+  /// <summary>
+  /// Flag indicating whether or not this is the primary alias within the locale specified by <see cref="Locale"/>.
+  /// </summary>
   bool Primary { get; }
 
   /// <summary>The sort name form of the alias, if applicable.</summary>

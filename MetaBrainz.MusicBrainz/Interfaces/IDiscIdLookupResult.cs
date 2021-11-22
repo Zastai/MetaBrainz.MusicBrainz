@@ -7,7 +7,9 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Interfaces;
 
-/// <summary>The result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.</summary>
+/// <summary>
+/// The result of a lookup for a MusicBrainz disc ID: a disc or cd stub for direct ID matches, or a release list for a fuzzy lookup.
+/// </summary>
 [PublicAPI]
 public interface IDiscIdLookupResult : IJsonBasedObject {
 

@@ -127,9 +127,13 @@ public sealed partial class Query {
   /// followed by the start address of each track (in sectors).
   /// </param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="allMediaFormats">If true, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
+  /// <param name="allMediaFormats">
+  /// If true, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.
+  /// </param>
   /// <param name="noStubs">If true, CD stubs are not returned.</param>
-  /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
+  /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list
+  /// of matching releases.
+  /// </returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
@@ -250,8 +254,12 @@ public sealed partial class Query {
   /// <summary>Looks up the specified label.</summary>
   /// <param name="mbid">The MBID for the label to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="type">
+  /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>The requested label.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -263,8 +271,12 @@ public sealed partial class Query {
   /// <summary>Looks up the specified label.</summary>
   /// <param name="mbid">The MBID for the label to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="type">
+  /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>An asynchronous operation returning the requested label.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -299,8 +311,12 @@ public sealed partial class Query {
   /// <summary>Looks up the specified recording.</summary>
   /// <param name="mbid">The MBID for the recording to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="type">
+  /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>The requested recording.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -312,8 +328,12 @@ public sealed partial class Query {
   /// <summary>Looks up the specified recording.</summary>
   /// <param name="mbid">The MBID for the recording to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="type">The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="type">
+  /// The release type to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>An asynchronous operation returning the requested recording.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -348,7 +368,9 @@ public sealed partial class Query {
   /// <summary>Looks up the specified release group.</summary>
   /// <param name="mbid">The MBID for the release group to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>The requested release group.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -360,7 +382,9 @@ public sealed partial class Query {
   /// <summary>Looks up the specified release group.</summary>
   /// <param name="mbid">The MBID for the release group to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="status">The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.</param>
+  /// <param name="status">
+  /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
+  /// </param>
   /// <returns>An asynchronous operation returning the requested release group.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
