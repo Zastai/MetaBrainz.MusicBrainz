@@ -105,8 +105,10 @@ public sealed partial class Query {
   /// followed by the start address of each track (in sectors).
   /// </param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <param name="allMedia">If true, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.</param>
-  /// <param name="noStubs">If true, CD stubs are not returned.</param>
+  /// <param name="allMedia">
+  /// If <see langword="true"/>, all media types are considered for a fuzzy lookup; otherwise, only CDs are considered.
+  /// </param>
+  /// <param name="noStubs">If <see langword="true"/>, CD stubs are not returned.</param>
   /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list of matching releases.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -128,9 +130,9 @@ public sealed partial class Query {
   /// </param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="allMediaFormats">
-  /// If true, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.
+  /// If <see langword="true"/>, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.
   /// </param>
-  /// <param name="noStubs">If true, CD stubs are not returned.</param>
+  /// <param name="noStubs">If <see langword="true"/>, CD stubs are not returned.</param>
   /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list
   /// of matching releases.
   /// </returns>

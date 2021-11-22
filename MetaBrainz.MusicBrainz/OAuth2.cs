@@ -60,7 +60,8 @@ public class OAuth2 {
   /// <param name="state">An optional string that will be included in the response sent to <paramref name="redirectUri"/>.</param>
   /// <param name="offlineAccess">Requests offline use (a refresh token will be provided alongside the access token).</param>
   /// <param name="forcePrompt">
-  /// If true, the user will be required to confirm authorization even if the requested scopes have already been granted.
+  /// If <see langword="true"/>, the user will be required to confirm authorization even if the requested scopes have already been
+  /// granted.
   /// </param>
   /// <returns>The generated URI.</returns>
   public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false,

@@ -58,7 +58,7 @@ public sealed partial class Query {
   /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
   /// <param name="userAgent">The user agent to use for all requests.</param>
   /// <exception cref="ArgumentNullException">
-  /// When <paramref name="userAgent"/> is null, and no default was set via <see cref="DefaultUserAgent"/>.
+  /// When <paramref name="userAgent"/> is <see langword="null"/>, and no default was set via <see cref="DefaultUserAgent"/>.
   /// </exception>
   /// <exception cref="ArgumentException">
   /// When the user agent (whether from <paramref name="userAgent"/> or <see cref="DefaultUserAgent"/>) is blank.
@@ -93,7 +93,7 @@ public sealed partial class Query {
   /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
   /// </param>
   /// <exception cref="ArgumentNullException">
-  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.
+  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are <see langword="null"/>.
   /// </exception>
   /// <exception cref="ArgumentException">
   /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are blank.
