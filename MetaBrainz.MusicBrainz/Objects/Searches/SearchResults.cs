@@ -77,12 +77,15 @@ where TInterface : ISearchResult {
 
   protected sealed override string FullExtraText() {
     var extra = "?query=" + Uri.EscapeDataString(this.QueryString);
-    if (this.Offset > 0)
+    if (this.Offset > 0) {
       extra += $"&offset={this.Offset}";
-    if (this.Limit.HasValue)
+    }
+    if (this.Limit.HasValue) {
       extra += $"&limit={this.Limit}";
-    if (this.Simple)
+    }
+    if (this.Simple) {
       extra += "&dismax=true";
+    }
     return extra;
   }
 

@@ -30,8 +30,9 @@ internal sealed class Medium : JsonBasedObject, IMedium {
 
   public override string ToString() {
     var text = this.Format ?? "Medium";
-    if (!string.IsNullOrEmpty(this.Title))
+    if (!string.IsNullOrEmpty(this.Title)) {
       text += " “" + this.Title + "”";
+    }
     text += $" ({this.TrackCount} track(s))";
     return text;
   }

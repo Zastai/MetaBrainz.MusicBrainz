@@ -17,12 +17,15 @@ internal sealed class DiscIdLookupResult : JsonBasedObject, IDiscIdLookupResult 
   /// <summary>Gets the textual representation of the disc ID lookup result.</summary>
   /// <returns>A string describing the lookup results.</returns>
   public override string ToString() {
-    if (this.Disc != null)
+    if (this.Disc != null) {
       return "Disc: " + this.Disc;
-    if (this.Stub != null)
+    }
+    if (this.Stub != null) {
       return "CD Stub: " + this.Stub;
-    if (this.Releases != null)
+    }
+    if (this.Releases != null) {
       return $"{this.Releases.Count} Release(s)";
+    }
     return string.Empty; // should be impossible
   }
 

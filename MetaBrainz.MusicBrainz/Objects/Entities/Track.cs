@@ -29,11 +29,13 @@ internal sealed class Track : JsonBasedObject, ITrack {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Number != null)
+    if (this.Number != null) {
       text += $"{this.Number}. ";
+    }
     if (this.ArtistCredit != null) {
-      foreach (var nc in this.ArtistCredit)
+      foreach (var nc in this.ArtistCredit) {
         text += nc.ToString();
+      }
       text += " / ";
     }
     text += this.Title;

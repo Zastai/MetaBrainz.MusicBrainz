@@ -12,21 +12,24 @@ internal sealed class ModifyCollection : ISubmission {
   public ModifyCollection(Method method, string client, Guid collection, EntityType entityType) {
     this._method = method;
     this._client = client;
-    if (string.IsNullOrWhiteSpace(client))
+    if (string.IsNullOrWhiteSpace(client)) {
       throw new ArgumentException("The client ID must not be blank.", nameof(client));
+    }
     this._request = new StringBuilder(16 * 1024);
     this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(MapType(entityType)).Append('/');
   }
 
   public ModifyCollection Add(IEnumerable<Guid> items) {
-    foreach (var item in items)
+    foreach (var item in items) {
       this._request.Append(item.ToString("D")).Append(';');
+    }
     return this;
   }
 
   public ModifyCollection Add<T>(IEnumerable<T> items) where T : IEntity {
-    foreach (var item in items)
+    foreach (var item in items) {
       this._request.Append(item.Id.ToString("D")).Append(';');
+    }
     return this;
   }
 

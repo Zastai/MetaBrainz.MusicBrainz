@@ -75,22 +75,27 @@ internal sealed class AreaReader : ObjectReader<Area> {
             //   }
             // ]
             // Assumption: relation-list will only ever contain a single wrapper object.
-            if (reader.TokenType != JsonTokenType.StartArray)
+            if (reader.TokenType != JsonTokenType.StartArray) {
               throw new JsonException("Expected start of list not found.");
+            }
             reader.Read();
-            if (reader.TokenType != JsonTokenType.StartObject)
+            if (reader.TokenType != JsonTokenType.StartObject) {
               throw new JsonException("Expected start of object not found.");
+            }
             reader.Read();
-            if (reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "relations")
+            if (reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "relations") {
               throw new JsonException("Expected 'relations' property not found.");
+            }
             reader.Read();
             relations = reader.ReadList(RelationshipReader.Instance, options);
             reader.Read();
-            if (reader.TokenType != JsonTokenType.EndObject)
+            if (reader.TokenType != JsonTokenType.EndObject) {
               throw new JsonException("Expected end of object not found.");
+            }
             reader.Read();
-            if (reader.TokenType != JsonTokenType.EndArray)
+            if (reader.TokenType != JsonTokenType.EndArray) {
               throw new JsonException("Expected end of list not found.");
+            }
             break;
           }
           case "relations":
@@ -125,8 +130,9 @@ internal sealed class AreaReader : ObjectReader<Area> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
+    }
     return new Area(id.Value) {
       Aliases = aliases,
       Annotation = annotation,

@@ -95,8 +95,9 @@ internal sealed class PlaceReader : ObjectReader<Place> {
       }
       reader.Read();
     }
-    if (!id.HasValue)
+    if (!id.HasValue) {
       throw new JsonException("Expected property 'id' not found or null.");
+    }
     return new Place(id.Value) {
       Address = address,
       Aliases = aliases,

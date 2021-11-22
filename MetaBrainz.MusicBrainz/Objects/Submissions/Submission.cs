@@ -34,8 +34,9 @@ public abstract class Submission : ISubmission {
   internal abstract string RequestBody { get; }
 
   internal Submission(Query query, string client, string entity, Method method) {
-    if (string.IsNullOrWhiteSpace(client))
+    if (string.IsNullOrWhiteSpace(client)) {
       throw new ArgumentException("The client ID must not be blank.", nameof(client));
+    }
     this._query  = query;
     this._client = client;
     this._entity = entity;

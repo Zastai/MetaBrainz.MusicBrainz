@@ -35,8 +35,9 @@ internal sealed class AnnotationReader : ObjectReader<Annotation> {
             break;
           case "type":
             type = HelperMethods.ParseEntityType(reader.GetString());
-            if (type == EntityType.Unknown)
+            if (type == EntityType.Unknown) {
               goto default; // put the actual value in UnhandledProperties
+            }
             break;
           default:
             rest ??= new Dictionary<string, object?>();

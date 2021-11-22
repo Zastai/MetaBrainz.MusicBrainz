@@ -117,8 +117,9 @@ internal sealed class RelationshipReader : ObjectReader<Relationship> {
           case "target-type": // SEARCH-444 prevents us from requiring this
             if (reader.TokenType != JsonTokenType.Null) {
               targetType = HelperMethods.ParseEntityType(reader.GetString());
-              if (targetType == EntityType.Unknown)
+              if (targetType == EntityType.Unknown) {
                 goto default; // put the actual value in UnhandledProperties
+              }
             }
             break;
           case "type":

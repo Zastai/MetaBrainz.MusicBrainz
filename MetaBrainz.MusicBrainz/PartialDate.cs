@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 
 using MetaBrainz.MusicBrainz.Json.Readers;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>A partial date. Can contain any or all of year, month and day.</summary>
 [JsonConverter(typeof(PartialDateReader))]
@@ -25,22 +25,28 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// When <paramref name="month"/> and/or <paramref name="day"/> have an invalid value.
   /// </exception>
   public PartialDate(int? year = null, int? month = null, int? day = null) {
-    if (year.HasValue && (year.Value < PartialDate.MinYear || year.Value > PartialDate.MaxYear))
+    if (year.HasValue && (year.Value < PartialDate.MinYear || year.Value > PartialDate.MaxYear)) {
       throw new ArgumentOutOfRangeException(nameof(year), year, $"The year, if specified, should be between {PartialDate.MinYear} and {PartialDate.MaxYear}.");
-    if (month.HasValue && (month.Value < 1 || month.Value > 12))
+    }
+    if (month.HasValue && (month.Value < 1 || month.Value > 12)) {
       throw new ArgumentOutOfRangeException(nameof(month), month, "The month, if specified, should be between 1 and 12.");
+    }
     if (day.HasValue) {
       var maxDays = 31;
       if (month.HasValue) {
-        if (year.HasValue)
+        if (year.HasValue) {
           maxDays = DateTime.DaysInMonth(year.Value, month.Value);
-        else if (month.Value == 2)
+        }
+        else if (month.Value == 2) {
           maxDays = 29;
-        else if (month.Value == 4 || month.Value == 6 || month.Value == 9 || month.Value == 11)
+        }
+        else if (month.Value == 4 || month.Value == 6 || month.Value == 9 || month.Value == 11) {
           maxDays = 30;
+        }
       }
-      if (day.Value < 1 || day.Value > maxDays)
+      if (day.Value < 1 || day.Value > maxDays) {
         throw new ArgumentOutOfRangeException(nameof(day), day, "The day, if specified, should be between 1 and 28/29/30/31 (depending on the month).");
+      }
     }
     this.Year  = year;
     this.Month = month;
@@ -56,43 +62,53 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// unspecified parts.
   /// </param>
   public PartialDate(string text) {
-    if (text == null)
+    if (text == null) {
       return; // ok, null
+    }
     text = text.Trim();
-    if (text.Length == 0)
+    if (text.Length == 0) {
       return; // ok, empty
+    }
     var match = PartialDate.Format.Match(text);
     var ok = match.Success;
     if (ok) {
       if (match.Groups[1].Success) {
-        if (!match.Groups[1].Value.Contains("?"))
+        if (!match.Groups[1].Value.Contains("?")) {
           this.Year = int.Parse(match.Groups[1].Value, NumberStyles.None);
+        }
       }
       if (match.Groups[2].Success) {
-        if (!match.Groups[2].Value.Contains("?"))
+        if (!match.Groups[2].Value.Contains("?")) {
           this.Month = int.Parse(match.Groups[2].Value, NumberStyles.None);
+        }
       }
       if (match.Groups[3].Success) {
         if (!match.Groups[3].Value.Contains("?")) {
           var day = int.Parse(match.Groups[3].Value, NumberStyles.None);
           var maxDays = 31;
           if (this.Month.HasValue) {
-            if (this.Year.HasValue)
+            if (this.Year.HasValue) {
               maxDays = DateTime.DaysInMonth(this.Year.Value, this.Month.Value);
-            else if (this.Month.Value == 2)
+            }
+            else if (this.Month.Value == 2) {
               maxDays = 29;
-            else if (this.Month.Value == 4 || this.Month.Value == 6 || this.Month.Value == 9 || this.Month.Value == 11)
+            }
+            else if (this.Month.Value == 4 || this.Month.Value == 6 || this.Month.Value == 9 || this.Month.Value == 11) {
               maxDays = 30;
+            }
           }
-          if (day > maxDays)
+          if (day > maxDays) {
             ok = false;
-          else
+          }
+          else {
             this.Day = day;
+          }
         }
       }
     }
-    if (!ok)
+    if (!ok) {
       throw new FormatException("The specified partial date string is not of the form YYYY[-MM[-DD]] (with question marks for unspecified parts).");
+    }
   }
 
   #endregion
@@ -138,18 +154,22 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <returns>A string of the form <c>YYYY[-MM[-DD]]</c>, with question marks used for unspecified parts.</returns>
   public override string ToString() {
     var sb = new StringBuilder();
-    if (this.Year.HasValue)
+    if (this.Year.HasValue) {
       sb.Append($"{this.Year.Value:D4}");
+    }
     if (this.Month.HasValue) {
-      if (sb.Length < 4)
+      if (sb.Length < 4) {
         sb.Append("????");
+      }
       sb.Append($"-{this.Month.Value:D2}");
     }
     if (this.Day.HasValue) {
-      if (sb.Length < 4)
+      if (sb.Length < 4) {
         sb.Append("????");
-      if (sb.Length < 7)
+      }
+      if (sb.Length < 7) {
         sb.Append("-??");
+      }
       sb.Append($"-{this.Day.Value:D2}");
     }
     return sb.ToString();
@@ -168,31 +188,48 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// otherwise.
   /// </returns>
   public int CompareTo(PartialDate? other) {
-    if (object.ReferenceEquals(other, null))
+    if (object.ReferenceEquals(other, null)) {
       return +1;
+    }
     if (this.Year.HasValue) {
       if (other.Year.HasValue) { // YYYY vs YYYY
-        if (this.Year.Value < other.Year.Value) return -1;
-        if (this.Year.Value > other.Year.Value) return +1;
+        if (this.Year.Value < other.Year.Value) {
+          return -1;
+        }
+        if (this.Year.Value > other.Year.Value) {
+          return +1;
+        }
       }
-      else
+      else {
         return 0; // can't usefully compare YYYY vs ????
+      }
     }
-    else if (other.Year.HasValue)
+    else if (other.Year.HasValue) {
       return 0; // can't usefully compare ???? vs YYYY
+    }
     if (this.Month.HasValue) {
       if (other.Month.HasValue) { // YYYY-MM vs YYYY-MM
-        if (this.Month.Value < other.Month.Value) return -1;
-        if (this.Month.Value > other.Month.Value) return +1;
+        if (this.Month.Value < other.Month.Value) {
+          return -1;
+        }
+        if (this.Month.Value > other.Month.Value) {
+          return +1;
+        }
       }
-      else
+      else {
         return 0; // can't usefully compare YYYY-MM vs YYYY-??
+      }
     }
-    else if (other.Month.HasValue)
+    else if (other.Month.HasValue) {
       return 0; // can't usefully compare YYYY-?? vs YYYY-MM
+    }
     if (this.Day.HasValue && other.Day.HasValue) { // YYYY-MM-DD vs YYYY-MM-DD
-      if (this.Day.Value < other.Day.Value) return -1;
-      if (this.Day.Value > other.Day.Value) return +1;
+      if (this.Day.Value < other.Day.Value) {
+        return -1;
+      }
+      if (this.Day.Value > other.Day.Value) {
+        return +1;
+      }
     }
     return 0;
   }
@@ -249,8 +286,9 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <see langword="true"/> if the two partial dates have the same contents; <see langword="false"/> otherwise.
   /// </returns>
   public bool Equals(PartialDate? other) {
-    if (other == null)
+    if (other == null) {
       return false;
+    }
     return (this.Year == other.Year) && (this.Month == other.Month) && (this.Day == other.Day);
   }
 

@@ -20,8 +20,9 @@ internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Artist != null)
+    if (this.Artist != null) {
       text += this.Artist + " / ";
+    }
     text += $"{this.Title} ({this.Length:g})";
     return text;
   }

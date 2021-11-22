@@ -20,8 +20,9 @@ public sealed class RatingSubmission : Submission {
   /// <param name="mbid">The MBID of the entity to rate.</param>
   /// <returns>This submission request.</returns>
   public RatingSubmission Add(byte rating, EntityType entityType, Guid mbid) {
-    if (rating > 100)
+    if (rating > 100) {
       throw new ArgumentOutOfRangeException(nameof(rating), rating, "A rating value must be between 0 and 100.");
+    }
     var map = this.GetMap(entityType);
     map[mbid] = rating;
     return this;
@@ -33,8 +34,9 @@ public sealed class RatingSubmission : Submission {
   /// <param name="mbids">The MBIDs of the entities to rate.</param>
   /// <returns>This submission request.</returns>
   public RatingSubmission Add(byte rating, EntityType entityType, params Guid[] mbids) {
-    foreach (var mbid in mbids)
+    foreach (var mbid in mbids) {
       this.Add(rating, entityType, mbid);
+    }
     return this;
   }
 
@@ -52,8 +54,9 @@ public sealed class RatingSubmission : Submission {
   /// <returns>This submission request.</returns>
   public RatingSubmission Add(byte rating, params IRatableEntity[] entities) {
     foreach (var entity in entities) {
-      if (entity == null)
+      if (entity == null) {
         continue;
+      }
       this.Add(rating, entity.EntityType, entity.Id);
     }
     return this;
@@ -105,8 +108,9 @@ public sealed class RatingSubmission : Submission {
   }
 
   private static void Write(XmlWriter xml, RatingMap items, string element) {
-    if (items.Count == 0)
+    if (items.Count == 0) {
       return;
+    }
     xml.WriteStartElement(element + "-list");
     foreach (var entry in items) {
       xml.WriteStartElement(element);

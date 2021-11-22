@@ -32,21 +32,25 @@ public sealed partial class Query : IDisposable {
 
   private static void MaybeMapException(WebException we) {
     var response = we.Response;
-    if (response == null || response.ContentLength == 0)
+    if (response == null || response.ContentLength == 0) {
       return;
+    }
     try {
       using var stream = response.GetResponseStream();
-      if (stream == null)
+      if (stream == null) {
         return;
+      }
       if (response.ContentType.StartsWith("application/xml")) {
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
         StringBuilder? sb = null;
         var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
         while (xpath.MoveNext()) {
-          if (sb == null)
+          if (sb == null) {
             sb = new StringBuilder();
-          else
+          }
+          else {
             sb.AppendLine();
+          }
           sb.Append(xpath.Current?.InnerXml);
         }
         if (sb == null) {
@@ -60,8 +64,9 @@ public sealed partial class Query : IDisposable {
         var characterSet = "utf-8";
         if (response is HttpWebResponse httpResponse) {
           characterSet = httpResponse.CharacterSet;
-          if (string.IsNullOrWhiteSpace(characterSet))
+          if (string.IsNullOrWhiteSpace(characterSet)) {
             characterSet = "utf-8";
+          }
         }
         var enc = Encoding.GetEncoding(characterSet);
         using var sr = new StreamReader(stream, enc);
@@ -86,26 +91,30 @@ public sealed partial class Query : IDisposable {
 
   private static async Task MaybeMapExceptionAsync(WebException we) {
     var response = we.Response;
-    if (response == null || response.ContentLength == 0)
+    if (response == null || response.ContentLength == 0) {
       return;
+    }
     try {
 #if NET || NETCOREAPP2_1_OR_GREATER
         var stream = response.GetResponseStream();
         await using var _ = stream.ConfigureAwait(false);
 #else
       using var stream = response.GetResponseStream();
-      if (stream == null)
+      if (stream == null) {
         return;
+      }
 #endif
       if (response.ContentType.StartsWith("application/xml")) {
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
         StringBuilder? sb = null;
         var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
         while (xpath.MoveNext()) {
-          if (sb == null)
+          if (sb == null) {
             sb = new StringBuilder();
-          else
+          }
+          else {
             sb.AppendLine();
+          }
           sb.Append(xpath.Current?.InnerXml);
         }
         if (sb == null) {
@@ -120,8 +129,9 @@ public sealed partial class Query : IDisposable {
         var characterSet = "utf-8";
         if (response is HttpWebResponse httpResponse) {
           characterSet = httpResponse.CharacterSet;
-          if (string.IsNullOrWhiteSpace(characterSet))
+          if (string.IsNullOrWhiteSpace(characterSet)) {
             characterSet = "utf-8";
+          }
         }
         var enc = Encoding.GetEncoding(characterSet);
         using var sr = new StreamReader(stream, enc, false, 1024, true);
@@ -164,8 +174,9 @@ public sealed partial class Query : IDisposable {
   private static DateTime _lastRequestTime;
 
   private static T ApplyDelay<T>(Func<T> request) {
-    if (Query.DelayBetweenRequests <= 0.0)
+    if (Query.DelayBetweenRequests <= 0.0) {
       return request();
+    }
     while (true) {
       Query.RequestLock.Wait();
       try {
@@ -182,8 +193,9 @@ public sealed partial class Query : IDisposable {
   }
 
   private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request) {
-    if (Query.DelayBetweenRequests <= 0.0)
+    if (Query.DelayBetweenRequests <= 0.0) {
       return await request().ConfigureAwait(false);
+    }
     while (true) {
       await Query.RequestLock.WaitAsync();
       try {
@@ -204,8 +216,9 @@ public sealed partial class Query : IDisposable {
   #region Query String Processing
 
   private static void AddIncludeText(StringBuilder sb, Include inc) {
-    if (inc == Include.None)
+    if (inc == Include.None) {
       return;
+    }
     sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
     var letter = '=';
     // Linked Entities
@@ -305,19 +318,26 @@ public sealed partial class Query : IDisposable {
     if (toc != null) {
       sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
       for (var i = 0; i < toc.Length; ++i) {
-        if (i > 0) sb.Append('+');
+        if (i > 0) {
+          sb.Append('+');
+        }
         sb.Append(toc[i]);
       }
     }
-    if (allMediaFormats) sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
-    if (noStubs)         sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
+    if (allMediaFormats) {
+      sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
+    }
+    if (noStubs) {
+      sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
+    }
     Query.AddIncludeText(sb, inc);
     return sb.ToString();
   }
 
   private static string BuildExtraText(Include inc, string query, ReleaseType? type = null, ReleaseStatus? status = null) {
-    if (string.IsNullOrWhiteSpace(query))
+    if (string.IsNullOrWhiteSpace(query)) {
       throw new ArgumentException("A browse or search query must not be blank.", nameof(query));
+    }
     var sb = new StringBuilder();
     sb.Append('?').Append(query);
     Query.AddIncludeText(sb, inc);
@@ -341,8 +361,9 @@ public sealed partial class Query : IDisposable {
 
   private WebClient WebClient {
     get {
-      if (this.Disposed)
+      if (this.Disposed) {
         throw new ObjectDisposedException(nameof(Query));
+      }
       var wc = this.TheClient ??= new WebClient { Encoding = Encoding.UTF8 };
       wc.BaseAddress = this.BaseUri.ToString();
       return wc;
@@ -370,8 +391,9 @@ public sealed partial class Query : IDisposable {
   }
 
   private void Dispose(bool disposing) {
-    if (!disposing)
+    if (!disposing) {
       return;
+    }
     try {
       this.Close();
       this.ClientLock.Dispose();
@@ -395,18 +417,22 @@ public sealed partial class Query : IDisposable {
     this.ClientLock.Wait();
     try {
       var wc = this.WebClient;
-      if (this.BearerToken != null)
+      if (this.BearerToken != null) {
         wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
-      if (contentType != null)
+      }
+      if (contentType != null) {
         wc.Headers.Set("Content-Type", contentType);
+      }
       wc.Headers.Set("Accept", accept);
       wc.Headers.Set("User-Agent", this.FullUserAgent);
       wc.QueryString.Clear();
       try {
-        if (method == Method.GET)
+        if (method == Method.GET) {
           return wc.DownloadString(address);
-        if (body != null)
+        }
+        if (body != null) {
           Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+        }
         return wc.UploadString(address, method.ToString(), body ?? string.Empty);
       }
       catch (WebException we) {
@@ -438,18 +464,22 @@ public sealed partial class Query : IDisposable {
     await this.ClientLock.WaitAsync();
     try {
       var wc = this.WebClient;
-      if (this.BearerToken != null)
+      if (this.BearerToken != null) {
         wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
-      if (contentType != null)
+      }
+      if (contentType != null) {
         wc.Headers.Set("Content-Type", contentType);
+      }
       wc.Headers.Set("Accept", accept);
       wc.Headers.Set("User-Agent", this.FullUserAgent);
       wc.QueryString.Clear();
       try {
-        if (method == Method.GET)
+        if (method == Method.GET) {
           return await wc.DownloadStringTaskAsync(address).ConfigureAwait(false);
-        if (body != null)
+        }
+        if (body != null) {
           Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+        }
         return await wc.UploadStringTaskAsync(address, method.ToString(), body ?? string.Empty).ConfigureAwait(false);
       }
       catch (WebException we) {

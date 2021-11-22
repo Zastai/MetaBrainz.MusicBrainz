@@ -42,10 +42,12 @@ internal sealed class SimpleTrackReader : ObjectReader<SimpleTrack> {
       }
       reader.Read();
     }
-    if (title == null)
+    if (title == null) {
       throw new JsonException("Expected track title not found or null.");
-    if (length == null)
+    }
+    if (length == null) {
       throw new JsonException("Expected track length not found or null.");
+    }
     return new SimpleTrack(title, length.Value) {
       Artist = artist,
       UnhandledProperties = rest,

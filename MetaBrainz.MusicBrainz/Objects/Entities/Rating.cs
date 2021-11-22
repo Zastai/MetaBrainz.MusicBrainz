@@ -15,13 +15,16 @@ internal sealed class Rating : JsonBasedObject, IRating {
     var text = string.Empty;
     if (this.Value.HasValue) {
       var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
-      for (var i = 1; i <= 5; ++i)
+      for (var i = 1; i <= 5; ++i) {
         text = string.Concat(text, (stars >= i) ? "★" : "☆");
+      }
     }
-    else
+    else {
       text += "<not rated>";
-    if (this.VoteCount.HasValue)
+    }
+    if (this.VoteCount.HasValue) {
       text += $" (votes: {this.VoteCount})";
+    }
     return text;
   }
 

@@ -66,8 +66,9 @@ public sealed partial class Query {
   public Query(string? userAgent = null) {
     // libmusicbrainz does not validate/change the user agent in any way, so neither do we
     this.UserAgent = userAgent ?? Query.DefaultUserAgent ?? throw new ArgumentNullException(nameof(userAgent));
-    if (string.IsNullOrWhiteSpace(this.UserAgent))
+    if (string.IsNullOrWhiteSpace(this.UserAgent)) {
       throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
+    }
     { // Set full user agent, including this library's information
       var an = typeof(Query).Assembly.GetName();
       this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
@@ -92,12 +93,15 @@ public sealed partial class Query {
   /// <exception cref="ArgumentNullException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are null.</exception>
   /// <exception cref="ArgumentException">When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are blank.</exception>
   public Query(string application, string version, string contact) {
-    if (string.IsNullOrWhiteSpace(application))
+    if (string.IsNullOrWhiteSpace(application)) {
       throw new ArgumentException("The application name must not be blank.", nameof(application));
-    if (string.IsNullOrWhiteSpace(version))
+    }
+    if (string.IsNullOrWhiteSpace(version)) {
       throw new ArgumentException("The version number must not be blank.", nameof(version));
-    if (string.IsNullOrWhiteSpace(contact))
+    }
+    if (string.IsNullOrWhiteSpace(contact)) {
       throw new ArgumentException("The contact address must not be blank.", nameof(contact));
+    }
     this.UserAgent = $"{application}/{version} ({contact})";
     { // Set full user agent, including this library's information
       var an = typeof(Query).Assembly.GetName();

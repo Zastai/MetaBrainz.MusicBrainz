@@ -57,20 +57,24 @@ public class OAuth2 {
   /// <param name="forcePrompt">If true, the user will be required to confirm authorization even if the requested scopes have already been granted.</param>
   /// <returns>The generated URI.</returns>
   public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false, bool forcePrompt = false) {
-    if (scope == AuthorizationScope.None)
+    if (scope == AuthorizationScope.None) {
       throw new ArgumentException("At least one authorization scope must be selected.", nameof(scope));
+    }
     var uri = this.BuildEndPointUri(OAuth2.AuthorizationEndPoint);
     var query = new StringBuilder();
     query.Append("response_type=code");
     query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
     query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
     query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
-    if (state != null)
+    if (state != null) {
       query.Append("&state=").Append(Uri.EscapeDataString(state));
-    if (offlineAccess)
+    }
+    if (offlineAccess) {
       query.Append("&access_type=offline");
-    if (forcePrompt)
+    }
+    if (forcePrompt) {
       query.Append("&approval_prompt=force");
+    }
     uri.Query = query.ToString();
     return uri.Uri;
   }
@@ -132,12 +136,15 @@ public class OAuth2 {
     JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
 
   private UriBuilder BuildEndPointUri(string endpoint) {
-    if (string.IsNullOrWhiteSpace(this.UrlScheme))
+    if (string.IsNullOrWhiteSpace(this.UrlScheme)) {
       throw new InvalidOperationException("No URL scheme has been set.");
-    if (string.IsNullOrWhiteSpace(this.WebSite))
+    }
+    if (string.IsNullOrWhiteSpace(this.WebSite)) {
       throw new InvalidOperationException("No website has been set.");
-    if (string.IsNullOrWhiteSpace(this.ClientId))
+    }
+    if (string.IsNullOrWhiteSpace(this.ClientId)) {
       throw new InvalidOperationException("No client ID has been set.");
+    }
     return new UriBuilder(this.UrlScheme, this.WebSite, this.Port, endpoint);
   }
 
@@ -176,11 +183,13 @@ public class OAuth2 {
   private AuthorizationToken ProcessResponse(HttpWebResponse response) {
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
     using var stream = response.GetResponseStream();
-    if (stream == null)
+    if (stream == null) {
       throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
+    }
     var characterSet = response.CharacterSet;
-    if (characterSet == null || characterSet.Trim().Length == 0)
+    if (characterSet == null || characterSet.Trim().Length == 0) {
       characterSet = "utf-8";
+    }
     // Note: No direct stream use here (available in async mode only)
     var enc = Encoding.GetEncoding(characterSet);
     using var sr = new StreamReader(stream, enc);
@@ -198,11 +207,13 @@ public class OAuth2 {
 #else
     using var stream = response.GetResponseStream();
 #endif
-    if (stream == null)
+    if (stream == null) {
       throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
+    }
     var characterSet = response.CharacterSet;
-    if (characterSet == null || characterSet.Trim().Length == 0)
+    if (characterSet == null || characterSet.Trim().Length == 0) {
       characterSet = "utf-8";
+    }
     AuthorizationToken? token;
 #if !DEBUG
       if (characterSet == "utf-8") { // Directly use the stream
@@ -233,13 +244,27 @@ public class OAuth2 {
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {
-    if ((scope & AuthorizationScope.Collection)    != 0) yield return "collection";
-    if ((scope & AuthorizationScope.EMail)         != 0) yield return "email";
-    if ((scope & AuthorizationScope.Profile)       != 0) yield return "profile";
-    if ((scope & AuthorizationScope.Rating)        != 0) yield return "rating";
-    if ((scope & AuthorizationScope.SubmitBarcode) != 0) yield return "submit_barcode";
-    if ((scope & AuthorizationScope.SubmitIsrc)    != 0) yield return "submit_isrc";
-    if ((scope & AuthorizationScope.Tag)           != 0) yield return "tag";
+    if ((scope & AuthorizationScope.Collection)    != 0) {
+      yield return "collection";
+    }
+    if ((scope & AuthorizationScope.EMail)         != 0) {
+      yield return "email";
+    }
+    if ((scope & AuthorizationScope.Profile)       != 0) {
+      yield return "profile";
+    }
+    if ((scope & AuthorizationScope.Rating)        != 0) {
+      yield return "rating";
+    }
+    if ((scope & AuthorizationScope.SubmitBarcode) != 0) {
+      yield return "submit_barcode";
+    }
+    if ((scope & AuthorizationScope.SubmitIsrc)    != 0) {
+      yield return "submit_isrc";
+    }
+    if ((scope & AuthorizationScope.Tag)           != 0) {
+      yield return "tag";
+    }
   }
 
   private HttpWebResponse SendRequest(HttpWebRequest req, string body) {
@@ -262,8 +287,9 @@ public class OAuth2 {
   }
 
   private IAuthorizationToken ValidateToken(AuthorizationToken token, string type) {
-    if (token.TokenType != type)
+    if (token.TokenType != type) {
       throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
+    }
     return token;
   }
 

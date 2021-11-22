@@ -93,8 +93,9 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       if (offsetCount.HasValue) {
         var reported = offsetCount.Value;
         var actual = offsets.Count;
-        if (reported != actual)
+        if (reported != actual) {
           throw new JsonException($"The number of offsets ({actual}) does not match the reported offset count ({reported}).");
+        }
       }
       result.Disc = new Disc(id, offsets, sectors.Value) {
         Releases = releases,
@@ -110,8 +111,9 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       if (trackCount.HasValue) {
         var reported = trackCount.Value;
         var actual = tracks?.Count ?? 0;
-        if (reported != actual)
+        if (reported != actual) {
           throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
+        }
       }
       result.Stub = new CdStub(id, title) {
         Artist = artist,
@@ -134,10 +136,14 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
         var reported = releaseCount.Value;
         var actual = releases?.Count ?? 0;
         if (reported != actual) // FIXME: Or should this just throw?
+        {
           rest["release-count"] = releaseCount.Value;
+        }
       }
       if (releaseOffset.HasValue && releaseOffset.Value != 0) // FIXME: Or should this just throw?
+      {
         rest["release-offset"] = releaseOffset.Value;
+      }
       result.Releases = releases;
       // clear used fields
       releaseCount = null;
@@ -145,32 +151,45 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       releases = null;
     }
     // any field still set at this point is unhandled
-    if (artist != null)
+    if (artist != null) {
       rest["artist"] = artist;
-    if (barcode != null)
+    }
+    if (barcode != null) {
       rest["barcode"] = barcode;
-    if (disambiguation != null)
+    }
+    if (disambiguation != null) {
       rest["disambiguation"] = disambiguation;
-    if (id != null)
+    }
+    if (id != null) {
       rest["id"] = id;
-    if (offsetCount.HasValue)
+    }
+    if (offsetCount.HasValue) {
       rest["offset-count"] = offsetCount.Value;
-    if (offsets != null)
+    }
+    if (offsets != null) {
       rest["offsets"] = offsets;
-    if (releaseCount.HasValue)
+    }
+    if (releaseCount.HasValue) {
       rest["release-count"] = releaseCount.Value;
-    if (releaseOffset.HasValue)
+    }
+    if (releaseOffset.HasValue) {
       rest["release-offset"] = releaseOffset.Value;
-    if (releases != null)
+    }
+    if (releases != null) {
       rest["releases"] = releases;
-    if (sectors.HasValue)
+    }
+    if (sectors.HasValue) {
       rest["sectors"] = sectors.Value;
-    if (title != null)
+    }
+    if (title != null) {
       rest["title"] = title;
-    if (trackCount.HasValue)
+    }
+    if (trackCount.HasValue) {
       rest["track-count"] = trackCount.Value;
-    if (tracks != null)
+    }
+    if (tracks != null) {
       rest["tracks"] = tracks;
+    }
     result.UnhandledProperties = rest.Count != 0 ? rest : null;
     return result;
   }

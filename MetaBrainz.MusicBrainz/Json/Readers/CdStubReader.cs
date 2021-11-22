@@ -60,15 +60,18 @@ internal sealed class CdStubReader : ObjectReader<CdStub> {
       }
       reader.Read();
     }
-    if (id == null)
+    if (id == null) {
       throw new JsonException("Expected disc ID not found or null.");
-    if (title == null)
+    }
+    if (title == null) {
       throw new JsonException("Expected title not found or null.");
+    }
     if (trackCount.HasValue && tracks != null) {
       var reported = trackCount.Value;
       var actual = tracks?.Count ?? 0;
-      if (reported != actual)
+      if (reported != actual) {
         throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
+      }
     }
     return new CdStub(id, title) {
       Artist = artist,
