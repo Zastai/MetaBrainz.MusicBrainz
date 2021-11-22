@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class LabelInfoReader : ObjectReader<LabelInfo> {
 
-  public static readonly LabelInfoReader Instance = new LabelInfoReader();
+  public static readonly LabelInfoReader Instance = new();
 
   protected override LabelInfo ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? catalogNumber = null;

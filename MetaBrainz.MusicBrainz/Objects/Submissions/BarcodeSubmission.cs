@@ -35,7 +35,7 @@ public sealed class BarcodeSubmission : Submission {
 
   internal BarcodeSubmission(Query query, string client) : base(query, client, "release", Method.POST) { }
 
-  private readonly Dictionary<Guid, string> _barcodes = new Dictionary<Guid, string>();
+  private readonly Dictionary<Guid, string> _barcodes = new();
 
   internal override string RequestBody {
     get {

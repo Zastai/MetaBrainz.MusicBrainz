@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class LabelReader : ObjectReader<Label> {
 
-  public static readonly LabelReader Instance = new LabelReader();
+  public static readonly LabelReader Instance = new();
 
   protected override Label ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

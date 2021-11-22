@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken> {
 
-  public static readonly AuthorizationTokenReader Instance = new AuthorizationTokenReader();
+  public static readonly AuthorizationTokenReader Instance = new();
 
   protected override AuthorizationToken ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? accessToken = null;

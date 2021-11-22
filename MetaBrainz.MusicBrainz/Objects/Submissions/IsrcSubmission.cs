@@ -43,7 +43,7 @@ public sealed class IsrcSubmission : Submission {
 
   internal IsrcSubmission(Query query, string client) : base(query, client, "recording", Method.POST) { }
 
-  private readonly Dictionary<Guid, List<string>> _isrcs = new Dictionary<Guid, List<string>>();
+  private readonly Dictionary<Guid, List<string>> _isrcs = new();
 
   internal override string RequestBody {
     get {

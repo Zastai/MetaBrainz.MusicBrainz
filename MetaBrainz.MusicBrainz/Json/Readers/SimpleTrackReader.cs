@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class SimpleTrackReader : ObjectReader<SimpleTrack> {
 
-  public static readonly SimpleTrackReader Instance = new SimpleTrackReader();
+  public static readonly SimpleTrackReader Instance = new();
 
   protected override SimpleTrack ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? artist = null;

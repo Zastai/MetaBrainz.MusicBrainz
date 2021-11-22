@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class MediumReader : ObjectReader<Medium> {
 
-  public static readonly MediumReader Instance = new MediumReader();
+  public static readonly MediumReader Instance = new();
 
   protected override Medium ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<ITrack>? dataTracks = null;

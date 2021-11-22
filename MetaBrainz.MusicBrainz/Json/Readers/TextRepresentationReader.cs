@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class TextRepresentationReader : ObjectReader<TextRepresentation> {
 
-  public static readonly TextRepresentationReader Instance = new TextRepresentationReader();
+  public static readonly TextRepresentationReader Instance = new();
 
   protected override TextRepresentation ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? language = null;

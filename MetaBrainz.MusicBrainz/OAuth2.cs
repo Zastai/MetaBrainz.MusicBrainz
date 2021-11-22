@@ -15,7 +15,7 @@ using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Json.Readers;
 using MetaBrainz.MusicBrainz.Objects;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
 [PublicAPI]
@@ -40,7 +40,7 @@ public class OAuth2 {
   public static string DefaultWebSite { get; set; } = "musicbrainz.org";
 
   /// <summary>The URI to use for out-of-band authorization.</summary>
-  public static readonly Uri OutOfBandUri = new Uri("urn:ietf:wg:oauth:2.0:oob");
+  public static readonly Uri OutOfBandUri = new("urn:ietf:wg:oauth:2.0:oob");
 
   /// <summary>The endpoint used when creating or refreshing a token.</summary>
   public const string TokenEndPoint = "/oauth2/token";
@@ -202,8 +202,8 @@ public class OAuth2 {
   private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
 #if NET || NETCOREAPP2_1_OR_GREATER
-      var stream = response.GetResponseStream();
-      await using var _ = stream.ConfigureAwait(false);
+    var stream = response.GetResponseStream();
+    await using var _ = stream.ConfigureAwait(false);
 #else
     using var stream = response.GetResponseStream();
 #endif
@@ -216,10 +216,10 @@ public class OAuth2 {
     }
     AuthorizationToken? token;
 #if !DEBUG
-      if (characterSet == "utf-8") { // Directly use the stream
-        token = await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
-        return token ?? throw new JsonException("Received null authorization token.");
-      }
+    if (characterSet == "utf-8") { // Directly use the stream
+      token = await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
+      return token ?? throw new JsonException("Received null authorization token.");
+    }
 #endif
     var enc = Encoding.GetEncoding(characterSet);
     using var sr = new StreamReader(stream, enc);
@@ -236,7 +236,8 @@ public class OAuth2 {
     return this.ValidateToken(this.ProcessResponse(response), type);
   }
 
-  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
+  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri? redirectUri,
+                                                            bool refresh) {
     var req = this.CreateTokenRequest();
     var body = this.CreateTokenRequestBody(type, codeOrToken, clientSecret, redirectUri, refresh);
     using var response = await this.SendRequestAsync(req, body);
@@ -244,25 +245,25 @@ public class OAuth2 {
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {
-    if ((scope & AuthorizationScope.Collection)    != 0) {
+    if ((scope & AuthorizationScope.Collection) != 0) {
       yield return "collection";
     }
-    if ((scope & AuthorizationScope.EMail)         != 0) {
+    if ((scope & AuthorizationScope.EMail) != 0) {
       yield return "email";
     }
-    if ((scope & AuthorizationScope.Profile)       != 0) {
+    if ((scope & AuthorizationScope.Profile) != 0) {
       yield return "profile";
     }
-    if ((scope & AuthorizationScope.Rating)        != 0) {
+    if ((scope & AuthorizationScope.Rating) != 0) {
       yield return "rating";
     }
     if ((scope & AuthorizationScope.SubmitBarcode) != 0) {
       yield return "submit_barcode";
     }
-    if ((scope & AuthorizationScope.SubmitIsrc)    != 0) {
+    if ((scope & AuthorizationScope.SubmitIsrc) != 0) {
       yield return "submit_isrc";
     }
-    if ((scope & AuthorizationScope.Tag)           != 0) {
+    if ((scope & AuthorizationScope.Tag) != 0) {
       yield return "tag";
     }
   }
@@ -276,8 +277,8 @@ public class OAuth2 {
 
   private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
 #if NET || NETCOREAPP2_1_OR_GREATER
-      var rs = req.GetRequestStream();
-      await using var _ = rs.ConfigureAwait(false);
+    var rs = req.GetRequestStream();
+    await using var _ = rs.ConfigureAwait(false);
 #else
     using var rs = req.GetRequestStream();
 #endif

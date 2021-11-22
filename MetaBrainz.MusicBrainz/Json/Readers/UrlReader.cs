@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class UrlReader : ObjectReader<Url> {
 
-  public static readonly UrlReader Instance = new UrlReader();
+  public static readonly UrlReader Instance = new();
 
   protected override Url ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     Guid? id = null;

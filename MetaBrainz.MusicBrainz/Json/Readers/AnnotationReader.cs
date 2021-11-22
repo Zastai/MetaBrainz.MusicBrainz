@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class AnnotationReader : ObjectReader<Annotation> {
 
-  public static readonly AnnotationReader Instance = new AnnotationReader();
+  public static readonly AnnotationReader Instance = new();
 
   protected override Annotation ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     Guid? entity = null;

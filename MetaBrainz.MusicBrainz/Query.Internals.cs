@@ -13,7 +13,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
 using MetaBrainz.MusicBrainz.Objects;
 
-namespace MetaBrainz.MusicBrainz; 
+namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query : IDisposable {
 
@@ -96,8 +96,8 @@ public sealed partial class Query : IDisposable {
     }
     try {
 #if NET || NETCOREAPP2_1_OR_GREATER
-        var stream = response.GetResponseStream();
-        await using var _ = stream.ConfigureAwait(false);
+      var stream = response.GetResponseStream();
+      await using var _ = stream.ConfigureAwait(false);
 #else
       using var stream = response.GetResponseStream();
       if (stream == null) {
@@ -169,7 +169,7 @@ public sealed partial class Query : IDisposable {
 
   #region Delay Processing
 
-  private static readonly SemaphoreSlim RequestLock = new SemaphoreSlim(1);
+  private static readonly SemaphoreSlim RequestLock = new(1);
 
   private static DateTime _lastRequestTime;
 
@@ -351,7 +351,7 @@ public sealed partial class Query : IDisposable {
 
 #pragma warning disable SYSLIB0014 // Disable complaints about WebClient until this is rewritten for HttpClient
 
-  private readonly SemaphoreSlim ClientLock = new SemaphoreSlim(1);
+  private readonly SemaphoreSlim ClientLock = new(1);
 
   private bool Disposed;
 

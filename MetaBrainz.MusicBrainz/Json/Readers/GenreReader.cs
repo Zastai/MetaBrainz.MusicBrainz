@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class GenreReader : ObjectReader<Genre> {
 
-  public static readonly GenreReader Instance = new GenreReader();
+  public static readonly GenreReader Instance = new();
 
   protected override Genre ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     int? count = null;

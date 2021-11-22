@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class LifeSpanReader : ObjectReader<LifeSpan> {
 
-  public static readonly LifeSpanReader Instance = new LifeSpanReader();
+  public static readonly LifeSpanReader Instance = new();
 
   protected override LifeSpan ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     PartialDate? begin = null;

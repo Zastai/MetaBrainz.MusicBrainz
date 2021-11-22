@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class AliasReader : ObjectReader<Alias> {
 
-  public static readonly AliasReader Instance = new AliasReader();
+  public static readonly AliasReader Instance = new();
 
   protected override Alias ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     PartialDate? begin = null;

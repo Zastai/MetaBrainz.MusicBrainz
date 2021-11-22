@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class WorkReader : ObjectReader<Work> {
 
-  public static readonly WorkReader Instance = new WorkReader();
+  public static readonly WorkReader Instance = new();
 
   protected override Work ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

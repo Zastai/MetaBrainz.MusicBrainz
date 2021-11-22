@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class IsrcReader : ObjectReader<Isrc> {
 
-  public static readonly IsrcReader Instance = new IsrcReader();
+  public static readonly IsrcReader Instance = new();
 
   protected override Isrc ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? isrc = null;

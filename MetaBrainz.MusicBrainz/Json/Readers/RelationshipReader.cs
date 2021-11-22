@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class RelationshipReader : ObjectReader<Relationship> {
 
-  public static readonly RelationshipReader Instance = new RelationshipReader();
+  public static readonly RelationshipReader Instance = new();
 
   protected override Relationship ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IArea? area = null;

@@ -10,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class TagReader : ObjectReader<Tag> {
 
-  public static readonly TagReader Instance = new TagReader();
+  public static readonly TagReader Instance = new();
 
   protected override Tag ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     int? count = null;

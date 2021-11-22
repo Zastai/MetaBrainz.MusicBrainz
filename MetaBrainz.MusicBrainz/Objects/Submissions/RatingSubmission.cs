@@ -70,12 +70,12 @@ public sealed class RatingSubmission : Submission {
 
   private class RatingMap : Dictionary<Guid, byte> { }
 
-  private readonly RatingMap _artists       = new RatingMap();
-  private readonly RatingMap _events        = new RatingMap();
-  private readonly RatingMap _labels        = new RatingMap();
-  private readonly RatingMap _recordings    = new RatingMap();
-  private readonly RatingMap _releaseGroups = new RatingMap();
-  private readonly RatingMap _works         = new RatingMap();
+  private readonly RatingMap _artists       = new();
+  private readonly RatingMap _events        = new();
+  private readonly RatingMap _labels        = new();
+  private readonly RatingMap _recordings    = new();
+  private readonly RatingMap _releaseGroups = new();
+  private readonly RatingMap _works         = new();
 
   private RatingMap GetMap(EntityType entityType) {
     return entityType switch {

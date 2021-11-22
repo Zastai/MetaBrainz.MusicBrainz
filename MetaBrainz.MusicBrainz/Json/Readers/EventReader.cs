@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class EventReader : ObjectReader<Event> {
 
-  public static readonly EventReader Instance = new EventReader();
+  public static readonly EventReader Instance = new();
 
   protected override Event ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

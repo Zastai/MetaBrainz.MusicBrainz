@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class RecordingReader : ObjectReader<Recording> {
 
-  public static readonly RecordingReader Instance = new RecordingReader();
+  public static readonly RecordingReader Instance = new();
 
   protected override Recording ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IAlias>? aliases = null;

@@ -8,7 +8,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class PartialDateReader : JsonReader<PartialDate> {
 
-  public static readonly PartialDateReader Instance = new PartialDateReader();
+  public static readonly PartialDateReader Instance = new();
 
   public override PartialDate Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
     if (reader.TokenType == JsonTokenType.Number) { // Consider this to be an unquoted string, i.e. a year value.

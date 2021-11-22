@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class PlaceReader : ObjectReader<Place> {
 
-  public static readonly PlaceReader Instance = new PlaceReader();
+  public static readonly PlaceReader Instance = new();
 
   protected override Place ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? address = null;

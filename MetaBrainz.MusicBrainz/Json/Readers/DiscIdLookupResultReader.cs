@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult> {
 
-  public static readonly DiscIdLookupResultReader Instance = new DiscIdLookupResultReader();
+  public static readonly DiscIdLookupResultReader Instance = new();
 
   // Currently this can be:
   // - a serialized Disc

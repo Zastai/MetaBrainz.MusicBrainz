@@ -9,7 +9,7 @@ namespace MetaBrainz.MusicBrainz.Json.Readers;
 
 internal sealed class SearchResultReader<T> : JsonReader<SearchResult<T>> where T : JsonBasedObject {
 
-  public static readonly SearchResultReader<T> Instance = new SearchResultReader<T>();
+  public static readonly SearchResultReader<T> Instance = new();
 
   public override SearchResult<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options) {
     var item = reader.GetObject<T>(options);
