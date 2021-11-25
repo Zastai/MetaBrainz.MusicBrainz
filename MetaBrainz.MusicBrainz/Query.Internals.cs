@@ -510,7 +510,10 @@ public sealed partial class Query : IDisposable {
 
   #region Web Client / IDisposable
 
-#pragma warning disable SYSLIB0014 // Disable complaints about WebClient until this is rewritten for HttpClient
+// Disable complaints about WebRequest until this is rewritten for HttpClient
+// RIDER-71277: for Rider, we need to allow ALL obsolete symbols by disabling CS0618
+#pragma warning disable CS0618
+#pragma warning disable SYSLIB0014
 
   private readonly SemaphoreSlim ClientLock = new(1);
 

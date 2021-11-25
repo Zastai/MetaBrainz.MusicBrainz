@@ -148,7 +148,10 @@ public class OAuth2 {
 
   #region Internals
 
-#pragma warning disable SYSLIB0014 // Disable complaints about WebRequest until this is rewritten for HttpClient
+// Disable complaints about WebRequest until this is rewritten for HttpClient
+// RIDER-71277: for Rider, we need to allow ALL obsolete symbols by disabling CS0618
+#pragma warning disable CS0618
+#pragma warning disable SYSLIB0014
 
   private static readonly JsonSerializerOptions JsonReaderOptions =
     JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
