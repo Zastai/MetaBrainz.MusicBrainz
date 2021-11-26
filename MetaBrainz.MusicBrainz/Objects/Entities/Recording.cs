@@ -18,6 +18,8 @@ internal sealed class Recording : Entity, IRecording {
 
   public string? Disambiguation { get; set; }
 
+  public PartialDate? FirstReleaseDate { get; set; }
+
   public IReadOnlyList<IGenre>? Genres { get; set; }
 
   public IReadOnlyList<string>? Isrcs { get; set; }

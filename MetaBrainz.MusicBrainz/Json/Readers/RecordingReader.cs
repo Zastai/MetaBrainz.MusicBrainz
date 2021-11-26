@@ -18,6 +18,7 @@ internal sealed class RecordingReader : ObjectReader<Recording> {
     string? annotation = null;
     IReadOnlyList<INameCredit>? artistCredit = null;
     string? disambiguation = null;
+    PartialDate? firstReleaseDate = null;
     IReadOnlyList<IGenre>? genres = null;
     Guid? id = null;
     IReadOnlyList<string>? isrcs = null;
@@ -48,6 +49,9 @@ internal sealed class RecordingReader : ObjectReader<Recording> {
             break;
           case "disambiguation":
             disambiguation = reader.GetString();
+            break;
+          case "first-release-date":
+            firstReleaseDate = reader.GetOptionalObject(PartialDateReader.Instance, options);
             break;
           case "genres":
             genres = reader.ReadList(GenreReader.Instance, options);
@@ -107,6 +111,7 @@ internal sealed class RecordingReader : ObjectReader<Recording> {
       Annotation = annotation,
       ArtistCredit = artistCredit,
       Disambiguation = disambiguation,
+      FirstReleaseDate = firstReleaseDate,
       Genres = genres,
       Isrcs = isrcs,
       Length = length,

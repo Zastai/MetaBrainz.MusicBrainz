@@ -12,6 +12,9 @@ public interface IRecording : IAliasedEntity, IAnnotatedEntity, IRatableEntity, 
   /// <summary>The artist credit for the recording.</summary>
   IReadOnlyList<INameCredit>? ArtistCredit { get; }
 
+  /// <summary>The earliest date of release for this recording.</summary>
+  PartialDate? FirstReleaseDate { get; }
+
   /// <summary>The ISRC (International Standard Recording Code) values associated with this release.</summary>
   IReadOnlyList<string>? Isrcs { get; }
 
