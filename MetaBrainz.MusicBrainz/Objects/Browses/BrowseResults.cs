@@ -12,10 +12,10 @@ where TResult : IEntity {
 
   protected BrowseResults(Query query, string endpoint, string? value, string extra, int? limit = null, int? offset = null)
     : base(query, endpoint, value, limit, offset) {
-    this.Extra = extra;
+    this._extra = extra;
   }
 
-  private readonly string Extra;
+  private readonly string _extra;
 
   protected override IBrowseResults<TResult> Deserialize(string json) {
     this.CurrentResult = Query.Deserialize<BrowseResult>(json);
@@ -23,7 +23,7 @@ where TResult : IEntity {
   }
 
   protected sealed override string FullExtraText() {
-    var extra = this.Extra;
+    var extra = this._extra;
     if (string.IsNullOrEmpty(extra)) {
       extra = $"?offset={this.Offset}";
     }

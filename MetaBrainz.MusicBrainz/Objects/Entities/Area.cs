@@ -42,7 +42,7 @@ internal sealed class Area : Entity, IArea {
 
   public IReadOnlyList<ITag>? UserTags { get; set; }
 
-  public override string? ToString() {
+  public override string ToString() {
     var text = this.Name ?? string.Empty;
     if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += $" ({this.Disambiguation})";

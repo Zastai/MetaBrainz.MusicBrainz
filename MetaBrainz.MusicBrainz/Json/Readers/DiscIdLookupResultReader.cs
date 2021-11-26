@@ -88,7 +88,7 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       }
       reader.Read();
     }
-    DiscIdLookupResult result = new DiscIdLookupResult();
+    var result = new DiscIdLookupResult();
     if (id != null && offsets != null && sectors.HasValue) { // Disc
       if (offsetCount.HasValue) {
         var reported = offsetCount.Value;
@@ -110,7 +110,7 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
     else if (id != null && title != null && tracks != null) { // Stub
       if (trackCount.HasValue) {
         var reported = trackCount.Value;
-        var actual = tracks?.Count ?? 0;
+        var actual = tracks.Count;
         if (reported != actual) {
           throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
         }
@@ -134,7 +134,7 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
     else if (id == null && releases != null) { // Fuzzy Lookup - release list
       if (releaseCount.HasValue) {
         var reported = releaseCount.Value;
-        var actual = releases?.Count ?? 0;
+        var actual = releases.Count;
         if (reported != actual) // FIXME: Or should this just throw?
         {
           rest["release-count"] = releaseCount.Value;

@@ -6,27 +6,26 @@ using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects;
 
-internal abstract class PagedQueryResults<TInterface, TItem, TResultObject>
-  : IPagedQueryResults<TInterface, TItem>
+internal abstract class PagedQueryResults<TInterface, TItem, TResultObject> : IPagedQueryResults<TInterface, TItem>
 where TInterface : IPagedQueryResults<TInterface, TItem>
 where TResultObject : class {
 
   protected PagedQueryResults(Query query, string endpoint, string? value, int? limit, int? offset) {
-    this.Endpoint = endpoint;
+    this._endpoint = endpoint;
     this.Limit = limit;
     this.NextOffset = offset;
     this.Offset = 0;
-    this.Query = query;
-    this.Value = value;
+    this._query = query;
+    this._value = value;
   }
 
   protected TResultObject? CurrentResult;
 
-  private int CurrentResultCount => this.Results?.Count ?? 0;
+  private int CurrentResultCount => this.Results.Count;
 
   protected abstract TInterface Deserialize(string json);
 
-  private readonly string Endpoint;
+  private readonly string _endpoint;
 
   protected abstract string FullExtraText();
 
@@ -41,12 +40,12 @@ where TResultObject : class {
 
   private string NextResponse(int lastResultCount) {
     this.UpdateOffset(lastResultCount);
-    return this.Query.PerformRequest(this.Endpoint, this.Value, this.FullExtraText());
+    return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
   }
 
   private Task<string> NextResponseAsync(int lastResultCount) {
     this.UpdateOffset(lastResultCount);
-    return this.Query.PerformRequestAsync(this.Endpoint, this.Value, this.FullExtraText());
+    return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
   }
 
   public int Offset { get; private set; }
@@ -57,15 +56,15 @@ where TResultObject : class {
 
   private string PreviousResponse() {
     this.UpdateOffset();
-    return this.Query.PerformRequest(this.Endpoint, this.Value, this.FullExtraText());
+    return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
   }
 
   private Task<string> PreviousResponseAsync() {
     this.UpdateOffset();
-    return this.Query.PerformRequestAsync(this.Endpoint, this.Value, this.FullExtraText());
+    return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
   }
 
-  private readonly Query Query;
+  private readonly Query _query;
 
   public abstract IReadOnlyList<TItem> Results { get; }
 
@@ -103,6 +102,6 @@ where TResultObject : class {
     }
   }
 
-  private readonly string? Value;
+  private readonly string? _value;
 
 }

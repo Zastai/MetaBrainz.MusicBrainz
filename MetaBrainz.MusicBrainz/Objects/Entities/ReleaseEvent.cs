@@ -10,7 +10,7 @@ internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
   public PartialDate? Date { get; set; }
 
   public override string ToString() {
-    if (object.ReferenceEquals(this.Date, null)) {
+    if (this.Date is null) {
       return this.Area?.ToString() ?? string.Empty;
     }
     var text = this.Date.ToString();

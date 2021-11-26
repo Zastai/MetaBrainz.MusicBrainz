@@ -16,6 +16,6 @@ internal sealed class Isrc : JsonBasedObject, IIsrc {
 
   public string Value { get; }
 
-  public override string? ToString() => this.Value;
+  public override string ToString() => this.Value;
 
 }

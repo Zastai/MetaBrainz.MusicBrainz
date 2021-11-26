@@ -68,7 +68,7 @@ internal sealed class CdStubReader : ObjectReader<CdStub> {
     }
     if (trackCount.HasValue && tracks != null) {
       var reported = trackCount.Value;
-      var actual = tracks?.Count ?? 0;
+      var actual = tracks.Count;
       if (reported != actual) {
         throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
       }

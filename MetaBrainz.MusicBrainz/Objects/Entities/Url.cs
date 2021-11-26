@@ -15,6 +15,6 @@ internal sealed class Url : Entity, IUrl {
 
   public Uri Resource { get; }
 
-  public override string ToString() => this.Resource?.ToString() ?? string.Empty;
+  public override string ToString() => this.Resource.ToString();
 
 }

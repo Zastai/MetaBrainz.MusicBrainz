@@ -101,25 +101,27 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
                   throw new JsonException($"Token ({reader.TokenType}: {reader.GetRawStringValue()}) found instead of property " +
                                           $"name (at offset {reader.TokenStartIndex}).");
                 }
-                var subprop = reader.GetString();
+                var field = reader.GetString();
                 try {
                   if (!reader.Read()) {
-                    throw new JsonException($"Expected value for the '{subprop}' property of Release object's 'packaging' field " +
-                                            "not encountered.");
+                    throw new JsonException($"Expected value for the '{field}' property of Release object's '{prop}' field not " +
+                                            "encountered.");
                   }
-                  if (subprop == "name") {
-                    packaging = reader.GetString();
-                  }
-                  else if (subprop == "id") {
-                    packagingId = reader.GetOptionalGuid();
-                  }
-                  else {
-                    rest ??= new Dictionary<string, object?>();
-                    rest[prop + ":" + subprop] = reader.GetOptionalObject(options);
+                  switch (field) {
+                    case "name":
+                      packaging = reader.GetString();
+                      break;
+                    case "id":
+                      packagingId = reader.GetOptionalGuid();
+                      break;
+                    default:
+                      rest ??= new Dictionary<string, object?>();
+                      rest[prop + ":" + field] = reader.GetOptionalObject(options);
+                      break;
                   }
                 }
                 catch (Exception e) {
-                  throw new JsonException($"Failed to deserialize the '{subprop}' sub-property.", e);
+                  throw new JsonException($"Failed to deserialize the '{field}' sub-property.", e);
                 }
               }
               // in this case, both values MUST be present and non-null

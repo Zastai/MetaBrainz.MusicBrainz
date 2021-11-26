@@ -16,7 +16,8 @@ internal sealed class ModifyCollection : ISubmission {
       throw new ArgumentException("The client ID must not be blank.", nameof(client));
     }
     this._request = new StringBuilder(16 * 1024);
-    this._request.Append("collection/").Append(collection.ToString("D")).Append('/').Append(MapType(entityType)).Append('/');
+    this._request.Append("collection/").Append(collection.ToString("D")).Append('/')
+        .Append(ModifyCollection.MapType(entityType)).Append('/');
   }
 
   public ModifyCollection Add(IEnumerable<Guid> items) {
@@ -33,9 +34,9 @@ internal sealed class ModifyCollection : ISubmission {
     return this;
   }
 
-  private readonly Method _method;
-
   private readonly string _client;
+
+  private readonly Method _method;
 
   private readonly StringBuilder _request;
 
@@ -45,9 +46,9 @@ internal sealed class ModifyCollection : ISubmission {
 
   Method ISubmission.Method => this._method;
 
-  string? ISubmission.ContentType { get; } = null;
+  string? ISubmission.ContentType => null;
 
-  string? ISubmission.RequestBody { get; } = null;
+  string? ISubmission.RequestBody => null;
 
   private static string MapType(EntityType entityType) {
     return entityType switch {

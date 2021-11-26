@@ -11,8 +11,8 @@ internal sealed class SearchResults : JsonBasedObject {
 
   public SearchResults(int count, int offset, DateTimeOffset created) {
     this.Count = count;
-    this.Offset = offset;
     this.Created = created;
+    this.Offset = offset;
   }
 
   public IReadOnlyList<ISearchResult<IAnnotation>>? Annotations;
@@ -54,19 +54,18 @@ internal sealed class SearchResults : JsonBasedObject {
 }
 
 internal abstract class SearchResults<TInterface>
-  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults>,
-    ISearchResults<TInterface>
+  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults>, ISearchResults<TInterface>
 where TInterface : ISearchResult {
 
   protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset, bool simple)
     : base(query, endpoint, null, limit, offset) {
-    this.QueryString = queryString;
-    this.Simple = simple;
+    this._queryString = queryString;
+    this._simple = simple;
   }
 
-  private readonly string QueryString;
+  private readonly string _queryString;
 
-  private readonly bool Simple;
+  private readonly bool _simple;
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
@@ -76,14 +75,14 @@ where TInterface : ISearchResult {
   }
 
   protected sealed override string FullExtraText() {
-    var extra = "?query=" + Uri.EscapeDataString(this.QueryString);
+    var extra = "?query=" + Uri.EscapeDataString(this._queryString);
     if (this.Offset > 0) {
       extra += $"&offset={this.Offset}";
     }
     if (this.Limit.HasValue) {
       extra += $"&limit={this.Limit}";
     }
-    if (this.Simple) {
+    if (this._simple) {
       extra += "&dismax=true";
     }
     return extra;
