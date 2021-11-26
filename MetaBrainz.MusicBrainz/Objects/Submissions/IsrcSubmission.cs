@@ -53,14 +53,15 @@ public sealed class IsrcSubmission : Submission {
         xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
         xml.WriteStartElement("recording-list");
         foreach (var entry in this._isrcs) {
-          if (entry.Value == null || entry.Value.Count == 0) {
+          var isrcs = entry.Value;
+          if (isrcs.Count == 0) {
             continue;
           }
           xml.WriteStartElement("recording");
           xml.WriteAttributeString("id", entry.Key.ToString("D"));
           xml.WriteStartElement("isrc-list");
-          xml.WriteAttributeString("count", entry.Value.Count.ToString());
-          foreach (var isrc in entry.Value) {
+          xml.WriteAttributeString("count", isrcs.Count.ToString());
+          foreach (var isrc in isrcs) {
             xml.WriteStartElement("isrc");
             xml.WriteAttributeString("id", isrc);
             xml.WriteEndElement();

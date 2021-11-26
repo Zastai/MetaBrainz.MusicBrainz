@@ -235,10 +235,9 @@ public class OAuth2 {
     if (characterSet == null || characterSet.Trim().Length == 0) {
       characterSet = "utf-8";
     }
-    AuthorizationToken? token;
 #if !DEBUG
     if (characterSet == "utf-8") { // Directly use the stream
-      token = await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
+      var token = await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
       return token ?? throw new JsonException("Received null authorization token.");
     }
 #endif
@@ -246,8 +245,10 @@ public class OAuth2 {
     using var sr = new StreamReader(stream, enc);
     var json = await sr.ReadToEndAsync().ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-    token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
-    return token ?? throw new JsonException("Received null authorization token.");
+    {
+      var token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
+      return token ?? throw new JsonException("Received null authorization token.");
+    }
   }
 
   private IAuthorizationToken RequestToken(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {

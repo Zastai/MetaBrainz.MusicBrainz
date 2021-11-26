@@ -35,7 +35,7 @@ public sealed partial class Query {
   public static string DefaultUrlScheme { get; set; } = "https";
 
   /// <summary>The default user agent to use for requests.</summary>
-  public static string? DefaultUserAgent { get; set; } = null;
+  public static string? DefaultUserAgent { get; set; }
 
   /// <summary>The default web site to use for requests.</summary>
   public static string DefaultWebSite { get; set; } = "musicbrainz.org";
@@ -71,7 +71,7 @@ public sealed partial class Query {
     }
     { // Set full user agent, including this library's information
       var an = typeof(Query).Assembly.GetName();
-      this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
+      this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
     }
   }
 
@@ -111,7 +111,7 @@ public sealed partial class Query {
     this.UserAgent = $"{application}/{version} ({contact})";
     { // Set full user agent, including this library's information
       var an = typeof(Query).Assembly.GetName();
-      this.FullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
+      this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
     }
   }
 
@@ -123,7 +123,7 @@ public sealed partial class Query {
   public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
 
   /// <summary>The OAuth2 bearer token to use for authenticated requests.</summary>
-  public string? BearerToken { get; set; } = null;
+  public string? BearerToken { get; set; }
 
   /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
   public int Port { get; set; } = Query.DefaultPort;

@@ -1304,7 +1304,7 @@ public sealed partial class Query {
   /// <item><term>relationtype</term><description>the type of a relationship attached to the URL</description></item>
   /// <item><term>targetid</term><description>the MBID of an entity related to the URL</description></item>
   /// <item><term>targettype</term><description>an entity type related to the URL</description></item>
-  /// <item><term>uid</term><description>the URL's MBID</description></item>
+  /// <item><term>uid</term><description>the MBID for the URL</description></item>
   /// <item><term>url</term><description>the URL itself</description></item>
   /// </list>
   /// </para>
@@ -1337,7 +1337,7 @@ public sealed partial class Query {
   /// <item><term>relationtype</term><description>the type of a relationship attached to the URL</description></item>
   /// <item><term>targetid</term><description>the MBID of an entity related to the URL</description></item>
   /// <item><term>targettype</term><description>an entity type related to the URL</description></item>
-  /// <item><term>uid</term><description>the URL's MBID</description></item>
+  /// <item><term>uid</term><description>the MBID for the URL</description></item>
   /// <item><term>url</term><description>the URL itself</description></item>
   /// </list>
   /// </para>

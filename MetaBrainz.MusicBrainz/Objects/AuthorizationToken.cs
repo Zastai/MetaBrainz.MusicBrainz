@@ -27,6 +27,6 @@ internal sealed class AuthorizationToken : JsonBasedObject, IAuthorizationToken 
 
   /// <summary>Gets the textual representation of this authorization token.</summary>
   /// <returns><see cref="AccessToken"/>.</returns>
-  public override string? ToString() => this.AccessToken;
+  public override string ToString() => this.AccessToken;
 
 }

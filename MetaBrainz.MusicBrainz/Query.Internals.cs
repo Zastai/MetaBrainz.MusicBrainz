@@ -37,9 +37,6 @@ public sealed partial class Query : IDisposable {
     }
     try {
       using var stream = response.GetResponseStream();
-      if (stream == null) {
-        return;
-      }
       if (response.ContentType.StartsWith("application/xml")) {
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
         StringBuilder? sb = null;
@@ -73,7 +70,7 @@ public sealed partial class Query : IDisposable {
         var json = sr.ReadToEnd();
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
         var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe?.Error == null) {
+        if (moe.Error == null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -138,7 +135,7 @@ public sealed partial class Query : IDisposable {
         var json = await sr.ReadToEndAsync().ConfigureAwait(false);
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
         var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe?.Error == null) {
+        if (moe.Error == null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -158,8 +155,8 @@ public sealed partial class Query : IDisposable {
     try {
       Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (application/json): \"{JsonUtils.Prettify(response)}\"");
       var moe = Query.Deserialize<MessageOrError>(response);
-      Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: \"{moe?.Message}\"");
-      return moe?.Message;
+      Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: \"{moe.Message}\"");
+      return moe.Message;
     }
     catch {
       // keep calm and fall through
@@ -365,7 +362,6 @@ public sealed partial class Query : IDisposable {
     }
     if ((inc & Include.WorkRelationships) != 0) {
       sb.Append(letter).Append("work-rels");
-      letter = '+';
     }
   }
 
@@ -429,7 +425,6 @@ public sealed partial class Query : IDisposable {
       }
       if ((type.Value & ReleaseType.SpokenWord) != 0) {
         sb.Append(letter).Append("spokenword");
-        letter = '|';
       }
     }
     if (status.HasValue) {
@@ -449,7 +444,6 @@ public sealed partial class Query : IDisposable {
       }
       if ((status.Value & ReleaseStatus.PseudoRelease) != 0) {
         sb.Append(letter).Append("pseudo-release");
-        letter = '|';
       }
     }
   }
@@ -515,20 +509,20 @@ public sealed partial class Query : IDisposable {
 #pragma warning disable CS0618
 #pragma warning disable SYSLIB0014
 
-  private readonly SemaphoreSlim ClientLock = new(1);
+  private readonly SemaphoreSlim _clientLock = new(1);
 
-  private bool Disposed;
+  private bool _disposed;
 
-  private readonly string FullUserAgent;
+  private readonly string _fullUserAgent;
 
-  private WebClient? TheClient;
+  private WebClient? _client;
 
   private WebClient WebClient {
     get {
-      if (this.Disposed) {
+      if (this._disposed) {
         throw new ObjectDisposedException(nameof(Query));
       }
-      var wc = this.TheClient ??= new WebClient { Encoding = Encoding.UTF8 };
+      var wc = this._client ??= new WebClient { Encoding = Encoding.UTF8 };
       wc.BaseAddress = this.BaseUri.ToString();
       return wc;
     }
@@ -537,13 +531,13 @@ public sealed partial class Query : IDisposable {
   /// <summary>Closes the web client in use by this query, if there is one.</summary>
   /// <remarks>The next web service request will create a new client.</remarks>
   public void Close() {
-    this.ClientLock.Wait();
+    this._clientLock.Wait();
     try {
-      this.TheClient?.Dispose();
-      this.TheClient = null;
+      this._client?.Dispose();
+      this._client = null;
     }
     finally {
-      this.ClientLock.Release();
+      this._clientLock.Release();
     }
   }
 
@@ -560,10 +554,10 @@ public sealed partial class Query : IDisposable {
     }
     try {
       this.Close();
-      this.ClientLock.Dispose();
+      this._clientLock.Dispose();
     }
     finally {
-      this.Disposed = true;
+      this._disposed = true;
     }
   }
 
@@ -578,7 +572,7 @@ public sealed partial class Query : IDisposable {
 
   private string PerformRequest(string address, Method method, string accept, string? contentType, string? body = null) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
-    this.ClientLock.Wait();
+    this._clientLock.Wait();
     try {
       var wc = this.WebClient;
       if (this.BearerToken != null) {
@@ -588,7 +582,7 @@ public sealed partial class Query : IDisposable {
         wc.Headers.Set("Content-Type", contentType);
       }
       wc.Headers.Set("Accept", accept);
-      wc.Headers.Set("User-Agent", this.FullUserAgent);
+      wc.Headers.Set("User-Agent", this._fullUserAgent);
       wc.QueryString.Clear();
       try {
         if (method == Method.GET) {
@@ -605,7 +599,7 @@ public sealed partial class Query : IDisposable {
       }
     }
     finally {
-      this.ClientLock.Release();
+      this._clientLock.Release();
     }
   }
 
@@ -626,7 +620,7 @@ public sealed partial class Query : IDisposable {
   private async Task<string> PerformRequestAsync(string address, Method method, string accept, string? contentType,
                                                  string? body = null) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
-    await this.ClientLock.WaitAsync();
+    await this._clientLock.WaitAsync();
     try {
       var wc = this.WebClient;
       if (this.BearerToken != null) {
@@ -636,7 +630,7 @@ public sealed partial class Query : IDisposable {
         wc.Headers.Set("Content-Type", contentType);
       }
       wc.Headers.Set("Accept", accept);
-      wc.Headers.Set("User-Agent", this.FullUserAgent);
+      wc.Headers.Set("User-Agent", this._fullUserAgent);
       wc.QueryString.Clear();
       try {
         if (method == Method.GET) {
@@ -653,7 +647,7 @@ public sealed partial class Query : IDisposable {
       }
     }
     finally {
-      this.ClientLock.Release();
+      this._clientLock.Release();
     }
   }
 

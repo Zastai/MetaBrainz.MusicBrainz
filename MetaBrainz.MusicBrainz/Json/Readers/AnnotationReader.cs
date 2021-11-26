@@ -4,7 +4,6 @@ using System.Text.Json;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
-using MetaBrainz.MusicBrainz.Objects;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
