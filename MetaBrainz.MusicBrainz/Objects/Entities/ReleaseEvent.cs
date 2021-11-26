@@ -14,7 +14,7 @@ internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
       return this.Area?.ToString() ?? string.Empty;
     }
     var text = this.Date.ToString();
-    if (this.Area != null) {
+    if (this.Area is not null) {
       text += " (" + this.Area + ")";
     }
     return text;

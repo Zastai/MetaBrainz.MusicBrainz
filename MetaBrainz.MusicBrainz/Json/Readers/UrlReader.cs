@@ -74,10 +74,10 @@ internal sealed class UrlReader : ObjectReader<Url> {
       }
       reader.Read();
     }
-    if (!id.HasValue) {
+    if (id is null) {
       throw new JsonException("Expected property 'id' not found or null.");
     }
-    if (resource == null) {
+    if (resource is null) {
       throw new JsonException("Expected property 'resource' not found or null.");
     }
     return new Url(id.Value, resource) {

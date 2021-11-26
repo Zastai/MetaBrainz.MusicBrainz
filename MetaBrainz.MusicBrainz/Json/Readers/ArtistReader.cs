@@ -145,7 +145,7 @@ internal sealed class ArtistReader : ObjectReader<Artist> {
       }
       reader.Read();
     }
-    if (!id.HasValue) {
+    if (id is null) {
       throw new JsonException("Expected property 'id' not found or null.");
     }
     return new Artist(id.Value) {

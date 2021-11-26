@@ -73,12 +73,12 @@ where TResultObject : class {
   public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
 
   private void UpdateOffset() {
-    if (this.NextOffset.HasValue) {
+    if (this.NextOffset is not null) {
       this.Offset = this.NextOffset.Value;
       this.NextOffset = null;
     }
     else {
-      var limit = Math.Min(this.Limit.GetValueOrDefault(Query.DefaultPageSize), Query.MaximumPageSize);
+      var limit = Math.Min(this.Limit ?? Query.DefaultPageSize, Query.MaximumPageSize);
       if (limit < 1) {
         limit = Query.DefaultPageSize;
       }
@@ -90,7 +90,7 @@ where TResultObject : class {
   }
 
   private void UpdateOffset(int lastResultCount) {
-    if (this.NextOffset.HasValue) {
+    if (this.NextOffset is not null) {
       this.Offset = this.NextOffset.Value;
       this.NextOffset = null;
     }

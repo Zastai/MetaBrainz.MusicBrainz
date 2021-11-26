@@ -89,8 +89,8 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       reader.Read();
     }
     var result = new DiscIdLookupResult();
-    if (id != null && offsets != null && sectors.HasValue) { // Disc
-      if (offsetCount.HasValue) {
+    if (id is not null && offsets is not null && sectors is not null) { // Disc
+      if (offsetCount is not null) {
         var reported = offsetCount.Value;
         var actual = offsets.Count;
         if (reported != actual) {
@@ -107,8 +107,8 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       releases = null;
       sectors = null;
     }
-    else if (id != null && title != null && tracks != null) { // Stub
-      if (trackCount.HasValue) {
+    else if (id is not null && title is not null && tracks is not null) { // Stub
+      if (trackCount is not null) {
         var reported = trackCount.Value;
         var actual = tracks.Count;
         if (reported != actual) {
@@ -131,8 +131,8 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       trackCount = null;
       tracks = null;
     }
-    else if (id == null && releases != null) { // Fuzzy Lookup - release list
-      if (releaseCount.HasValue) {
+    else if (id is null && releases is not null) { // Fuzzy Lookup - release list
+      if (releaseCount is not null) {
         var reported = releaseCount.Value;
         var actual = releases.Count;
         if (reported != actual) // FIXME: Or should this just throw?
@@ -140,7 +140,7 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
           rest["release-count"] = releaseCount.Value;
         }
       }
-      if (releaseOffset.HasValue && releaseOffset.Value != 0) // FIXME: Or should this just throw?
+      if (releaseOffset is not null && releaseOffset.Value != 0) // FIXME: Or should this just throw?
       {
         rest["release-offset"] = releaseOffset.Value;
       }
@@ -151,43 +151,43 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       releases = null;
     }
     // any field still set at this point is unhandled
-    if (artist != null) {
+    if (artist is not null) {
       rest["artist"] = artist;
     }
-    if (barcode != null) {
+    if (barcode is not null) {
       rest["barcode"] = barcode;
     }
-    if (disambiguation != null) {
+    if (disambiguation is not null) {
       rest["disambiguation"] = disambiguation;
     }
-    if (id != null) {
+    if (id is not null) {
       rest["id"] = id;
     }
-    if (offsetCount.HasValue) {
+    if (offsetCount is not null) {
       rest["offset-count"] = offsetCount.Value;
     }
-    if (offsets != null) {
+    if (offsets is not null) {
       rest["offsets"] = offsets;
     }
-    if (releaseCount.HasValue) {
+    if (releaseCount is not null) {
       rest["release-count"] = releaseCount.Value;
     }
-    if (releaseOffset.HasValue) {
+    if (releaseOffset is not null) {
       rest["release-offset"] = releaseOffset.Value;
     }
-    if (releases != null) {
+    if (releases is not null) {
       rest["releases"] = releases;
     }
-    if (sectors.HasValue) {
+    if (sectors is not null) {
       rest["sectors"] = sectors.Value;
     }
-    if (title != null) {
+    if (title is not null) {
       rest["title"] = title;
     }
-    if (trackCount.HasValue) {
+    if (trackCount is not null) {
       rest["track-count"] = trackCount.Value;
     }
-    if (tracks != null) {
+    if (tracks is not null) {
       rest["tracks"] = tracks;
     }
     result.UnhandledProperties = rest.Count != 0 ? rest : null;

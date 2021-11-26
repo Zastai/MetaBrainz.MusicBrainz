@@ -39,10 +39,10 @@ internal sealed class IsrcReader : ObjectReader<Isrc> {
       }
       reader.Read();
     }
-    if (isrc == null) {
+    if (isrc is null) {
       throw new JsonException("Expected property 'isrc' not found or null.");
     }
-    if (recordings == null) {
+    if (recordings is null) {
       throw new JsonException("Expected property 'recordings' not found or null.");
     }
     return new Isrc(isrc, recordings) { UnhandledProperties = rest };

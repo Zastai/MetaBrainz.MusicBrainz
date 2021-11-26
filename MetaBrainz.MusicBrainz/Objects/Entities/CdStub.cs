@@ -28,7 +28,7 @@ internal sealed class CdStub : JsonBasedObject, ICdStub {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Artist != null) {
+    if (this.Artist is not null) {
       text += this.Artist + " / ";
     }
     text += this.Title;

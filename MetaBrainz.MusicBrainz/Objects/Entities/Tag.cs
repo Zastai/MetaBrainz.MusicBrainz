@@ -15,7 +15,7 @@ internal sealed class Tag : JsonBasedObject, ITag {
 
   public override string ToString() {
     var text = this.Name;
-    if (this.VoteCount.HasValue) {
+    if (this.VoteCount is not null) {
       text += $" (votes: {this.VoteCount})";
     }
     return text;

@@ -51,7 +51,7 @@ internal sealed class ReleaseGroup : Entity, IReleaseGroup {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.ArtistCredit != null) {
+    if (this.ArtistCredit is not null) {
       foreach (var nc in this.ArtistCredit) {
         text += nc.ToString();
       }

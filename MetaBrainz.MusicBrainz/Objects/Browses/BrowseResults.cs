@@ -30,7 +30,7 @@ where TResult : IEntity {
     else {
       extra += $"&offset={this.Offset}";
     }
-    if (this.Limit.HasValue) {
+    if (this.Limit is not null) {
       extra += $"&limit={this.Limit}";
     }
     return extra;

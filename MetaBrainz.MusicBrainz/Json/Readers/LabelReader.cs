@@ -119,7 +119,7 @@ internal sealed class LabelReader : ObjectReader<Label> {
       }
       reader.Read();
     }
-    if (!id.HasValue) {
+    if (id is null) {
       throw new JsonException("Expected property 'id' not found or null.");
     }
     return new Label(id.Value) {

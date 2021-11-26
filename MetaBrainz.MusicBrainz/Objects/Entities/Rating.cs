@@ -13,7 +13,7 @@ internal sealed class Rating : JsonBasedObject, IRating {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Value.HasValue) {
+    if (this.Value is not null) {
       var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
       for (var i = 1; i <= 5; ++i) {
         text = string.Concat(text, (stars >= i) ? "★" : "☆");
@@ -22,7 +22,7 @@ internal sealed class Rating : JsonBasedObject, IRating {
     else {
       text += "<not rated>";
     }
-    if (this.VoteCount.HasValue) {
+    if (this.VoteCount is not null) {
       text += $" (votes: {this.VoteCount})";
     }
     return text;

@@ -44,7 +44,7 @@ internal sealed class Recording : Entity, IRecording {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.ArtistCredit != null) {
+    if (this.ArtistCredit is not null) {
       foreach (var nc in this.ArtistCredit) {
         text += nc.ToString();
       }
@@ -54,7 +54,7 @@ internal sealed class Recording : Entity, IRecording {
     if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += $" ({this.Disambiguation})";
     }
-    if (this.Length.HasValue) {
+    if (this.Length is not null) {
       text += $" ({this.Length.Value:g})";
     }
     return text;

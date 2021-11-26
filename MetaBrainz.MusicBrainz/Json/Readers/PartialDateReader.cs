@@ -18,7 +18,7 @@ internal sealed class PartialDateReader : JsonReader<PartialDate> {
     }
     else if (reader.TokenType == JsonTokenType.String) {
       var text = reader.GetString();
-      if (text != null) {
+      if (text is not null) {
         return new PartialDate(text);
       }
     }

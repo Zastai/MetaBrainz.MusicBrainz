@@ -106,13 +106,13 @@ internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
       }
       reader.Read();
     }
-    if (count == null) {
+    if (count is null) {
       throw new JsonException("Expected result count not found or null.");
     }
-    if (offset == null) {
+    if (offset is null) {
       throw new JsonException("Expected result offset not found or null.");
     }
-    if (created == null) {
+    if (created is null) {
       throw new JsonException("Expected result creation timestamp not found or null.");
     }
     return new SearchResults(count.Value, offset.Value, created.Value) {
