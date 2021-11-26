@@ -15,7 +15,10 @@ public interface IWork : IAliasedEntity, IAnnotatedEntity, IRatableEntity, IRela
   /// <summary>The ISWCs (International Standard Musical Work Codes) attached to this work (if any).</summary>
   IReadOnlyList<string>? Iswcs { get; }
 
-  /// <summary>The ISO 639-2 language code for the lyrics of this work, if applicable.</summary>
+  /// <summary>The (main) ISO 639-2 language code for the lyrics of this work, if applicable.</summary>
   string? Language { get; }
+
+  /// <summary>The ISO 639-2 language codes for the lyrics of this work, if applicable.</summary>
+  public IReadOnlyList<string>? Languages { get; }
 
 }
