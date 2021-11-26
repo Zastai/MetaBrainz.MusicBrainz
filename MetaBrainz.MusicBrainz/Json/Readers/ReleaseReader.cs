@@ -125,7 +125,7 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
                 }
               }
               // in this case, both values MUST be present and non-null
-              if (packaging == null || !packagingId.HasValue) {
+              if (packaging is null || packagingId is null) {
                 throw new JsonException("Required packaging name and id not found or null.");
               }
               break;
@@ -179,7 +179,7 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
       }
       reader.Read();
     }
-    if (!id.HasValue) {
+    if (id is null) {
       throw new JsonException("Expected property 'id' not found or null.");
     }
     return new Release(id.Value) {

@@ -101,10 +101,10 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
       }
       reader.Read();
     }
-    if (!id.HasValue) {
+    if (id is null) {
       throw new JsonException("Expected property 'id' not found or null.");
     }
-    if (!contentType.HasValue) {
+    if (contentType is null) {
       throw new JsonException("Expected entity type not found or null.");
     }
     int itemCount;
@@ -169,7 +169,7 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
   }
 
   private static void CheckCount(ref Dictionary<string, object?>? dictionary, bool ok, string name, int? count) {
-    if (ok || !count.HasValue) {
+    if (ok || count is null) {
       return;
     }
     dictionary ??= new Dictionary<string, object?>();

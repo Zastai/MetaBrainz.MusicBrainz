@@ -51,16 +51,16 @@ internal sealed class DiscReader : ObjectReader<Disc> {
       }
       reader.Read();
     }
-    if (id == null) {
+    if (id is null) {
       throw new JsonException("Expected disc ID not found or null.");
     }
-    if (offsets == null) {
+    if (offsets is null) {
       throw new JsonException("Expected offset list not found or null.");
     }
-    if (!sectors.HasValue) {
+    if (sectors is null) {
       throw new JsonException("Expected sector count not found or null.");
     }
-    if (offsetCount.HasValue) {
+    if (offsetCount is not null) {
       var reported = offsetCount.Value;
       var actual = offsets.Count;
       if (reported != actual) {

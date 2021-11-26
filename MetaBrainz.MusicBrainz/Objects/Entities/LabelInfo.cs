@@ -11,13 +11,13 @@ internal sealed class LabelInfo : JsonBasedObject, ILabelInfo {
 
   public override string ToString() {
     var text = string.Empty;
-    if (this.Label != null) {
+    if (this.Label is not null) {
       text += this.Label;
-      if (this.CatalogNumber != null) {
+      if (this.CatalogNumber is not null) {
         text += ": ";
       }
     }
-    if (this.CatalogNumber != null) {
+    if (this.CatalogNumber is not null) {
       text += this.CatalogNumber;
     }
     return text;

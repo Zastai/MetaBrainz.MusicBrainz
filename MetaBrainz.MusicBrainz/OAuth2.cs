@@ -75,7 +75,7 @@ public class OAuth2 {
     query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
     query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
     query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
-    if (state != null) {
+    if (state is not null) {
       query.Append("&state=").Append(Uri.EscapeDataString(state));
     }
     if (offlineAccess) {
@@ -204,11 +204,11 @@ public class OAuth2 {
   private AuthorizationToken ProcessResponse(HttpWebResponse response) {
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
     using var stream = response.GetResponseStream();
-    if (stream == null) {
+    if (stream is null) {
       throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
     }
     var characterSet = response.CharacterSet;
-    if (characterSet == null || characterSet.Trim().Length == 0) {
+    if (characterSet is null || characterSet.Trim().Length == 0) {
       characterSet = "utf-8";
     }
     // Note: No direct stream use here (available in async mode only)
@@ -228,11 +228,11 @@ public class OAuth2 {
 #else
     using var stream = response.GetResponseStream();
 #endif
-    if (stream == null) {
+    if (stream is null) {
       throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
     }
     var characterSet = response.CharacterSet;
-    if (characterSet == null || characterSet.Trim().Length == 0) {
+    if (characterSet is null || characterSet.Trim().Length == 0) {
       characterSet = "utf-8";
     }
 #if !DEBUG

@@ -57,7 +57,7 @@ internal sealed class Label : Entity, ILabel {
     if (!string.IsNullOrEmpty(this.Disambiguation)) {
       text += " (" + this.Disambiguation + ")";
     }
-    if (this.Type != null) {
+    if (this.Type is not null) {
       text += " (" + this.Type + ")";
     }
     return text;

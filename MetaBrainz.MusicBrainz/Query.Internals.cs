@@ -32,7 +32,7 @@ public sealed partial class Query : IDisposable {
 
   private static void MaybeMapException(WebException we) {
     var response = we.Response;
-    if (response == null || response.ContentLength == 0) {
+    if (response is null || response.ContentLength == 0) {
       return;
     }
     try {
@@ -42,7 +42,7 @@ public sealed partial class Query : IDisposable {
         StringBuilder? sb = null;
         var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
         while (xpath.MoveNext()) {
-          if (sb == null) {
+          if (sb is null) {
             sb = new StringBuilder();
           }
           else {
@@ -50,7 +50,7 @@ public sealed partial class Query : IDisposable {
           }
           sb.Append(xpath.Current?.InnerXml);
         }
-        if (sb == null) {
+        if (sb is null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -70,7 +70,7 @@ public sealed partial class Query : IDisposable {
         var json = sr.ReadToEnd();
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
         var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe.Error == null) {
+        if (moe.Error is null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -88,7 +88,7 @@ public sealed partial class Query : IDisposable {
 
   private static async Task MaybeMapExceptionAsync(WebException we) {
     var response = we.Response;
-    if (response == null || response.ContentLength == 0) {
+    if (response is null || response.ContentLength == 0) {
       return;
     }
     try {
@@ -97,7 +97,7 @@ public sealed partial class Query : IDisposable {
       await using var _ = stream.ConfigureAwait(false);
 #else
       using var stream = response.GetResponseStream();
-      if (stream == null) {
+      if (stream is null) {
         return;
       }
 #endif
@@ -106,7 +106,7 @@ public sealed partial class Query : IDisposable {
         StringBuilder? sb = null;
         var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
         while (xpath.MoveNext()) {
-          if (sb == null) {
+          if (sb is null) {
             sb = new StringBuilder();
           }
           else {
@@ -114,7 +114,7 @@ public sealed partial class Query : IDisposable {
           }
           sb.Append(xpath.Current?.InnerXml);
         }
-        if (sb == null) {
+        if (sb is null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -135,7 +135,7 @@ public sealed partial class Query : IDisposable {
         var json = await sr.ReadToEndAsync().ConfigureAwait(false);
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
         var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe.Error == null) {
+        if (moe.Error is null) {
           Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
           return;
         }
@@ -366,7 +366,7 @@ public sealed partial class Query : IDisposable {
   }
 
   private static void AddReleaseFilter(StringBuilder sb, ReleaseType? type, ReleaseStatus? status) {
-    if (type.HasValue) {
+    if (type is not null) {
       sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
       var letter = '=';
       // Primary Types
@@ -427,7 +427,7 @@ public sealed partial class Query : IDisposable {
         sb.Append(letter).Append("spokenword");
       }
     }
-    if (status.HasValue) {
+    if (status is not null) {
       sb.Append((sb.Length == 0) ? '?' : '&').Append("status");
       var letter = '=';
       if ((status.Value & ReleaseStatus.Bootleg) != 0) {
@@ -470,7 +470,7 @@ public sealed partial class Query : IDisposable {
 
   private static string BuildExtraText(Include inc, int[]? toc, bool allMediaFormats, bool noStubs) {
     var sb = new StringBuilder();
-    if (toc != null) {
+    if (toc is not null) {
       sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
       for (var i = 0; i < toc.Length; ++i) {
         if (i > 0) {
@@ -575,10 +575,10 @@ public sealed partial class Query : IDisposable {
     this._clientLock.Wait();
     try {
       var wc = this.WebClient;
-      if (this.BearerToken != null) {
+      if (this.BearerToken is not null) {
         wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
       }
-      if (contentType != null) {
+      if (contentType is not null) {
         wc.Headers.Set("Content-Type", contentType);
       }
       wc.Headers.Set("Accept", accept);
@@ -588,7 +588,7 @@ public sealed partial class Query : IDisposable {
         if (method == Method.GET) {
           return wc.DownloadString(address);
         }
-        if (body != null) {
+        if (body is not null) {
           Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
         }
         return wc.UploadString(address, method.ToString(), body ?? string.Empty);
@@ -623,10 +623,10 @@ public sealed partial class Query : IDisposable {
     await this._clientLock.WaitAsync();
     try {
       var wc = this.WebClient;
-      if (this.BearerToken != null) {
+      if (this.BearerToken is not null) {
         wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
       }
-      if (contentType != null) {
+      if (contentType is not null) {
         wc.Headers.Set("Content-Type", contentType);
       }
       wc.Headers.Set("Accept", accept);
@@ -636,7 +636,7 @@ public sealed partial class Query : IDisposable {
         if (method == Method.GET) {
           return await wc.DownloadStringTaskAsync(address).ConfigureAwait(false);
         }
-        if (body != null) {
+        if (body is not null) {
           Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
         }
         return await wc.UploadStringTaskAsync(address, method.ToString(), body ?? string.Empty).ConfigureAwait(false);

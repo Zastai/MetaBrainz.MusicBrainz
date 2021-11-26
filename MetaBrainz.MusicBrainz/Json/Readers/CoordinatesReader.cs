@@ -38,10 +38,10 @@ internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
       }
       reader.Read();
     }
-    if (!latitude.HasValue) {
+    if (latitude is null) {
       throw new JsonException("Expected property 'latitude' not found or null.");
     }
-    if (!longitude.HasValue) {
+    if (longitude is null) {
       throw new JsonException("Expected property 'longitude' not found or null.");
     }
     return new Coordinates(latitude.Value, longitude.Value) {

@@ -46,16 +46,16 @@ internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken
       }
       reader.Read();
     }
-    if (accessToken == null) {
+    if (accessToken is null) {
       throw new JsonException("Expected access token not found or null.");
     }
-    if (!lifetime.HasValue) {
+    if (lifetime is null) {
       throw new JsonException("Expected token lifetime not found or null.");
     }
-    if (refreshToken == null) {
+    if (refreshToken is null) {
       throw new JsonException("Expected refresh token not found or null.");
     }
-    if (tokenType == null) {
+    if (tokenType is null) {
       throw new JsonException("Expected token type not found or null.");
     }
     return new AuthorizationToken(accessToken, lifetime.Value, refreshToken, tokenType) { UnhandledProperties = rest };
