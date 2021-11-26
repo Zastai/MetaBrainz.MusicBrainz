@@ -37,6 +37,11 @@ public sealed partial class Query : IDisposable {
     }
     try {
       using var stream = response.GetResponseStream();
+#if !NET
+      if (stream == null) {
+        return;
+      }
+#endif
       if (response.ContentType.StartsWith("application/xml")) {
         Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
         StringBuilder? sb = null;
@@ -92,11 +97,13 @@ public sealed partial class Query : IDisposable {
       return;
     }
     try {
-#if NET || NETCOREAPP2_1_OR_GREATER
+#if NET || NETSTANDARD2_1_OR_GREATER
       var stream = response.GetResponseStream();
       await using var _ = stream.ConfigureAwait(false);
 #else
       using var stream = response.GetResponseStream();
+#endif
+#if !NET
       if (stream is null) {
         return;
       }
