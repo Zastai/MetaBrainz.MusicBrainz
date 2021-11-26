@@ -222,7 +222,7 @@ public class OAuth2 {
 
   private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-#if NET || NETCOREAPP2_1_OR_GREATER
+#if NET || NETSTANDARD2_1_OR_GREATER
     var stream = response.GetResponseStream();
     await using var _ = stream.ConfigureAwait(false);
 #else
@@ -298,7 +298,7 @@ public class OAuth2 {
   }
 
   private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
-#if NET || NETCOREAPP2_1_OR_GREATER
+#if NET || NETSTANDARD2_1_OR_GREATER
     var rs = req.GetRequestStream();
     await using var _ = rs.ConfigureAwait(false);
 #else
