@@ -145,7 +145,7 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
             releaseEvents = reader.ReadList(ReleaseEventReader.Instance, options);
             break;
           case "release-group":
-            releaseGroup = reader.GetObject(ReleaseGroupReader.Instance, options);
+            releaseGroup = reader.GetOptionalObject(ReleaseGroupReader.Instance, options);
             break;
           case "status":
             status = reader.GetString();
