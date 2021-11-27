@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
-using System.Reflection;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using JetBrains.Annotations;
@@ -19,7 +19,7 @@ namespace MetaBrainz.MusicBrainz;
 
 /// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
 [PublicAPI]
-public class OAuth2 {
+public sealed class OAuth2 : IDisposable {
 
   #region Static Fields / Properties
 
@@ -33,20 +33,132 @@ public class OAuth2 {
   /// </remarks>
   public static string DefaultClientId { get; set; } = "";
 
+  private static int _defaultPort = -1;
+
   /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-  public static int DefaultPort { get; set; } = -1;
+  public static int DefaultPort {
+    get => OAuth2._defaultPort;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(OAuth2.DefaultPort), value,
+                                              "The default port number must not be less than -1 or greater than 65535.");
+      }
+      OAuth2._defaultPort = value;
+    }
+  }
+
+  private static string _defaultServer = "musicbrainz.org";
+
+  /// <summary>The default server to use for requests.</summary>
+  public static string DefaultServer {
+    get => OAuth2._defaultServer;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default server name must not be blank.", nameof(OAuth2.DefaultServer));
+      }
+      OAuth2._defaultServer = value.Trim();
+    }
+  }
+
+  private static string _defaultUrlScheme = "https";
 
   /// <summary>The default internet access protocol to use for requests.</summary>
-  public static string DefaultUrlScheme { get; set; } = "https";
-
-  /// <summary>The default web site to use for requests.</summary>
-  public static string DefaultWebSite { get; set; } = "musicbrainz.org";
+  public static string DefaultUrlScheme {
+    get => OAuth2._defaultUrlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default URL scheme must not be blank.", nameof(OAuth2.DefaultUrlScheme));
+      }
+      OAuth2._defaultUrlScheme = value.Trim();
+    }
+  }
 
   /// <summary>The URI to use for out-of-band authorization.</summary>
   public static readonly Uri OutOfBandUri = new("urn:ietf:wg:oauth:2.0:oob");
 
   /// <summary>The endpoint used when creating or refreshing a token.</summary>
   public const string TokenEndPoint = "/oauth2/token";
+
+  /// <summary>The content type for a token request body.</summary>
+  public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
+
+  #endregion
+
+  #region Constructors
+
+  /// <summary>
+  /// Initializes a new OAuth2 client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  public OAuth2() {
+    this._clientOwned = true;
+  }
+
+  /// <summary>Initializes a new OAuth2 client instance using a specific HTTP client.</summary>
+  /// <param name="client">The HTTP client to use.</param>
+  /// <param name="takeOwnership">
+  /// Indicates whether this OAuth2 client should take ownership of <paramref name="client"/>.<br/>
+  /// If this is <see langword="false"/>, it remains owned by the caller; this means <see cref="Close()"/> will throw an exception
+  /// and <see cref="Dispose()"/> will release the reference to <paramref name="client"/> without disposing it.<br/>
+  /// If this is <see langword="true"/>, then this object takes ownership and treat it just like an HTTP client it created itself;
+  /// this means <see cref="Close()"/> will dispose of it (with further requests creating a new HTTP client) and
+  /// <see cref="Dispose()"/> will dispose the HTTP client too.
+  /// </param>
+  public OAuth2(HttpClient client, bool takeOwnership = false) {
+    this._client = client;
+    this._clientOwned = takeOwnership;
+  }
+
+  #endregion
+
+  #region Instance Fields / Properties
+
+  /// <summary>The client ID to use for requests.</summary>
+  /// <remarks>
+  /// To register an application and obtain a client ID, go to
+  /// <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.
+  /// </remarks>
+  public string ClientId { get; set; } = OAuth2.DefaultClientId;
+
+  private int _port = OAuth2.DefaultPort;
+
+  /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
+  public int Port {
+    get => this._port;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(OAuth2.Port), value,
+                                              "The port number must not be less than -1 or greater than 65535.");
+      }
+      this._port = value;
+    }
+  }
+
+  private string _server = OAuth2.DefaultServer;
+
+  /// <summary>The web site to use for requests.</summary>
+  public string Server {
+    get => this._server;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The server name must not be blank.", nameof(OAuth2.Server));
+      }
+      this._server = value.Trim();
+    }
+  }
+
+  private string _urlScheme = OAuth2.DefaultUrlScheme;
+
+  /// <summary>The internet access protocol to use for requests.</summary>
+  public string UrlScheme {
+    get => this._urlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The URL scheme must not be blank.", nameof(OAuth2.UrlScheme));
+      }
+      this._urlScheme = value.Trim();
+    }
+  }
 
   #endregion
 
@@ -69,9 +181,8 @@ public class OAuth2 {
     if (scope == AuthorizationScope.None) {
       throw new ArgumentException("At least one authorization scope must be selected.", nameof(scope));
     }
-    var uri = this.BuildEndPointUri(OAuth2.AuthorizationEndPoint);
     var query = new StringBuilder();
-    query.Append("response_type=code");
+    query.Append("?response_type=code");
     query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
     query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
     query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
@@ -84,8 +195,7 @@ public class OAuth2 {
     if (forcePrompt) {
       query.Append("&approval_prompt=force");
     }
-    uri.Query = query.ToString();
-    return uri.Uri;
+    return new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.AuthorizationEndPoint, query.ToString()).Uri;
   }
 
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
@@ -97,7 +207,7 @@ public class OAuth2 {
   /// </param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
-    => this.RequestToken("bearer", code, clientSecret, redirectUri, false);
+    => Utils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
 
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
@@ -108,162 +218,202 @@ public class OAuth2 {
   /// </param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri)
-    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, false);
+    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri);
 
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret)
-    => this.RequestToken("bearer", refreshToken, clientSecret, null, true);
+    => Utils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
 
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret)
-    => this.RequestTokenAsync("bearer", refreshToken, clientSecret, null, true);
-
-  #endregion
-
-  #region Instance Fields / Properties
-
-  /// <summary>The client ID to use for requests.</summary>
-  /// <remarks>
-  /// To register an application and obtain a client ID, go to
-  /// <a href="https://musicbrainz.org/account/applications">your MusicBrainz account</a>.
-  /// </remarks>
-  public string ClientId { get; set; } = OAuth2.DefaultClientId;
-
-  /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
-  public int Port { get; set; } = OAuth2.DefaultPort;
-
-  /// <summary>The internet access protocol to use for requests.</summary>
-  public string UrlScheme { get; set; } = OAuth2.DefaultUrlScheme;
-
-  /// <summary>The web site to use for requests.</summary>
-  public string WebSite { get; set; } = OAuth2.DefaultWebSite;
+    => this.RefreshTokenAsync("bearer", refreshToken, clientSecret);
 
   #endregion
 
   #region Internals
 
-// Disable complaints about WebRequest until this is rewritten for HttpClient
-// RIDER-71277: for Rider, we need to allow ALL obsolete symbols by disabling CS0618
-#pragma warning disable CS0618
-#pragma warning disable SYSLIB0014
+  #region HttpClient / IDisposable
+
+  private static readonly MediaTypeWithQualityHeaderValue AcceptHeader = new("application/json");
+
+  private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
+
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<OAuth2>();
+
+  private HttpClient? _client;
+
+  private Action<HttpClient>? _clientConfiguration;
+
+  private Func<HttpClient>? _clientCreation;
+
+  private readonly SemaphoreSlim _clientLock = new(1);
+
+  private readonly bool _clientOwned;
+
+  private bool _disposed;
+
+  private HttpClient Client {
+    get {
+      if (this._disposed) {
+        throw new ObjectDisposedException(nameof(OAuth2));
+      }
+      if (this._client is null) {
+        var client = this._clientCreation is not null ? this._clientCreation() : new HttpClient();
+        this._clientConfiguration?.Invoke(client);
+        this._client = client;
+      }
+      return this._client;
+    }
+  }
+
+  /// <summary>
+  /// Closes the underlying web service client in use by this OAuth2 client, if one has been created.<br/>
+  /// The next web service request will create a new client.
+  /// </summary>
+  /// <exception cref="InvalidOperationException">When this instance is using an explicitly provided client instance.</exception>
+  public void Close() {
+    if (!this._clientOwned) {
+      throw new InvalidOperationException("An explicitly provided client instance is in use.");
+    }
+    this._clientLock.Wait();
+    try {
+      this._client?.Dispose();
+      this._client = null;
+    }
+    finally {
+      this._clientLock.Release();
+    }
+  }
+
+  /// <summary>Sets up code to run to configure a newly-created HTTP client.</summary>
+  /// <param name="code">The configuration code for an HTTP client, or <see langword="null"/> to clear such code.</param>
+  public void ConfigureClient(Action<HttpClient>? code) {
+    this._clientConfiguration = code;
+  }
+
+  /// <summary>Sets up code to run to create an HTTP client.</summary>
+  /// <param name="code">The creation code for an HTTP client, or <see langword="null"/> to clear such code.</param>
+  /// <remarks>
+  /// Any code set via <see cref="ConfigureClient(System.Action{System.Net.Http.HttpClient}?)"/> will be applied to the client
+  /// returned by <paramref name="code"/>.
+  /// </remarks>
+  public void ConfigureClientCreation(Func<HttpClient>? code) {
+    this._clientCreation = code;
+  }
+
+  /// <summary>Discards all resources held by this OAuth client, if any.</summary>
+  /// <remarks>Further attempts at web service requests will cause <see cref="ObjectDisposedException"/> to be thrown.</remarks>
+  public void Dispose() {
+    this.Dispose(true);
+    GC.SuppressFinalize(this);
+  }
+
+  private void Dispose(bool disposing) {
+    if (!disposing) {
+      // no unmanaged resources
+      return;
+    }
+    try {
+      if (this._clientOwned) {
+        this.Close();
+      }
+      this._client = null;
+      this._clientLock.Dispose();
+    }
+    finally {
+      this._disposed = true;
+    }
+  }
+
+  /// <summary>Finalizes this instance.</summary>
+  ~OAuth2() {
+    this.Dispose(false);
+  }
+
+  #endregion
 
   private static readonly JsonSerializerOptions JsonReaderOptions =
     JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
 
-  private UriBuilder BuildEndPointUri(string endpoint) {
-    if (string.IsNullOrWhiteSpace(this.UrlScheme)) {
-      throw new InvalidOperationException("No URL scheme has been set.");
-    }
-    if (string.IsNullOrWhiteSpace(this.WebSite)) {
-      throw new InvalidOperationException("No website has been set.");
-    }
-    if (string.IsNullOrWhiteSpace(this.ClientId)) {
-      throw new InvalidOperationException("No client ID has been set.");
-    }
-    return new UriBuilder(this.UrlScheme, this.WebSite, this.Port, endpoint);
-  }
-
-  private HttpWebRequest CreateTokenRequest() {
-    var uri = this.BuildEndPointUri(OAuth2.TokenEndPoint);
-    Debug.Print($"[{DateTime.UtcNow}] OAUTH2 REQUEST: {uri.Uri}");
-    if (WebRequest.Create(uri.Uri) is HttpWebRequest req) {
-      req.Method = "POST";
-      req.ContentType = "application/x-www-form-urlencoded; charset=utf-8";
-      {
-        var an = Assembly.GetExecutingAssembly().GetName();
-        req.UserAgent = $"{an.Name}/{an.Version}";
+  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body) {
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
+    await this._clientLock.WaitAsync();
+    try {
+      var client = this.Client;
+      using var request = new HttpRequestMessage(method, uri) {
+        Content = body,
+        Headers = {
+          Accept = {
+            OAuth2.AcceptHeader,
+          },
+        }
+      };
+      // Use whatever user agent the client has set, plus our own.
+      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+        request.Headers.UserAgent.Add(userAgent);
       }
-      return req;
+      request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
+      request.Headers.UserAgent.Add(OAuth2.LibraryComment);
+      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+      if (body is not null) {
+        // FIXME: Should this include the actual body text too?
+        Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
+      }
+      var response = await client.SendAsync(request);
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
+                  $"'{response.ReasonPhrase}' (v{response.Version})");
+      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+      Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
+                  $"{response.Content.Headers.ContentLength ?? 0} bytes");
+      return response;
     }
-    throw new InvalidOperationException("Only HTTP-compatible URL schemes are supported.");
+    finally {
+      this._clientLock.Release();
+    }
   }
 
-  private string CreateTokenRequestBody(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
+  private async Task<AuthorizationToken> PostAsync(HttpContent body) {
+    var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
+    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, body);
+    if (!response.IsSuccessStatusCode) {
+      throw Utils.CreateQueryExceptionFor(response);
+    }
+    return await Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions);
+  }
+
+  private async Task<IAuthorizationToken> PostAsync(string type, string body) {
+    var token = await this.PostAsync(new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType));
+    if (token.TokenType != type) {
+      throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
+    }
+    return token;
+  }
+
+  private async Task<IAuthorizationToken> RefreshTokenAsync(string type, string codeOrToken, string clientSecret) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
     body.Append("&token_type=").Append(Uri.EscapeDataString(type));
-    if (refresh) {
-      body.Append("&grant_type=refresh_token");
-      body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
-    }
-    else {
-      body.Append("&grant_type=authorization_code");
-      body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
-      body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri!.ToString()));
-    }
-    return body.ToString();
+    body.Append("&grant_type=refresh_token");
+    body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
+    return await this.PostAsync(type, body.ToString());
   }
 
-  private AuthorizationToken ProcessResponse(HttpWebResponse response) {
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-    using var stream = response.GetResponseStream();
-    if (stream is null) {
-      throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
-    }
-    var characterSet = response.CharacterSet;
-    if (characterSet is null || characterSet.Trim().Length == 0) {
-      characterSet = "utf-8";
-    }
-    // Note: No direct stream use here (available in async mode only)
-    var enc = Encoding.GetEncoding(characterSet);
-    using var sr = new StreamReader(stream, enc);
-    var json = sr.ReadToEnd();
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-    var token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
-    return token ?? throw new JsonException("Received null authorization token.");
-  }
-
-  private async Task<AuthorizationToken> ProcessResponseAsync(HttpWebResponse response) {
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): {response.ContentLength} bytes");
-#if NET || NETSTANDARD2_1_OR_GREATER
-    var stream = response.GetResponseStream();
-    await using var _ = stream.ConfigureAwait(false);
-#else
-    using var stream = response.GetResponseStream();
-#endif
-    if (stream is null) {
-      throw new WebException("No data received.", WebExceptionStatus.ReceiveFailure);
-    }
-    var characterSet = response.CharacterSet;
-    if (characterSet is null || characterSet.Trim().Length == 0) {
-      characterSet = "utf-8";
-    }
-#if !DEBUG
-    if (characterSet == "utf-8") { // Directly use the stream
-      var token = await JsonUtils.DeserializeAsync<AuthorizationToken>(stream, OAuth2.JsonReaderOptions);
-      return token ?? throw new JsonException("Received null authorization token.");
-    }
-#endif
-    var enc = Encoding.GetEncoding(characterSet);
-    using var sr = new StreamReader(stream, enc);
-    var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-    {
-      var token = JsonUtils.Deserialize<AuthorizationToken>(json, OAuth2.JsonReaderOptions);
-      return token ?? throw new JsonException("Received null authorization token.");
-    }
-  }
-
-  private IAuthorizationToken RequestToken(string type, string codeOrToken, string clientSecret, Uri? redirectUri, bool refresh) {
-    var req = this.CreateTokenRequest();
-    var body = this.CreateTokenRequestBody(type, codeOrToken, clientSecret, redirectUri, refresh);
-    using var response = this.SendRequest(req, body);
-    return this.ValidateToken(this.ProcessResponse(response), type);
-  }
-
-  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri? redirectUri,
-                                                            bool refresh) {
-    var req = this.CreateTokenRequest();
-    var body = this.CreateTokenRequestBody(type, codeOrToken, clientSecret, redirectUri, refresh);
-    using var response = await this.SendRequestAsync(req, body);
-    return this.ValidateToken(await this.ProcessResponseAsync(response), type);
+  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri) {
+    var body = new StringBuilder();
+    body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
+    body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
+    body.Append("&token_type=").Append(Uri.EscapeDataString(type));
+    body.Append("&grant_type=authorization_code");
+    body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
+    body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
+    return await this.PostAsync(type, body.ToString());
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {
@@ -288,32 +438,6 @@ public class OAuth2 {
     if ((scope & AuthorizationScope.Tag) != 0) {
       yield return "tag";
     }
-  }
-
-  private HttpWebResponse SendRequest(HttpWebRequest req, string body) {
-    using var rs = req.GetRequestStream();
-    var bytes = Encoding.UTF8.GetBytes(body);
-    rs.Write(bytes, 0, bytes.Length);
-    return (HttpWebResponse) req.GetResponse();
-  }
-
-  private async Task<HttpWebResponse> SendRequestAsync(HttpWebRequest req, string body) {
-#if NET || NETSTANDARD2_1_OR_GREATER
-    var rs = req.GetRequestStream();
-    await using var _ = rs.ConfigureAwait(false);
-#else
-    using var rs = req.GetRequestStream();
-#endif
-    var bytes = Encoding.UTF8.GetBytes(body);
-    await rs.WriteAsync(bytes, 0, bytes.Length).ConfigureAwait(false);
-    return (HttpWebResponse) await req.GetResponseAsync().ConfigureAwait(false);
-  }
-
-  private IAuthorizationToken ValidateToken(AuthorizationToken token, string type) {
-    if (token.TokenType != type) {
-      throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
-    }
-    return token;
   }
 
   #endregion
