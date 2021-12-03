@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Xml;
 
 using JetBrains.Annotations;
@@ -41,7 +42,7 @@ public sealed class IsrcSubmission : Submission {
 
   #region Internals
 
-  internal IsrcSubmission(Query query, string client) : base(query, client, "recording", Method.POST) { }
+  internal IsrcSubmission(Query query, string client) : base(query, client, "recording", HttpMethod.Post) { }
 
   private readonly Dictionary<Guid, List<string>> _isrcs = new();
 

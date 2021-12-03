@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -577,8 +578,8 @@ public sealed partial class Query : IDisposable {
 
   #region Basic Request Execution
 
-  private string PerformRequest(string address, Method method, string accept, string? contentType, string? body = null) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
+  private string PerformRequest(string address, HttpMethod method, string accept, string? contentType, string? body = null) {
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {this.BaseUri}{address}");
     this._clientLock.Wait();
     try {
       var wc = this.WebClient;
@@ -592,7 +593,7 @@ public sealed partial class Query : IDisposable {
       wc.Headers.Set("User-Agent", this._fullUserAgent);
       wc.QueryString.Clear();
       try {
-        if (method == Method.GET) {
+        if (method == HttpMethod.Get) {
           return wc.DownloadString(address);
         }
         if (body is not null) {
@@ -612,21 +613,21 @@ public sealed partial class Query : IDisposable {
 
   internal string PerformRequest(string entity, Guid id, string extra) {
     var address = $"{entity}/{id:D}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
+    var json = Query.ApplyDelay(() => this.PerformRequest(address, HttpMethod.Get, "application/json", null));
     Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
     return json;
   }
 
   internal string PerformRequest(string entity, string? id, string extra) {
     var address = $"{entity}/{id}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
+    var json = Query.ApplyDelay(() => this.PerformRequest(address, HttpMethod.Get, "application/json", null));
     Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
     return json;
   }
 
-  private async Task<string> PerformRequestAsync(string address, Method method, string accept, string? contentType,
+  private async Task<string> PerformRequestAsync(string address, HttpMethod method, string accept, string? contentType,
                                                  string? body = null) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {this.BaseUri}{address}");
     await this._clientLock.WaitAsync();
     try {
       var wc = this.WebClient;
@@ -640,7 +641,7 @@ public sealed partial class Query : IDisposable {
       wc.Headers.Set("User-Agent", this._fullUserAgent);
       wc.QueryString.Clear();
       try {
-        if (method == Method.GET) {
+        if (method == HttpMethod.Get) {
           return await wc.DownloadStringTaskAsync(address).ConfigureAwait(false);
         }
         if (body is not null) {
@@ -660,14 +661,14 @@ public sealed partial class Query : IDisposable {
 
   internal async Task<string> PerformRequestAsync(string entity, Guid id, string extra) {
     var address = $"{entity}/{id:D}{extra}";
-    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
+    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, HttpMethod.Get, "application/json", null));
     Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
     return json;
   }
 
   internal async Task<string> PerformRequestAsync(string entity, string? id, string extra) {
     var address = $"{entity}/{id}{extra}";
-    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
+    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, HttpMethod.Get, "application/json", null));
     Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
     return json;
   }

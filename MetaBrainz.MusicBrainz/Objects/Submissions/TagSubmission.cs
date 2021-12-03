@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Xml;
 
 using JetBrains.Annotations;
@@ -98,7 +99,7 @@ public sealed class TagSubmission : Submission {
 
   #region Internals
 
-  internal TagSubmission(Query query, string client) : base(query, client, "tag", Method.POST) { }
+  internal TagSubmission(Query query, string client) : base(query, client, "tag", HttpMethod.Post) { }
 
   private class VoteMap : Dictionary<string, TagVote> {
 
