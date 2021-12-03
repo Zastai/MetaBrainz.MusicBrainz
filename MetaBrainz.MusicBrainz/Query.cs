@@ -28,26 +28,56 @@ public sealed partial class Query {
 
   #region Static Fields / Properties
 
+  private static int _defaultPort = -1;
+
   /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-  public static int DefaultPort { get; set; } = -1;
+  public static int DefaultPort {
+    get => Query._defaultPort;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(Query.DefaultPort), value,
+                                              "The default port number must not be less than -1 or greater than 65535.");
+      }
+      Query._defaultPort = value;
+    }
+  }
+
+  private static string _defaultServer = "musicbrainz.org";
+
+  /// <summary>The default server to use for requests.</summary>
+  public static string DefaultServer {
+    get => Query._defaultServer;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default server name must not be blank.", nameof(Query.DefaultServer));
+      }
+      Query._defaultServer = value.Trim();
+    }
+  }
+
+  private static string _defaultUrlScheme = "https";
 
   /// <summary>The default internet access protocol to use for requests.</summary>
-  public static string DefaultUrlScheme { get; set; } = "https";
+  public static string DefaultUrlScheme {
+    get => Query._defaultUrlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default URL scheme must not be blank.", nameof(Query.DefaultUrlScheme));
+      }
+      Query._defaultUrlScheme = value.Trim();
+    }
+  }
 
   /// <summary>The default user agent to use for requests.</summary>
   public static string? DefaultUserAgent { get; set; }
-
-  /// <summary>The default web site to use for requests.</summary>
-  public static string DefaultWebSite { get; set; } = "musicbrainz.org";
 
   /// <summary>
   /// The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are
   /// made.
   /// </summary>
   /// <remarks>
-  /// Note that this is a global delay, affecting all threads.
-  /// When querying the official MusicBrainz site, setting this below the default of one second may incur penalties (ranging from
-  /// rate limiting to IP bans).
+  /// Note that this is a global delay, affecting all threads. When querying the official MusicBrainz site, setting this below the
+  /// default of one second may incur penalties (ranging from rate limiting to IP bans).
   /// </remarks>
   public static double DelayBetweenRequests { get; set; } = 1.0;
 
@@ -120,22 +150,53 @@ public sealed partial class Query {
   #region Instance Fields / Properties
 
   /// <summary>The base URI for all requests.</summary>
-  public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+  public Uri BaseUri => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot).Uri;
 
   /// <summary>The OAuth2 bearer token to use for authenticated requests.</summary>
   public string? BearerToken { get; set; }
 
+  private int _port = Query.DefaultPort;
+
   /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
-  public int Port { get; set; } = Query.DefaultPort;
+  public int Port {
+    get => this._port;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(Query.Port), value,
+                                              "The port number must not be less than -1 or greater than 65535.");
+      }
+      this._port = value;
+    }
+  }
+
+  private string _server = Query.DefaultServer;
+
+  /// <summary>The web site to use for requests.</summary>
+  public string Server {
+    get => this._server;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The server name must not be blank.", nameof(Query.Server));
+      }
+      this._server = value.Trim();
+    }
+  }
+
+  private string _urlScheme = Query.DefaultUrlScheme;
 
   /// <summary>The internet access protocol to use for requests.</summary>
-  public string UrlScheme { get; set; } = Query.DefaultUrlScheme;
+  public string UrlScheme {
+    get => this._urlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The URL scheme must not be blank.", nameof(Query.UrlScheme));
+      }
+      this._urlScheme = value.Trim();
+    }
+  }
 
   /// <summary>The user agent to use for requests.</summary>
   public string UserAgent { get; }
-
-  /// <summary>The web site to use for requests.</summary>
-  public string WebSite { get; set; } = Query.DefaultWebSite;
 
   #endregion
 
