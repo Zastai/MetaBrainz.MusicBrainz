@@ -31,67 +31,6 @@ public sealed partial class Query : IDisposable {
 
   #region Message / Error Handling
 
-  private static void MaybeMapException(WebException we) {
-    var response = we.Response;
-    if (response is null || response.ContentLength == 0) {
-      return;
-    }
-    try {
-      using var stream = response.GetResponseStream();
-#if !NET
-      if (stream == null) {
-        return;
-      }
-#endif
-      if (response.ContentType.StartsWith("application/xml")) {
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-        StringBuilder? sb = null;
-        var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
-        while (xpath.MoveNext()) {
-          if (sb is null) {
-            sb = new StringBuilder();
-          }
-          else {
-            sb.AppendLine();
-          }
-          sb.Append(xpath.Current?.InnerXml);
-        }
-        if (sb is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
-        throw new QueryException(sb.ToString(), we);
-      }
-      if (response.ContentType.StartsWith("application/json")) {
-        var characterSet = "utf-8";
-        if (response is HttpWebResponse httpResponse) {
-          characterSet = httpResponse.CharacterSet;
-          if (string.IsNullOrWhiteSpace(characterSet)) {
-            characterSet = "utf-8";
-          }
-        }
-        var enc = Encoding.GetEncoding(characterSet);
-        using var sr = new StreamReader(stream, enc);
-        var json = sr.ReadToEnd();
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
-        var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe.Error is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe.Error}\" ({moe.Help})");
-        throw new QueryException(moe.Error, we) { HelpLink = moe.Help };
-      }
-      Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-    }
-    catch (QueryException) { throw; }
-    catch (Exception e) {
-      Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
-      /* keep calm and fall through */
-    }
-  }
-
   private static async Task MaybeMapExceptionAsync(WebException we) {
     var response = we.Response;
     if (response is null || response.ContentLength == 0) {
@@ -179,25 +118,6 @@ public sealed partial class Query : IDisposable {
   private static readonly SemaphoreSlim RequestLock = new(1);
 
   private static DateTime _lastRequestTime;
-
-  private static T ApplyDelay<T>(Func<T> request) {
-    if (Query.DelayBetweenRequests <= 0.0) {
-      return request();
-    }
-    while (true) {
-      Query.RequestLock.Wait();
-      try {
-        if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-          Query._lastRequestTime = DateTime.UtcNow;
-          return request();
-        }
-      }
-      finally {
-        Query.RequestLock.Release();
-      }
-      Thread.Sleep((int) (500 * Query.DelayBetweenRequests));
-    }
-  }
 
   private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request) {
     if (Query.DelayBetweenRequests <= 0.0) {
@@ -578,53 +498,6 @@ public sealed partial class Query : IDisposable {
 
   #region Basic Request Execution
 
-  private string PerformRequest(string address, HttpMethod method, string accept, string? contentType, string? body = null) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {this.BaseUri}{address}");
-    this._clientLock.Wait();
-    try {
-      var wc = this.WebClient;
-      if (this.BearerToken is not null) {
-        wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
-      }
-      if (contentType is not null) {
-        wc.Headers.Set("Content-Type", contentType);
-      }
-      wc.Headers.Set("Accept", accept);
-      wc.Headers.Set("User-Agent", this._fullUserAgent);
-      wc.QueryString.Clear();
-      try {
-        if (method == HttpMethod.Get) {
-          return wc.DownloadString(address);
-        }
-        if (body is not null) {
-          Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
-        }
-        return wc.UploadString(address, method.ToString(), body ?? string.Empty);
-      }
-      catch (WebException we) {
-        Query.MaybeMapException(we);
-        throw;
-      }
-    }
-    finally {
-      this._clientLock.Release();
-    }
-  }
-
-  internal string PerformRequest(string entity, Guid id, string extra) {
-    var address = $"{entity}/{id:D}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, HttpMethod.Get, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
-  }
-
-  internal string PerformRequest(string entity, string? id, string extra) {
-    var address = $"{entity}/{id}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, HttpMethod.Get, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
-  }
-
   private async Task<string> PerformRequestAsync(string address, HttpMethod method, string accept, string? contentType,
                                                  string? body = null) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {this.BaseUri}{address}");
@@ -671,15 +544,6 @@ public sealed partial class Query : IDisposable {
     var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, HttpMethod.Get, "application/json", null));
     Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
     return json;
-  }
-
-  internal string PerformSubmission(ISubmission submission) {
-    var address = $"{submission.Entity}/?client={submission.Client}";
-    var method = submission.Method;
-    var contentType = submission.ContentType;
-    var body = submission.RequestBody;
-    var msg = Query.ApplyDelay(() => this.PerformRequest(address, method, "application/json", contentType, body));
-    return Query.ExtractMessage(msg) ?? "";
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission) {

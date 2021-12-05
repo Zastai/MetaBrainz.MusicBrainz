@@ -19,10 +19,7 @@ public sealed partial class Query {
   /// <returns>The requested area.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IArea LookupArea(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("area", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Area>(json);
-  }
+  public IArea LookupArea(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupAreaAsync(mbid, inc));
 
   /// <summary>Looks up the specified area.</summary>
   /// <param name="mbid">The MBID for the area to look up.</param>
@@ -48,10 +45,8 @@ public sealed partial class Query {
   /// <returns>The requested artist.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-    var json = this.PerformRequest("artist", mbid, Query.BuildExtraText(inc, status, type));
-    return Query.Deserialize<Artist>(json);
-  }
+  public IArtist LookupArtist(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+    => Utils.ResultOf(this.LookupArtistAsync(mbid, inc, type, status));
 
   /// <summary>Looks up the specified artist.</summary>
   /// <param name="mbid">The MBID for the artist to look up.</param>
@@ -78,10 +73,8 @@ public sealed partial class Query {
   /// <returns>The requested collection.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public ICollection LookupCollection(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("collection", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Collection>(json);
-  }
+  public ICollection LookupCollection(Guid mbid, Include inc = Include.None)
+    => Utils.ResultOf(this.LookupCollectionAsync(mbid, inc));
 
   /// <summary>Looks up the specified collection.</summary>
   /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -113,10 +106,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IDiscIdLookupResult LookupDiscId(string discid, int[]? toc = null, Include inc = Include.None, bool allMedia = false,
-                                          bool noStubs = false) {
-    var json = this.PerformRequest("discid", discid, Query.BuildExtraText(inc, toc, allMedia, noStubs));
-    return Query.Deserialize<DiscIdLookupResult>(json);
-  }
+                                          bool noStubs = false)
+    => Utils.ResultOf(this.LookupDiscIdAsync(discid, toc, inc, allMedia, noStubs));
 
   /// <summary>Looks up the specified disc ID.</summary>
   /// <param name="discid">
@@ -151,10 +142,7 @@ public sealed partial class Query {
   /// <returns>The requested event.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IEvent LookupEvent(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("event", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Event>(json);
-  }
+  public IEvent LookupEvent(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupEventAsync(mbid, inc));
 
   /// <summary>Looks up the specified event.</summary>
   /// <param name="mbid">The MBID for the event to look up.</param>
@@ -172,10 +160,7 @@ public sealed partial class Query {
   /// <returns>The requested genre.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IGenre LookupGenre(Guid mbid) {
-    var json = this.PerformRequest("genre", mbid, string.Empty);
-    return Query.Deserialize<Genre>(json);
-  }
+  public IGenre LookupGenre(Guid mbid) => Utils.ResultOf(this.LookupGenreAsync(mbid));
 
   /// <summary>Looks up the specified genre.</summary>
   /// <param name="mbid">The MBID for the genre to look up.</param>
@@ -193,10 +178,8 @@ public sealed partial class Query {
   /// <returns>The requested instrument.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("instrument", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Instrument>(json);
-  }
+  public IInstrument LookupInstrument(Guid mbid, Include inc = Include.None)
+    => Utils.ResultOf(this.LookupInstrumentAsync(mbid, inc));
 
   /// <summary>Looks up the specified instrument.</summary>
   /// <param name="mbid">The MBID for the instrument to look up.</param>
@@ -215,10 +198,7 @@ public sealed partial class Query {
   /// <returns>The recordings associated with the requested ISRC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IIsrc LookupIsrc(string isrc, Include inc = Include.None) {
-    var json = this.PerformRequest("isrc", isrc, Query.BuildExtraText(inc));
-    return Query.Deserialize<Isrc>(json);
-  }
+  public IIsrc LookupIsrc(string isrc, Include inc = Include.None) => Utils.ResultOf(this.LookupIsrcAsync(isrc, inc));
 
   /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
   /// <param name="isrc">The ISRC to look up.</param>
@@ -237,10 +217,8 @@ public sealed partial class Query {
   /// <returns>The works associated with the requested ISWC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IReadOnlyList<IWork> LookupIswc(string iswc, Include inc = Include.None) {
-    // This "lookup" behaves like a browse, except that it does not support offset/limit.
-    return new IswcLookup(this, iswc, Query.BuildExtraText(inc)).Next().Results;
-  }
+  public IReadOnlyList<IWork> LookupIswc(string iswc, Include inc = Include.None)
+    => Utils.ResultOf(this.LookupIswcAsync(iswc, inc));
 
   /// <summary>Looks up the works associated with the specified ISWC.</summary>
   /// <param name="iswc">The ISWC to look up.</param>
@@ -249,6 +227,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IReadOnlyList<IWork>> LookupIswcAsync(string iswc, Include inc = Include.None) {
+    // This "lookup" behaves like a browse, except that it does not support offset/limit.
     var il = await new IswcLookup(this, iswc, Query.BuildExtraText(inc)).NextAsync().ConfigureAwait(false);
     return il.Results;
   }
@@ -265,10 +244,8 @@ public sealed partial class Query {
   /// <returns>The requested label.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-    var json = this.PerformRequest("label", mbid, Query.BuildExtraText(inc, status, type));
-    return Query.Deserialize<Label>(json);
-  }
+  public ILabel LookupLabel(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+    => Utils.ResultOf(this.LookupLabelAsync(mbid, inc, type, status));
 
   /// <summary>Looks up the specified label.</summary>
   /// <param name="mbid">The MBID for the label to look up.</param>
@@ -294,10 +271,7 @@ public sealed partial class Query {
   /// <returns>The requested place.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IPlace LookupPlace(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("place", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Place>(json);
-  }
+  public IPlace LookupPlace(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupPlaceAsync(mbid, inc));
 
   /// <summary>Looks up the specified place.</summary>
   /// <param name="mbid">The MBID for the place to look up.</param>
@@ -322,10 +296,8 @@ public sealed partial class Query {
   /// <returns>The requested recording.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null) {
-    var json = this.PerformRequest("recording", mbid, Query.BuildExtraText(inc, status, type));
-    return Query.Deserialize<Recording>(json);
-  }
+  public IRecording LookupRecording(Guid mbid, Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
+    => Utils.ResultOf(this.LookupRecordingAsync(mbid, inc, type, status));
 
   /// <summary>Looks up the specified recording.</summary>
   /// <param name="mbid">The MBID for the recording to look up.</param>
@@ -351,10 +323,7 @@ public sealed partial class Query {
   /// <returns>The requested release.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IRelease LookupRelease(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("release", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Release>(json);
-  }
+  public IRelease LookupRelease(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupReleaseAsync(mbid, inc));
 
   /// <summary>Looks up the specified release.</summary>
   /// <param name="mbid">The MBID for the release to look up.</param>
@@ -376,10 +345,8 @@ public sealed partial class Query {
   /// <returns>The requested release group.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
-    var json = this.PerformRequest("release-group", mbid, Query.BuildExtraText(inc, status));
-    return Query.Deserialize<ReleaseGroup>(json);
-  }
+  public IReleaseGroup LookupReleaseGroup(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null)
+    => Utils.ResultOf(this.LookupReleaseGroupAsync(mbid, inc, status));
 
   /// <summary>Looks up the specified release group.</summary>
   /// <param name="mbid">The MBID for the release group to look up.</param>
@@ -401,10 +368,7 @@ public sealed partial class Query {
   /// <returns>The requested series.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public ISeries LookupSeries(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("series", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Series>(json);
-  }
+  public ISeries LookupSeries(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupSeriesAsync(mbid, inc));
 
   /// <summary>Looks up the specified series.</summary>
   /// <param name="mbid">The MBID for the series to look up.</param>
@@ -423,10 +387,7 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IUrl LookupUrl(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("url", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Url>(json);
-  }
+  public IUrl LookupUrl(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupUrlAsync(mbid, inc));
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="resource">The resource to look up.</param>
@@ -434,10 +395,7 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IUrl LookupUrl(Uri resource, Include inc = Include.None) {
-    var json = this.PerformRequest("url", null, Query.BuildExtraText(inc, resource));
-    return Query.Deserialize<Url>(json);
-  }
+  public IUrl LookupUrl(Uri resource, Include inc = Include.None) => Utils.ResultOf(this.LookupUrlAsync(resource, inc));
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="mbid">The MBID for the URL to look up.</param>
@@ -467,10 +425,7 @@ public sealed partial class Query {
   /// <returns>The requested work.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public IWork LookupWork(Guid mbid, Include inc = Include.None) {
-    var json = this.PerformRequest("work", mbid, Query.BuildExtraText(inc));
-    return Query.Deserialize<Work>(json);
-  }
+  public IWork LookupWork(Guid mbid, Include inc = Include.None) => Utils.ResultOf(this.LookupWorkAsync(mbid, inc));
 
   /// <summary>Looks up the specified work.</summary>
   /// <param name="mbid">The MBID for the work to look up.</param>
