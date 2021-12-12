@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -69,8 +72,11 @@ where TInterface : ISearchResult {
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
-  protected sealed override ISearchResults<TInterface> Deserialize(string json) {
-    this.CurrentResult = Query.Deserialize<SearchResults>(json);
+  protected sealed override async Task<ISearchResults<TInterface>> Deserialize(HttpResponseMessage response) {
+    this.CurrentResult = await Utils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions);
+    if (this.Offset != this.CurrentResult.Offset) {
+      Debug.Print($"Unexpect offset in search results: {this.Offset} != {this.CurrentResult.Offset}.");
+    }
     return this;
   }
 

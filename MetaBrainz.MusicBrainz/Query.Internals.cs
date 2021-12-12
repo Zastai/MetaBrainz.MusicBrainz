@@ -1,202 +1,28 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml.XPath;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
-using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query : IDisposable {
 
-  #region JSON Options
-
-  private static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.Readers);
-
-  internal static T Deserialize<T>(string json) {
-    var obj = JsonUtils.Deserialize<T>(json, Query.JsonReaderOptions);
-    return obj ?? throw new JsonException("A null object was received.");
-  }
-
-  #endregion
-
-  #region Message / Error Handling
-
-  private static void MaybeMapException(WebException we) {
-    var response = we.Response;
-    if (response is null || response.ContentLength == 0) {
-      return;
-    }
-    try {
-      using var stream = response.GetResponseStream();
-#if !NET
-      if (stream == null) {
-        return;
-      }
-#endif
-      if (response.ContentType.StartsWith("application/xml")) {
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-        StringBuilder? sb = null;
-        var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
-        while (xpath.MoveNext()) {
-          if (sb is null) {
-            sb = new StringBuilder();
-          }
-          else {
-            sb.AppendLine();
-          }
-          sb.Append(xpath.Current?.InnerXml);
-        }
-        if (sb is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
-        throw new QueryException(sb.ToString(), we);
-      }
-      if (response.ContentType.StartsWith("application/json")) {
-        var characterSet = "utf-8";
-        if (response is HttpWebResponse httpResponse) {
-          characterSet = httpResponse.CharacterSet;
-          if (string.IsNullOrWhiteSpace(characterSet)) {
-            characterSet = "utf-8";
-          }
-        }
-        var enc = Encoding.GetEncoding(characterSet);
-        using var sr = new StreamReader(stream, enc);
-        var json = sr.ReadToEnd();
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
-        var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe.Error is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe.Error}\" ({moe.Help})");
-        throw new QueryException(moe.Error, we) { HelpLink = moe.Help };
-      }
-      Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-    }
-    catch (QueryException) { throw; }
-    catch (Exception e) {
-      Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
-      /* keep calm and fall through */
-    }
-  }
-
-  private static async Task MaybeMapExceptionAsync(WebException we) {
-    var response = we.Response;
-    if (response is null || response.ContentLength == 0) {
-      return;
-    }
-    try {
-#if NET || NETSTANDARD2_1_OR_GREATER
-      var stream = response.GetResponseStream();
-      await using var _ = stream.ConfigureAwait(false);
-#else
-      using var stream = response.GetResponseStream();
-#endif
-#if !NET
-      if (stream is null) {
-        return;
-      }
-#endif
-      if (response.ContentType.StartsWith("application/xml")) {
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-        StringBuilder? sb = null;
-        var xpath = new XPathDocument(stream).CreateNavigator().Select("/error/text");
-        while (xpath.MoveNext()) {
-          if (sb is null) {
-            sb = new StringBuilder();
-          }
-          else {
-            sb.AppendLine();
-          }
-          sb.Append(xpath.Current?.InnerXml);
-        }
-        if (sb is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        // FIXME: Does this return a help string too?
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{sb}\"");
-        throw new QueryException(sb.ToString(), we);
-      }
-      if (response.ContentType.StartsWith("application/json")) {
-        var characterSet = "utf-8";
-        if (response is HttpWebResponse httpResponse) {
-          characterSet = httpResponse.CharacterSet;
-          if (string.IsNullOrWhiteSpace(characterSet)) {
-            characterSet = "utf-8";
-          }
-        }
-        var enc = Encoding.GetEncoding(characterSet);
-        using var sr = new StreamReader(stream, enc, false, 1024, true);
-        var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-        Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({response.ContentType}): \"{JsonUtils.Prettify(json)}\"");
-        var moe = Query.Deserialize<MessageOrError>(json);
-        if (moe.Error is null) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO ERROR TEXT FOUND");
-          return;
-        }
-        Debug.Print($"[{DateTime.UtcNow}] => ERROR: \"{moe.Error}\" ({moe.Help})");
-        throw new QueryException(moe.Error, we) { HelpLink = moe.Help };
-      }
-      Debug.Print($"[{DateTime.UtcNow}] => UNHANDLED ERROR RESPONSE ({response.ContentType}): <{response.ContentLength} byte(s)>");
-    }
-    catch (QueryException) { throw; }
-    catch (Exception e) {
-      Debug.Print($"[{DateTime.UtcNow}] => FAILED TO PROCESS ERROR RESPONSE: [{e.GetType()}] {e.Message}");
-      // keep calm and fall through
-    }
-  }
-
-  private static string? ExtractMessage(string response) {
-    try {
-      Debug.Print($"[{DateTime.UtcNow}] => RESPONSE (application/json): \"{JsonUtils.Prettify(response)}\"");
-      var moe = Query.Deserialize<MessageOrError>(response);
-      Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: \"{moe.Message}\"");
-      return moe.Message;
-    }
-    catch {
-      // keep calm and fall through
-    }
-    return null;
-  }
-
-  #endregion
+  internal static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.Readers);
 
   #region Delay Processing
 
   private static readonly SemaphoreSlim RequestLock = new(1);
 
   private static DateTime _lastRequestTime;
-
-  private static T ApplyDelay<T>(Func<T> request) {
-    if (Query.DelayBetweenRequests <= 0.0) {
-      return request();
-    }
-    while (true) {
-      Query.RequestLock.Wait();
-      try {
-        if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-          Query._lastRequestTime = DateTime.UtcNow;
-          return request();
-        }
-      }
-      finally {
-        Query.RequestLock.Release();
-      }
-      Thread.Sleep((int) (500 * Query.DelayBetweenRequests));
-    }
-  }
 
   private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request) {
     if (Query.DelayBetweenRequests <= 0.0) {
@@ -509,35 +335,54 @@ public sealed partial class Query : IDisposable {
 
   #endregion
 
-  #region Web Client / IDisposable
+  #region HttpClient / IDisposable
 
-// Disable complaints about WebRequest until this is rewritten for HttpClient
-// RIDER-71277: for Rider, we need to allow ALL obsolete symbols by disabling CS0618
-#pragma warning disable CS0618
-#pragma warning disable SYSLIB0014
+  private static readonly MediaTypeWithQualityHeaderValue AcceptHeader = new("application/json");
+
+  private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
+
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<Query>();
+
+  private HttpClient? _client;
+
+  private Action<HttpClient>? _clientConfiguration;
+
+  private Func<HttpClient>? _clientCreation;
 
   private readonly SemaphoreSlim _clientLock = new(1);
 
+  private readonly bool _clientOwned;
+
   private bool _disposed;
 
-  private readonly string _fullUserAgent;
+  private readonly List<ProductInfoHeaderValue> _userAgent = new(Query.DefaultUserAgent);
 
-  private WebClient? _client;
-
-  private WebClient WebClient {
+  private HttpClient Client {
     get {
       if (this._disposed) {
         throw new ObjectDisposedException(nameof(Query));
       }
-      var wc = this._client ??= new WebClient { Encoding = Encoding.UTF8 };
-      wc.BaseAddress = this.BaseUri.ToString();
-      return wc;
+      if (this._client is null) {
+        var client = this._clientCreation is not null ? this._clientCreation() : new HttpClient();
+        foreach (var userAgent in this._userAgent) {
+          client.DefaultRequestHeaders.UserAgent.Add(userAgent);
+        }
+        this._clientConfiguration?.Invoke(client);
+        this._client = client;
+      }
+      return this._client;
     }
   }
 
-  /// <summary>Closes the web client in use by this query, if there is one.</summary>
-  /// <remarks>The next web service request will create a new client.</remarks>
+  /// <summary>
+  /// Closes the underlying web service client in use by this MusicBrainz query client, if one has been created.<br/>
+  /// The next web service request will create a new client.
+  /// </summary>
+  /// <exception cref="InvalidOperationException">When this instance is using an explicitly provided client instance.</exception>
   public void Close() {
+    if (!this._clientOwned) {
+      throw new InvalidOperationException("An explicitly provided client instance is in use.");
+    }
     this._clientLock.Wait();
     try {
       this._client?.Dispose();
@@ -548,7 +393,24 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  /// <summary>Disposes the web client in use by this query, if there is one.</summary>
+  /// <summary>Sets up code to run to configure a newly-created HTTP client.</summary>
+  /// <param name="code">The configuration code for an HTTP client, or <see langword="null"/> to clear such code.</param>
+  /// <remarks>The configuration code will be called <em>after</em> <see cref="UserAgent"/> is applied.</remarks>
+  public void ConfigureClient(Action<HttpClient>? code) {
+    this._clientConfiguration = code;
+  }
+
+  /// <summary>Sets up code to run to create an HTTP client.</summary>
+  /// <param name="code">The creation code for an HTTP client, or <see langword="null"/> to clear such code.</param>
+  /// <remarks>
+  /// <see cref="UserAgent"/> and any code set via <see cref="ConfigureClient(System.Action{System.Net.Http.HttpClient}?)"/> will be
+  /// applied to the client returned by <paramref name="code"/>.
+  /// </remarks>
+  public void ConfigureClientCreation(Func<HttpClient>? code) {
+    this._clientCreation = code;
+  }
+
+  /// <summary>Discards all resources held by this MusicBrainz query client, if any.</summary>
   /// <remarks>Further attempts at web service requests will cause <see cref="ObjectDisposedException"/> to be thrown.</remarks>
   public void Dispose() {
     this.Dispose(true);
@@ -557,10 +419,14 @@ public sealed partial class Query : IDisposable {
 
   private void Dispose(bool disposing) {
     if (!disposing) {
+      // no unmanaged resources
       return;
     }
     try {
-      this.Close();
+      if (this._clientOwned) {
+        this.Close();
+      }
+      this._client = null;
       this._clientLock.Dispose();
     }
     finally {
@@ -577,117 +443,125 @@ public sealed partial class Query : IDisposable {
 
   #region Basic Request Execution
 
-  private string PerformRequest(string address, Method method, string accept, string? contentType, string? body = null) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
-    this._clientLock.Wait();
+  private Uri BuildUri(string path, string? extra = null)
+    => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot + path, extra).Uri;
+
+  private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response) {
+    string? message = null;
     try {
-      var wc = this.WebClient;
-      if (this.BearerToken is not null) {
-        wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
-      }
-      if (contentType is not null) {
-        wc.Headers.Set("Content-Type", contentType);
-      }
-      wc.Headers.Set("Accept", accept);
-      wc.Headers.Set("User-Agent", this._fullUserAgent);
-      wc.QueryString.Clear();
-      try {
-        if (method == Method.GET) {
-          return wc.DownloadString(address);
+      if (response.Content.Headers.ContentLength > 0) {
+        var body = await Utils.GetStringContentAsync(response).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(body)) {
+          Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE TEXT");
         }
-        if (body is not null) {
-          Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
+        else {
+          var handled = false;
+          var mediaType = response.Content.Headers.ContentType?.MediaType;
+          if (mediaType is not null) {
+            if (mediaType.StartsWith("application/json")) {
+              using var doc = JsonSerializer.Deserialize<JsonDocument>(body);
+              if (doc is not null && doc.RootElement.ValueKind == JsonValueKind.Object) {
+                // MusicBrainz message response: { "message": "this is a message" }
+                handled = true;
+                foreach (var prop in doc.RootElement.EnumerateObject()) {
+                  switch (prop.Name) {
+                    case "message":
+                      message = prop.Value.GetString();
+                      break;
+                    default:
+                      handled = false;
+                      break;
+                  }
+                  if (!handled) {
+                    break;
+                  }
+                }
+                if (handled && message is not null) {
+                  Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: '{message}'");
+                }
+              }
+            }
+          }
+          if (!handled) {
+            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {Utils.FormatMultiLine(body)}");
+            message = body;
+          }
         }
-        return wc.UploadString(address, method.ToString(), body ?? string.Empty);
       }
-      catch (WebException we) {
-        Query.MaybeMapException(we);
-        throw;
+      else {
+        Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE CONTENT");
       }
+      return message;
     }
-    finally {
-      this._clientLock.Release();
+    catch {
+      // keep calm and fall through
     }
+    return null;
   }
 
-  internal string PerformRequest(string entity, Guid id, string extra) {
-    var address = $"{entity}/{id:D}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
-  }
-
-  internal string PerformRequest(string entity, string? id, string extra) {
-    var address = $"{entity}/{id}{extra}";
-    var json = Query.ApplyDelay(() => this.PerformRequest(address, Method.GET, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
-  }
-
-  private async Task<string> PerformRequestAsync(string address, Method method, string accept, string? contentType,
-                                                 string? body = null) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method} {this.BaseUri}{address}");
+  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body = null) {
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
     await this._clientLock.WaitAsync();
     try {
-      var wc = this.WebClient;
-      if (this.BearerToken is not null) {
-        wc.Headers.Set("Authorization", $"Bearer {this.BearerToken}");
-      }
-      if (contentType is not null) {
-        wc.Headers.Set("Content-Type", contentType);
-      }
-      wc.Headers.Set("Accept", accept);
-      wc.Headers.Set("User-Agent", this._fullUserAgent);
-      wc.QueryString.Clear();
-      try {
-        if (method == Method.GET) {
-          return await wc.DownloadStringTaskAsync(address).ConfigureAwait(false);
+      var client = this.Client;
+      using var request = new HttpRequestMessage(method, uri) {
+        Content = body,
+        Headers = {
+          Accept = {
+            Query.AcceptHeader,
+          },
+          Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
         }
-        if (body is not null) {
-          Debug.Print($"[{DateTime.UtcNow}] => BODY ({contentType}): {body}");
-        }
-        return await wc.UploadStringTaskAsync(address, method.ToString(), body ?? string.Empty).ConfigureAwait(false);
+      };
+      // Use whatever user agent the client has set, plus our own.
+      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+        request.Headers.UserAgent.Add(userAgent);
       }
-      catch (WebException we) {
-        await Query.MaybeMapExceptionAsync(we);
-        throw;
+      request.Headers.UserAgent.Add(Query.LibraryProductInfo);
+      request.Headers.UserAgent.Add(Query.LibraryComment);
+      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+      if (body is not null) {
+        // FIXME: Should this include the actual body text too?
+        Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
       }
+      var response = await client.SendAsync(request);
+      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
+                  $"'{response.ReasonPhrase}' (v{response.Version})");
+      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+      Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
+                  $"{response.Content.Headers.ContentLength ?? 0} bytes");
+      if (!response.IsSuccessStatusCode) {
+        throw Utils.CreateQueryExceptionFor(response);
+      }
+      return response;
     }
     finally {
       this._clientLock.Release();
     }
   }
 
-  internal async Task<string> PerformRequestAsync(string entity, Guid id, string extra) {
-    var address = $"{entity}/{id:D}{extra}";
-    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
+  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra)
+    => await Query.ApplyDelayAsync(() => this.PerformRequestAsync(this.BuildUri($"{entity}/{id:D}", extra), HttpMethod.Get));
+
+  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra)
+    => await Query.ApplyDelayAsync(() => this.PerformRequestAsync(this.BuildUri($"{entity}/{id}", extra), HttpMethod.Get));
+
+  internal async Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra) {
+    using var response = await this.PerformRequestAsync(entity, id, extra);
+    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions);
   }
 
-  internal async Task<string> PerformRequestAsync(string entity, string? id, string extra) {
-    var address = $"{entity}/{id}{extra}";
-    var json = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, Method.GET, "application/json", null));
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: <<{JsonUtils.Prettify(json)}>>");
-    return json;
-  }
-
-  internal string PerformSubmission(ISubmission submission) {
-    var address = $"{submission.Entity}/?client={submission.Client}";
-    var method = submission.Method;
-    var contentType = submission.ContentType;
-    var body = submission.RequestBody;
-    var msg = Query.ApplyDelay(() => this.PerformRequest(address, method, "application/json", contentType, body));
-    return Query.ExtractMessage(msg) ?? "";
+  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra) {
+    using var response = await this.PerformRequestAsync(entity, id, extra);
+    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
-    var address = $"{submission.Entity}/?client={submission.Client}";
-    var method = submission.Method;
-    var contentType = submission.ContentType;
+    var uri = this.BuildUri(submission.Entity, $"?client={submission.Client}");
     var body = submission.RequestBody;
-    var msg = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(address, method, "application/json", contentType, body));
-    return Query.ExtractMessage(msg) ?? "";
+    using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
+    using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, content));
+    return await Query.ExtractMessageAsync(response) ?? "";
   }
 
   #endregion

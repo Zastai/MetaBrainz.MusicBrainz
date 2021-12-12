@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -23,7 +24,7 @@ where TResultObject : class {
 
   private int CurrentResultCount => this.Results.Count;
 
-  protected abstract TInterface Deserialize(string json);
+  protected abstract Task<TInterface> Deserialize(HttpResponseMessage response);
 
   private readonly string _endpoint;
 
@@ -31,37 +32,27 @@ where TResultObject : class {
 
   public int? Limit { get; set; }
 
-  public TInterface Next() => this.Deserialize(this.NextResponse(this.CurrentResultCount));
+  public TInterface Next() => Utils.ResultOf(this.NextAsync());
 
-  public async Task<TInterface> NextAsync()
-    => this.Deserialize(await this.NextResponseAsync(this.CurrentResultCount).ConfigureAwait(false));
+  public async Task<TInterface> NextAsync() {
+    this.UpdateOffset(this.CurrentResultCount);
+    return await this.PerformRequestAsync().ConfigureAwait(false);
+  }
 
   public int? NextOffset { get; set; }
 
-  private string NextResponse(int lastResultCount) {
-    this.UpdateOffset(lastResultCount);
-    return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
-  }
-
-  private Task<string> NextResponseAsync(int lastResultCount) {
-    this.UpdateOffset(lastResultCount);
-    return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
-  }
-
   public int Offset { get; private set; }
 
-  public TInterface Previous() => this.Deserialize(this.PreviousResponse());
+  public TInterface Previous() => Utils.ResultOf(this.PreviousAsync());
 
-  public async Task<TInterface> PreviousAsync() => this.Deserialize(await this.PreviousResponseAsync().ConfigureAwait(false));
-
-  private string PreviousResponse() {
+  public async Task<TInterface> PreviousAsync() {
     this.UpdateOffset();
-    return this._query.PerformRequest(this._endpoint, this._value, this.FullExtraText());
+    return await this.PerformRequestAsync().ConfigureAwait(false);
   }
 
-  private Task<string> PreviousResponseAsync() {
-    this.UpdateOffset();
-    return this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText());
+  private async Task<TInterface> PerformRequestAsync() {
+    var response = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
+    return await this.Deserialize(response).ConfigureAwait(false);
   }
 
   private readonly Query _query;

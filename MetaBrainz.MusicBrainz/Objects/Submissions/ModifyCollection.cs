@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Text;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -9,7 +10,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 internal sealed class ModifyCollection : ISubmission {
 
-  public ModifyCollection(Method method, string client, Guid collection, EntityType entityType) {
+  public ModifyCollection(HttpMethod method, string client, Guid collection, EntityType entityType) {
     this._method = method;
     this._client = client;
     if (string.IsNullOrWhiteSpace(client)) {
@@ -36,7 +37,7 @@ internal sealed class ModifyCollection : ISubmission {
 
   private readonly string _client;
 
-  private readonly Method _method;
+  private readonly HttpMethod _method;
 
   private readonly StringBuilder _request;
 
@@ -44,7 +45,7 @@ internal sealed class ModifyCollection : ISubmission {
 
   string ISubmission.Entity => this._request.ToString();
 
-  Method ISubmission.Method => this._method;
+  HttpMethod ISubmission.Method => this._method;
 
   string? ISubmission.ContentType => null;
 

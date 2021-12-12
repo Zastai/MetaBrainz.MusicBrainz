@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Xml;
 
 using JetBrains.Annotations;
@@ -67,7 +68,7 @@ public sealed class RatingSubmission : Submission {
 
   #region Internals
 
-  internal RatingSubmission(Query query, string client) : base(query, client, "rating", Method.POST) { }
+  internal RatingSubmission(Query query, string client) : base(query, client, "rating", HttpMethod.Post) { }
 
   private class RatingMap : Dictionary<Guid, byte> {
 

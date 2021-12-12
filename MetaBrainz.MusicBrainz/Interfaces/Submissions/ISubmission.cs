@@ -1,4 +1,6 @@
-﻿namespace MetaBrainz.MusicBrainz.Interfaces.Submissions;
+﻿using System.Net.Http;
+
+namespace MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
 internal interface ISubmission {
 
@@ -8,7 +10,7 @@ internal interface ISubmission {
 
   string Entity { get; }
 
-  Method Method { get; }
+  HttpMethod Method { get; }
 
   string? RequestBody { get; }
 

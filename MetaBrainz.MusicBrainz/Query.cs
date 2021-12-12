@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 using JetBrains.Annotations;
 
@@ -18,9 +21,6 @@ public sealed partial class Query {
   /// <summary>The maximum number of items returned by a single browse or search request.</summary>
   public const int MaximumPageSize = 100;
 
-  /// <summary>The URL included in the user agent for requests as part of this library's information.</summary>
-  public const string UserAgentUrl = "https://github.com/Zastai/MusicBrainz";
-
   /// <summary>The root location of the web service.</summary>
   public const string WebServiceRoot = "/ws/2/";
 
@@ -28,26 +28,56 @@ public sealed partial class Query {
 
   #region Static Fields / Properties
 
+  private static int _defaultPort = -1;
+
   /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
-  public static int DefaultPort { get; set; } = -1;
+  public static int DefaultPort {
+    get => Query._defaultPort;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(Query.DefaultPort), value,
+                                              "The default port number must not be less than -1 or greater than 65535.");
+      }
+      Query._defaultPort = value;
+    }
+  }
+
+  private static string _defaultServer = "musicbrainz.org";
+
+  /// <summary>The default server to use for requests.</summary>
+  public static string DefaultServer {
+    get => Query._defaultServer;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default server name must not be blank.", nameof(Query.DefaultServer));
+      }
+      Query._defaultServer = value.Trim();
+    }
+  }
+
+  private static string _defaultUrlScheme = "https";
 
   /// <summary>The default internet access protocol to use for requests.</summary>
-  public static string DefaultUrlScheme { get; set; } = "https";
+  public static string DefaultUrlScheme {
+    get => Query._defaultUrlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The default URL scheme must not be blank.", nameof(Query.DefaultUrlScheme));
+      }
+      Query._defaultUrlScheme = value.Trim();
+    }
+  }
 
-  /// <summary>The default user agent to use for requests.</summary>
-  public static string? DefaultUserAgent { get; set; }
-
-  /// <summary>The default web site to use for requests.</summary>
-  public static string DefaultWebSite { get; set; } = "musicbrainz.org";
+  /// <summary>The default user agent values to use for requests.</summary>
+  public static IList<ProductInfoHeaderValue> DefaultUserAgent { get; } = new List<ProductInfoHeaderValue>();
 
   /// <summary>
   /// The amount of seconds to leave between requests. Set to 0 (or a negative value) to send all requests as soon as they are
   /// made.
   /// </summary>
   /// <remarks>
-  /// Note that this is a global delay, affecting all threads.
-  /// When querying the official MusicBrainz site, setting this below the default of one second may incur penalties (ranging from
-  /// rate limiting to IP bans).
+  /// Note that this is a global delay, affecting all threads. When querying the official MusicBrainz site, setting this below the
+  /// default of one second may incur penalties (ranging from rate limiting to IP bans).
   /// </remarks>
   public static double DelayBetweenRequests { get; set; } = 1.0;
 
@@ -55,64 +85,104 @@ public sealed partial class Query {
 
   #region Constructors
 
-  /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
-  /// <param name="userAgent">The user agent to use for all requests.</param>
-  /// <exception cref="ArgumentNullException">
-  /// When <paramref name="userAgent"/> is <see langword="null"/>, and no default was set via <see cref="DefaultUserAgent"/>.
-  /// </exception>
-  /// <exception cref="ArgumentException">
-  /// When the user agent (whether from <paramref name="userAgent"/> or <see cref="DefaultUserAgent"/>) is blank.
-  /// </exception>
-  public Query(string? userAgent = null) {
-    // libmusicbrainz does not validate/change the user agent in any way, so neither do we
-    this.UserAgent = userAgent ?? Query.DefaultUserAgent ?? throw new ArgumentNullException(nameof(userAgent));
-    if (string.IsNullOrWhiteSpace(this.UserAgent)) {
-      throw new ArgumentException("The user agent must not be blank.", nameof(userAgent));
-    }
-    { // Set full user agent, including this library's information
-      var an = typeof(Query).Assembly.GetName();
-      this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
-    }
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  public Query() {
+    this._clientOwned = true;
   }
 
-  /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
+  /// <summary>Initializes a new MusicBrainz query client instance using a specific HTTP client.</summary>
+  /// <param name="client">The HTTP client to use.</param>
+  /// <param name="takeOwnership">
+  /// Indicates whether this MusicBrainz query client should take ownership of <paramref name="client"/>.<br/>
+  /// If this is <see langword="false"/>, it remains owned by the caller; this means <see cref="Close()"/> will throw an exception
+  /// and <see cref="Dispose()"/> will release the reference to <paramref name="client"/> without disposing it.<br/>
+  /// If this is <see langword="true"/>, then this object takes ownership and treat it just like an HTTP client it created itself;
+  /// this means <see cref="Close()"/> will dispose of it (with further requests creating a new HTTP client) and
+  /// <see cref="Dispose()"/> will dispose the HTTP client too. Note that in this case, any default request headers set on
+  /// <paramref name="client"/> will <em>not</em> be saved and used for further clients.
+  /// </param>
+  public Query(HttpClient client, bool takeOwnership = false) {
+    this._client = client;
+    this._clientOwned = takeOwnership;
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  /// <param name="userAgent">The user agent values to use for all requests.</param>
+  public Query(params ProductInfoHeaderValue[] userAgent) : this() {
+    this._userAgent.AddRange(userAgent);
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  /// <param name="application">The application name to use in the user agent property for all requests.</param>
+  /// <param name="version">The version number to use in the user agent property for all requests.</param>
+  public Query(string application, Version? version) : this(application, version?.ToString()) {
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
   /// <param name="application">The application name to use in the user agent property for all requests.</param>
   /// <param name="version">The version number to use in the user agent property for all requests.</param>
   /// <param name="contact">
-  /// The contact address (typically HTTP or MAILTO) to use in the user agent property for all requests.
+  /// The contact address (typically HTTP[S] or MAILTO) to use in the user agent property for all requests.
   /// </param>
-  /// <exception cref="ArgumentException">When <paramref name="application"/> is blank.</exception>
-  public Query(string application, Version version, Uri contact)
-    : this(application, version.ToString(), contact.ToString()) {
+  public Query(string application, Version? version, Uri contact) : this(application, version?.ToString(), contact.ToString()) {
   }
 
-  /// <summary>Creates a new instance of the <see cref="Query"/> class.</summary>
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
   /// <param name="application">The application name to use in the user agent property for all requests.</param>
   /// <param name="version">The version number to use in the user agent property for all requests.</param>
   /// <param name="contact">
   /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
   /// </param>
-  /// <exception cref="ArgumentNullException">
-  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are <see langword="null"/>.
-  /// </exception>
-  /// <exception cref="ArgumentException">
-  /// When <paramref name="application"/>, <paramref name="version"/> and/or <paramref name="contact"/> are blank.
-  /// </exception>
-  public Query(string application, string version, string contact) {
-    if (string.IsNullOrWhiteSpace(application)) {
-      throw new ArgumentException("The application name must not be blank.", nameof(application));
-    }
-    if (string.IsNullOrWhiteSpace(version)) {
-      throw new ArgumentException("The version number must not be blank.", nameof(version));
-    }
-    if (string.IsNullOrWhiteSpace(contact)) {
-      throw new ArgumentException("The contact address must not be blank.", nameof(contact));
-    }
-    this.UserAgent = $"{application}/{version} ({contact})";
-    { // Set full user agent, including this library's information
-      var an = typeof(Query).Assembly.GetName();
-      this._fullUserAgent = $"{this.UserAgent} {an.Name}/{an.Version} ({Query.UserAgentUrl})";
-    }
+  public Query(string application, Version? version, string contact) : this(application, version?.ToString(), contact) {
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  /// <param name="application">The application name to use in the user agent property for all requests.</param>
+  /// <param name="version">The version number to use in the user agent property for all requests.</param>
+  public Query(string application, string? version) : this(new ProductInfoHeaderValue(application, version)) {
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  /// <param name="application">The application name to use in the user agent property for all requests.</param>
+  /// <param name="version">The version number to use in the user agent property for all requests.</param>
+  /// <param name="contact">
+  /// The contact address (typically HTTP[S] or MAILTO) to use in the user agent property for all requests.
+  /// </param>
+  public Query(string application, string? version, Uri contact) : this(application, version, contact.ToString()) {
+  }
+
+  /// <summary>
+  /// Initializes a new MusicBrainz query client instance.<br/>
+  /// An HTTP client will be created when needed and can be discarded again via the <see cref="Close()"/> method.
+  /// </summary>
+  /// <param name="application">The application name to use in the user agent property for all requests.</param>
+  /// <param name="version">The version number to use in the user agent property for all requests.</param>
+  /// <param name="contact">
+  /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
+  /// </param>
+  public Query(string application, string? version, string contact)
+    : this(new ProductInfoHeaderValue(application, version), new ProductInfoHeaderValue($"({contact})")) {
   }
 
   #endregion
@@ -120,22 +190,57 @@ public sealed partial class Query {
   #region Instance Fields / Properties
 
   /// <summary>The base URI for all requests.</summary>
-  public Uri BaseUri => new UriBuilder(this.UrlScheme, this.WebSite, this.Port, Query.WebServiceRoot).Uri;
+  public Uri BaseUri => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot).Uri;
 
   /// <summary>The OAuth2 bearer token to use for authenticated requests.</summary>
   public string? BearerToken { get; set; }
 
+  private int _port = Query.DefaultPort;
+
   /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
-  public int Port { get; set; } = Query.DefaultPort;
+  public int Port {
+    get => this._port;
+    set {
+      if (value is < -1 or > 65535) {
+        throw new ArgumentOutOfRangeException(nameof(Query.Port), value,
+                                              "The port number must not be less than -1 or greater than 65535.");
+      }
+      this._port = value;
+    }
+  }
 
-  /// <summary>The internet access protocol to use for requests.</summary>
-  public string UrlScheme { get; set; } = Query.DefaultUrlScheme;
-
-  /// <summary>The user agent to use for requests.</summary>
-  public string UserAgent { get; }
+  private string _server = Query.DefaultServer;
 
   /// <summary>The web site to use for requests.</summary>
-  public string WebSite { get; set; } = Query.DefaultWebSite;
+  public string Server {
+    get => this._server;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The server name must not be blank.", nameof(Query.Server));
+      }
+      this._server = value.Trim();
+    }
+  }
+
+  private string _urlScheme = Query.DefaultUrlScheme;
+
+  /// <summary>The internet access protocol to use for requests.</summary>
+  public string UrlScheme {
+    get => this._urlScheme;
+    set {
+      if (string.IsNullOrWhiteSpace(value)) {
+        throw new ArgumentException("The URL scheme must not be blank.", nameof(Query.UrlScheme));
+      }
+      this._urlScheme = value.Trim();
+    }
+  }
+
+  /// <summary>The user agent values to use for requests.</summary>
+  /// <remarks>
+  /// Note that changes to this list only take effect when a new HTTP client is created. the <see cref="Close()"/> method can be
+  /// used to close the current client (if there is one) so that the next request creates a new client.
+  /// </remarks>
+  public IList<ProductInfoHeaderValue> UserAgent => this._userAgent;
 
   #endregion
 

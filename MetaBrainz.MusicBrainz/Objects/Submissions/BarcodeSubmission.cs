@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Xml;
 
 using JetBrains.Annotations;
@@ -33,7 +34,7 @@ public sealed class BarcodeSubmission : Submission {
 
   #region Internals
 
-  internal BarcodeSubmission(Query query, string client) : base(query, client, "release", Method.POST) { }
+  internal BarcodeSubmission(Query query, string client) : base(query, client, "release", HttpMethod.Post) { }
 
   private readonly Dictionary<Guid, string> _barcodes = new();
 
