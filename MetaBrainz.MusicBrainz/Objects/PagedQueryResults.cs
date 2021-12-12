@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -23,7 +24,7 @@ where TResultObject : class {
 
   private int CurrentResultCount => this.Results.Count;
 
-  protected abstract TInterface Deserialize(string json);
+  protected abstract Task<TInterface> Deserialize(HttpResponseMessage response);
 
   private readonly string _endpoint;
 
@@ -35,8 +36,7 @@ where TResultObject : class {
 
   public async Task<TInterface> NextAsync() {
     this.UpdateOffset(this.CurrentResultCount);
-    var json = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
-    return this.Deserialize(json);
+    return await this.PerformRequestAsync().ConfigureAwait(false);
   }
 
   public int? NextOffset { get; set; }
@@ -47,8 +47,12 @@ where TResultObject : class {
 
   public async Task<TInterface> PreviousAsync() {
     this.UpdateOffset();
-    var json = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
-    return this.Deserialize(json);
+    return await this.PerformRequestAsync().ConfigureAwait(false);
+  }
+
+  private async Task<TInterface> PerformRequestAsync() {
+    var response = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
+    return await this.Deserialize(response).ConfigureAwait(false);
   }
 
   private readonly Query _query;

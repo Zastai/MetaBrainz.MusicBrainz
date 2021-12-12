@@ -30,6 +30,7 @@ internal static class Utils {
           if (mediaType.StartsWith("application/json")) {
             using var doc = JsonSerializer.Deserialize<JsonDocument>(errorInfo);
             if (doc is not null && doc.RootElement.ValueKind == JsonValueKind.Object) {
+              // MusicBrainz error response: { "error": "error_id", "help": "this is an error" }
               // OAuth2 error response: { "error": "error_id", "error_description": "this is an error" }
               string? error = null;
               string? errorDescription = null;
@@ -40,6 +41,7 @@ internal static class Utils {
                     error = prop.Value.GetString();
                     break;
                   case "error_description":
+                  case "help":
                     errorDescription = prop.Value.GetString();
                     break;
                   default:
@@ -51,8 +53,8 @@ internal static class Utils {
                 }
               }
               if (handled && error is not null && errorDescription is not null) {
-                Debug.Print($"[{DateTime.UtcNow}] => ERROR: '{error}' DESCRIPTION: '{errorDescription}'");
-                errorInfo = $"{error}: {errorDescription}";
+                Debug.Print($"[{DateTime.UtcNow}] => ERROR: '{error}' DESCRIPTION/HELP: '{errorDescription}'");
+                errorInfo = $"{error} ({errorDescription})";
               }
             }
           }
@@ -87,7 +89,7 @@ internal static class Utils {
     };
   }
 
-  public static string GetContentEncoding(HttpContentHeaders contentHeaders) {
+  private static string GetContentEncoding(HttpContentHeaders contentHeaders) {
     var characterSet = contentHeaders.ContentEncoding.FirstOrDefault();
     if (string.IsNullOrWhiteSpace(characterSet)) {
       // Fall back on the charset portion of the content type.
@@ -129,7 +131,7 @@ internal static class Utils {
     }
   }
 
-  private static async Task<string> GetStringContentAsync(HttpResponseMessage response) {
+  public static async Task<string> GetStringContentAsync(HttpResponseMessage response) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
 #if NET || NETSTANDARD2_1_OR_GREATER
@@ -139,7 +141,7 @@ internal static class Utils {
     using var stream = await response.Content.ReadAsStreamAsync();
 #endif
 #if !NET
-    if (stream == null) {
+    if (stream is null) {
       return "";
     }
 #endif

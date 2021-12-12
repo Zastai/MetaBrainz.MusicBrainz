@@ -60,7 +60,7 @@ public abstract class Submission : ISubmission {
 
   string ISubmission.RequestBody => this.RequestBody;
 
-  string ISubmission.ContentType => "application/xml; charset=utf-8";
+  string ISubmission.ContentType => "application/xml";
 
   // A StringWriter using UTF-8 as encoding (so that XmlWriter writes "utf-8" as encoding instead of "utf-16").
   internal sealed class U8StringWriter : StringWriter {

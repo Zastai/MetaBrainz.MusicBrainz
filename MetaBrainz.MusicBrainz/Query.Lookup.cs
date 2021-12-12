@@ -27,10 +27,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested area.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("area", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Area>(json);
-  }
+  public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Area>("area", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified artist.</summary>
   /// <param name="mbid">The MBID for the artist to look up.</param>
@@ -62,10 +60,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                               ReleaseStatus? status = null) {
-    var json = await this.PerformRequestAsync("artist", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
-    return Query.Deserialize<Artist>(json);
-  }
+                                               ReleaseStatus? status = null)
+    => await this.PerformRequestAsync<Artist>("artist", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified collection.</summary>
   /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -82,10 +78,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested collection.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("collection", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Collection>(json);
-  }
+  public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Collection>("collection", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified disc ID.</summary>
   /// <param name="discid">
@@ -131,9 +125,8 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
                                                            bool allMediaFormats = false, bool noStubs = false) {
-    var json = await this.PerformRequestAsync("discid", discid, Query.BuildExtraText(inc, toc, allMediaFormats, noStubs))
-                         .ConfigureAwait(false);
-    return Query.Deserialize<DiscIdLookupResult>(json);
+    var extra = Query.BuildExtraText(inc, toc, allMediaFormats, noStubs);
+    return await this.PerformRequestAsync<DiscIdLookupResult>("discid", discid, extra).ConfigureAwait(false);
   }
 
   /// <summary>Looks up the specified event.</summary>
@@ -150,10 +143,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested event.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("event", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Event>(json);
-  }
+  public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Event>("event", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified genre.</summary>
   /// <param name="mbid">The MBID for the genre to look up.</param>
@@ -167,10 +158,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested genre.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IGenre> LookupGenreAsync(Guid mbid) {
-    var json = await this.PerformRequestAsync("genre", mbid, string.Empty).ConfigureAwait(false);
-    return Query.Deserialize<Genre>(json);
-  }
+  public async Task<IGenre> LookupGenreAsync(Guid mbid)
+    => await this.PerformRequestAsync<Genre>("genre", mbid, string.Empty).ConfigureAwait(false);
 
   /// <summary>Looks up the specified instrument.</summary>
   /// <param name="mbid">The MBID for the instrument to look up.</param>
@@ -187,10 +176,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested instrument.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("instrument", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Instrument>(json);
-  }
+  public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Instrument>("instrument", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
   /// <param name="isrc">The ISRC to look up.</param>
@@ -206,10 +193,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the recordings associated with the requested ISRC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("isrc", isrc, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Isrc>(json);
-  }
+  public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None)
+    => await this.PerformRequestAsync<Isrc>("isrc", isrc, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the works associated with the specified ISWC.</summary>
   /// <param name="iswc">The ISWC to look up.</param>
@@ -260,10 +245,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                             ReleaseStatus? status = null) {
-    var json = await this.PerformRequestAsync("label", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
-    return Query.Deserialize<Label>(json);
-  }
+                                             ReleaseStatus? status = null)
+    => await this.PerformRequestAsync<Label>("label", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified place.</summary>
   /// <param name="mbid">The MBID for the place to look up.</param>
@@ -279,10 +262,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested place.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("place", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Place>(json);
-  }
+  public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Place>("place", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified recording.</summary>
   /// <param name="mbid">The MBID for the recording to look up.</param>
@@ -312,10 +293,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                                     ReleaseStatus? status = null) {
-    var json = await this.PerformRequestAsync("recording", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
-    return Query.Deserialize<Recording>(json);
-  }
+                                                     ReleaseStatus? status = null)
+    => await this.PerformRequestAsync<Recording>("recording", mbid, Query.BuildExtraText(inc, status, type)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified release.</summary>
   /// <param name="mbid">The MBID for the release to look up.</param>
@@ -331,10 +310,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested release.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("release", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Release>(json);
-  }
+  public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Release>("release", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified release group.</summary>
   /// <param name="mbid">The MBID for the release group to look up.</param>
@@ -357,10 +334,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested release group.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null) {
-    var json = await this.PerformRequestAsync("release-group", mbid, Query.BuildExtraText(inc, status)).ConfigureAwait(false);
-    return Query.Deserialize<ReleaseGroup>(json);
-  }
+  public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null)
+    => await this.PerformRequestAsync<ReleaseGroup>("release-group", mbid, Query.BuildExtraText(inc, status)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified series.</summary>
   /// <param name="mbid">The MBID for the series to look up.</param>
@@ -376,10 +351,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested series.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("series", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Series>(json);
-  }
+  public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Series>("series", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="mbid">The MBID for the URL to look up.</param>
@@ -403,10 +376,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("url", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Url>(json);
-  }
+  public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Url>("url", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="resource">The resource to look up.</param>
@@ -414,10 +385,8 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("url", null, Query.BuildExtraText(inc, resource)).ConfigureAwait(false);
-    return Query.Deserialize<Url>(json);
-  }
+  public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None)
+    => await this.PerformRequestAsync<Url>("url", null, Query.BuildExtraText(inc, resource)).ConfigureAwait(false);
 
   /// <summary>Looks up the specified work.</summary>
   /// <param name="mbid">The MBID for the work to look up.</param>
@@ -433,9 +402,7 @@ public sealed partial class Query {
   /// <returns>An asynchronous operation returning the requested work.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None) {
-    var json = await this.PerformRequestAsync("work", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
-    return Query.Deserialize<Work>(json);
-  }
+  public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None)
+    => await this.PerformRequestAsync<Work>("work", mbid, Query.BuildExtraText(inc)).ConfigureAwait(false);
 
 }
