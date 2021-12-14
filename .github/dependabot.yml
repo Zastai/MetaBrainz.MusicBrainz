@@ -1,12 +1,6 @@
 version: 2
 
 updates:
-  # MetaBrainz.Build (Git submodule)
-  - package-ecosystem: "gitsubmodule"
-    directory: "/"
-    schedule:
-      interval: "daily"
-  # The NuGet dependencies
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
