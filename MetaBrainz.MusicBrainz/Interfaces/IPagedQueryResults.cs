@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 /// <typeparam name="TInterface">The specific type of query result.</typeparam>
 /// <typeparam name="TItem">The type of item being returned.</typeparam>
 [PublicAPI]
-public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject
+public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject, IAsyncEnumerable<TItem>
 where TInterface : IPagedQueryResults<TInterface, TItem> {
 
   /// <summary>

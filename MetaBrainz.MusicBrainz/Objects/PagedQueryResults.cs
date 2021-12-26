@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -94,5 +95,19 @@ where TResultObject : class {
   }
 
   private readonly string? _value;
+
+  public async IAsyncEnumerator<TItem> GetAsyncEnumerator(CancellationToken cancellationToken = new ()) {
+    foreach (var item in this.Results) {
+      yield return item;
+    }
+    var current = await this.NextAsync();
+    while (current.Results.Count > 0 && !cancellationToken.IsCancellationRequested) {
+      foreach (var item in current.Results) {
+        yield return item;
+      }
+      current = await current.NextAsync();
+    }
+  }
+  
 
 }
