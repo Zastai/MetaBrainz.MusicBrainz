@@ -29,7 +29,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -55,7 +55,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(
@@ -85,7 +85,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>
@@ -144,7 +144,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
@@ -157,7 +157,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
@@ -170,7 +170,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks>

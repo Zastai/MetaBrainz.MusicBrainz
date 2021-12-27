@@ -24,7 +24,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified area.</summary>
   /// <param name="mbid">The MBID for the area to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested area.</returns>
+  /// <returns>The requested area.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None)
@@ -56,7 +56,7 @@ public sealed partial class Query {
   /// <param name="status">
   /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
   /// </param>
-  /// <returns>An asynchronous operation returning the requested artist.</returns>
+  /// <returns>The requested artist.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
@@ -75,7 +75,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified collection.</summary>
   /// <param name="mbid">The MBID for the collection to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested collection.</returns>
+  /// <returns>The requested collection.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None)
@@ -118,7 +118,7 @@ public sealed partial class Query {
   /// If <see langword="true"/>, all media formats are considered for a fuzzy lookup; otherwise, only CDs are considered.
   /// </param>
   /// <param name="noStubs">If <see langword="true"/>, CD stubs are not returned.</param>
-  /// <returns>An asynchronous operation returning the result of the disc ID lookup. This can be a single disc or CD stub, or a list
+  /// <returns>The result of the disc ID lookup. This can be a single disc or CD stub, or a list
   /// of matching releases.
   /// </returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
@@ -140,7 +140,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified event.</summary>
   /// <param name="mbid">The MBID for the event to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested event.</returns>
+  /// <returns>The requested event.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None)
@@ -155,7 +155,7 @@ public sealed partial class Query {
 
   /// <summary>Looks up the specified genre.</summary>
   /// <param name="mbid">The MBID for the genre to look up.</param>
-  /// <returns>An asynchronous operation returning the requested genre.</returns>
+  /// <returns>The requested genre.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IGenre> LookupGenreAsync(Guid mbid)
@@ -173,7 +173,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified instrument.</summary>
   /// <param name="mbid">The MBID for the instrument to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested instrument.</returns>
+  /// <returns>The requested instrument.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None)
@@ -190,7 +190,7 @@ public sealed partial class Query {
   /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
   /// <param name="isrc">The ISRC to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the recordings associated with the requested ISRC.</returns>
+  /// <returns>The recordings associated with the requested ISRC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None)
@@ -208,7 +208,7 @@ public sealed partial class Query {
   /// <summary>Looks up the works associated with the specified ISWC.</summary>
   /// <param name="iswc">The ISWC to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the works associated with the requested ISWC.</returns>
+  /// <returns>The works associated with the requested ISWC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IReadOnlyList<IWork>> LookupIswcAsync(string iswc, Include inc = Include.None) {
@@ -241,7 +241,7 @@ public sealed partial class Query {
   /// <param name="status">
   /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
   /// </param>
-  /// <returns>An asynchronous operation returning the requested label.</returns>
+  /// <returns>The requested label.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
@@ -259,7 +259,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified place.</summary>
   /// <param name="mbid">The MBID for the place to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested place.</returns>
+  /// <returns>The requested place.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None)
@@ -289,7 +289,7 @@ public sealed partial class Query {
   /// <param name="status">
   /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
   /// </param>
-  /// <returns>An asynchronous operation returning the requested recording.</returns>
+  /// <returns>The requested recording.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
@@ -307,7 +307,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified release.</summary>
   /// <param name="mbid">The MBID for the release to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested release.</returns>
+  /// <returns>The requested release.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None)
@@ -331,7 +331,7 @@ public sealed partial class Query {
   /// <param name="status">
   /// The release status to filter on; applies only when <paramref name="inc"/> includes <see cref="Include.Releases"/>.
   /// </param>
-  /// <returns>An asynchronous operation returning the requested release group.</returns>
+  /// <returns>The requested release group.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null)
@@ -348,7 +348,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified series.</summary>
   /// <param name="mbid">The MBID for the series to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested series.</returns>
+  /// <returns>The requested series.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None)
@@ -373,7 +373,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="mbid">The MBID for the URL to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested URL.</returns>
+  /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None)
@@ -382,7 +382,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="resource">The resource to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested URL.</returns>
+  /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None)
@@ -399,7 +399,7 @@ public sealed partial class Query {
   /// <summary>Looks up the specified work.</summary>
   /// <param name="mbid">The MBID for the work to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>An asynchronous operation returning the requested work.</returns>
+  /// <returns>The requested work.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None)

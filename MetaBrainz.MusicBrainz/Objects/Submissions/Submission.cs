@@ -23,7 +23,7 @@ public abstract class Submission : ISubmission {
   public string Submit() => Utils.ResultOf(this.SubmitAsync());
 
   /// <summary>Submits the request asynchronously.</summary>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
   public async Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this).ConfigureAwait(false);

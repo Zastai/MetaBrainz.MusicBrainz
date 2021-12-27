@@ -24,7 +24,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the area whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseAreaCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -44,7 +44,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the artist whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseArtistCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -164,7 +164,7 @@ public sealed partial class Query {
   /// <param name="area">The area whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArea area, int? limit = null, int? offset = null)
@@ -174,7 +174,7 @@ public sealed partial class Query {
   /// <param name="artist">The artist whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArtist artist, int? limit = null, int? offset = null)
@@ -184,7 +184,7 @@ public sealed partial class Query {
   /// <param name="event">The event whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IEvent @event, int? limit = null, int? offset = null)
@@ -194,7 +194,7 @@ public sealed partial class Query {
   /// <param name="instrument">The instrument whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IInstrument instrument, int? limit = null, int? offset = null)
@@ -204,7 +204,7 @@ public sealed partial class Query {
   /// <param name="label">The label whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ILabel label, int? limit = null, int? offset = null)
@@ -214,7 +214,7 @@ public sealed partial class Query {
   /// <param name="place">The place whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IPlace place, int? limit = null, int? offset = null)
@@ -224,7 +224,7 @@ public sealed partial class Query {
   /// <param name="recording">The recording whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRecording recording, int? limit = null, int? offset = null)
@@ -234,7 +234,7 @@ public sealed partial class Query {
   /// <param name="release">The release whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRelease release, int? limit = null, int? offset = null)
@@ -244,7 +244,7 @@ public sealed partial class Query {
   /// <param name="releaseGroup">The release group whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null)
@@ -254,7 +254,7 @@ public sealed partial class Query {
   /// <param name="series">The series whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ISeries series, int? limit = null, int? offset = null)
@@ -264,7 +264,7 @@ public sealed partial class Query {
   /// <param name="work">The work whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IWork work, int? limit = null, int? offset = null)
@@ -284,7 +284,7 @@ public sealed partial class Query {
   /// <param name="editor">The editor whose collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseEditorCollectionsAsync(string editor, int? limit = null, int? offset = null)
@@ -304,7 +304,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the event whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseEventCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -324,7 +324,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the instrument whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseInstrumentCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -344,7 +344,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the label whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseLabelCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -364,7 +364,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the place whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowsePlaceCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -384,7 +384,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the recording whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseRecordingCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -404,7 +404,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the release whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseReleaseCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -424,7 +424,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the release group whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseReleaseGroupCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -444,7 +444,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the series whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseSeriesCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)
@@ -464,7 +464,7 @@ public sealed partial class Query {
   /// <param name="mbid">The MBID for the work whose containing collections should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseWorkCollectionsAsync(Guid mbid, int? limit = null, int? offset = null)

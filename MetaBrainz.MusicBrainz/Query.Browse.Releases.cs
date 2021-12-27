@@ -31,7 +31,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseAreaReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -60,7 +60,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -90,7 +90,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseCollectionReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -119,7 +119,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseLabelReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -149,7 +149,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseRecordingReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -179,7 +179,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleaseGroupReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -293,7 +293,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null,
@@ -308,7 +308,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
@@ -323,7 +323,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null,
@@ -339,7 +339,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null,
@@ -354,7 +354,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null,
@@ -369,7 +369,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
@@ -385,7 +385,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null,
@@ -436,7 +436,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
@@ -453,7 +453,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
@@ -482,7 +482,7 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
-  /// <returns>An asynchronous operation returning the browse request, including the initial results.</returns>
+  /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
