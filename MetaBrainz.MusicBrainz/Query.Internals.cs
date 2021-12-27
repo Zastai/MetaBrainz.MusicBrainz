@@ -322,14 +322,19 @@ public sealed partial class Query : IDisposable {
     return sb.ToString();
   }
 
-  private static string BuildExtraText(Include inc, string query, ReleaseType? type = null, ReleaseStatus? status = null) {
-    if (string.IsNullOrWhiteSpace(query)) {
-      throw new ArgumentException("A browse or search query must not be blank.", nameof(query));
-    }
+  private static string BuildExtraText(Include inc, string field, Guid id, ReleaseType? type = null, ReleaseStatus? status = null) {
     var sb = new StringBuilder();
-    sb.Append('?').Append(query);
+    sb.Append('?').Append(field).Append('=').Append(id.ToString("D"));
     Query.AddIncludeText(sb, inc);
     Query.AddReleaseFilter(sb, type, status);
+    return sb.ToString();
+  }
+
+  private static string BuildExtraText(string field, Guid id) => Query.BuildExtraText(field, id.ToString("D"));
+
+  private static string BuildExtraText(string field, string value) {
+    var sb = new StringBuilder();
+    sb.Append('?').Append(field).Append('=').Append(value);
     return sb.ToString();
   }
 
@@ -557,7 +562,7 @@ public sealed partial class Query : IDisposable {
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
-    var uri = this.BuildUri(submission.Entity, $"?client={submission.Client}");
+    var uri = this.BuildUri(submission.Entity, Query.BuildExtraText("client", submission.Client));
     var body = submission.RequestBody;
     using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
     using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, content));
