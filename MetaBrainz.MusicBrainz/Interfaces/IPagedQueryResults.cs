@@ -15,6 +15,18 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 public interface IPagedQueryResults<TResults, out TItem> : IJsonBasedObject
 where TResults : IPagedQueryResults<TResults, TItem> {
 
+  /// <summary>Gets the streaming form of this set of query results.</summary>
+  /// <returns>
+  /// The streaming form of this set of query results, suitable for enumeration (e.g. by <c>foreach</c> or <c>await foreach</c>).
+  /// </returns>
+  /// <remarks>
+  /// Enumerating the return value is equivalent to enumerating this result set and then calling <see cref="Next"/> or
+  /// <see cref="NextAsync"/> and processing those results, and so on until there are no more results to process.<br/>
+  /// Operating on this set of paged results while the streaming form is in use is not recommended, because it will interfere with
+  /// the streaming enumeration.
+  /// </remarks>
+  IStreamingQueryResults<TItem> AsStream();
+
   /// <summary>Indicates whether or not these results are active (i.e. at least one request has been issued for them).</summary>
   internal bool IsActive { get; }
 

@@ -20,9 +20,9 @@ where TResultObject : class {
     this._value = value;
   }
 
-  public StreamingQueryResults<TResults, TItem, TResultObject> AsStream() => new(this);
-
   #region IPagedQueryResults
+
+  public IStreamingQueryResults<TItem> AsStream() => new StreamingQueryResults<TResults, TItem, TResultObject>(this);
 
   bool IPagedQueryResults<TResults, TItem>.IsActive => this.CurrentResult != null;
 
