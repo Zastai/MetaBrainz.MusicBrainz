@@ -20,7 +20,11 @@ where TResultObject : class {
     this._value = value;
   }
 
+  public StreamingQueryResults<TResults, TItem, TResultObject> AsStream() => new(this);
+
   #region IPagedQueryResults
+
+  bool IPagedQueryResults<TResults, TItem>.IsActive => this.CurrentResult != null;
 
   public int? Limit { get; set; }
 
@@ -52,7 +56,7 @@ where TResultObject : class {
 
   #region Protected Elements
 
-  protected TResultObject? CurrentResult;
+  protected internal TResultObject? CurrentResult;
 
   protected abstract Task<TResults> Deserialize(HttpResponseMessage response);
 

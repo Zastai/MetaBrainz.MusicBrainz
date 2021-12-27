@@ -15,6 +15,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 public interface IPagedQueryResults<TResults, out TItem> : IJsonBasedObject
 where TResults : IPagedQueryResults<TResults, TItem> {
 
+  /// <summary>Indicates whether or not these results are active (i.e. at least one request has been issued for them).</summary>
+  internal bool IsActive { get; }
+
   /// <summary>
   /// The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in
   /// <see cref="Results"/>).<br/>
