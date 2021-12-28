@@ -16,9 +16,6 @@ namespace MetaBrainz.MusicBrainz;
 
 internal static class Utils {
 
-  public static QueryException CreateQueryExceptionFor(HttpResponseMessage response)
-    => Utils.ResultOf(Utils.CreateQueryExceptionForAsync(response));
-
   public static async Task<QueryException> CreateQueryExceptionForAsync(HttpResponseMessage response,
                                                                         CancellationToken cancellationToken = new()) {
     string? errorInfo = null;
