@@ -216,9 +216,11 @@ public sealed class OAuth2 : IDisposable {
   /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
   /// <paramref name="code"/>.
   /// </param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
-  public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri)
-    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri);
+  public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri,
+                                                       CancellationToken cancellationToken = new())
+    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, cancellationToken);
 
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
@@ -230,9 +232,11 @@ public sealed class OAuth2 : IDisposable {
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
-  public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret)
-    => this.RefreshTokenAsync("bearer", refreshToken, clientSecret);
+  public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret,
+                                                           CancellationToken cancellationToken = new())
+    => this.RefreshTokenAsync("bearer", refreshToken, clientSecret, cancellationToken);
 
   #endregion
 
@@ -341,9 +345,10 @@ public sealed class OAuth2 : IDisposable {
   private static readonly JsonSerializerOptions JsonReaderOptions =
     JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
 
-  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body) {
+  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
+                                                              CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
-    await this._clientLock.WaitAsync();
+    await this._clientLock.WaitAsync(cancellationToken);
     try {
       var client = this.Client;
       using var request = new HttpRequestMessage(method, uri) {
@@ -365,7 +370,7 @@ public sealed class OAuth2 : IDisposable {
         // FIXME: Should this include the actual body text too?
         Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
       }
-      var response = await client.SendAsync(request);
+      var response = await client.SendAsync(request, cancellationToken);
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
                   $"'{response.ReasonPhrase}' (v{response.Version})");
       Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
@@ -378,34 +383,36 @@ public sealed class OAuth2 : IDisposable {
     }
   }
 
-  private async Task<AuthorizationToken> PostAsync(HttpContent body) {
+  private async Task<AuthorizationToken> PostAsync(HttpContent body, CancellationToken cancellationToken) {
     var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
-    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, body);
+    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, body, cancellationToken);
     if (!response.IsSuccessStatusCode) {
-      throw Utils.CreateQueryExceptionFor(response);
+      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
     }
-    return await Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions);
+    return await Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
   }
 
-  private async Task<IAuthorizationToken> PostAsync(string type, string body) {
-    var token = await this.PostAsync(new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType));
+  private async Task<IAuthorizationToken> PostAsync(string type, string body, CancellationToken cancellationToken) {
+    var token = await this.PostAsync(new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType), cancellationToken);
     if (token.TokenType != type) {
       throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
     }
     return token;
   }
 
-  private async Task<IAuthorizationToken> RefreshTokenAsync(string type, string codeOrToken, string clientSecret) {
+  private async Task<IAuthorizationToken> RefreshTokenAsync(string type, string codeOrToken, string clientSecret,
+                                                            CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
     body.Append("&token_type=").Append(Uri.EscapeDataString(type));
     body.Append("&grant_type=refresh_token");
     body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
-    return await this.PostAsync(type, body.ToString());
+    return await this.PostAsync(type, body.ToString(), cancellationToken);
   }
 
-  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri) {
+  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
+                                                            CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
@@ -413,7 +420,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&grant_type=authorization_code");
     body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
     body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-    return await this.PostAsync(type, body.ToString());
+    return await this.PostAsync(type, body.ToString(), cancellationToken);
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {
