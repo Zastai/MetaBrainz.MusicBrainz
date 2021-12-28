@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -32,9 +33,9 @@ where TResultObject : class {
 
   public TResults Next() => Utils.ResultOf(this.NextAsync());
 
-  public async Task<TResults> NextAsync() {
+  public async Task<TResults> NextAsync(CancellationToken cancellationToken = new()) {
     this.UpdateOffset(this.Results.Count);
-    return await this.PerformRequestAsync().ConfigureAwait(false);
+    return await this.PerformRequestAsync(cancellationToken).ConfigureAwait(false);
   }
 
   public int? NextOffset { get; set; }
@@ -43,9 +44,9 @@ where TResultObject : class {
 
   public TResults Previous() => Utils.ResultOf(this.PreviousAsync());
 
-  public async Task<TResults> PreviousAsync() {
+  public async Task<TResults> PreviousAsync(CancellationToken cancellationToken = new()) {
     this.UpdateOffset();
-    return await this.PerformRequestAsync().ConfigureAwait(false);
+    return await this.PerformRequestAsync(cancellationToken).ConfigureAwait(false);
   }
 
   public abstract IReadOnlyList<TItem> Results { get; }
@@ -56,9 +57,9 @@ where TResultObject : class {
 
   #region Protected Elements
 
-  protected internal TResultObject? CurrentResult;
+  protected TResultObject? CurrentResult;
 
-  protected abstract Task<TResults> Deserialize(HttpResponseMessage response);
+  protected abstract Task<TResults> DeserializeAsync(HttpResponseMessage response, CancellationToken cancellationToken);
 
   protected abstract string FullExtraText();
 
@@ -72,9 +73,10 @@ where TResultObject : class {
 
   private readonly string? _value;
 
-  private async Task<TResults> PerformRequestAsync() {
-    var response = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
-    return await this.Deserialize(response).ConfigureAwait(false);
+  private async Task<TResults> PerformRequestAsync(CancellationToken cancellationToken) {
+    var task = this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText(), cancellationToken);
+    var response = await task.ConfigureAwait(false);
+    return await this.DeserializeAsync(response, cancellationToken).ConfigureAwait(false);
   }
 
   private void UpdateOffset() {

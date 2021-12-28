@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using JetBrains.Annotations;
@@ -53,10 +54,11 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the next set
   /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TResults> NextAsync();
+  Task<TResults> NextAsync(CancellationToken cancellationToken = new());
 
   /// <summary>
   /// The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or <see langword="null"/>
@@ -83,10 +85,11 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the previous set
   /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TResults> PreviousAsync();
+  Task<TResults> PreviousAsync(CancellationToken cancellationToken = new());
 
   /// <summary>The current results.</summary>
   IReadOnlyList<TItem> Results { get; }

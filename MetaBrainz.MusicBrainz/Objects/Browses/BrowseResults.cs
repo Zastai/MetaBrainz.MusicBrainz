@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
@@ -19,8 +20,9 @@ where TResult : IEntity {
 
   private readonly string _extra;
 
-  protected sealed override async Task<IBrowseResults<TResult>> Deserialize(HttpResponseMessage response) {
-    this.CurrentResult = await Utils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions);
+  protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
+                                                                                 CancellationToken cancellationToken) {
+    this.CurrentResult = await Utils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
     return this;
   }
 

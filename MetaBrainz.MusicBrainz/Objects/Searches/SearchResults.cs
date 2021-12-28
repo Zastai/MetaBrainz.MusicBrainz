@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.Common.Json;
@@ -72,10 +73,11 @@ where TInterface : ISearchResult {
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
-  protected sealed override async Task<ISearchResults<TInterface>> Deserialize(HttpResponseMessage response) {
-    this.CurrentResult = await Utils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions);
+  protected sealed override async Task<ISearchResults<TInterface>> DeserializeAsync(HttpResponseMessage response,
+                                                                                    CancellationToken cancellationToken) {
+    this.CurrentResult = await Utils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions, cancellationToken);
     if (this.Offset != this.CurrentResult.Offset) {
-      Debug.Print($"Unexpect offset in search results: {this.Offset} != {this.CurrentResult.Offset}.");
+      Debug.Print($"Unexpected offset in search results: {this.Offset} != {this.CurrentResult.Offset}.");
     }
     return this;
   }
