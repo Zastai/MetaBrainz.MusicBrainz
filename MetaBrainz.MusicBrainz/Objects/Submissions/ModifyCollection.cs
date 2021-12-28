@@ -21,6 +21,16 @@ internal sealed class ModifyCollection : ISubmission {
         .Append(ModifyCollection.MapType(entityType)).Append('/');
   }
 
+  public ModifyCollection Add(Guid item) {
+    this._request.Append(item.ToString("D")).Append(';');
+    return this;
+  }
+
+  public ModifyCollection Add<T>(T item) where T : IEntity {
+    this._request.Append(item.Id.ToString("D")).Append(';');
+    return this;
+  }
+
   public ModifyCollection Add(IEnumerable<Guid> items) {
     foreach (var item in items) {
       this._request.Append(item.ToString("D")).Append(';');
