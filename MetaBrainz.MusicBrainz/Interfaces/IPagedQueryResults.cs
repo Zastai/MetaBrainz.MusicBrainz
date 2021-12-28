@@ -8,12 +8,27 @@ using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz.Interfaces;
 
-/// <summary>The results for a query that supports paging (i.e. search or browse).</summary>
-/// <typeparam name="TInterface">The specific type of query result.</typeparam>
+/// <summary>The results for a query that supports paging (i.e. search or browse), returned one page at a time.</summary>
+/// <typeparam name="TResults">The specific type of query results.</typeparam>
 /// <typeparam name="TItem">The type of item being returned.</typeparam>
 [PublicAPI]
-public interface IPagedQueryResults<TInterface, out TItem> : IJsonBasedObject
-where TInterface : IPagedQueryResults<TInterface, TItem> {
+public interface IPagedQueryResults<TResults, out TItem> : IJsonBasedObject
+where TResults : IPagedQueryResults<TResults, TItem> {
+
+  /// <summary>Gets the streaming form of this set of query results.</summary>
+  /// <returns>
+  /// The streaming form of this set of query results, suitable for enumeration (e.g. by <c>foreach</c> or <c>await foreach</c>).
+  /// </returns>
+  /// <remarks>
+  /// Enumerating the return value is equivalent to enumerating this result set and then calling <see cref="Next"/> or
+  /// <see cref="NextAsync"/> and processing those results, and so on until there are no more results to process.<br/>
+  /// Operating on this set of paged results while the streaming form is in use is not recommended, because it will interfere with
+  /// the streaming enumeration.
+  /// </remarks>
+  IStreamingQueryResults<TItem> AsStream();
+
+  /// <summary>Indicates whether or not these results are active (i.e. at least one request has been issued for them).</summary>
+  internal bool IsActive { get; }
 
   /// <summary>
   /// The maximum number of results to be returned from a single web request (i.e. the maximum number of elements in
@@ -26,22 +41,22 @@ where TInterface : IPagedQueryResults<TInterface, TItem> {
   int? Limit { get; set; }
 
   /// <summary>
-  /// Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on
-  /// <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the next set
+  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  TInterface Next();
+  TResults Next();
 
   /// <summary>
-  /// Queries the MusicBrainz server (the same one used for the original request) for the next set of results, based on
-  /// <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the next set
+  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
-  /// <returns>An asynchronous task returning this result set (with updated values).</returns>
+  /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TInterface> NextAsync();
+  Task<TResults> NextAsync();
 
   /// <summary>
   /// The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or <see langword="null"/>
@@ -56,22 +71,22 @@ where TInterface : IPagedQueryResults<TInterface, TItem> {
   int Offset { get; }
 
   /// <summary>
-  /// Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on
-  /// <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the previous set
+  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  TInterface Previous();
+  TResults Previous();
 
   /// <summary>
-  /// Queries the MusicBrainz server (the same one used for the original request) for the previous set of results, based on
-  /// <see cref="Offset"/> and <see cref="Limit"/>.
+  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the previous set
+  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
-  /// <returns>An asynchronous task returning this result set (with updated values).</returns>
+  /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TInterface> PreviousAsync();
+  Task<TResults> PreviousAsync();
 
   /// <summary>The current results.</summary>
   IReadOnlyList<TItem> Results { get; }

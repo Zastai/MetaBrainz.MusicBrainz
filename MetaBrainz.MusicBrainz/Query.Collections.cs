@@ -238,7 +238,7 @@ public sealed partial class Query {
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
   /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -255,7 +255,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The areas to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -272,7 +272,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The artists to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -289,7 +289,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The events to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -306,7 +306,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The instruments to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -323,7 +323,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The labels to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -340,7 +340,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The places to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -357,7 +357,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The recordings to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -374,7 +374,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The releases to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -391,7 +391,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The release groups to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -408,7 +408,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The series to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -425,7 +425,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The works to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -442,7 +442,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
   /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -461,7 +461,7 @@ public sealed partial class Query {
   /// <param name="items">
   /// The items to add to <paramref name="collection"/>. They should be of the appropriate type for the collection.
   /// </param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -700,7 +700,7 @@ public sealed partial class Query {
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
   /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -717,7 +717,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The areas to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -734,7 +734,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The artists to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -751,7 +751,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The events to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -768,7 +768,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The instruments to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -785,7 +785,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The labels to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -802,7 +802,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The places to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -819,7 +819,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The recordings to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -836,7 +836,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The releases to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -853,7 +853,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The release groups to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -870,7 +870,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The series to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -887,7 +887,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The works to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -904,7 +904,7 @@ public sealed partial class Query {
   /// </param>
   /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
   /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
@@ -923,7 +923,7 @@ public sealed partial class Query {
   /// <param name="items">
   /// The items to remove from <paramref name="collection"/>. They should be of the appropriate type for the collection.
   /// </param>
-  /// <returns>An asynchronous operation returning a message describing the result (usually "OK").</returns>
+  /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>

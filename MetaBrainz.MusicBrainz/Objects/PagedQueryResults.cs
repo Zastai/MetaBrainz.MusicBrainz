@@ -7,8 +7,8 @@ using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects;
 
-internal abstract class PagedQueryResults<TInterface, TItem, TResultObject> : IPagedQueryResults<TInterface, TItem>
-where TInterface : IPagedQueryResults<TInterface, TItem>
+internal abstract class PagedQueryResults<TResults, TItem, TResultObject> : IPagedQueryResults<TResults, TItem>
+where TResults : IPagedQueryResults<TResults, TItem>
 where TResultObject : class {
 
   protected PagedQueryResults(Query query, string endpoint, string? value, int? limit, int? offset) {
@@ -20,22 +20,20 @@ where TResultObject : class {
     this._value = value;
   }
 
-  protected TResultObject? CurrentResult;
+  #region IPagedQueryResults
 
-  private int CurrentResultCount => this.Results.Count;
+  public IStreamingQueryResults<TItem> AsStream() => new StreamingQueryResults<TResults, TItem, TResultObject>(this);
 
-  protected abstract Task<TInterface> Deserialize(HttpResponseMessage response);
-
-  private readonly string _endpoint;
-
-  protected abstract string FullExtraText();
+  bool IPagedQueryResults<TResults, TItem>.IsActive => this.CurrentResult != null;
 
   public int? Limit { get; set; }
 
-  public TInterface Next() => Utils.ResultOf(this.NextAsync());
+  public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
 
-  public async Task<TInterface> NextAsync() {
-    this.UpdateOffset(this.CurrentResultCount);
+  public TResults Next() => Utils.ResultOf(this.NextAsync());
+
+  public async Task<TResults> NextAsync() {
+    this.UpdateOffset(this.Results.Count);
     return await this.PerformRequestAsync().ConfigureAwait(false);
   }
 
@@ -43,25 +41,41 @@ where TResultObject : class {
 
   public int Offset { get; private set; }
 
-  public TInterface Previous() => Utils.ResultOf(this.PreviousAsync());
+  public TResults Previous() => Utils.ResultOf(this.PreviousAsync());
 
-  public async Task<TInterface> PreviousAsync() {
+  public async Task<TResults> PreviousAsync() {
     this.UpdateOffset();
     return await this.PerformRequestAsync().ConfigureAwait(false);
   }
-
-  private async Task<TInterface> PerformRequestAsync() {
-    var response = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
-    return await this.Deserialize(response).ConfigureAwait(false);
-  }
-
-  private readonly Query _query;
 
   public abstract IReadOnlyList<TItem> Results { get; }
 
   public abstract int TotalResults { get; }
 
-  public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
+  #endregion
+
+  #region Protected Elements
+
+  protected internal TResultObject? CurrentResult;
+
+  protected abstract Task<TResults> Deserialize(HttpResponseMessage response);
+
+  protected abstract string FullExtraText();
+
+  #endregion
+
+  #region Internals
+
+  private readonly string _endpoint;
+
+  private readonly Query _query;
+
+  private readonly string? _value;
+
+  private async Task<TResults> PerformRequestAsync() {
+    var response = await this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText()).ConfigureAwait(false);
+    return await this.Deserialize(response).ConfigureAwait(false);
+  }
 
   private void UpdateOffset() {
     if (this.NextOffset is not null) {
@@ -93,6 +107,6 @@ where TResultObject : class {
     }
   }
 
-  private readonly string? _value;
+  #endregion
 
 }
