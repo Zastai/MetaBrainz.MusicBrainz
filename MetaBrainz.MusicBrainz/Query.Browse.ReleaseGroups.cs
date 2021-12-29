@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -139,12 +140,14 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                            Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", mbid, type), limit, offset).NextAsync();
+                                                                            Include inc = Include.None, ReleaseType? type = null,
+                                                                            CancellationToken cancellationToken = new())
+    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", mbid, type), limit, offset).NextAsync(cancellationToken);
 
   /// <inheritdoc cref="BrowseCollectionReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
@@ -157,12 +160,17 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(
-    Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", mbid, type), limit, offset).NextAsync();
+  public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                                                Include inc = Include.None,
+                                                                                ReleaseType? type = null,
+                                                                                CancellationToken cancellationToken = new()) {
+    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", mbid, type), limit, offset);
+    return browse.NextAsync(cancellationToken);
+  }
 
   /// <inheritdoc cref="BrowseReleaseReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
@@ -175,6 +183,7 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
@@ -183,23 +192,9 @@ public sealed partial class Query {
   /// always return exactly one result.
   /// </remarks>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                             Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", mbid, type), limit, offset).NextAsync();
-
-  /// <inheritdoc cref="BrowseReleaseGroupsAsync(IArtist,int?,int?,Include,ReleaseType?)"/>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null,
-                                                           Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(artist, limit, offset, inc, type));
-
-  /// <inheritdoc cref="BrowseReleaseGroupsAsync(ICollection,int?,int?,Include,ReleaseType?)"/>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null,
-                                                           Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(collection, limit, offset, inc, type));
-
-  /// <inheritdoc cref="BrowseReleaseGroupsAsync(IRelease,int?,int?,Include,ReleaseType?)"/>
-  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null,
-                                                           Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(release, limit, offset, inc, type));
+                                                                             Include inc = Include.None, ReleaseType? type = null,
+                                                                             CancellationToken cancellationToken = new())
+    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", mbid, type), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
   /// <param name="artist">The artist whose release groups should be retrieved.</param>
@@ -210,9 +205,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
-                                                                      Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", artist.Id, type), limit, offset).NextAsync();
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
+    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(artist, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
   /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
@@ -223,9 +218,9 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                                      Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", collection.Id, type), limit, offset).NextAsync();
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
+    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(collection, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
   /// <param name="release">The release whose release groups should be retrieved.</param>
@@ -239,8 +234,62 @@ public sealed partial class Query {
   /// <remarks>
   /// Currently a release can only be part of a single release group, so this should always return exactly one result.
   /// </remarks>
+  public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null,
+                                                           Include inc = Include.None, ReleaseType? type = null)
+    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(release, limit, offset, inc, type));
+
+  /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
+  /// <param name="artist">The artist whose release groups should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null,
+                                                                      CancellationToken cancellationToken = new()) {
+    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", artist.Id, type), limit, offset);
+    return browse.NextAsync(cancellationToken);
+  }
+
+  /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
+  /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
+                                                                      Include inc = Include.None, ReleaseType? type = null,
+                                                                      CancellationToken cancellationToken = new()) {
+    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", collection.Id, type), limit, offset);
+    return browse.NextAsync(cancellationToken);
+  }
+
+  /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
+  /// <param name="release">The release whose release groups should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="type">The release type to filter on (if any).</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <remarks>
+  /// Currently a release can only be part of a single release group, so this should always return exactly one result.
+  /// </remarks>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null,
-                                                                      Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", release.Id, type), limit, offset).NextAsync();
+                                                                      Include inc = Include.None, ReleaseType? type = null,
+                                                                      CancellationToken cancellationToken = new()) {
+    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", release.Id, type), limit, offset);
+    return browse.NextAsync(cancellationToken);
+  }
 
 }

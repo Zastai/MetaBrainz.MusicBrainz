@@ -1,5 +1,6 @@
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -45,7 +46,14 @@ public sealed partial class Query {
                                                                             Include inc = Include.None)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
 
-  /// <inheritdoc cref="BrowseInstrumentsAsync"/>
+  /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
+  /// <param name="collection">The collection whose contained instruments should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null,
                                                        Include inc = Include.None)
     => Utils.ResultOf(this.BrowseInstrumentsAsync(collection, limit, offset, inc));
@@ -55,17 +63,16 @@ public sealed partial class Query {
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                                  Include inc = Include.None)
-    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync();
-
-  /// <inheritdoc cref="BrowseCollectionInstrumentsAsync"/>
-  public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null,
-                                                                 Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionInstrumentsAsync(mbid, limit, offset, inc));
+                                                                  Include inc = Include.None,
+                                                                  CancellationToken cancellationToken = new()) {
+    var browse = new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset);
+    return browse.NextAsync(cancellationToken);
+  }
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
@@ -75,8 +82,22 @@ public sealed partial class Query {
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null,
+                                                                 Include inc = Include.None)
+    => Utils.ResultOf(this.BrowseCollectionInstrumentsAsync(mbid, limit, offset, inc));
+
+  /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
+  /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IInstrument>> BrowseCollectionInstrumentsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                            Include inc = Include.None)
-    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync();
+                                                                            Include inc = Include.None,
+                                                                            CancellationToken cancellationToken = new())
+    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
 }
