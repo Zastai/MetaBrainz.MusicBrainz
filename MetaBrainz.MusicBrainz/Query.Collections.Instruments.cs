@@ -1,14 +1,31 @@
 using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz;
 
 public sealed partial class Query {
+
+  #region Adding Items
+
+  /// <summary>Adds the specified instrument to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="instrument"/> to.</param>
+  /// <param name="instrument">The instrument to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string AddToCollection(string client, Guid collection, IInstrument instrument)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, instrument));
 
   /// <summary>Adds the specified instruments to the specified collection.</summary>
   /// <param name="client">
@@ -37,10 +54,204 @@ public sealed partial class Query {
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, params IInstrument[] instruments) {
-    var submission = new ModifyCollection(HttpMethod.Put, client, collection, EntityType.Instrument).Add(instruments);
-    return this.PerformSubmissionAsync(submission);
-  }
+  public string AddToCollection(string client, Guid collection, IEnumerable<IInstrument> instruments)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, instruments));
+
+  /// <summary>Adds the specified instrument to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instrument"/> to.</param>
+  /// <param name="instrument">The instrument to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string AddToCollection(string client, ICollection collection, IInstrument instrument)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, instrument));
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string AddToCollection(string client, ICollection collection, params IInstrument[] instruments)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, instruments));
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string AddToCollection(string client, ICollection collection, IEnumerable<IInstrument> instruments)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, instruments));
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
+                                           params IInstrument[] instruments)
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Adds the specified instrument to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="instrument"/> to.</param>
+  /// <param name="instrument">The instrument to add to <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, Guid collection, IInstrument instrument,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, Guid collection, params IInstrument[] instruments)
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments);
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IInstrument> instruments,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
+                                           params IInstrument[] instruments)
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Adds the specified instrument to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instrument"/> to.</param>
+  /// <param name="instrument">The instrument to add to <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, IInstrument instrument,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, params IInstrument[] instruments)
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments);
+
+  /// <summary>Adds the specified instruments to the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to add <paramref name="instruments"/> to.</param>
+  /// <param name="instruments">The instruments to add to <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IInstrument> instruments,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  #endregion
+
+  #region Removing Items
+
+  /// <summary>Removes the specified instrument from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="instrument"/> from.</param>
+  /// <param name="instrument">The instrument to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string RemoveFromCollection(string client, Guid collection, IInstrument instrument)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, instrument));
 
   /// <summary>Removes the specified instruments from the specified collection.</summary>
   /// <param name="client">
@@ -69,9 +280,186 @@ public sealed partial class Query {
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IInstrument[] instruments) {
-    var submission = new ModifyCollection(HttpMethod.Delete, client, collection, EntityType.Instrument).Add(instruments);
-    return this.PerformSubmissionAsync(submission);
-  }
+  public string RemoveFromCollection(string client, Guid collection, IEnumerable<IInstrument> instruments)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, instruments));
+
+  /// <summary>Removes the specified instrument from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instrument"/> from.</param>
+  /// <param name="instrument">The instrument to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string RemoveFromCollection(string client, ICollection collection, IInstrument instrument)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, instrument));
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string RemoveFromCollection(string client, ICollection collection, params IInstrument[] instruments)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, instruments));
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public string RemoveFromCollection(string client, ICollection collection, IEnumerable<IInstrument> instruments)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, instruments));
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
+                                                params IInstrument[] instruments)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Removes the specified instrument from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="instrument"/> from.</param>
+  /// <param name="instrument">The instrument to remove from <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IInstrument instrument,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IInstrument[] instruments)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments);
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IInstrument> instruments,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
+                                                params IInstrument[] instruments)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  /// <summary>Removes the specified instrument from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instrument"/> from.</param>
+  /// <param name="instrument">The instrument to remove from <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IInstrument instrument,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params IInstrument[] instruments)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments);
+
+  /// <summary>Removes the specified instruments from the specified collection.</summary>
+  /// <param name="client">
+  /// The ID of the client software making this request.<br/>
+  /// This has to be the application's name and version number.
+  /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
+  /// </param>
+  /// <param name="collection">The collection to remove <paramref name="instruments"/> from.</param>
+  /// <param name="instruments">The instruments to remove from <paramref name="collection"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>A message describing the result (usually "OK").</returns>
+  /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
+  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
+  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IInstrument> instruments,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
+
+  #endregion
 
 }

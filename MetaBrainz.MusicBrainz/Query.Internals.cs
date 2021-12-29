@@ -567,7 +567,7 @@ public sealed partial class Query : IDisposable {
     return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken);
   }
 
-  internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken = new()) {
+  internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {
     var uri = this.BuildUri(submission.Entity, Query.BuildExtraText("client", submission.Client));
     var method = submission.Method;
     var body = submission.RequestBody;
