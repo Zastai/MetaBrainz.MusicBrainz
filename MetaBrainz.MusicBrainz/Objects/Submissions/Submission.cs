@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using JetBrains.Annotations;
@@ -23,10 +24,12 @@ public abstract class Submission : ISubmission {
   public string Submit() => Utils.ResultOf(this.SubmitAsync());
 
   /// <summary>Submits the request asynchronously.</summary>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public async Task<string> SubmitAsync() => await this._query.PerformSubmissionAsync(this).ConfigureAwait(false);
+  public async Task<string> SubmitAsync(CancellationToken cancellationToken = new())
+    => await this._query.PerformSubmissionAsync(this, cancellationToken).ConfigureAwait(false);
 
   #endregion
 

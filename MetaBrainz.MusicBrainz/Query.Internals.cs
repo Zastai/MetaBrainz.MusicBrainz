@@ -24,12 +24,12 @@ public sealed partial class Query : IDisposable {
 
   private static DateTime _lastRequestTime;
 
-  private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request) {
+  private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request, CancellationToken cancellationToken) {
     if (Query.DelayBetweenRequests <= 0.0) {
       return await request().ConfigureAwait(false);
     }
     while (true) {
-      await Query.RequestLock.WaitAsync();
+      await Query.RequestLock.WaitAsync(cancellationToken);
       try {
         if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
           Query._lastRequestTime = DateTime.UtcNow;
@@ -39,7 +39,7 @@ public sealed partial class Query : IDisposable {
       finally {
         Query.RequestLock.Release();
       }
-      await Task.Delay((int) (500 * Query.DelayBetweenRequests)).ConfigureAwait(false);
+      await Task.Delay((int) (500 * Query.DelayBetweenRequests), cancellationToken).ConfigureAwait(false);
     }
   }
 
@@ -451,11 +451,11 @@ public sealed partial class Query : IDisposable {
   private Uri BuildUri(string path, string? extra = null)
     => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot + path, extra).Uri;
 
-  private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response) {
+  private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response, CancellationToken cancellationToken) {
     string? message = null;
     try {
       if (response.Content.Headers.ContentLength > 0) {
-        var body = await Utils.GetStringContentAsync(response).ConfigureAwait(false);
+        var body = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(body)) {
           Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE TEXT");
         }
@@ -504,9 +504,10 @@ public sealed partial class Query : IDisposable {
     return null;
   }
 
-  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body = null) {
+  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
+                                                              CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
-    await this._clientLock.WaitAsync();
+    await this._clientLock.WaitAsync(cancellationToken);
     try {
       var client = this.Client;
       using var request = new HttpRequestMessage(method, uri) {
@@ -529,14 +530,14 @@ public sealed partial class Query : IDisposable {
         // FIXME: Should this include the actual body text too?
         Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
       }
-      var response = await client.SendAsync(request);
+      var response = await client.SendAsync(request, cancellationToken);
       Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
                   $"'{response.ReasonPhrase}' (v{response.Version})");
       Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
       Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                   $"{response.Content.Headers.ContentLength ?? 0} bytes");
       if (!response.IsSuccessStatusCode) {
-        throw Utils.CreateQueryExceptionFor(response);
+        throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
       }
       return response;
     }
@@ -545,28 +546,33 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra)
-    => await Query.ApplyDelayAsync(() => this.PerformRequestAsync(this.BuildUri($"{entity}/{id:D}", extra), HttpMethod.Get));
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
+    => this.PerformRequestAsync(entity, id.ToString("D"), extra, cancellationToken);
 
-  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra)
-    => await Query.ApplyDelayAsync(() => this.PerformRequestAsync(this.BuildUri($"{entity}/{id}", extra), HttpMethod.Get));
-
-  internal async Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra) {
-    using var response = await this.PerformRequestAsync(entity, id, extra);
-    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions);
+  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra,
+                                                               CancellationToken cancellationToken) {
+    return await Query.ApplyDelayAsync(() => {
+      var uri = this.BuildUri($"{entity}/{id}", extra);
+      return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
+    }, cancellationToken);
   }
 
-  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra) {
-    using var response = await this.PerformRequestAsync(entity, id, extra);
-    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions);
+  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)
+    => this.PerformRequestAsync<T>(entity, id.ToString("D"), extra, cancellationToken);
+
+  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
+    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken);
+    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken);
   }
 
-  internal async Task<string> PerformSubmissionAsync(ISubmission submission) {
+  internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {
     var uri = this.BuildUri(submission.Entity, Query.BuildExtraText("client", submission.Client));
+    var method = submission.Method;
     var body = submission.RequestBody;
     using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
-    using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, submission.Method, content));
-    return await Query.ExtractMessageAsync(response) ?? "";
+    using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, method, content, cancellationToken),
+                                                     cancellationToken);
+    return await Query.ExtractMessageAsync(response, cancellationToken) ?? "";
   }
 
   #endregion

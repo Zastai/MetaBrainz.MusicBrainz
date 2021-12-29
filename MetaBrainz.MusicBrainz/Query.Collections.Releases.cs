@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Objects.Submissions;
 
 namespace MetaBrainz.MusicBrainz;
 
@@ -14,539 +12,453 @@ public sealed partial class Query {
 
   #region Adding Items
 
-  /// <summary>Adds the specified item to the specified collection.</summary>
+  /// <summary>Adds the specified release to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="item"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="item">The MBID of the item to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="release"/> to.</param>
+  /// <param name="release">The release to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, Guid collection, EntityType entityType, Guid item)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, entityType, item));
+  public string AddToCollection(string client, Guid collection, IRelease release)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, release));
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, Guid collection, EntityType entityType, params Guid[] items)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, entityType, items));
+  public string AddToCollection(string client, Guid collection, params IRelease[] releases)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, releases));
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, Guid collection, EntityType entityType, IEnumerable<Guid> items)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, entityType, items));
+  public string AddToCollection(string client, Guid collection, IEnumerable<IRelease> releases)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, releases));
 
-  /// <summary>Adds the specified item to the specified collection.</summary>
+  /// <summary>Adds the specified release to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="item"/> to.</param>
-  /// <param name="item">The MBID of the item to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="release"/> to.</param>
+  /// <param name="release">The release to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, ICollection collection, Guid item)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, item));
+  public string AddToCollection(string client, ICollection collection, IRelease release)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, release));
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, ICollection collection, params Guid[] items)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, items));
+  public string AddToCollection(string client, ICollection collection, params IRelease[] releases)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, releases));
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string AddToCollection(string client, ICollection collection, IEnumerable<Guid> items)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, items));
+  public string AddToCollection(string client, ICollection collection, IEnumerable<IRelease> releases)
+    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, releases));
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="releases"/> to.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType,
-                                           CancellationToken cancellationToken, params Guid[] items)
-    => this.AddToCollectionAsync(client, collection, entityType, items, cancellationToken);
+  public Task<string> AddToCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
+                                           params IRelease[] releases)
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  /// <summary>Adds the specified item to the specified collection.</summary>
+  /// <summary>Adds the specified release to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="item"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="item">The MBID of the item to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="release"/> to.</param>
+  /// <param name="release">The release to add to <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, Guid item,
-                                           CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Put, client, collection, entityType).Add(item);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
+  public Task<string> AddToCollectionAsync(string client, Guid collection, IRelease release,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, release, cancellationToken);
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, params Guid[] items)
-    => this.AddToCollectionAsync(client, collection, entityType, (IEnumerable<Guid>) items);
+  public Task<string> AddToCollectionAsync(string client, Guid collection, params IRelease[] releases)
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases);
 
-  private Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, IEntity item,
-                                            CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Put, client, collection, entityType).Add(item);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
-
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to add <paramref name="items"/> to.</param>
-  /// <param name="entityType">The type of entity stored in the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, IEnumerable<Guid> items,
-                                           CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Put, client, collection, entityType).Add(items);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
+  public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IRelease> releases,
+                                           CancellationToken cancellationToken = new())
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  private Task<string> AddToCollectionAsync(string client, Guid collection, EntityType entityType, IEnumerable<IEntity> items,
-                                            CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Put, client, collection, entityType).Add(items);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
-
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
+  /// <param name="collection">The collection to add <paramref name="releases"/> to.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
-                                           params Guid[] items)
-    => this.AddToCollectionAsync(client, collection.Id, collection.ContentType, items, cancellationToken);
+                                           params IRelease[] releases)
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  private Task<string> AddToCollectionAsync(string client, ICollection collection, EntityType entityType, IEntity item,
-                                            CancellationToken cancellationToken = new()) {
-    var id = collection.Id;
-    var type = collection.ContentType;
-    if (type != entityType) {
-      throw new ArgumentException($"Cannot add {entityType} items to a collection ({id}) of type {type}.", nameof(collection));
-    }
-    return this.AddToCollectionAsync(client, id, entityType, item, cancellationToken);
-  }
-
-  private Task<string> AddToCollectionAsync(string client, ICollection collection, EntityType entityType,
-                                            IEnumerable<IEntity> items, CancellationToken cancellationToken = new()) {
-    var id = collection.Id;
-    var type = collection.ContentType;
-    if (type != entityType) {
-      throw new ArgumentException($"Cannot add {entityType} items to a collection ({id}) of type {type}.", nameof(collection));
-    }
-    return this.AddToCollectionAsync(client, id, entityType, items, cancellationToken);
-  }
-
-  /// <summary>Adds the specified item to the specified collection.</summary>
+  /// <summary>Adds the specified release to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="item"/> to.</param>
-  /// <param name="item">The MBID of the item to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="release"/> to.</param>
+  /// <param name="release">The release to add to <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, ICollection collection, Guid item,
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, IRelease release,
                                            CancellationToken cancellationToken = new())
-    => this.AddToCollectionAsync(client, collection.Id, collection.ContentType, item, cancellationToken);
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, release, cancellationToken);
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, ICollection collection, params Guid[] items)
-    => this.AddToCollectionAsync(client, collection.Id, collection.ContentType, items);
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, params IRelease[] releases)
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases);
 
-  /// <summary>Adds the specified items to the specified collection.</summary>
+  /// <summary>Adds the specified releases to the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to add <paramref name="items"/> to.</param>
-  /// <param name="items">The MBIDs of the items to add to <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to add <paramref name="releases"/> to.</param>
+  /// <param name="releases">The releases to add to <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<Guid> items,
+  public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IRelease> releases,
                                            CancellationToken cancellationToken = new())
-    => this.AddToCollectionAsync(client, collection.Id, collection.ContentType, items, cancellationToken);
+    => this.AddToCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
   #endregion
 
   #region Removing Items
 
-  /// <summary>Removes the specified item from the specified collection.</summary>
+  /// <summary>Removes the specified release from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="item"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="item">The MBID of the item to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="release"/> from.</param>
+  /// <param name="release">The release to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, Guid collection, EntityType entityType, Guid item)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, entityType, item));
+  public string RemoveFromCollection(string client, Guid collection, IRelease release)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, release));
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, Guid collection, EntityType entityType, params Guid[] items)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, entityType, items));
+  public string RemoveFromCollection(string client, Guid collection, params IRelease[] releases)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, releases));
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, Guid collection, EntityType entityType, IEnumerable<Guid> items)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, entityType, items));
+  public string RemoveFromCollection(string client, Guid collection, IEnumerable<IRelease> releases)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, releases));
 
-  /// <summary>Removes the specified item from the specified collection.</summary>
+  /// <summary>Removes the specified release from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="item"/> from.</param>
-  /// <param name="item">The MBID of the item to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="release"/> from.</param>
+  /// <param name="release">The release to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, ICollection collection, Guid item)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, item));
+  public string RemoveFromCollection(string client, ICollection collection, IRelease release)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, release));
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, ICollection collection, params Guid[] items)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, items));
+  public string RemoveFromCollection(string client, ICollection collection, params IRelease[] releases)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, releases));
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string RemoveFromCollection(string client, ICollection collection, IEnumerable<Guid> items)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, items));
+  public string RemoveFromCollection(string client, ICollection collection, IEnumerable<IRelease> releases)
+    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, releases));
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="releases"/> from.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType,
-                                                CancellationToken cancellationToken, params Guid[] items)
-    => this.RemoveFromCollectionAsync(client, collection, entityType, items, cancellationToken);
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
+                                                params IRelease[] releases)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  /// <summary>Removes the specified item from the specified collection.</summary>
+  /// <summary>Removes the specified release from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="item"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="item">The MBID of the item to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="release"/> from.</param>
+  /// <param name="release">The release to remove from <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, Guid item,
-                                                CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Delete, client, collection, entityType).Add(item);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IRelease release,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, release, cancellationToken);
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, params Guid[] items)
-    => this.RemoveFromCollectionAsync(client, collection, entityType, (IEnumerable<Guid>) items);
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IRelease[] releases)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases);
 
-  private Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, IEntity item,
-                                                 CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Delete, client, collection, entityType).Add(item);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
-
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The MBID of the collection to remove <paramref name="items"/> from.</param>
-  /// <param name="entityType">The entity type for the collection identified by <paramref name="collection"/>.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The MBID of the collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, IEnumerable<Guid> items,
-                                                CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Delete, client, collection, entityType).Add(items);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
+  public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IRelease> releases,
+                                                CancellationToken cancellationToken = new())
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  private Task<string> RemoveFromCollectionAsync(string client, Guid collection, EntityType entityType, IEnumerable<IEntity> items,
-                                                 CancellationToken cancellationToken = new()) {
-    var submission = new ModifyCollection(HttpMethod.Delete, client, collection, entityType).Add(items);
-    return this.PerformSubmissionAsync(submission, cancellationToken);
-  }
-
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
+  /// <param name="collection">The collection to remove <paramref name="releases"/> from.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
-                                                params Guid[] items)
-    => this.RemoveFromCollectionAsync(client, collection.Id, collection.ContentType, items, cancellationToken);
+                                                params IRelease[] releases)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
-  private Task<string> RemoveFromCollectionAsync(string client, ICollection collection, EntityType entityType, IEntity item,
-                                                 CancellationToken cancellationToken = new()) {
-    var id = collection.Id;
-    var type = collection.ContentType;
-    if (type != entityType) {
-      throw new ArgumentException($"Cannot remove {entityType} items from a collection ({id}) of type {type}.", nameof(collection));
-    }
-    return this.RemoveFromCollectionAsync(client, id, entityType, item, cancellationToken);
-  }
-
-  private Task<string> RemoveFromCollectionAsync(string client, ICollection collection, EntityType entityType,
-                                                 IEnumerable<IEntity> items, CancellationToken cancellationToken = new()) {
-    var id = collection.Id;
-    var type = collection.ContentType;
-    if (type != entityType) {
-      throw new ArgumentException($"Cannot remove {entityType} items from a collection ({id}) of type {type}.", nameof(collection));
-    }
-    return this.RemoveFromCollectionAsync(client, id, entityType, items, cancellationToken);
-  }
-
-  /// <summary>Removes the specified item from the specified collection.</summary>
+  /// <summary>Removes the specified release from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="item"/> from.</param>
-  /// <param name="item">The MBID of the item to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="release"/> from.</param>
+  /// <param name="release">The release to remove from <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, Guid item,
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IRelease release,
                                                 CancellationToken cancellationToken = new())
-    => this.RemoveFromCollectionAsync(client, collection.Id, collection.ContentType, item, cancellationToken);
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, release, cancellationToken);
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params Guid[] items)
-    => this.RemoveFromCollectionAsync(client, collection.Id, collection.ContentType, items);
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params IRelease[] releases)
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases);
 
-  /// <summary>Removes the specified items from the specified collection.</summary>
+  /// <summary>Removes the specified releases from the specified collection.</summary>
   /// <param name="client">
   /// The ID of the client software making this request.<br/>
   /// This has to be the application's name and version number.
   /// The recommended format is &quot;<c>application-version</c>&quot;, where <c>version</c> does not contain a dash.<br/>
   /// </param>
-  /// <param name="collection">The collection to remove <paramref name="items"/> from.</param>
-  /// <param name="items">The MBIDs of the items to remove from <paramref name="collection"/>.</param>
+  /// <param name="collection">The collection to remove <paramref name="releases"/> from.</param>
+  /// <param name="releases">The releases to remove from <paramref name="collection"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<Guid> items,
+  public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IRelease> releases,
                                                 CancellationToken cancellationToken = new())
-    => this.RemoveFromCollectionAsync(client, collection.Id, collection.ContentType, items, cancellationToken);
+    => this.RemoveFromCollectionAsync(client, collection, EntityType.Release, releases, cancellationToken);
 
   #endregion
 

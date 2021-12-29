@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.Common.Json;
@@ -15,10 +16,11 @@ namespace MetaBrainz.MusicBrainz;
 
 internal static class Utils {
 
-  public static QueryException CreateQueryExceptionFor(HttpResponseMessage response) {
+  public static async Task<QueryException> CreateQueryExceptionForAsync(HttpResponseMessage response,
+                                                                        CancellationToken cancellationToken = new()) {
     string? errorInfo = null;
     if (response.Content.Headers.ContentLength > 0) {
-      errorInfo = Utils.ResultOf(Utils.GetStringContentAsync(response));
+      errorInfo = await Utils.GetStringContentAsync(response, cancellationToken);
       if (string.IsNullOrWhiteSpace(errorInfo)) {
         Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE TEXT");
         errorInfo = null;
@@ -102,10 +104,14 @@ internal static class Utils {
     return characterSet?.ToLowerInvariant() ?? "utf-8";
   }
 
-  public static async Task<T> GetJsonContentAsync<T>(HttpResponseMessage response, JsonSerializerOptions options) {
+  public static async Task<T> GetJsonContentAsync<T>(HttpResponseMessage response, JsonSerializerOptions options,
+                                                     CancellationToken cancellationToken = new()) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
-#if NET || NETSTANDARD2_1_OR_GREATER
+#if NET
+    var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+    await using var _ = stream.ConfigureAwait(false);
+#elif NETSTANDARD2_1_OR_GREATER
     var stream = await response.Content.ReadAsStreamAsync();
     await using var _ = stream.ConfigureAwait(false);
 #else
@@ -117,12 +123,13 @@ internal static class Utils {
     var characterSet = Utils.GetContentEncoding(content.Headers);
 #if !DEBUG
     if (characterSet == "utf-8") { // Directly use the stream
-      var jsonObject = await JsonSerializer.DeserializeAsync<T>(stream, options);
+      var jsonObject = await JsonSerializer.DeserializeAsync<T>(stream, options, cancellationToken);
       return jsonObject ?? throw new JsonException("The received content was null.");
     }
 #endif
     var enc = Encoding.GetEncoding(characterSet);
     using var sr = new StreamReader(stream, enc, false, 1024, true);
+    // This is not (yet?) cancelable
     var json = await sr.ReadToEndAsync().ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
     {
@@ -131,11 +138,15 @@ internal static class Utils {
     }
   }
 
-  public static async Task<string> GetStringContentAsync(HttpResponseMessage response) {
+  public static async Task<string> GetStringContentAsync(HttpResponseMessage response,
+                                                         CancellationToken cancellationToken = new()) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
-#if NET || NETSTANDARD2_1_OR_GREATER
-    var stream = await content.ReadAsStreamAsync();
+#if NET
+    var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+    await using var _ = stream.ConfigureAwait(false);
+#elif NETSTANDARD2_1_OR_GREATER
+    var stream = await response.Content.ReadAsStreamAsync();
     await using var _ = stream.ConfigureAwait(false);
 #else
     using var stream = await response.Content.ReadAsStreamAsync();
@@ -147,6 +158,7 @@ internal static class Utils {
 #endif
     var characterSet = Utils.GetContentEncoding(content.Headers);
     using var sr = new StreamReader(stream, Encoding.GetEncoding(characterSet), false, 1024, true);
+    // This is not (yet?) cancelable
     var text = await sr.ReadToEndAsync().ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE TEXT: {Utils.FormatMultiLine(text)}");
     return text;
