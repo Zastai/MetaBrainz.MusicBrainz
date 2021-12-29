@@ -546,23 +546,21 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra,
-                                                         CancellationToken cancellationToken = new())
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
     => this.PerformRequestAsync(entity, id.ToString("D"), extra, cancellationToken);
 
   internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra,
-                                                               CancellationToken cancellationToken = new()) {
+                                                               CancellationToken cancellationToken) {
     return await Query.ApplyDelayAsync(() => {
       var uri = this.BuildUri($"{entity}/{id}", extra);
       return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
     }, cancellationToken);
   }
 
-  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken = new())
+  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)
     => this.PerformRequestAsync<T>(entity, id.ToString("D"), extra, cancellationToken);
 
-  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra,
-                                                CancellationToken cancellationToken = new()) {
+  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
     using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken);
     return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken);
   }
