@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -63,10 +64,6 @@ public sealed partial class Query {
                                                                      bool simple = false)
     => new FoundLabels(this, query, pageSize, offset, simple).AsStream();
 
-  /// <inheritdoc cref="FindLabelsAsync"/>
-  public ISearchResults<ISearchResult<ILabel>> FindLabels(string query, int? limit = null, int? offset = null, bool simple = false)
-    => Utils.ResultOf(this.FindLabelsAsync(query, limit, offset, simple));
-
   /// <summary>Searches for labels using the given query.</summary>
   /// <param name="query">The search query to use.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
@@ -76,8 +73,22 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks><inheritdoc cref="FindAllLabels"/></remarks>
+  public ISearchResults<ISearchResult<ILabel>> FindLabels(string query, int? limit = null, int? offset = null, bool simple = false)
+    => Utils.ResultOf(this.FindLabelsAsync(query, limit, offset, simple));
+
+  /// <summary>Searches for labels using the given query.</summary>
+  /// <param name="query">The search query to use.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="simple">If set to <see langword="true"/>, this disables advanced query syntax.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The search request, including the initial results.</returns>
+  /// <exception cref="QueryException">When the web service reports an error.</exception>
+  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <remarks><inheritdoc cref="FindAllLabels"/></remarks>
   public Task<ISearchResults<ISearchResult<ILabel>>> FindLabelsAsync(string query, int? limit = null, int? offset = null,
-                                                                     bool simple = false)
-    => new FoundLabels(this, query, limit, offset, simple).NextAsync();
+                                                                     bool simple = false,
+                                                                     CancellationToken cancellationToken = new())
+    => new FoundLabels(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }
