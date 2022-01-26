@@ -20,7 +20,7 @@ public sealed partial class Query : IDisposable {
 
   #region Delay Processing
 
-  private static readonly SemaphoreSlim RequestLock = new(1);
+  private static readonly SemaphoreSlim DelayLock = new(1);
 
   private static DateTime _lastRequestTime;
 
@@ -29,15 +29,20 @@ public sealed partial class Query : IDisposable {
       return await request().ConfigureAwait(false);
     }
     while (true) {
-      await Query.RequestLock.WaitAsync(cancellationToken);
+      await Query.DelayLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+      var ready = false;
       try {
-        if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-          Query._lastRequestTime = DateTime.UtcNow;
-          return await request().ConfigureAwait(false);
+        var now = DateTime.UtcNow;
+        if ((now - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
+          Query._lastRequestTime = now;
+          ready = true;
         }
       }
       finally {
-        Query.RequestLock.Release();
+        Query.DelayLock.Release();
+      }
+      if (ready) {
+        return await request().ConfigureAwait(false);
       }
       await Task.Delay((int) (500 * Query.DelayBetweenRequests), cancellationToken).ConfigureAwait(false);
     }
@@ -354,8 +359,6 @@ public sealed partial class Query : IDisposable {
 
   private Func<HttpClient>? _clientCreation;
 
-  private readonly SemaphoreSlim _clientLock = new(1);
-
   private readonly bool _clientOwned;
 
   private bool _disposed;
@@ -388,14 +391,7 @@ public sealed partial class Query : IDisposable {
     if (!this._clientOwned) {
       throw new InvalidOperationException("An explicitly provided client instance is in use.");
     }
-    this._clientLock.Wait();
-    try {
-      this._client?.Dispose();
-      this._client = null;
-    }
-    finally {
-      this._clientLock.Release();
-    }
+    Interlocked.Exchange(ref this._client, null)?.Dispose();
   }
 
   /// <summary>Sets up code to run to configure a newly-created HTTP client.</summary>
@@ -432,7 +428,6 @@ public sealed partial class Query : IDisposable {
         this.Close();
       }
       this._client = null;
-      this._clientLock.Dispose();
     }
     finally {
       this._disposed = true;
@@ -507,43 +502,37 @@ public sealed partial class Query : IDisposable {
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
-    await this._clientLock.WaitAsync(cancellationToken);
-    try {
-      var client = this.Client;
-      using var request = new HttpRequestMessage(method, uri) {
-        Content = body,
-        Headers = {
-          Accept = {
-            Query.AcceptHeader,
-          },
-          Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
-        }
-      };
-      // Use whatever user agent the client has set, plus our own.
-      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-        request.Headers.UserAgent.Add(userAgent);
+    var client = this.Client;
+    using var request = new HttpRequestMessage(method, uri) {
+      Content = body,
+      Headers = {
+        Accept = {
+          Query.AcceptHeader,
+        },
+        Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
       }
-      request.Headers.UserAgent.Add(Query.LibraryProductInfo);
-      request.Headers.UserAgent.Add(Query.LibraryComment);
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
-      if (body is not null) {
-        // FIXME: Should this include the actual body text too?
-        Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
-      }
-      var response = await client.SendAsync(request, cancellationToken);
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
-                  $"'{response.ReasonPhrase}' (v{response.Version})");
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
-      Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
-                  $"{response.Content.Headers.ContentLength ?? 0} bytes");
-      if (!response.IsSuccessStatusCode) {
-        throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
-      }
-      return response;
+    };
+    // Use whatever user agent the client has set, plus our own.
+    foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+      request.Headers.UserAgent.Add(userAgent);
     }
-    finally {
-      this._clientLock.Release();
+    request.Headers.UserAgent.Add(Query.LibraryProductInfo);
+    request.Headers.UserAgent.Add(Query.LibraryComment);
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    if (body is not null) {
+      // FIXME: Should this include the actual body text too?
+      Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
     }
+    var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
+                $"'{response.ReasonPhrase}' (v{response.Version})");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
+                $"{response.Content.Headers.ContentLength ?? 0} bytes");
+    if (!response.IsSuccessStatusCode) {
+      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
+    }
+    return response;
   }
 
   internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
