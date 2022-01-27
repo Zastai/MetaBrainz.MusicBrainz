@@ -1,5 +1,5 @@
 {
   "msbuild-sdks": {
-    "MetaBrainz.Build.Sdk" : "2.1.1"
+    "MetaBrainz.Build.Sdk" : "2.1.2"
   }
 }
