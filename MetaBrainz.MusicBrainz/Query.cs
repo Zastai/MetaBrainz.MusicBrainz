@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 
 using JetBrains.Annotations;
+
+using MetaBrainz.Common;
 
 namespace MetaBrainz.MusicBrainz;
 
@@ -77,7 +80,8 @@ public sealed partial class Query {
   /// </summary>
   /// <remarks>
   /// Note that this is a global delay, affecting all threads. When querying the official MusicBrainz site, setting this below the
-  /// default of one second may incur penalties (ranging from rate limiting to IP bans).
+  /// default of one second may incur penalties (ranging from rate limiting to IP bans). When setting this to 0 for maximum
+  /// throughput, <see cref="RateLimitInfo"/> can be used to avoid making too many requests and trigger these penalties.
   /// </remarks>
   public static double DelayBetweenRequests { get; set; } = 1.0;
 
@@ -206,6 +210,27 @@ public sealed partial class Query {
                                               "The port number must not be less than -1 or greater than 65535.");
       }
       this._port = value;
+    }
+  }
+
+  private RateLimitInfo _rateLimitInfo;
+
+  private readonly ReaderWriterLockSlim _rateLimitLock = new();
+
+  /// <summary>The rate limit information from the last web request issued via this MusicBrainz client.</summary>
+  /// <remarks>
+  /// This is mainly useful when setting <see cref="DelayBetweenRequests"/> to 0, in order to manage the request volume to avoid
+  /// triggering penalties.
+  /// </remarks>
+  public RateLimitInfo RateLimitInfo {
+    get {
+      this._rateLimitLock.EnterReadLock();
+      try {
+        return this._rateLimitInfo;
+      }
+      finally {
+        this._rateLimitLock.ExitReadLock();
+      }
     }
   }
 
