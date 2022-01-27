@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,7 +15,7 @@ internal static class Utils {
                                                                         CancellationToken cancellationToken = default) {
     string? errorInfo = null;
     if (response.Content.Headers.ContentLength > 0) {
-      errorInfo = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
+      errorInfo = await HttpUtils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
       if (string.IsNullOrWhiteSpace(errorInfo)) {
         Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE TEXT");
         errorInfo = null;
@@ -69,45 +65,6 @@ internal static class Utils {
       Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE CONTENT");
     }
     return new QueryException(response.StatusCode, response.ReasonPhrase, errorInfo);
-  }
-
-  private static string GetContentEncoding(HttpContentHeaders contentHeaders) {
-    var characterSet = contentHeaders.ContentEncoding.FirstOrDefault();
-    if (string.IsNullOrWhiteSpace(characterSet)) {
-      // Fall back on the charset portion of the content type.
-      // FIXME: Should this check the media type?
-      characterSet = contentHeaders.ContentType?.CharSet;
-    }
-    if (string.IsNullOrWhiteSpace(characterSet)) {
-      characterSet = null;
-    }
-    return characterSet?.ToLowerInvariant() ?? "utf-8";
-  }
-
-  public static async Task<string> GetStringContentAsync(HttpResponseMessage response,
-                                                         CancellationToken cancellationToken = default) {
-    var content = response.Content;
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
-#if NET
-    var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-    await using var _ = stream.ConfigureAwait(false);
-#elif NETSTANDARD2_1_OR_GREATER
-    var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-    await using var _ = stream.ConfigureAwait(false);
-#else
-    using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-#endif
-#if !NET
-    if (stream is null) {
-      return "";
-    }
-#endif
-    var characterSet = Utils.GetContentEncoding(content.Headers);
-    using var sr = new StreamReader(stream, Encoding.GetEncoding(characterSet), false, 1024, true);
-    // This is not (yet?) cancelable
-    var text = await sr.ReadToEndAsync().ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE TEXT: {TextUtils.FormatMultiLine(text)}");
-    return text;
   }
 
 }

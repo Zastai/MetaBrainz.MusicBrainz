@@ -453,7 +453,7 @@ public sealed partial class Query : IDisposable {
     string? message = null;
     try {
       if (response.Content.Headers.ContentLength > 0) {
-        var body = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
+        var body = await HttpUtils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(body)) {
           Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE TEXT");
         }
