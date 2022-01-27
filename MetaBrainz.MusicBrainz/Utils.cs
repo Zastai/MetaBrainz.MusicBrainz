@@ -17,10 +17,10 @@ namespace MetaBrainz.MusicBrainz;
 internal static class Utils {
 
   public static async Task<QueryException> CreateQueryExceptionForAsync(HttpResponseMessage response,
-                                                                        CancellationToken cancellationToken = new()) {
+                                                                        CancellationToken cancellationToken = default) {
     string? errorInfo = null;
     if (response.Content.Headers.ContentLength > 0) {
-      errorInfo = await Utils.GetStringContentAsync(response, cancellationToken);
+      errorInfo = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
       if (string.IsNullOrWhiteSpace(errorInfo)) {
         Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE TEXT");
         errorInfo = null;
@@ -105,17 +105,17 @@ internal static class Utils {
   }
 
   public static async Task<T> GetJsonContentAsync<T>(HttpResponseMessage response, JsonSerializerOptions options,
-                                                     CancellationToken cancellationToken = new()) {
+                                                     CancellationToken cancellationToken = default) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
 #if NET
-    var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+    var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
     await using var _ = stream.ConfigureAwait(false);
 #elif NETSTANDARD2_1_OR_GREATER
-    var stream = await response.Content.ReadAsStreamAsync();
+    var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
     await using var _ = stream.ConfigureAwait(false);
 #else
-    using var stream = await content.ReadAsStreamAsync();
+    using var stream = await content.ReadAsStreamAsync().ConfigureAwait(false);
 #endif
     if (stream is null || stream.Length == 0) {
       throw new QueryException(HttpStatusCode.NoContent, "Response contained no data.");
@@ -123,7 +123,7 @@ internal static class Utils {
     var characterSet = Utils.GetContentEncoding(content.Headers);
 #if !DEBUG
     if (characterSet == "utf-8") { // Directly use the stream
-      var jsonObject = await JsonSerializer.DeserializeAsync<T>(stream, options, cancellationToken);
+      var jsonObject = await JsonSerializer.DeserializeAsync<T>(stream, options, cancellationToken).ConfigureAwait(false);
       return jsonObject ?? throw new JsonException("The received content was null.");
     }
 #endif
@@ -139,17 +139,17 @@ internal static class Utils {
   }
 
   public static async Task<string> GetStringContentAsync(HttpResponseMessage response,
-                                                         CancellationToken cancellationToken = new()) {
+                                                         CancellationToken cancellationToken = default) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
 #if NET
-    var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
+    var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
     await using var _ = stream.ConfigureAwait(false);
 #elif NETSTANDARD2_1_OR_GREATER
-    var stream = await response.Content.ReadAsStreamAsync();
+    var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
     await using var _ = stream.ConfigureAwait(false);
 #else
-    using var stream = await response.Content.ReadAsStreamAsync();
+    using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 #endif
 #if !NET
     if (stream is null) {

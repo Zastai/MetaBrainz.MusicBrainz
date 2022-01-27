@@ -82,7 +82,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllEvents"/></remarks>
   public Task<ISearchResults<ISearchResult<IEvent>>> FindEventsAsync(string query, int? limit = null, int? offset = null,
                                                                      bool simple = false,
-                                                                     CancellationToken cancellationToken = new())
+                                                                     CancellationToken cancellationToken = default)
     => new FoundEvents(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

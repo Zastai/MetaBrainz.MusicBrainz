@@ -219,7 +219,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri,
-                                                       CancellationToken cancellationToken = new())
+                                                       CancellationToken cancellationToken = default)
     => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, cancellationToken);
 
   /// <summary>Refreshes a bearer token.</summary>
@@ -235,7 +235,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret,
-                                                           CancellationToken cancellationToken = new())
+                                                           CancellationToken cancellationToken = default)
     => this.RefreshTokenAsync("bearer", refreshToken, clientSecret, cancellationToken);
 
   #endregion
@@ -255,8 +255,6 @@ public sealed class OAuth2 : IDisposable {
   private Action<HttpClient>? _clientConfiguration;
 
   private Func<HttpClient>? _clientCreation;
-
-  private readonly SemaphoreSlim _clientLock = new(1);
 
   private readonly bool _clientOwned;
 
@@ -285,14 +283,7 @@ public sealed class OAuth2 : IDisposable {
     if (!this._clientOwned) {
       throw new InvalidOperationException("An explicitly provided client instance is in use.");
     }
-    this._clientLock.Wait();
-    try {
-      this._client?.Dispose();
-      this._client = null;
-    }
-    finally {
-      this._clientLock.Release();
-    }
+    Interlocked.Exchange(ref this._client, null)?.Dispose();
   }
 
   /// <summary>Sets up code to run to configure a newly-created HTTP client.</summary>
@@ -328,7 +319,6 @@ public sealed class OAuth2 : IDisposable {
         this.Close();
       }
       this._client = null;
-      this._clientLock.Dispose();
     }
     finally {
       this._disposed = true;
@@ -348,52 +338,48 @@ public sealed class OAuth2 : IDisposable {
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
-    await this._clientLock.WaitAsync(cancellationToken);
-    try {
-      var client = this.Client;
-      using var request = new HttpRequestMessage(method, uri) {
-        Content = body,
-        Headers = {
-          Accept = {
-            OAuth2.AcceptHeader,
-          },
-        }
-      };
-      // Use whatever user agent the client has set, plus our own.
-      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-        request.Headers.UserAgent.Add(userAgent);
+    var client = this.Client;
+    using var request = new HttpRequestMessage(method, uri) {
+      Content = body,
+      Headers = {
+        Accept = {
+          OAuth2.AcceptHeader,
+        },
       }
-      request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
-      request.Headers.UserAgent.Add(OAuth2.LibraryComment);
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
-      if (body is not null) {
-        // FIXME: Should this include the actual body text too?
-        Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
-      }
-      var response = await client.SendAsync(request, cancellationToken);
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
-                  $"'{response.ReasonPhrase}' (v{response.Version})");
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
-      Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
-                  $"{response.Content.Headers.ContentLength ?? 0} bytes");
-      return response;
+    };
+    // Use whatever user agent the client has set, plus our own.
+    foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+      request.Headers.UserAgent.Add(userAgent);
     }
-    finally {
-      this._clientLock.Release();
+    request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
+    request.Headers.UserAgent.Add(OAuth2.LibraryComment);
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    if (body is not null) {
+      // FIXME: Should this include the actual body text too?
+      Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
     }
+    var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
+                $"'{response.ReasonPhrase}' (v{response.Version})");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
+                $"{response.Content.Headers.ContentLength ?? 0} bytes");
+    return response;
   }
 
-  private async Task<AuthorizationToken> PostAsync(HttpContent body, CancellationToken cancellationToken) {
+  private async Task<AuthorizationToken> PostAsync(HttpContent content, CancellationToken cancellationToken) {
     var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
-    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, body, cancellationToken);
+    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, content, cancellationToken).ConfigureAwait(false);
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
+      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
     }
-    return await Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
+    var jsonTask = Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
+    return await jsonTask.ConfigureAwait(false);
   }
 
   private async Task<IAuthorizationToken> PostAsync(string type, string body, CancellationToken cancellationToken) {
-    var token = await this.PostAsync(new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType), cancellationToken);
+    var content = new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType);
+    var token = await this.PostAsync(content, cancellationToken).ConfigureAwait(false);
     if (token.TokenType != type) {
       throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
     }
@@ -408,7 +394,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&token_type=").Append(Uri.EscapeDataString(type));
     body.Append("&grant_type=refresh_token");
     body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
-    return await this.PostAsync(type, body.ToString(), cancellationToken);
+    return await this.PostAsync(type, body.ToString(), cancellationToken).ConfigureAwait(false);
   }
 
   private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
@@ -420,7 +406,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&grant_type=authorization_code");
     body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
     body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-    return await this.PostAsync(type, body.ToString(), cancellationToken);
+    return await this.PostAsync(type, body.ToString(), cancellationToken).ConfigureAwait(false);
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {

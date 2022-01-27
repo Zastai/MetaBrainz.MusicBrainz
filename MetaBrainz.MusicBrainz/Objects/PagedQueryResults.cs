@@ -33,7 +33,7 @@ where TResultObject : class {
 
   public TResults Next() => Utils.ResultOf(this.NextAsync());
 
-  public async Task<TResults> NextAsync(CancellationToken cancellationToken = new()) {
+  public async Task<TResults> NextAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset(this.Results.Count);
     return await this.PerformRequestAsync(cancellationToken).ConfigureAwait(false);
   }
@@ -44,7 +44,7 @@ where TResultObject : class {
 
   public TResults Previous() => Utils.ResultOf(this.PreviousAsync());
 
-  public async Task<TResults> PreviousAsync(CancellationToken cancellationToken = new()) {
+  public async Task<TResults> PreviousAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset();
     return await this.PerformRequestAsync(cancellationToken).ConfigureAwait(false);
   }

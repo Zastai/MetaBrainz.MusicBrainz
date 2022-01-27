@@ -8,6 +8,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
@@ -20,24 +22,29 @@ public sealed partial class Query : IDisposable {
 
   #region Delay Processing
 
-  private static readonly SemaphoreSlim RequestLock = new(1);
+  private static readonly SemaphoreSlim DelayLock = new(1);
 
   private static DateTime _lastRequestTime;
 
-  private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request, CancellationToken cancellationToken) {
+  private static async Task<T> ApplyDelayAsync<T>([InstantHandle] Func<Task<T>> request, CancellationToken cancellationToken) {
     if (Query.DelayBetweenRequests <= 0.0) {
       return await request().ConfigureAwait(false);
     }
     while (true) {
-      await Query.RequestLock.WaitAsync(cancellationToken);
+      await Query.DelayLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+      var ready = false;
       try {
-        if ((DateTime.UtcNow - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
-          Query._lastRequestTime = DateTime.UtcNow;
-          return await request().ConfigureAwait(false);
+        var now = DateTime.UtcNow;
+        if ((now - Query._lastRequestTime).TotalSeconds >= Query.DelayBetweenRequests) {
+          Query._lastRequestTime = now;
+          ready = true;
         }
       }
       finally {
-        Query.RequestLock.Release();
+        Query.DelayLock.Release();
+      }
+      if (ready) {
+        return await request().ConfigureAwait(false);
       }
       await Task.Delay((int) (500 * Query.DelayBetweenRequests), cancellationToken).ConfigureAwait(false);
     }
@@ -354,8 +361,6 @@ public sealed partial class Query : IDisposable {
 
   private Func<HttpClient>? _clientCreation;
 
-  private readonly SemaphoreSlim _clientLock = new(1);
-
   private readonly bool _clientOwned;
 
   private bool _disposed;
@@ -388,14 +393,7 @@ public sealed partial class Query : IDisposable {
     if (!this._clientOwned) {
       throw new InvalidOperationException("An explicitly provided client instance is in use.");
     }
-    this._clientLock.Wait();
-    try {
-      this._client?.Dispose();
-      this._client = null;
-    }
-    finally {
-      this._clientLock.Release();
-    }
+    Interlocked.Exchange(ref this._client, null)?.Dispose();
   }
 
   /// <summary>Sets up code to run to configure a newly-created HTTP client.</summary>
@@ -432,7 +430,6 @@ public sealed partial class Query : IDisposable {
         this.Close();
       }
       this._client = null;
-      this._clientLock.Dispose();
     }
     finally {
       this._disposed = true;
@@ -507,43 +504,37 @@ public sealed partial class Query : IDisposable {
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
-    await this._clientLock.WaitAsync(cancellationToken);
-    try {
-      var client = this.Client;
-      using var request = new HttpRequestMessage(method, uri) {
-        Content = body,
-        Headers = {
-          Accept = {
-            Query.AcceptHeader,
-          },
-          Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
-        }
-      };
-      // Use whatever user agent the client has set, plus our own.
-      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-        request.Headers.UserAgent.Add(userAgent);
+    var client = this.Client;
+    using var request = new HttpRequestMessage(method, uri) {
+      Content = body,
+      Headers = {
+        Accept = {
+          Query.AcceptHeader,
+        },
+        Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
       }
-      request.Headers.UserAgent.Add(Query.LibraryProductInfo);
-      request.Headers.UserAgent.Add(Query.LibraryComment);
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
-      if (body is not null) {
-        // FIXME: Should this include the actual body text too?
-        Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
-      }
-      var response = await client.SendAsync(request, cancellationToken);
-      Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
-                  $"'{response.ReasonPhrase}' (v{response.Version})");
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
-      Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
-                  $"{response.Content.Headers.ContentLength ?? 0} bytes");
-      if (!response.IsSuccessStatusCode) {
-        throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
-      }
-      return response;
+    };
+    // Use whatever user agent the client has set, plus our own.
+    foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+      request.Headers.UserAgent.Add(userAgent);
     }
-    finally {
-      this._clientLock.Release();
+    request.Headers.UserAgent.Add(Query.LibraryProductInfo);
+    request.Headers.UserAgent.Add(Query.LibraryComment);
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    if (body is not null) {
+      // FIXME: Should this include the actual body text too?
+      Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
     }
+    var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
+                $"'{response.ReasonPhrase}' (v{response.Version})");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
+                $"{response.Content.Headers.ContentLength ?? 0} bytes");
+    if (!response.IsSuccessStatusCode) {
+      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
+    }
+    return response;
   }
 
   internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
@@ -554,15 +545,15 @@ public sealed partial class Query : IDisposable {
     return await Query.ApplyDelayAsync(() => {
       var uri = this.BuildUri($"{entity}/{id}", extra);
       return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
-    }, cancellationToken);
+    }, cancellationToken).ConfigureAwait(false);
   }
 
   internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)
     => this.PerformRequestAsync<T>(entity, id.ToString("D"), extra, cancellationToken);
 
   internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
-    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken);
-    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken);
+    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken).ConfigureAwait(false);
+    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {
@@ -571,8 +562,8 @@ public sealed partial class Query : IDisposable {
     var body = submission.RequestBody;
     using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
     using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, method, content, cancellationToken),
-                                                     cancellationToken);
-    return await Query.ExtractMessageAsync(response, cancellationToken) ?? "";
+                                                     cancellationToken).ConfigureAwait(false);
+    return await Query.ExtractMessageAsync(response, cancellationToken).ConfigureAwait(false) ?? "";
   }
 
   #endregion

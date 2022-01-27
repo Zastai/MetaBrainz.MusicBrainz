@@ -76,7 +76,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllSeries"/></remarks>
   public Task<ISearchResults<ISearchResult<ISeries>>> FindSeriesAsync(string query, int? limit = null, int? offset = null,
                                                                       bool simple = false,
-                                                                      CancellationToken cancellationToken = new())
+                                                                      CancellationToken cancellationToken = default)
     => new FoundSeries(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

@@ -82,7 +82,8 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   /// <remarks><inheritdoc cref="FindAllAreas"/></remarks>
   public Task<ISearchResults<ISearchResult<IArea>>> FindAreasAsync(string query, int? limit = null, int? offset = null,
-                                                                   bool simple = false, CancellationToken cancellationToken = new())
+                                                                   bool simple = false,
+                                                                   CancellationToken cancellationToken = default)
     => new FoundAreas(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

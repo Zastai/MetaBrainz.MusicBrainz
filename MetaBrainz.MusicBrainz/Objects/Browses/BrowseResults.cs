@@ -22,7 +22,8 @@ where TResult : IEntity {
 
   protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
                                                                                  CancellationToken cancellationToken) {
-    this.CurrentResult = await Utils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
+    var task = Utils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
+    this.CurrentResult = await task.ConfigureAwait(false);
     return this;
   }
 

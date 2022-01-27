@@ -78,7 +78,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllInstruments"/></remarks>
   public Task<ISearchResults<ISearchResult<IInstrument>>> FindInstrumentsAsync(string query, int? limit = null, int? offset = null,
                                                                                bool simple = false,
-                                                                               CancellationToken cancellationToken = new())
+                                                                               CancellationToken cancellationToken = default)
     => new FoundInstruments(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

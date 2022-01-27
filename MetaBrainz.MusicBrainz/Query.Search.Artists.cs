@@ -91,7 +91,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllArtists"/></remarks>
   public Task<ISearchResults<ISearchResult<IArtist>>> FindArtistsAsync(string query, int? limit = null, int? offset = null,
                                                                        bool simple = false,
-                                                                       CancellationToken cancellationToken = new())
+                                                                       CancellationToken cancellationToken = default)
     => new FoundArtists(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

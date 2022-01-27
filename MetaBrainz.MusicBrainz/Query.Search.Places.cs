@@ -84,7 +84,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllPlaces"/></remarks>
   public Task<ISearchResults<ISearchResult<IPlace>>> FindPlacesAsync(string query, int? limit = null, int? offset = null,
                                                                      bool simple = false,
-                                                                     CancellationToken cancellationToken = new())
+                                                                     CancellationToken cancellationToken = default)
     => new FoundPlaces(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

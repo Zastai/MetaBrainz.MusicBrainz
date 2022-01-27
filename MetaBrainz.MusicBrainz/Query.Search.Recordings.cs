@@ -132,7 +132,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllRecordings"/></remarks>
   public Task<ISearchResults<ISearchResult<IRecording>>> FindRecordingsAsync(string query, int? limit = null, int? offset = null,
                                                                              bool simple = false,
-                                                                             CancellationToken cancellationToken = new())
+                                                                             CancellationToken cancellationToken = default)
     => new FoundRecordings(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

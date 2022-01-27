@@ -169,7 +169,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseAreaEventsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                            Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                            Include inc = Include.None,
+                                                            CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
@@ -194,7 +195,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseArtistEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
-                                                              CancellationToken cancellationToken = new())
+                                                              CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
@@ -219,7 +220,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseCollectionEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given area.</summary>
@@ -277,7 +278,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArea area, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
@@ -290,7 +291,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArtist artist, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", artist.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
@@ -303,7 +304,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
@@ -316,7 +317,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "place", place.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
@@ -341,7 +342,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IEvent>> BrowsePlaceEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                              Include inc = Include.None,
-                                                             CancellationToken cancellationToken = new())
+                                                             CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.BuildExtraText(inc, "place", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

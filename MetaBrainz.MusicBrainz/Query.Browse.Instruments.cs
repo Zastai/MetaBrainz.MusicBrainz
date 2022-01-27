@@ -69,7 +69,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
-                                                                  CancellationToken cancellationToken = new()) {
+                                                                  CancellationToken cancellationToken = default) {
     var browse = new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -97,7 +97,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IInstrument>> BrowseCollectionInstrumentsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                             Include inc = Include.None,
-                                                                            CancellationToken cancellationToken = new())
+                                                                            CancellationToken cancellationToken = default)
     => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

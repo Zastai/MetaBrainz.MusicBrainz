@@ -18,10 +18,10 @@ where TResultObject : class {
 
   #region IAsyncEnumerable
 
-  public async IAsyncEnumerator<TItem> GetAsyncEnumerator(CancellationToken cancellationToken = new()) {
+  public async IAsyncEnumerator<TItem> GetAsyncEnumerator(CancellationToken cancellationToken = default) {
     IPagedQueryResults<TResult, TItem> currentPage = this._pagedResults;
     if (!currentPage.IsActive) {
-      currentPage = await currentPage.NextAsync(cancellationToken);
+      currentPage = await currentPage.NextAsync(cancellationToken).ConfigureAwait(false);
       if (cancellationToken.IsCancellationRequested) {
         yield break;
       }
@@ -36,7 +36,7 @@ where TResultObject : class {
       if (currentPage.Offset + currentPage.Results.Count >= currentPage.TotalResults || cancellationToken.IsCancellationRequested) {
         break;
       }
-      currentPage = await currentPage.NextAsync(cancellationToken);
+      currentPage = await currentPage.NextAsync(cancellationToken).ConfigureAwait(false);
     }
   }
 

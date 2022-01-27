@@ -88,7 +88,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllLabels"/></remarks>
   public Task<ISearchResults<ISearchResult<ILabel>>> FindLabelsAsync(string query, int? limit = null, int? offset = null,
                                                                      bool simple = false,
-                                                                     CancellationToken cancellationToken = new())
+                                                                     CancellationToken cancellationToken = default)
     => new FoundLabels(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }
