@@ -72,11 +72,6 @@ internal static class Utils {
     return new QueryException(response.StatusCode, response.ReasonPhrase, errorInfo);
   }
 
-  public static ProductInfoHeaderValue CreateUserAgentHeader<T>() {
-    var an = typeof(T).Assembly.GetName();
-    return new ProductInfoHeaderValue(an.Name ?? "*Unknown Assembly*", an.Version?.ToString());
-  }
-
   public static string FormatMultiLine(string text) {
     const string prefix = "<<";
     const string suffix = ">>";

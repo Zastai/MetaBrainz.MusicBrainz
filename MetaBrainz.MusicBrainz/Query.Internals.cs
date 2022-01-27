@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
@@ -353,7 +354,7 @@ public sealed partial class Query : IDisposable {
 
   private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
 
-  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<Query>();
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = HttpUtils.CreateUserAgentHeader<Query>();
 
   private HttpClient? _client;
 

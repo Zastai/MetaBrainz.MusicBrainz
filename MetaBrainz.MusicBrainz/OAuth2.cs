@@ -249,7 +249,7 @@ public sealed class OAuth2 : IDisposable {
 
   private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
 
-  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<OAuth2>();
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = HttpUtils.CreateUserAgentHeader<OAuth2>();
 
   private HttpClient? _client;
 
