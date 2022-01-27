@@ -17,7 +17,7 @@ namespace MetaBrainz.MusicBrainz;
 internal static class Utils {
 
   public static async Task<QueryException> CreateQueryExceptionForAsync(HttpResponseMessage response,
-                                                                        CancellationToken cancellationToken = new()) {
+                                                                        CancellationToken cancellationToken = default) {
     string? errorInfo = null;
     if (response.Content.Headers.ContentLength > 0) {
       errorInfo = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
@@ -105,7 +105,7 @@ internal static class Utils {
   }
 
   public static async Task<T> GetJsonContentAsync<T>(HttpResponseMessage response, JsonSerializerOptions options,
-                                                     CancellationToken cancellationToken = new()) {
+                                                     CancellationToken cancellationToken = default) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
 #if NET
@@ -139,7 +139,7 @@ internal static class Utils {
   }
 
   public static async Task<string> GetStringContentAsync(HttpResponseMessage response,
-                                                         CancellationToken cancellationToken = new()) {
+                                                         CancellationToken cancellationToken = default) {
     var content = response.Content;
     Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
 #if NET

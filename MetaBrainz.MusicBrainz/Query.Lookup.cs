@@ -29,7 +29,7 @@ public sealed partial class Query {
   /// <returns>The requested area.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Area>("area", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified artist.</summary>
@@ -63,7 +63,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                               ReleaseStatus? status = null, CancellationToken cancellationToken = new())
+                                               ReleaseStatus? status = null, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Artist>("artist", mbid, Query.BuildExtraText(inc, status, type), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -84,7 +84,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None,
-                                                       CancellationToken cancellationToken = new())
+                                                       CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Collection>("collection", mbid, Query.BuildExtraText(inc), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -133,7 +133,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
                                                            bool allMediaFormats = false, bool noStubs = false,
-                                                           CancellationToken cancellationToken = new()) {
+                                                           CancellationToken cancellationToken = default) {
     var extra = Query.BuildExtraText(inc, toc, allMediaFormats, noStubs);
     return await this.PerformRequestAsync<DiscIdLookupResult>("discid", discid, extra, cancellationToken).ConfigureAwait(false);
   }
@@ -153,7 +153,7 @@ public sealed partial class Query {
   /// <returns>The requested event.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Event>("event", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified genre.</summary>
@@ -169,7 +169,7 @@ public sealed partial class Query {
   /// <returns>The requested genre.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IGenre> LookupGenreAsync(Guid mbid, CancellationToken cancellationToken = new())
+  public async Task<IGenre> LookupGenreAsync(Guid mbid, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Genre>("genre", mbid, string.Empty, cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified instrument.</summary>
@@ -189,7 +189,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None,
-                                                       CancellationToken cancellationToken = new())
+                                                       CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Instrument>("instrument", mbid, Query.BuildExtraText(inc), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -208,7 +208,7 @@ public sealed partial class Query {
   /// <returns>The recordings associated with the requested ISRC.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Isrc>("isrc", isrc, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the works associated with the specified ISWC.</summary>
@@ -228,7 +228,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IReadOnlyList<IWork>> LookupIswcAsync(string iswc, Include inc = Include.None,
-                                                          CancellationToken cancellationToken = new()) {
+                                                          CancellationToken cancellationToken = default) {
     // This "lookup" behaves like a browse, except that it does not support offset/limit.
     var lookup = new IswcLookup(this, iswc, Query.BuildExtraText(inc));
     var results = await lookup.NextAsync(cancellationToken).ConfigureAwait(false);
@@ -264,7 +264,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                             ReleaseStatus? status = null, CancellationToken cancellationToken = new())
+                                             ReleaseStatus? status = null, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Label>("label", mbid, Query.BuildExtraText(inc, status, type), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -283,7 +283,7 @@ public sealed partial class Query {
   /// <returns>The requested place.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Place>("place", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified recording.</summary>
@@ -315,7 +315,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                                     ReleaseStatus? status = null, CancellationToken cancellationToken = new())
+                                                     ReleaseStatus? status = null, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Recording>("recording", mbid, Query.BuildExtraText(inc, status, type), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -334,7 +334,8 @@ public sealed partial class Query {
   /// <returns>The requested release.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None,
+                                                 CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Release>("release", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified release group.</summary>
@@ -360,7 +361,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null,
-                                                           CancellationToken cancellationToken = new())
+                                                           CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<ReleaseGroup>("release-group", mbid, Query.BuildExtraText(inc, status), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -379,7 +380,7 @@ public sealed partial class Query {
   /// <returns>The requested series.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Series>("series", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified URL.</summary>
@@ -405,7 +406,7 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Url>("url", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified URL.</summary>
@@ -415,7 +416,7 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Url>("url", null, Query.BuildExtraText(inc, resource), cancellationToken)
                  .ConfigureAwait(false);
 
@@ -434,7 +435,7 @@ public sealed partial class Query {
   /// <returns>The requested work.</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = new())
+  public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
     => await this.PerformRequestAsync<Work>("work", mbid, Query.BuildExtraText(inc), cancellationToken).ConfigureAwait(false);
 
 }

@@ -132,7 +132,8 @@ public sealed partial class Query {
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public Task<string> AddToCollectionAsync(string client, Guid collection, IWork work, CancellationToken cancellationToken = new())
+  public Task<string> AddToCollectionAsync(string client, Guid collection, IWork work,
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Work, work, cancellationToken);
 
   /// <summary>Adds the specified works to the specified collection.</summary>
@@ -164,7 +165,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IWork> works,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Work, works, cancellationToken);
 
   /// <summary>Adds the specified works to the specified collection.</summary>
@@ -198,7 +199,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IWork work,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Work, work, cancellationToken);
 
   /// <summary>Adds the specified works to the specified collection.</summary>
@@ -230,7 +231,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IWork> works,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Work, works, cancellationToken);
 
   #endregion
@@ -358,7 +359,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IWork work,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Work, work, cancellationToken);
 
   /// <summary>Removes the specified works from the specified collection.</summary>
@@ -390,7 +391,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IWork> works,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Work, works, cancellationToken);
 
   /// <summary>Removes the specified works from the specified collection.</summary>
@@ -424,7 +425,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IWork work,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Work, work, cancellationToken);
 
   /// <summary>Removes the specified works from the specified collection.</summary>
@@ -456,7 +457,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IWork> works,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Work, works, cancellationToken);
 
   #endregion

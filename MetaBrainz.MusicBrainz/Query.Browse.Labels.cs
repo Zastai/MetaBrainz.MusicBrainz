@@ -135,7 +135,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseAreaLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                            Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                            Include inc = Include.None,
+                                                            CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
@@ -160,7 +161,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseCollectionLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
@@ -207,7 +208,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
@@ -220,7 +221,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
@@ -233,7 +234,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null,
-                                                        Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
@@ -258,7 +259,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseReleaseLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                Include inc = Include.None,
-                                                               CancellationToken cancellationToken = new())
+                                                               CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "release", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

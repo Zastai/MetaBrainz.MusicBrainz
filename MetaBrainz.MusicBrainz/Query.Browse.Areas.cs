@@ -68,7 +68,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                      Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                      Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
@@ -93,7 +93,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArea>> BrowseCollectionAreasAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
-                                                                CancellationToken cancellationToken = new())
+                                                                CancellationToken cancellationToken = default)
     => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

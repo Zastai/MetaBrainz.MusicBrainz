@@ -137,7 +137,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseArtistRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None,
-                                                                      CancellationToken cancellationToken = new())
+                                                                      CancellationToken cancellationToken = default)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -163,7 +163,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseCollectionRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                           Include inc = Include.None,
-                                                                          CancellationToken cancellationToken = new())
+                                                                          CancellationToken cancellationToken = default)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
@@ -213,7 +213,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
-                                                                CancellationToken cancellationToken = new())
+                                                                CancellationToken cancellationToken = default)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", artist.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
@@ -227,7 +227,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
-                                                                CancellationToken cancellationToken = new()) {
+                                                                CancellationToken cancellationToken = default) {
     var browse = new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -243,7 +243,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IRelease release, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
-                                                                CancellationToken cancellationToken = new())
+                                                                CancellationToken cancellationToken = default)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
@@ -269,7 +269,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None,
-                                                                       CancellationToken cancellationToken = new())
+                                                                       CancellationToken cancellationToken = default)
     => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

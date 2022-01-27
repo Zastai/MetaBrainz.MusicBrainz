@@ -109,7 +109,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllReleases"/></remarks>
   public Task<ISearchResults<ISearchResult<IRelease>>> FindReleasesAsync(string query, int? limit = null, int? offset = null,
                                                                          bool simple = false,
-                                                                         CancellationToken cancellationToken = new())
+                                                                         CancellationToken cancellationToken = default)
     => new FoundReleases(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

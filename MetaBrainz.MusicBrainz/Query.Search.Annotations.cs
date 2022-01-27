@@ -75,7 +75,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllAnnotations"/></remarks>
   public Task<ISearchResults<ISearchResult<IAnnotation>>> FindAnnotationsAsync(string query, int? limit = null, int? offset = null,
                                                                                bool simple = false,
-                                                                               CancellationToken cancellationToken = new())
+                                                                               CancellationToken cancellationToken = default)
     => new FoundAnnotations(this, query, limit, offset, simple).NextAsync(cancellationToken);
 
 }

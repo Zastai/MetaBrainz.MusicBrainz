@@ -238,7 +238,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseAreaArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
-                                                              CancellationToken cancellationToken = new())
+                                                              CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
@@ -320,7 +320,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IArea area, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
@@ -333,7 +333,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(ICollection collection, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -346,7 +346,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRecording recording, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "recording", recording.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
@@ -359,7 +359,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRelease release, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
@@ -372,7 +372,8 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new()) {
+                                                          Include inc = Include.None,
+                                                          CancellationToken cancellationToken = default) {
     var browse = new BrowseArtists(this, Query.BuildExtraText(inc, "release-group", releaseGroup.Id), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -387,7 +388,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IWork work, int? limit = null, int? offset = null,
-                                                          Include inc = Include.None, CancellationToken cancellationToken = new())
+                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "work", work.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
@@ -413,7 +414,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseCollectionArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                     Include inc = Include.None,
-                                                                    CancellationToken cancellationToken = new())
+                                                                    CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists associated with the given recording.</summary>
@@ -439,7 +440,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseRecordingArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                    Include inc = Include.None,
-                                                                   CancellationToken cancellationToken = new())
+                                                                   CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "recording", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release.</summary>
@@ -464,7 +465,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseReleaseArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None,
-                                                                 CancellationToken cancellationToken = new())
+                                                                 CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release group.</summary>
@@ -490,7 +491,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseReleaseGroupArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None,
-                                                                      CancellationToken cancellationToken = new())
+                                                                      CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release-group", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the artists associated with the given work.</summary>
@@ -515,7 +516,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseWorkArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
-                                                              CancellationToken cancellationToken = new())
+                                                              CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "work", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

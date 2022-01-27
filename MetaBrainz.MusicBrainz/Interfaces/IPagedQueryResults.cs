@@ -58,7 +58,7 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TResults> NextAsync(CancellationToken cancellationToken = new());
+  Task<TResults> NextAsync(CancellationToken cancellationToken = default);
 
   /// <summary>
   /// The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or <see langword="null"/>
@@ -89,7 +89,7 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// <returns>This result set (with updated values).</returns>
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
-  Task<TResults> PreviousAsync(CancellationToken cancellationToken = new());
+  Task<TResults> PreviousAsync(CancellationToken cancellationToken = default);
 
   /// <summary>The current results.</summary>
   IReadOnlyList<TItem> Results { get; }

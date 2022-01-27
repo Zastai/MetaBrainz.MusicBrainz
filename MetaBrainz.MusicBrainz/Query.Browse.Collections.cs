@@ -377,7 +377,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseAreaCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                      CancellationToken cancellationToken = new())
+                                                                      CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("area", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
@@ -399,7 +399,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseArtistCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                        CancellationToken cancellationToken = new())
+                                                                        CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("artist", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given area.</summary>
@@ -521,7 +521,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArea area, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("area", area.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
@@ -533,7 +533,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IArtist artist, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("artist", artist.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
@@ -545,7 +545,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IEvent @event, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("event", @event.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
@@ -557,7 +557,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IInstrument instrument, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("instrument", instrument.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
@@ -569,7 +569,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ILabel label, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("label", label.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
@@ -581,7 +581,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IPlace place, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("place", place.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
@@ -593,7 +593,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRecording recording, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("recording", recording.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
@@ -605,7 +605,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IRelease release, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("release", release.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
@@ -617,7 +617,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new()) {
+                                                                  CancellationToken cancellationToken = default) {
     var browse = new BrowseCollections(this, Query.BuildExtraText("release-group", releaseGroup.Id), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -631,7 +631,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(ISeries series, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("series", series.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
@@ -643,7 +643,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseCollectionsAsync(IWork work, int? limit = null, int? offset = null,
-                                                                  CancellationToken cancellationToken = new())
+                                                                  CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("work", work.Id), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections of the given editor.</summary>
@@ -665,7 +665,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseEditorCollectionsAsync(string editor, int? limit = null, int? offset = null,
-                                                                        CancellationToken cancellationToken = new())
+                                                                        CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("editor", editor), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
@@ -687,7 +687,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseEventCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                       CancellationToken cancellationToken = new())
+                                                                       CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("event", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
@@ -709,7 +709,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseInstrumentCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                            CancellationToken cancellationToken = new())
+                                                                            CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("instrument", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
@@ -731,7 +731,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseLabelCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                       CancellationToken cancellationToken = new())
+                                                                       CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("label", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
@@ -753,7 +753,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowsePlaceCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                       CancellationToken cancellationToken = new())
+                                                                       CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("place", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
@@ -775,7 +775,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseRecordingCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                           CancellationToken cancellationToken = new())
+                                                                           CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("recording", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
@@ -797,7 +797,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseReleaseCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                         CancellationToken cancellationToken = new())
+                                                                         CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("release", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
@@ -819,7 +819,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseReleaseGroupCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                              CancellationToken cancellationToken = new())
+                                                                              CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("release-group", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given series.</summary>
@@ -841,7 +841,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseSeriesCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                        CancellationToken cancellationToken = new())
+                                                                        CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("series", mbid), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
@@ -863,7 +863,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public Task<IBrowseResults<ICollection>> BrowseWorkCollectionsAsync(Guid mbid, int? limit = null, int? offset = null,
-                                                                      CancellationToken cancellationToken = new())
+                                                                      CancellationToken cancellationToken = default)
     => new BrowseCollections(this, Query.BuildExtraText("work", mbid), limit, offset).NextAsync(cancellationToken);
 
 }

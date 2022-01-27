@@ -366,7 +366,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseAreaReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None, ReleaseType? type = null,
                                                                 ReleaseStatus? status = null,
-                                                                CancellationToken cancellationToken = new())
+                                                                CancellationToken cancellationToken = default)
     => new BrowseReleases(this, Query.BuildExtraText(inc, "area", mbid, type, status), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
@@ -397,7 +397,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None, ReleaseType? type = null,
                                                                   ReleaseStatus? status = null,
-                                                                  CancellationToken cancellationToken = new()) {
+                                                                  CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "artist", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -431,7 +431,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseCollectionReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       ReleaseStatus? status = null,
-                                                                      CancellationToken cancellationToken = new()) {
+                                                                      CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "collection", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -464,7 +464,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseLabelReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null,
-                                                                 CancellationToken cancellationToken = new())
+                                                                 CancellationToken cancellationToken = default)
     => new BrowseReleases(this, Query.BuildExtraText(inc, "label", mbid, type, status), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
@@ -496,7 +496,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseRecordingReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                      Include inc = Include.None, ReleaseType? type = null,
                                                                      ReleaseStatus? status = null,
-                                                                     CancellationToken cancellationToken = new()) {
+                                                                     CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "recording", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -530,7 +530,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleaseGroupReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                         Include inc = Include.None, ReleaseType? type = null,
                                                                         ReleaseStatus? status = null,
-                                                                        CancellationToken cancellationToken = new()) {
+                                                                        CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "release-group", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -648,7 +648,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "area", area.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -667,7 +667,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "artist", artist.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -686,7 +686,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "collection", collection.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -705,7 +705,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "label", label.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -724,7 +724,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "recording", recording.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -743,7 +743,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "release-group", releaseGroup.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -762,7 +762,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
-                                                            CancellationToken cancellationToken = new()) {
+                                                            CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "track", track.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -817,7 +817,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null,
-                                                                       CancellationToken cancellationToken = new()) {
+                                                                       CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "track_artist", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -838,7 +838,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null,
-                                                                       CancellationToken cancellationToken = new()) {
+                                                                       CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "track_artist", artist.Id, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
@@ -871,7 +871,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRelease>> BrowseTrackReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null,
-                                                                 CancellationToken cancellationToken = new()) {
+                                                                 CancellationToken cancellationToken = default) {
     var browse = new BrowseReleases(this, Query.BuildExtraText(inc, "track", mbid, type, status), limit, offset);
     return browse.NextAsync(cancellationToken);
   }

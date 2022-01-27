@@ -18,7 +18,7 @@ where TResultObject : class {
 
   #region IAsyncEnumerable
 
-  public async IAsyncEnumerator<TItem> GetAsyncEnumerator(CancellationToken cancellationToken = new()) {
+  public async IAsyncEnumerator<TItem> GetAsyncEnumerator(CancellationToken cancellationToken = default) {
     IPagedQueryResults<TResult, TItem> currentPage = this._pagedResults;
     if (!currentPage.IsActive) {
       currentPage = await currentPage.NextAsync(cancellationToken).ConfigureAwait(false);

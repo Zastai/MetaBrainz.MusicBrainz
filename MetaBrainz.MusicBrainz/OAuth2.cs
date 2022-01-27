@@ -219,7 +219,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri,
-                                                       CancellationToken cancellationToken = new())
+                                                       CancellationToken cancellationToken = default)
     => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, cancellationToken);
 
   /// <summary>Refreshes a bearer token.</summary>
@@ -235,7 +235,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret,
-                                                           CancellationToken cancellationToken = new())
+                                                           CancellationToken cancellationToken = default)
     => this.RefreshTokenAsync("bearer", refreshToken, clientSecret, cancellationToken);
 
   #endregion

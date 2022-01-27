@@ -133,7 +133,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IInstrument instrument,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
 
   /// <summary>Adds the specified instruments to the specified collection.</summary>
@@ -165,7 +165,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IInstrument> instruments,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
 
   /// <summary>Adds the specified instruments to the specified collection.</summary>
@@ -199,7 +199,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IInstrument instrument,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
 
   /// <summary>Adds the specified instruments to the specified collection.</summary>
@@ -231,7 +231,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IInstrument> instruments,
-                                           CancellationToken cancellationToken = new())
+                                           CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
 
   #endregion
@@ -359,7 +359,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IInstrument instrument,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
 
   /// <summary>Removes the specified instruments from the specified collection.</summary>
@@ -391,7 +391,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IInstrument> instruments,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
 
   /// <summary>Removes the specified instruments from the specified collection.</summary>
@@ -425,7 +425,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IInstrument instrument,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instrument, cancellationToken);
 
   /// <summary>Removes the specified instruments from the specified collection.</summary>
@@ -457,7 +457,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IInstrument> instruments,
-                                                CancellationToken cancellationToken = new())
+                                                CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Instrument, instruments, cancellationToken);
 
   #endregion
