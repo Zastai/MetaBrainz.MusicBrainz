@@ -10,6 +10,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz;
@@ -62,7 +63,7 @@ internal static class Utils {
           }
         }
         if (!handled) {
-          Debug.Print($"[{DateTime.UtcNow}] => ERROR RESPONSE TEXT: {Utils.FormatMultiLine(errorInfo)}");
+          Debug.Print($"[{DateTime.UtcNow}] => ERROR RESPONSE TEXT: {TextUtils.FormatMultiLine(errorInfo)}");
         }
       }
     }
@@ -70,20 +71,6 @@ internal static class Utils {
       Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE CONTENT");
     }
     return new QueryException(response.StatusCode, response.ReasonPhrase, errorInfo);
-  }
-
-  public static string FormatMultiLine(string text) {
-    const string prefix = "<<";
-    const string suffix = ">>";
-    const string sep = "\n  ";
-    char[] newlines = { '\r', '\n' };
-    text = text.Replace("\r\n", "\n").TrimEnd(newlines);
-    var lines = text.Split(newlines);
-    return lines.Length switch {
-      0 => prefix + suffix,
-      1 => prefix + lines[0] + suffix,
-      _ => prefix + sep + string.Join(sep, lines) + "\n" + suffix
-    };
   }
 
   private static string GetContentEncoding(HttpContentHeaders contentHeaders) {
@@ -155,7 +142,7 @@ internal static class Utils {
     using var sr = new StreamReader(stream, Encoding.GetEncoding(characterSet), false, 1024, true);
     // This is not (yet?) cancelable
     var text = await sr.ReadToEndAsync().ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE TEXT: {Utils.FormatMultiLine(text)}");
+    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE TEXT: {TextUtils.FormatMultiLine(text)}");
     return text;
   }
 

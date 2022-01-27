@@ -486,7 +486,7 @@ public sealed partial class Query : IDisposable {
             }
           }
           if (!handled) {
-            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {Utils.FormatMultiLine(body)}");
+            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {TextUtils.FormatMultiLine(body)}");
             message = body;
           }
         }
@@ -521,7 +521,7 @@ public sealed partial class Query : IDisposable {
     }
     request.Headers.UserAgent.Add(Query.LibraryProductInfo);
     request.Headers.UserAgent.Add(Query.LibraryComment);
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(request.Headers.ToString())}");
     if (body is not null) {
       // FIXME: Should this include the actual body text too?
       Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
@@ -529,7 +529,7 @@ public sealed partial class Query : IDisposable {
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
                 $"'{response.ReasonPhrase}' (v{response.Version})");
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(response.Headers.ToString())}");
     Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                 $"{response.Content.Headers.ContentLength ?? 0} bytes");
     if (!response.IsSuccessStatusCode) {
