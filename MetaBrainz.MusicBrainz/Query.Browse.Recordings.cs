@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -124,7 +125,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseArtistRecordings(Guid mbid, int? limit = null, int? offset = null,
                                                            Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistRecordingsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistRecordingsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose recordings should be retrieved.</param>
@@ -150,7 +151,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseCollectionRecordings(Guid mbid, int? limit = null, int? offset = null,
                                                                Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionRecordingsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionRecordingsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained recordings should be retrieved.</param>
@@ -176,7 +177,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseRecordings(IArtist artist, int? limit = null, int? offset = null,
                                                      Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseRecordingsAsync(artist, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseRecordingsAsync(artist, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
   /// <param name="collection">The collection whose contained recordings should be retrieved.</param>
@@ -188,7 +189,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseRecordings(ICollection collection, int? limit = null, int? offset = null,
                                                      Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseRecordingsAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseRecordingsAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
   /// <param name="release">The release whose recordings should be retrieved.</param>
@@ -200,7 +201,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseRecordings(IRelease release, int? limit = null, int? offset = null,
                                                      Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseRecordingsAsync(release, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseRecordingsAsync(release, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
   /// <param name="artist">The artist whose recordings should be retrieved.</param>
@@ -256,7 +257,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRecording> BrowseReleaseRecordings(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseReleaseRecordingsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseReleaseRecordingsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose recordings should be retrieved.</param>

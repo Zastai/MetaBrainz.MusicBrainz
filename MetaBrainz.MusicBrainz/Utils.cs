@@ -164,8 +164,4 @@ internal static class Utils {
     return text;
   }
 
-  public static void ResultOf(Task task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
-
-  public static T ResultOf<T>(Task<T> task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
-
 }

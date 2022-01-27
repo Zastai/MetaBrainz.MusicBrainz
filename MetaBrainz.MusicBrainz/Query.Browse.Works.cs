@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -89,7 +90,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IWork> BrowseArtistWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistWorksAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistWorksAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose works should be retrieved.</param>
@@ -114,7 +115,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IWork> BrowseCollectionWorks(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionWorksAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionWorksAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained works should be retrieved.</param>
@@ -139,7 +140,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IWork> BrowseWorks(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseWorksAsync(artist, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseWorksAsync(artist, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
   /// <param name="collection">The collection whose contained works should be retrieved.</param>
@@ -151,7 +152,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IWork> BrowseWorks(ICollection collection, int? limit = null, int? offset = null,
                                            Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseWorksAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseWorksAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
   /// <param name="artist">The artist whose works should be retrieved.</param>

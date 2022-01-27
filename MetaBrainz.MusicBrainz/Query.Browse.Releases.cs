@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -350,7 +351,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                      ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseAreaReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseAreaReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose releases should be retrieved.</param>
@@ -381,7 +382,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                        ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseArtistReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseArtistReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose releases should be retrieved.</param>
@@ -415,7 +416,7 @@ public sealed partial class Query {
   public IBrowseResults<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null,
                                                            ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseCollectionReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseCollectionReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained releases should be retrieved.</param>
@@ -448,7 +449,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                       ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseLabelReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseLabelReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
   /// <param name="mbid">The MBID for the label whose releases should be retrieved.</param>
@@ -480,7 +481,7 @@ public sealed partial class Query {
   public IBrowseResults<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, ReleaseType? type = null,
                                                           ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseRecordingReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseRecordingReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
   /// <param name="mbid">The MBID for the recording whose releases should be retrieved.</param>
@@ -514,7 +515,7 @@ public sealed partial class Query {
   public IBrowseResults<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null,
                                                              Include inc = Include.None, ReleaseType? type = null,
                                                              ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
   /// <param name="mbid">The MBID for the release group whose releases should be retrieved.</param>
@@ -547,7 +548,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(area, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(area, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given artist.</summary>
   /// <param name="artist">The artist whose releases should be retrieved.</param>
@@ -561,7 +562,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(artist, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(artist, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases in the given collection.</summary>
   /// <param name="collection">The collection whose contained releases should be retrieved.</param>
@@ -575,7 +576,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null,
                                                  Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(collection, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(collection, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given label.</summary>
   /// <param name="label">The label whose releases should be retrieved.</param>
@@ -589,7 +590,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(label, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(label, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
   /// <param name="recording">The recording whose releases should be retrieved.</param>
@@ -603,7 +604,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null,
                                                  Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(recording, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(recording, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
   /// <param name="releaseGroup">The release group whose releases should be retrieved.</param>
@@ -632,7 +633,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseReleasesAsync(track, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseReleasesAsync(track, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
   /// <param name="area">The area whose releases should be retrieved.</param>
@@ -782,7 +783,7 @@ public sealed partial class Query {
   public IBrowseResults<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseTrackArtistReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseTrackArtistReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>
   /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
@@ -799,7 +800,7 @@ public sealed partial class Query {
   public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseTrackArtistReleasesAsync(artist, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseTrackArtistReleasesAsync(artist, limit, offset, inc, type, status));
 
   /// <summary>
   /// Returns (the specified subset of) the releases that include the given artist in a track-level artist credit only.
@@ -855,7 +856,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                       ReleaseType? type = null, ReleaseStatus? status = null)
-    => Utils.ResultOf(this.BrowseTrackReleasesAsync(mbid, limit, offset, inc, type, status));
+    => AsyncUtils.ResultOf(this.BrowseTrackReleasesAsync(mbid, limit, offset, inc, type, status));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given track.</summary>
   /// <param name="mbid">The MBID for the track whose releases should be retrieved.</param>

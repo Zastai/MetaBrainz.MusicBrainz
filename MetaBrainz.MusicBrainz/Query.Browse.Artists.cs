@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -225,7 +226,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseAreaArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseAreaArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseAreaArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose artists should be retrieved.</param>
@@ -250,7 +251,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(area, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(area, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
   /// <param name="collection">The collection whose contained artists should be retrieved.</param>
@@ -262,7 +263,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given recording.</summary>
   /// <param name="recording">The recording whose artists should be retrieved.</param>
@@ -274,7 +275,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(recording, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(recording, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release.</summary>
   /// <param name="release">The release whose artists should be retrieved.</param>
@@ -285,7 +286,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(release, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(release, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given release group.</summary>
   /// <param name="releaseGroup">The release group whose artists should be retrieved.</param>
@@ -297,7 +298,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(releaseGroup, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(releaseGroup, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given work.</summary>
   /// <param name="work">The work whose artists should be retrieved.</param>
@@ -308,7 +309,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IWork work, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseArtistsAsync(work, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseArtistsAsync(work, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the releases associated with the given area.</summary>
   /// <param name="area">The area whose artists should be retrieved.</param>
@@ -401,7 +402,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null,
                                                          Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained artists should be retrieved.</param>
@@ -427,7 +428,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null,
                                                         Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseRecordingArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseRecordingArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists associated with the given recording.</summary>
   /// <param name="mbid">The MBID for the recording whose artists should be retrieved.</param>
@@ -452,7 +453,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseReleaseArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseReleaseArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseReleaseArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose artists should be retrieved.</param>
@@ -478,7 +479,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null,
                                                            Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseReleaseGroupArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists associated with the given release group.</summary>
   /// <param name="mbid">The MBID for the release group whose artists should be retrieved.</param>
@@ -503,7 +504,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArtist> BrowseWorkArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseWorkArtistsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseWorkArtistsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the artists associated with the given work.</summary>
   /// <param name="mbid">The MBID for the work whose artists should be retrieved.</param>

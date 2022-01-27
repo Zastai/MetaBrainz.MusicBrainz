@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Json.Readers;
@@ -207,7 +208,7 @@ public sealed class OAuth2 : IDisposable {
   /// </param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
-    => Utils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
+    => AsyncUtils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
 
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
@@ -227,7 +228,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret)
-    => Utils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
+    => AsyncUtils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
 
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>

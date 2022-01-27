@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -132,7 +133,7 @@ public sealed partial class Query {
   /// <inheritdoc cref="BrowseArtistReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseArtistReleaseGroupsAsync(mbid, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseArtistReleaseGroupsAsync(mbid, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose release groups should be retrieved.</param>
@@ -152,7 +153,7 @@ public sealed partial class Query {
   /// <inheritdoc cref="BrowseCollectionReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
                                                                      Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseCollectionReleaseGroupsAsync(mbid, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseCollectionReleaseGroupsAsync(mbid, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained release groups should be retrieved.</param>
@@ -175,7 +176,7 @@ public sealed partial class Query {
   /// <inheritdoc cref="BrowseReleaseReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseReleaseReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseReleaseGroupsAsync(mbid, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseReleaseReleaseGroupsAsync(mbid, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose release groups should be retrieved.</param>
@@ -207,7 +208,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(artist, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupsAsync(artist, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups in the given collection.</summary>
   /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
@@ -220,7 +221,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(collection, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupsAsync(collection, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given release.</summary>
   /// <param name="release">The release whose release groups should be retrieved.</param>
@@ -236,7 +237,7 @@ public sealed partial class Query {
   /// </remarks>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IRelease release, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupsAsync(release, limit, offset, inc, type));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupsAsync(release, limit, offset, inc, type));
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
   /// <param name="artist">The artist whose release groups should be retrieved.</param>

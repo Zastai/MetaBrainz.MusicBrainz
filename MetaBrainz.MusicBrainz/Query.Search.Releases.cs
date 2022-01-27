@@ -2,6 +2,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
@@ -95,7 +96,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllReleases"/></remarks>
   public ISearchResults<ISearchResult<IRelease>> FindReleases(string query, int? limit = null, int? offset = null,
                                                               bool simple = false)
-    => Utils.ResultOf(this.FindReleasesAsync(query, limit, offset, simple));
+    => AsyncUtils.ResultOf(this.FindReleasesAsync(query, limit, offset, simple));
 
   /// <summary>Searches for releases using the given query.</summary>
   /// <param name="query">The search query to use.</param>
