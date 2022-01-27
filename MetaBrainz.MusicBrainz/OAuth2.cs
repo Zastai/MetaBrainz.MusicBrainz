@@ -374,7 +374,7 @@ public sealed class OAuth2 : IDisposable {
     if (!response.IsSuccessStatusCode) {
       throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
     }
-    var jsonTask = Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
+    var jsonTask = JsonUtils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
   }
 

@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -11,7 +10,6 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using MetaBrainz.Common;
-using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz;
 
@@ -84,40 +82,6 @@ internal static class Utils {
       characterSet = null;
     }
     return characterSet?.ToLowerInvariant() ?? "utf-8";
-  }
-
-  public static async Task<T> GetJsonContentAsync<T>(HttpResponseMessage response, JsonSerializerOptions options,
-                                                     CancellationToken cancellationToken = default) {
-    var content = response.Content;
-    Debug.Print($"[{DateTime.UtcNow}] => RESPONSE ({content.Headers.ContentType}): {content.Headers.ContentLength} bytes");
-#if NET
-    var stream = await response.Content.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-    await using var _ = stream.ConfigureAwait(false);
-#elif NETSTANDARD2_1_OR_GREATER
-    var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-    await using var _ = stream.ConfigureAwait(false);
-#else
-    using var stream = await content.ReadAsStreamAsync().ConfigureAwait(false);
-#endif
-    if (stream is null || stream.Length == 0) {
-      throw new QueryException(HttpStatusCode.NoContent, "Response contained no data.");
-    }
-    var characterSet = Utils.GetContentEncoding(content.Headers);
-#if !DEBUG
-    if (characterSet == "utf-8") { // Directly use the stream
-      var jsonObject = await JsonSerializer.DeserializeAsync<T>(stream, options, cancellationToken).ConfigureAwait(false);
-      return jsonObject ?? throw new JsonException("The received content was null.");
-    }
-#endif
-    var enc = Encoding.GetEncoding(characterSet);
-    using var sr = new StreamReader(stream, enc, false, 1024, true);
-    // This is not (yet?) cancelable
-    var json = await sr.ReadToEndAsync().ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] => JSON: {JsonUtils.Prettify(json)}");
-    {
-      var jsonObject = JsonUtils.Deserialize<T>(json, options);
-      return jsonObject ?? throw new JsonException("The received content was null.");
-    }
   }
 
   public static async Task<string> GetStringContentAsync(HttpResponseMessage response,
