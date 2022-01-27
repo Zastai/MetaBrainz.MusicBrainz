@@ -533,7 +533,7 @@ public sealed partial class Query : IDisposable {
     Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                 $"{response.Content.Headers.ContentLength ?? 0} bytes");
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
+      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
     }
     return response;
   }

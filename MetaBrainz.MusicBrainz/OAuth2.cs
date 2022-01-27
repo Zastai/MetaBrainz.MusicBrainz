@@ -372,7 +372,7 @@ public sealed class OAuth2 : IDisposable {
     var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
     var response = await this.PerformRequestAsync(uri, HttpMethod.Post, content, cancellationToken).ConfigureAwait(false);
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
+      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
     }
     var jsonTask = JsonUtils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
