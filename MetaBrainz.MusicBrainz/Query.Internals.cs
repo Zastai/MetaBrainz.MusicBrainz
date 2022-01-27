@@ -8,6 +8,8 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
+using JetBrains.Annotations;
+
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
@@ -24,7 +26,7 @@ public sealed partial class Query : IDisposable {
 
   private static DateTime _lastRequestTime;
 
-  private static async Task<T> ApplyDelayAsync<T>(Func<Task<T>> request, CancellationToken cancellationToken) {
+  private static async Task<T> ApplyDelayAsync<T>([InstantHandle] Func<Task<T>> request, CancellationToken cancellationToken) {
     if (Query.DelayBetweenRequests <= 0.0) {
       return await request().ConfigureAwait(false);
     }
@@ -530,7 +532,7 @@ public sealed partial class Query : IDisposable {
     Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                 $"{response.Content.Headers.ContentLength ?? 0} bytes");
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken);
+      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
     }
     return response;
   }
@@ -543,15 +545,15 @@ public sealed partial class Query : IDisposable {
     return await Query.ApplyDelayAsync(() => {
       var uri = this.BuildUri($"{entity}/{id}", extra);
       return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
-    }, cancellationToken);
+    }, cancellationToken).ConfigureAwait(false);
   }
 
   internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)
     => this.PerformRequestAsync<T>(entity, id.ToString("D"), extra, cancellationToken);
 
   internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
-    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken);
-    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken);
+    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken).ConfigureAwait(false);
+    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {
@@ -560,8 +562,8 @@ public sealed partial class Query : IDisposable {
     var body = submission.RequestBody;
     using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
     using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, method, content, cancellationToken),
-                                                     cancellationToken);
-    return await Query.ExtractMessageAsync(response, cancellationToken) ?? "";
+                                                     cancellationToken).ConfigureAwait(false);
+    return await Query.ExtractMessageAsync(response, cancellationToken).ConfigureAwait(false) ?? "";
   }
 
   #endregion
