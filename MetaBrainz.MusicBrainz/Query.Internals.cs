@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
@@ -353,7 +354,7 @@ public sealed partial class Query : IDisposable {
 
   private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
 
-  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<Query>();
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = HttpUtils.CreateUserAgentHeader<Query>();
 
   private HttpClient? _client;
 
@@ -452,7 +453,7 @@ public sealed partial class Query : IDisposable {
     string? message = null;
     try {
       if (response.Content.Headers.ContentLength > 0) {
-        var body = await Utils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
+        var body = await HttpUtils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(body)) {
           Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE TEXT");
         }
@@ -485,7 +486,7 @@ public sealed partial class Query : IDisposable {
             }
           }
           if (!handled) {
-            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {Utils.FormatMultiLine(body)}");
+            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {TextUtils.FormatMultiLine(body)}");
             message = body;
           }
         }
@@ -520,7 +521,7 @@ public sealed partial class Query : IDisposable {
     }
     request.Headers.UserAgent.Add(Query.LibraryProductInfo);
     request.Headers.UserAgent.Add(Query.LibraryComment);
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(request.Headers.ToString())}");
     if (body is not null) {
       // FIXME: Should this include the actual body text too?
       Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
@@ -528,11 +529,11 @@ public sealed partial class Query : IDisposable {
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
                 $"'{response.ReasonPhrase}' (v{response.Version})");
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(response.Headers.ToString())}");
     Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                 $"{response.Content.Headers.ContentLength ?? 0} bytes");
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
+      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
     }
     return response;
   }
@@ -553,7 +554,7 @@ public sealed partial class Query : IDisposable {
 
   internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
     using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken).ConfigureAwait(false);
-    return await Utils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
+    return await JsonUtils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {

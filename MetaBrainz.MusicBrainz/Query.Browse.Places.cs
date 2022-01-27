@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -89,7 +90,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IPlace> BrowseAreaPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseAreaPlacesAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseAreaPlacesAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose places should be retrieved.</param>
@@ -114,7 +115,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IPlace> BrowseCollectionPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionPlacesAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionPlacesAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained places should be retrieved.</param>
@@ -139,7 +140,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IPlace> BrowsePlaces(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowsePlacesAsync(area, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowsePlacesAsync(area, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
   /// <param name="collection">The collection whose contained places should be retrieved.</param>
@@ -151,7 +152,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null,
                                              Include inc = Include.None)
-    => Utils.ResultOf(this.BrowsePlacesAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowsePlacesAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
   /// <param name="area">The area whose places should be retrieved.</param>

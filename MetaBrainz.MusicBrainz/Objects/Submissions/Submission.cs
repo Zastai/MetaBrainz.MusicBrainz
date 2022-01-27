@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions;
@@ -21,7 +22,7 @@ public abstract class Submission : ISubmission {
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="System.Net.WebException">When the MusicBrainz web service could not be contacted.</exception>
-  public string Submit() => Utils.ResultOf(this.SubmitAsync());
+  public string Submit() => AsyncUtils.ResultOf(this.SubmitAsync());
 
   /// <summary>Submits the request asynchronously.</summary>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Json.Readers;
@@ -207,7 +208,7 @@ public sealed class OAuth2 : IDisposable {
   /// </param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
-    => Utils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
+    => AsyncUtils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
 
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
@@ -227,7 +228,7 @@ public sealed class OAuth2 : IDisposable {
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
   /// <returns>The obtained bearer token.</returns>
   public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret)
-    => Utils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
+    => AsyncUtils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
 
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
@@ -248,7 +249,7 @@ public sealed class OAuth2 : IDisposable {
 
   private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
 
-  private static readonly ProductInfoHeaderValue LibraryProductInfo = Utils.CreateUserAgentHeader<OAuth2>();
+  private static readonly ProductInfoHeaderValue LibraryProductInfo = HttpUtils.CreateUserAgentHeader<OAuth2>();
 
   private HttpClient? _client;
 
@@ -353,7 +354,7 @@ public sealed class OAuth2 : IDisposable {
     }
     request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
     request.Headers.UserAgent.Add(OAuth2.LibraryComment);
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(request.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(request.Headers.ToString())}");
     if (body is not null) {
       // FIXME: Should this include the actual body text too?
       Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
@@ -361,7 +362,7 @@ public sealed class OAuth2 : IDisposable {
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
                 $"'{response.ReasonPhrase}' (v{response.Version})");
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {Utils.FormatMultiLine(response.Headers.ToString())}");
+    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(response.Headers.ToString())}");
     Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
                 $"{response.Content.Headers.ContentLength ?? 0} bytes");
     return response;
@@ -371,9 +372,9 @@ public sealed class OAuth2 : IDisposable {
     var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
     var response = await this.PerformRequestAsync(uri, HttpMethod.Post, content, cancellationToken).ConfigureAwait(false);
     if (!response.IsSuccessStatusCode) {
-      throw await Utils.CreateQueryExceptionForAsync(response, cancellationToken).ConfigureAwait(false);
+      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
     }
-    var jsonTask = Utils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
+    var jsonTask = JsonUtils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
   }
 

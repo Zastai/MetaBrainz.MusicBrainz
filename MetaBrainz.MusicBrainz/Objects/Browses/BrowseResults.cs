@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
@@ -22,7 +23,7 @@ where TResult : IEntity {
 
   protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
                                                                                  CancellationToken cancellationToken) {
-    var task = Utils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
+    var task = JsonUtils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     return this;
   }

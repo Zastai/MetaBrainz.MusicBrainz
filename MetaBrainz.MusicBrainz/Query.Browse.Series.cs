@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -56,7 +57,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null,
                                                         Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionSeriesAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionSeriesAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained series should be retrieved.</param>
@@ -82,7 +83,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null,
                                               Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseSeriesAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseSeriesAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the series in the given collection.</summary>
   /// <param name="collection">The collection whose contained series should be retrieved.</param>

@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -123,7 +124,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseAreaLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseAreaLabelsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseAreaLabelsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose labels should be retrieved.</param>
@@ -148,7 +149,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseCollectionLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionLabelsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionLabelsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained labels should be retrieved.</param>
@@ -173,7 +174,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseLabelsAsync(area, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseLabelsAsync(area, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
   /// <param name="collection">The collection whose contained labels should be retrieved.</param>
@@ -185,7 +186,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null,
                                              Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseLabelsAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseLabelsAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
   /// <param name="release">The release whose labels should be retrieved.</param>
@@ -196,7 +197,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseLabelsAsync(release, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseLabelsAsync(release, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
   /// <param name="area">The area whose labels should be retrieved.</param>
@@ -246,7 +247,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ILabel> BrowseReleaseLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseReleaseLabelsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseReleaseLabelsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose labels should be retrieved.</param>

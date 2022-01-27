@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -56,7 +57,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null,
                                            Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseAreasAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseAreasAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
   /// <param name="collection">The collection whose contained areas should be retrieved.</param>
@@ -80,7 +81,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IArea> BrowseCollectionAreas(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionAreasAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionAreasAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>

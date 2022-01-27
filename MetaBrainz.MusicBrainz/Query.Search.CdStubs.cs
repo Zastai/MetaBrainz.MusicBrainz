@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Searches;
@@ -63,7 +64,7 @@ public sealed partial class Query {
   /// <remarks><inheritdoc cref="FindAllCdStubs"/></remarks>
   public ISearchResults<ISearchResult<ICdStub>> FindCdStubs(string query, int? limit = null, int? offset = null,
                                                             bool simple = false)
-    => Utils.ResultOf(this.FindCdStubsAsync(query, limit, offset, simple));
+    => AsyncUtils.ResultOf(this.FindCdStubsAsync(query, limit, offset, simple));
 
   /// <summary>Searches for CD stubs using the given query.</summary>
   /// <param name="query">The search query to use.</param>

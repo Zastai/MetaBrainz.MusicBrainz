@@ -75,7 +75,7 @@ where TInterface : ISearchResult {
 
   protected sealed override async Task<ISearchResults<TInterface>> DeserializeAsync(HttpResponseMessage response,
                                                                                     CancellationToken cancellationToken) {
-    var task = Utils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions, cancellationToken);
+    var task = JsonUtils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     if (this.Offset != this.CurrentResult.Offset) {
       Debug.Print($"Unexpected offset in search results: {this.Offset} != {this.CurrentResult.Offset}.");

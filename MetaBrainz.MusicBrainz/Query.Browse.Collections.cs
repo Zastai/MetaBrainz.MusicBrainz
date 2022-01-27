@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -366,7 +367,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseAreaCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseAreaCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseAreaCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given area.</summary>
   /// <param name="mbid">The MBID for the area whose containing collections should be retrieved.</param>
@@ -388,7 +389,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseArtistCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseArtistCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseArtistCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose containing collections should be retrieved.</param>
@@ -410,7 +411,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IArea area, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(area, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(area, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given artist.</summary>
   /// <param name="artist">The artist whose containing collections should be retrieved.</param>
@@ -420,7 +421,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IArtist artist, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(artist, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(artist, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
   /// <param name="event">The event whose containing collections should be retrieved.</param>
@@ -430,7 +431,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IEvent @event, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(@event, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(@event, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
   /// <param name="instrument">The instrument whose containing collections should be retrieved.</param>
@@ -440,7 +441,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IInstrument instrument, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(instrument, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(instrument, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
   /// <param name="label">The label whose containing collections should be retrieved.</param>
@@ -450,7 +451,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(ILabel label, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(label, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(label, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
   /// <param name="place">The place whose containing collections should be retrieved.</param>
@@ -460,7 +461,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IPlace place, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(place, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(place, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
   /// <param name="recording">The recording whose containing collections should be retrieved.</param>
@@ -470,7 +471,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IRecording recording, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(recording, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(recording, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
   /// <param name="release">The release whose containing collections should be retrieved.</param>
@@ -480,7 +481,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IRelease release, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(release, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(release, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
   /// <param name="releaseGroup">The release group whose containing collections should be retrieved.</param>
@@ -490,7 +491,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IReleaseGroup releaseGroup, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(releaseGroup, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(releaseGroup, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given series.</summary>
   /// <param name="series">The series whose containing collections should be retrieved.</param>
@@ -500,7 +501,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(ISeries series, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(series, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(series, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
   /// <param name="work">The work whose containing collections should be retrieved.</param>
@@ -510,7 +511,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseCollections(IWork work, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseCollectionsAsync(work, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseCollectionsAsync(work, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given area.</summary>
   /// <param name="area">The area whose containing collections should be retrieved.</param>
@@ -654,7 +655,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseEditorCollections(string editor, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseEditorCollectionsAsync(editor, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseEditorCollectionsAsync(editor, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections of the given editor.</summary>
   /// <param name="editor">The editor whose collections should be retrieved.</param>
@@ -676,7 +677,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseEventCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseEventCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseEventCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given event.</summary>
   /// <param name="mbid">The MBID for the event whose containing collections should be retrieved.</param>
@@ -698,7 +699,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseInstrumentCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseInstrumentCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseInstrumentCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given instrument.</summary>
   /// <param name="mbid">The MBID for the instrument whose containing collections should be retrieved.</param>
@@ -720,7 +721,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseLabelCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseLabelCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseLabelCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given label.</summary>
   /// <param name="mbid">The MBID for the label whose containing collections should be retrieved.</param>
@@ -742,7 +743,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowsePlaceCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowsePlaceCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowsePlaceCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given place.</summary>
   /// <param name="mbid">The MBID for the place whose containing collections should be retrieved.</param>
@@ -764,7 +765,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseRecordingCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseRecordingCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseRecordingCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given recording.</summary>
   /// <param name="mbid">The MBID for the recording whose containing collections should be retrieved.</param>
@@ -786,7 +787,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseReleaseCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseReleaseCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseReleaseCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given release.</summary>
   /// <param name="mbid">The MBID for the release whose containing collections should be retrieved.</param>
@@ -808,7 +809,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseReleaseGroupCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseReleaseGroupCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseReleaseGroupCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given release group.</summary>
   /// <param name="mbid">The MBID for the release group whose containing collections should be retrieved.</param>
@@ -830,7 +831,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseSeriesCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseSeriesCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseSeriesCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given series.</summary>
   /// <param name="mbid">The MBID for the series whose containing collections should be retrieved.</param>
@@ -852,7 +853,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the web service reports an error.</exception>
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<ICollection> BrowseWorkCollections(Guid mbid, int? limit = null, int? offset = null)
-    => Utils.ResultOf(this.BrowseWorkCollectionsAsync(mbid, limit, offset));
+    => AsyncUtils.ResultOf(this.BrowseWorkCollectionsAsync(mbid, limit, offset));
 
   /// <summary>Returns (the specified subset of) the collections that include the given work.</summary>
   /// <param name="mbid">The MBID for the work whose containing collections should be retrieved.</param>

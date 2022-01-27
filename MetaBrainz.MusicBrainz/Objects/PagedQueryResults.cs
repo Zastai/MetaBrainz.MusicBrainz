@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects;
@@ -31,7 +32,7 @@ where TResultObject : class {
 
   public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
 
-  public TResults Next() => Utils.ResultOf(this.NextAsync());
+  public TResults Next() => AsyncUtils.ResultOf(this.NextAsync());
 
   public async Task<TResults> NextAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset(this.Results.Count);
@@ -42,7 +43,7 @@ where TResultObject : class {
 
   public int Offset { get; private set; }
 
-  public TResults Previous() => Utils.ResultOf(this.PreviousAsync());
+  public TResults Previous() => AsyncUtils.ResultOf(this.PreviousAsync());
 
   public async Task<TResults> PreviousAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset();

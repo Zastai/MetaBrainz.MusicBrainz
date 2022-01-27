@@ -4,6 +4,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz;
@@ -25,7 +26,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, Guid collection, IWork work)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, work));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, work));
 
   /// <summary>Adds the specified works to the specified collection.</summary>
   /// <param name="client">
@@ -40,7 +41,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, Guid collection, params IWork[] works)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, works));
 
   /// <summary>Adds the specified works to the specified collection.</summary>
   /// <param name="client">
@@ -55,7 +56,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, Guid collection, IEnumerable<IWork> works)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, works));
 
   /// <summary>Adds the specified work to the specified collection.</summary>
   /// <param name="client">
@@ -70,7 +71,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, ICollection collection, IWork work)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, work));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, work));
 
   /// <summary>Adds the specified works to the specified collection.</summary>
   /// <param name="client">
@@ -85,7 +86,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, ICollection collection, params IWork[] works)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, works));
 
   /// <summary>Adds the specified works to the specified collection.</summary>
   /// <param name="client">
@@ -100,7 +101,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string AddToCollection(string client, ICollection collection, IEnumerable<IWork> works)
-    => Utils.ResultOf(this.AddToCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, works));
 
   /// <summary>Adds the specified works to the specified collection.</summary>
   /// <param name="client">
@@ -251,7 +252,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, Guid collection, IWork work)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, work));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, work));
 
   /// <summary>Removes the specified works from the specified collection.</summary>
   /// <param name="client">
@@ -266,7 +267,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, Guid collection, params IWork[] works)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
 
   /// <summary>Removes the specified works from the specified collection.</summary>
   /// <param name="client">
@@ -281,7 +282,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, Guid collection, IEnumerable<IWork> works)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
 
   /// <summary>Removes the specified work from the specified collection.</summary>
   /// <param name="client">
@@ -296,7 +297,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IWork work)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, work));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, work));
 
   /// <summary>Removes the specified works from the specified collection.</summary>
   /// <param name="client">
@@ -311,7 +312,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, ICollection collection, params IWork[] works)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
 
   /// <summary>Removes the specified works from the specified collection.</summary>
   /// <param name="client">
@@ -326,7 +327,7 @@ public sealed partial class Query {
   /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
   /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IEnumerable<IWork> works)
-    => Utils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
+    => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, works));
 
   /// <summary>Removes the specified works from the specified collection.</summary>
   /// <param name="client">

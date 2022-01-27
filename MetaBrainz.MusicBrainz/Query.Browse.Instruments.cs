@@ -3,6 +3,7 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -56,7 +57,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IInstrument> BrowseInstruments(ICollection collection, int? limit = null, int? offset = null,
                                                        Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseInstrumentsAsync(collection, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseInstrumentsAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
   /// <param name="collection">The collection whose contained instruments should be retrieved.</param>
@@ -84,7 +85,7 @@ public sealed partial class Query {
   /// <exception cref="WebException">When something goes wrong with the web request.</exception>
   public IBrowseResults<IInstrument> BrowseCollectionInstruments(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None)
-    => Utils.ResultOf(this.BrowseCollectionInstrumentsAsync(mbid, limit, offset, inc));
+    => AsyncUtils.ResultOf(this.BrowseCollectionInstrumentsAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
