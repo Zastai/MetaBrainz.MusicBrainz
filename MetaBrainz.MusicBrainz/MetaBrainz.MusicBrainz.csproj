@@ -7,7 +7,7 @@
     <PackageCopyrightYears>2016-2022</PackageCopyrightYears>
     <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <Version>5.0.0</Version>
+    <Version>5.0.1-pre</Version>
   </PropertyGroup>
 
   <ItemGroup>
