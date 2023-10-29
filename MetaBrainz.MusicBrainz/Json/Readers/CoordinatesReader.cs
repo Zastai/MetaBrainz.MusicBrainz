@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.Json;
 
 using MetaBrainz.Common.Json;
@@ -12,6 +13,30 @@ internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
 
   public static readonly CoordinatesReader Instance = new();
 
+  private static double? ReadCoordinate(ref Utf8JsonReader reader, string property) {
+    // These are typically numbers, but in search results (e.g. FindPlaces()) they can be strings (issue #48, MBS-).
+    switch (reader.TokenType) {
+      case JsonTokenType.Null:
+        return null;
+      case JsonTokenType.Number:
+        return reader.GetDouble();
+      case JsonTokenType.String:
+        var text = reader.GetString();
+        // should not be possible, but handle it anyway
+        if (text is null) {
+          return null;
+        }
+        try {
+          return double.Parse(text, CultureInfo.InvariantCulture);
+        }
+        catch (Exception e) {
+          throw new JsonException($"Invalid {property} value; should be a floating-point value but got '{text}'.", e);
+        }
+      default:
+        throw new JsonException($"Unexpected {property} value; expected null, a number or a string but got [{reader.TokenType}].");
+    }
+  }
+
   protected override Coordinates ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     double? latitude = null;
     double? longitude = null;
@@ -22,10 +47,10 @@ internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
         reader.Read();
         switch (prop) {
           case "latitude":
-            latitude = reader.GetOptionalDouble();
+            latitude = CoordinatesReader.ReadCoordinate(ref reader, prop);
             break;
           case "longitude":
-            longitude = reader.GetOptionalDouble();
+            longitude = CoordinatesReader.ReadCoordinate(ref reader, prop);
             break;
           default:
             rest ??= new Dictionary<string, object?>();
