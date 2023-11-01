@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Title>MusicBrainz Web Service Client Library</Title>
     <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
-    <PackageCopyrightYears>2016-2022</PackageCopyrightYears>
+    <PackageCopyrightYears>2016-2023</PackageCopyrightYears>
     <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <Version>5.0.1-pre</Version>
+    <Version>5.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
