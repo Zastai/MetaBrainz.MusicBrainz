@@ -34,13 +34,13 @@ jobs:
     - name: Run build script (${{matrix.configuration}})
       run: pwsh ./build-package.ps1 -ContinuousIntegration -WithBinLog -Configuration ${{matrix.configuration}}
     - name: "Artifact: MSBuild Logs"
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       if: failure()
       with:
         name: MSBuild Logs (${{matrix.configuration}})
         path: msbuild.*.binlog
     - name: "Artifact: NuGet Packages"
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: NuGet Packages (${{matrix.configuration}})
         path: "output/package/${{matrix.configuration}}/*.*nupkg"
