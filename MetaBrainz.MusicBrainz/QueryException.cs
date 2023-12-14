@@ -2,17 +2,18 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.Serialization;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+
+using JetBrains.Annotations;
 
 using MetaBrainz.Common;
 
 namespace MetaBrainz.MusicBrainz;
 
 /// <summary>An error reported by the MusicBrainz web service.</summary>
-[Serializable]
+[PublicAPI]
 public sealed class QueryException : Exception {
 
   /// <summary>The HTTP status code for the exception.</summary>
@@ -106,23 +107,6 @@ public sealed class QueryException : Exception {
       Debug.Print($"[{DateTime.UtcNow}] => NO ERROR RESPONSE CONTENT");
     }
     return new QueryException(response.StatusCode, response.ReasonPhrase, errorInfo);
-  }
-
-  #endregion
-
-  #region ISerializable
-
-  /// <inheritdoc />
-  public QueryException(SerializationInfo info, StreamingContext context) : base(info, context) {
-    this.Code = (HttpStatusCode) info.GetInt32("query:code");
-    this.Reason = info.GetString("query:reason") ?? "???";
-  }
-
-  /// <inheritdoc />
-  public override void GetObjectData(SerializationInfo info, StreamingContext context) {
-    base.GetObjectData(info, context);
-    info.AddValue("query:code", (int) this.Code);
-    info.AddValue("query:reason", this.Reason);
   }
 
   #endregion

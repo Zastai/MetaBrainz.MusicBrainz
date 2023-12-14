@@ -340,14 +340,9 @@ public sealed class OAuth2 : IDisposable {
                                                               CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
     var client = this.Client;
-    using var request = new HttpRequestMessage(method, uri) {
-      Content = body,
-      Headers = {
-        Accept = {
-          OAuth2.AcceptHeader,
-        },
-      }
-    };
+    using var request = new HttpRequestMessage(method, uri);
+    request.Content = body;
+    request.Headers.Accept.Add(OAuth2.AcceptHeader);
     // Use whatever user agent the client has set, plus our own.
     foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
       request.Headers.UserAgent.Add(userAgent);

@@ -57,7 +57,7 @@ internal sealed class ModifyCollection : ISubmission {
 
   HttpMethod ISubmission.Method => this._method;
 
-  string? ISubmission.ContentType => null;
+  string ISubmission.ContentType => "text/plain";
 
   string? ISubmission.RequestBody => null;
 

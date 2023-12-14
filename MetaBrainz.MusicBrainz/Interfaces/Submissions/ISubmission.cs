@@ -6,7 +6,7 @@ internal interface ISubmission {
 
   string Client { get; }
 
-  string? ContentType { get; }
+  string ContentType { get; }
 
   string Entity { get; }
 

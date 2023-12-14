@@ -1,6 +1,0 @@
-version: 'Build #{build}'
-image: Visual Studio 2022
-build_script:
-  - ps: .\build-package.ps1 -Configuration Debug
-after_build:
-  - ps: Get-ChildItem output/package/*/*.nupkg | % { appveyor PushArtifact $_ }

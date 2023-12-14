@@ -3,6 +3,7 @@
 [CmdletBinding()]
 param (
   [string] $Configuration = 'Release',
+  [switch] $ContinuousIntegration = $false,
   [switch] $WithBinLog = $false
 )
 
@@ -41,7 +42,15 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Building the solution (Configuration: $Configuration)..."
-dotnet build $opts --no-restore "-c:$Configuration" '-p:ContinuousIntegrationBuild=true' '-p:Deterministic=true'
+$props = @()
+if ($ContinuousIntegration) {
+  $props += '-p:ContinuousIntegrationBuild=true'
+  $props += '-p:Deterministic=true'
+}
+if ($Configuration -eq 'Debug') {
+  $props += '-p:DebugMessageImportance=high'
+}
+dotnet build $opts --no-restore "-c:$Configuration" $props
 Complete-BuildStep 'build'
 if ($LASTEXITCODE -ne 0) {
   Write-Error "SOLUTION BUILD FAILED"

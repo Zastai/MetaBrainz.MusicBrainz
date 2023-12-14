@@ -36,6 +36,14 @@
   color: '008672'
   description: "Changes related to unit tests"
 
+# Additional Labels Used by Dependabot
+- name: gh-actions
+  color: '1d0128'
+  description: "Version updates for GitHub actions"
+- name: nuget
+  color: '1d0128'
+  description: "Version updates for NuGet packages"
+
 # Additional Labels for Release Drafter Version Resolution
 - name: bump-major-version
   color: 'cf996b'
