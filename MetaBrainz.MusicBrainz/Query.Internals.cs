@@ -506,22 +506,22 @@ public sealed partial class Query : IDisposable {
                                                               CancellationToken cancellationToken) {
     Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
     var client = this.Client;
-    using var request = new HttpRequestMessage(method, uri) {
-      Content = body,
-      Headers = {
-        Accept = {
-          Query.AcceptHeader,
-        },
-        Authorization = this.BearerToken == null ? null : new AuthenticationHeaderValue("Bearer", this.BearerToken),
+    using var request = new HttpRequestMessage(method, uri);
+    request.Content = body;
+    {
+      var headers = request.Headers;
+      headers.Accept.Add(Query.AcceptHeader);
+      if (this.BearerToken is not null) {
+        headers.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
       }
-    };
-    // Use whatever user agent the client has set, plus our own.
-    foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-      request.Headers.UserAgent.Add(userAgent);
+      // Use whatever user agent the client has set, plus our own.
+      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
+        headers.UserAgent.Add(userAgent);
+      }
+      headers.UserAgent.Add(Query.LibraryProductInfo);
+      headers.UserAgent.Add(Query.LibraryComment);
+      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(headers.ToString())}");
     }
-    request.Headers.UserAgent.Add(Query.LibraryProductInfo);
-    request.Headers.UserAgent.Add(Query.LibraryComment);
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(request.Headers.ToString())}");
     if (body is not null) {
       // FIXME: Should this include the actual body text too?
       Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
@@ -549,12 +549,12 @@ public sealed partial class Query : IDisposable {
   internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
     => this.PerformRequestAsync(entity, id.ToString("D"), extra, cancellationToken);
 
-  internal async Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra,
-                                                               CancellationToken cancellationToken) {
-    return await Query.ApplyDelayAsync(() => {
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra,
+                                                         CancellationToken cancellationToken) {
+    return Query.ApplyDelayAsync(() => {
       var uri = this.BuildUri($"{entity}/{id}", extra);
       return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
-    }, cancellationToken).ConfigureAwait(false);
+    }, cancellationToken);
   }
 
   internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)

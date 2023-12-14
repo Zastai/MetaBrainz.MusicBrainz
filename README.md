@@ -1,7 +1,10 @@
 # MetaBrainz.MusicBrainz [![Build Status][CI-S]][CI-L] [![NuGet Version][NuGet-S]][NuGet-L]
 
 This is a .NET implementation of libmusicbrainz, wrapping the
-[MusicBrainz v2 API][APIv2].
+[MusicBrainz v2 API][api-reference].
+
+[MusicBrainz][home] is an open music encyclopedia.
+
 An attempt has been made to keep the same basic class hierarchy, but this library is based on the JSON interface, not the XML one,
 so there will be differences.
 In addition, interfaces, not classes, are used for the public API (to allow more flexibility for the internals).
@@ -14,14 +17,16 @@ A [user guide][UserGuide] is available, which explains the main functionality of
 
 ## Release Notes
 
-These are available [on GitHub][GHReleases].
+These are available [on GitHub][release-notes].
 
-[CI-S]: https://img.shields.io/appveyor/build/zastai/metabrainz-musicbrainz
-[CI-L]: https://ci.appveyor.com/project/Zastai/metabrainz-musicbrainz
+[CI-S]: https://github.com/Zastai/MetaBrainz.MusicBrainz/actions/workflows/build.yml/badge.svg
+[CI-L]: https://github.com/Zastai/MetaBrainz.MusicBrainz/actions/workflows/build.yml
 
 [NuGet-S]: https://img.shields.io/nuget/v/MetaBrainz.MusicBrainz
-[NuGet-L]: https://www.nuget.org/packages/MetaBrainz.MusicBrainz
+[NuGet-L]: https://nuget.org/packages/MetaBrainz.MusicBrainz
 
-[APIv2]: https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2
+[api-reference]: https://musicbrainz.org/doc/MusicBrainz_API
+[home]: https://musicbrainz.org/
 [UserGuide]: https://github.com/Zastai/MetaBrainz.MusicBrainz/blob/main/UserGuide.md
-[GHReleases]: https://github.com/Zastai/MetaBrainz.MusicBrainz/releases
+
+[release-notes]: https://github.com/Zastai/MetaBrainz.MusicBrainz/releases

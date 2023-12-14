@@ -5,3 +5,13 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    labels:
+      - "dependencies"
+      - "nuget"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    labels:
+      - "dependencies"
+      - "gh-actions"
