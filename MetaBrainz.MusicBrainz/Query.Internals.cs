@@ -549,7 +549,7 @@ public sealed partial class Query : IDisposable {
           er = null;
         }
         if (er is not null) {
-          throw new HttpError(error.Status, er.Error, response.Version, er.Help, error);
+          throw new HttpError(error.Status, er.Error, response.Version, $"{er.Error}\n{er.Help}", error);
         }
       }
       throw;
