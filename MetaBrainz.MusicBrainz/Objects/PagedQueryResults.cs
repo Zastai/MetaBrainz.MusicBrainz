@@ -26,7 +26,7 @@ where TResultObject : class {
 
   public IStreamingQueryResults<TItem> AsStream() => new StreamingQueryResults<TResults, TItem, TResultObject>(this);
 
-  bool IPagedQueryResults<TResults, TItem>.IsActive => this.CurrentResult != null;
+  bool IPagedQueryResults<TResults, TItem>.IsActive => this.CurrentResult is not null;
 
   public int? Limit { get; set; }
 

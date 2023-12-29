@@ -377,7 +377,7 @@ public sealed class OAuth2 : IDisposable {
           }
           Debug.Print("[{0}] => ERROR '{1}' / '{2}'", DateTime.UtcNow, ae.Error, ae.Description);
           // FIXME: What is the best way to compose this value?
-          if (ae.UnhandledProperties != null) {
+          if (ae.UnhandledProperties is not null) {
             foreach (var prop in ae.UnhandledProperties) {
               Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
             }
@@ -387,7 +387,7 @@ public sealed class OAuth2 : IDisposable {
           Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
           ae = null;
         }
-        if (ae != null) {
+        if (ae is not null) {
           throw new HttpError(error.Status, ae.Error, response.Version, ae.Description, error);
         }
       }

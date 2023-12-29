@@ -461,7 +461,7 @@ public sealed partial class Query : IDisposable {
             throw new JsonException("Message response had null content.");
           }
           message = mr.Message;
-          if (mr.UnhandledProperties != null) {
+          if (mr.UnhandledProperties is not null) {
             foreach (var prop in mr.UnhandledProperties) {
               Debug.Print("[{0}] => UNEXPECTED MESSAGE PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
             }
@@ -538,7 +538,7 @@ public sealed partial class Query : IDisposable {
             throw new JsonException("Error response had null content.");
           }
           Debug.Print("[{0}] => ERROR '{1}' ({2})", DateTime.UtcNow, er.Error, er.Help);
-          if (er.UnhandledProperties != null) {
+          if (er.UnhandledProperties is not null) {
             foreach (var prop in er.UnhandledProperties) {
               Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
             }
@@ -548,7 +548,7 @@ public sealed partial class Query : IDisposable {
           Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
           er = null;
         }
-        if (er != null) {
+        if (er is not null) {
           throw new HttpError(error.Status, er.Error, response.Version, er.Help, error);
         }
       }
