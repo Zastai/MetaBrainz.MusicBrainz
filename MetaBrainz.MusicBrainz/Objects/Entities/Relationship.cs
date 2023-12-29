@@ -8,45 +8,45 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Relationship : JsonBasedObject, IRelationship {
 
-  public IArea? Area { get; set; }
+  public IArea? Area { get; init; }
 
-  public IArtist? Artist { get; set; }
+  public IArtist? Artist { get; init; }
 
-  public IReadOnlyList<string>? Attributes { get; set; }
+  public IReadOnlyList<string>? Attributes { get; init; }
 
-  public IReadOnlyDictionary<string, string>? AttributeCredits { get; set; }
+  public IReadOnlyDictionary<string, string>? AttributeCredits { get; init; }
 
-  public IReadOnlyDictionary<string, Guid>? AttributeIds { get; set; }
+  public IReadOnlyDictionary<string, Guid>? AttributeIds { get; init; }
 
-  public IReadOnlyDictionary<string, string>? AttributeValues { get; set; }
+  public IReadOnlyDictionary<string, string>? AttributeValues { get; init; }
 
-  public PartialDate? Begin { get; set; }
+  public PartialDate? Begin { get; init; }
 
-  public string? Direction { get; set; }
+  public string? Direction { get; init; }
 
-  public PartialDate? End { get; set; }
+  public PartialDate? End { get; init; }
 
-  public bool Ended { get; set; }
+  public bool Ended { get; init; }
 
-  public IEvent? Event { get; set; }
+  public IEvent? Event { get; init; }
 
-  public IInstrument? Instrument { get; set; }
+  public IInstrument? Instrument { get; init; }
 
-  public ILabel? Label { get; set; }
+  public ILabel? Label { get; init; }
 
-  public int? OrderingKey { get; set; }
+  public int? OrderingKey { get; init; }
 
-  public IPlace? Place { get; set; }
+  public IPlace? Place { get; init; }
 
-  public IRecording? Recording { get; set; }
+  public IRecording? Recording { get; init; }
 
-  public IRelease? Release { get; set; }
+  public IRelease? Release { get; init; }
 
-  public IReleaseGroup? ReleaseGroup { get; set; }
+  public IReleaseGroup? ReleaseGroup { get; init; }
 
-  public ISeries? Series { get; set; }
+  public ISeries? Series { get; init; }
 
-  public string? SourceCredit { get; set; }
+  public string? SourceCredit { get; init; }
 
   public IRelatableEntity? Target => this.TargetType switch {
     EntityType.Area => this.Area,
@@ -64,19 +64,19 @@ internal sealed class Relationship : JsonBasedObject, IRelationship {
     _ => null
   };
 
-  public string? TargetCredit { get; set; }
+  public string? TargetCredit { get; init; }
 
-  public Guid? TargetId { get; set; }
+  public Guid? TargetId { get; init; }
 
-  public EntityType? TargetType { get; set; }
+  public EntityType? TargetType { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public IUrl? Url { get; set; }
+  public IUrl? Url { get; init; }
 
-  public IWork? Work { get; set; }
+  public IWork? Work { get; init; }
 
   public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
 

@@ -13,41 +13,41 @@ internal sealed class ReleaseGroup : Entity, IReleaseGroup {
   public ReleaseGroup(Guid id) : base(EntityType.ReleaseGroup, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
+  public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public PartialDate? FirstReleaseDate { get; set; }
+  public PartialDate? FirstReleaseDate { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public string? PrimaryType { get; set; }
+  public string? PrimaryType { get; init; }
 
-  public Guid? PrimaryTypeId { get; set; }
+  public Guid? PrimaryTypeId { get; init; }
 
-  public IRating? Rating { get; set; }
+  public IRating? Rating { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public IReadOnlyList<IRelease>? Releases { get; set; }
+  public IReadOnlyList<IRelease>? Releases { get; init; }
 
-  public IReadOnlyList<string>? SecondaryTypes { get; set; }
+  public IReadOnlyList<string>? SecondaryTypes { get; init; }
 
-  public IReadOnlyList<Guid>? SecondaryTypeIds { get; set; }
+  public IReadOnlyList<Guid>? SecondaryTypeIds { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public string? Title { get; set; }
+  public string? Title { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IRating? UserRating { get; set; }
+  public IRating? UserRating { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

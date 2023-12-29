@@ -10,37 +10,37 @@ internal sealed class Area : Entity, IArea {
   public Area(Guid id) : base(EntityType.Area, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public IReadOnlyList<string>? Iso31661Codes { get; set; }
+  public IReadOnlyList<string>? Iso31661Codes { get; init; }
 
-  public IReadOnlyList<string>? Iso31662Codes { get; set; }
+  public IReadOnlyList<string>? Iso31662Codes { get; init; }
 
-  public IReadOnlyList<string>? Iso31663Codes { get; set; }
+  public IReadOnlyList<string>? Iso31663Codes { get; init; }
 
-  public ILifeSpan? LifeSpan { get; set; }
+  public ILifeSpan? LifeSpan { get; init; }
 
-  public string? Name { get; set; }
+  public string? Name { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public string? SortName { get; set; }
+  public string? SortName { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
   public override string ToString() {
     var text = this.Name ?? string.Empty;

@@ -5,9 +5,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
 
-  public IArea? Area { get; set; }
+  public IArea? Area { get; init; }
 
-  public PartialDate? Date { get; set; }
+  public PartialDate? Date { get; init; }
 
   public override string ToString() {
     if (this.Date is null) {

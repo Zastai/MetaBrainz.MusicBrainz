@@ -7,9 +7,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Rating : JsonBasedObject, IRating {
 
-  public decimal? Value { get; set; }
+  public decimal? Value { get; init; }
 
-  public int? VoteCount { get; set; }
+  public int? VoteCount { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

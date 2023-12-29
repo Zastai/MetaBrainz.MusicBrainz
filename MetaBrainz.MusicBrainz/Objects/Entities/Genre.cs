@@ -10,11 +10,11 @@ internal sealed class Genre : Entity, IGenre {
     this.Name = name;
   }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
   public string Name { get; }
 
-  public int? VoteCount { get; set; }
+  public int? VoteCount { get; init; }
 
   public override string ToString() {
     var text = this.Name;

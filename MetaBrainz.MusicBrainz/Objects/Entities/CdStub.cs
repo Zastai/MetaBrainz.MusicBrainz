@@ -14,17 +14,17 @@ internal sealed class CdStub : JsonBasedObject, ICdStub {
 
   public string Id { get; }
 
-  public string? Artist { get; set; }
+  public string? Artist { get; init; }
 
-  public string? Barcode { get; set; }
+  public string? Barcode { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
   public string Title { get; }
 
-  public int TrackCount { get; set; }
+  public int TrackCount { get; init; }
 
-  public IReadOnlyList<ISimpleTrack>? Tracks { get; set; }
+  public IReadOnlyList<ISimpleTrack>? Tracks { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

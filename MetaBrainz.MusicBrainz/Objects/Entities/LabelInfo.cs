@@ -5,9 +5,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class LabelInfo : JsonBasedObject, ILabelInfo {
 
-  public string? CatalogNumber { get; set; }
+  public string? CatalogNumber { get; init; }
 
-  public ILabel? Label { get; set; }
+  public ILabel? Label { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

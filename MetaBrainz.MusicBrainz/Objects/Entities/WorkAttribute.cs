@@ -7,13 +7,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class WorkAttribute : JsonBasedObject, IWorkAttribute {
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public string? Value { get; set; }
+  public string? Value { get; init; }
 
-  public Guid? ValueId { get; set; }
+  public Guid? ValueId { get; init; }
 
   public override string ToString() => $"{this.Type}: {this.Value}";
 

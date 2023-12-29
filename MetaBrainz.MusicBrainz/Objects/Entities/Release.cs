@@ -10,57 +10,57 @@ internal sealed class Release : Entity, IRelease {
   public Release(Guid id) : base(EntityType.Release, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
+  public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
 
-  public string? Asin { get; set; }
+  public string? Asin { get; init; }
 
-  public string? Barcode { get; set; }
+  public string? Barcode { get; init; }
 
-  public IReadOnlyList<ICollection>? Collections { get; set; }
+  public IReadOnlyList<ICollection>? Collections { get; init; }
 
-  public string? Country { get; set; }
+  public string? Country { get; init; }
 
-  public ICoverArtArchive? CoverArtArchive { get; set; }
+  public ICoverArtArchive? CoverArtArchive { get; init; }
 
-  public PartialDate? Date { get; set; }
+  public PartialDate? Date { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public IReadOnlyList<ILabelInfo>? LabelInfo { get; set; }
+  public IReadOnlyList<ILabelInfo>? LabelInfo { get; init; }
 
-  public IReadOnlyList<IMedium>? Media { get; set; }
+  public IReadOnlyList<IMedium>? Media { get; init; }
 
-  public string? Packaging { get; set; }
+  public string? Packaging { get; init; }
 
-  public Guid? PackagingId { get; set; }
+  public Guid? PackagingId { get; init; }
 
-  public string? Quality { get; set; }
+  public string? Quality { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public IReadOnlyList<IReleaseEvent>? ReleaseEvents { get; set; }
+  public IReadOnlyList<IReleaseEvent>? ReleaseEvents { get; init; }
 
-  public IReleaseGroup? ReleaseGroup { get; set; }
+  public IReleaseGroup? ReleaseGroup { get; init; }
 
-  public string? Status { get; set; }
+  public string? Status { get; init; }
 
-  public Guid? StatusId { get; set; }
+  public Guid? StatusId { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public ITextRepresentation? TextRepresentation { get; set; }
+  public ITextRepresentation? TextRepresentation { get; init; }
 
-  public string? Title { get; set; }
+  public string? Title { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

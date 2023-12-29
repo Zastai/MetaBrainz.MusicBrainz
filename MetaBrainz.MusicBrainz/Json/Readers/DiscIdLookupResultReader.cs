@@ -88,8 +88,9 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       }
       reader.Read();
     }
-    var result = new DiscIdLookupResult();
-    if (id is not null && offsets is not null && sectors is not null) { // Disc
+    DiscIdLookupResult result;
+    if (id is not null && offsets is not null && sectors is not null) {
+      // Disc
       if (offsetCount is not null) {
         var reported = offsetCount.Value;
         var actual = offsets.Count;
@@ -97,9 +98,10 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
           throw new JsonException($"The number of offsets ({actual}) does not match the reported offset count ({reported}).");
         }
       }
-      result.Disc = new Disc(id, offsets, sectors.Value) {
+      var disc = new Disc(id, offsets, sectors.Value) {
         Releases = releases,
       };
+      result = new DiscIdLookupResult(disc);
       // clear used fields
       id = null;
       offsetCount = null;
@@ -107,7 +109,8 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       releases = null;
       sectors = null;
     }
-    else if (id is not null && title is not null && tracks is not null) { // Stub
+    else if (id is not null && title is not null && tracks is not null) {
+      // CD Stub
       if (trackCount is not null) {
         var reported = trackCount.Value;
         var actual = tracks.Count;
@@ -115,13 +118,14 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
           throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
         }
       }
-      result.Stub = new CdStub(id, title) {
+      var stub = new CdStub(id, title) {
         Artist = artist,
         Barcode = barcode,
         Disambiguation = disambiguation,
         TrackCount = trackCount ?? 0,
         Tracks = tracks,
       };
+      result = new DiscIdLookupResult(stub);
       // clear used fields
       artist = null;
       barcode = null;
@@ -131,24 +135,28 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       trackCount = null;
       tracks = null;
     }
-    else if (id is null && releases is not null) { // Fuzzy Lookup - release list
+    else if (id is null && releases is not null) {
+      // Fuzzy Lookup - release list
       if (releaseCount is not null) {
         var reported = releaseCount.Value;
         var actual = releases.Count;
-        if (reported != actual) // FIXME: Or should this just throw?
-        {
+        if (reported != actual) {
+          // FIXME: Or should this just throw?
           rest["release-count"] = releaseCount.Value;
         }
       }
-      if (releaseOffset is not null && releaseOffset.Value != 0) // FIXME: Or should this just throw?
-      {
+      if (releaseOffset is not null && releaseOffset.Value != 0) {
+        // FIXME: Or should this just throw?
         rest["release-offset"] = releaseOffset.Value;
       }
-      result.Releases = releases;
+      result = new DiscIdLookupResult(releases);
       // clear used fields
       releaseCount = null;
       releaseOffset = null;
       releases = null;
+    }
+    else {
+      result = new DiscIdLookupResult();
     }
     // any field still set at this point is unhandled
     if (artist is not null) {

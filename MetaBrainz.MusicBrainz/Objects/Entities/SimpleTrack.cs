@@ -12,7 +12,7 @@ internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
     this.Length = length;
   }
 
-  public string? Artist { get; set; }
+  public string? Artist { get; init; }
 
   public TimeSpan Length { get; }
 
