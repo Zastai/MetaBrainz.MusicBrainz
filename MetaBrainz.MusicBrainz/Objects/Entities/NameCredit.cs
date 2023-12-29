@@ -5,11 +5,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class NameCredit : JsonBasedObject, INameCredit {
 
-  public IArtist? Artist { get; set; }
+  public IArtist? Artist { get; init; }
 
-  public string? JoinPhrase { get; set; }
+  public string? JoinPhrase { get; init; }
 
-  public string? Name { get; set; }
+  public string? Name { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

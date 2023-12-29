@@ -8,25 +8,25 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Medium : JsonBasedObject, IMedium {
 
-  public IReadOnlyList<ITrack>? DataTracks { get; set; }
+  public IReadOnlyList<ITrack>? DataTracks { get; init; }
 
-  public IReadOnlyList<IDisc>? Discs { get; set; }
+  public IReadOnlyList<IDisc>? Discs { get; init; }
 
-  public string? Format { get; set; }
+  public string? Format { get; init; }
 
-  public Guid? FormatId { get; set; }
+  public Guid? FormatId { get; init; }
 
-  public int Position { get; set; }
+  public int Position { get; init; }
 
-  public ITrack? Pregap { get; set; }
+  public ITrack? Pregap { get; init; }
 
-  public string? Title { get; set; }
+  public string? Title { get; init; }
 
-  public int TrackCount { get; set; }
+  public int TrackCount { get; init; }
 
-  public int? TrackOffset { get; set; }
+  public int? TrackOffset { get; init; }
 
-  public IReadOnlyList<ITrack>? Tracks { get; set; }
+  public IReadOnlyList<ITrack>? Tracks { get; init; }
 
   public override string ToString() {
     var text = this.Format ?? "Medium";

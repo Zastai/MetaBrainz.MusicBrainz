@@ -18,7 +18,7 @@ internal sealed class Disc : JsonBasedObject, IDisc {
 
   public IReadOnlyList<int> Offsets { get; }
 
-  public IReadOnlyList<IRelease>? Releases { get; set; }
+  public IReadOnlyList<IRelease>? Releases { get; init; }
 
   public int Sectors { get; }
 

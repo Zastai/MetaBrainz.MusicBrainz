@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +24,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ISeries> BrowseAllCollectionSeries(Guid mbid, int? pageSize = null, int? offset = null,
                                                                    Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
@@ -41,8 +41,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ISeries> BrowseAllSeries(ICollection collection, int? pageSize = null, int? offset = null,
                                                          Include inc = Include.None)
     => new BrowseSeries(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
@@ -53,8 +53,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ISeries> BrowseCollectionSeries(Guid mbid, int? limit = null, int? offset = null,
                                                         Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseCollectionSeriesAsync(mbid, limit, offset, inc));
@@ -66,8 +66,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ISeries>> BrowseCollectionSeriesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                    Include inc = Include.None,
                                                                    CancellationToken cancellationToken = default)
@@ -79,8 +79,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ISeries> BrowseSeries(ICollection collection, int? limit = null, int? offset = null,
                                               Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseSeriesAsync(collection, limit, offset, inc));
@@ -92,8 +92,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ISeries>> BrowseSeriesAsync(ICollection collection, int? limit = null, int? offset = null,
                                                          Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseSeries(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);

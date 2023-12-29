@@ -4,8 +4,8 @@
   <!-- Package Versions -->
   <ItemGroup>
     <PackageVersion Include="JetBrains.Annotations" Version="2023.3.0" />
-    <PackageVersion Include="MetaBrainz.Common" Version="1.0.0" />
-    <PackageVersion Include="MetaBrainz.Common.Json" Version="5.1.0" />
+    <PackageVersion Include="MetaBrainz.Common" Version="3.0.0" />
+    <PackageVersion Include="MetaBrainz.Common.Json" Version="6.0.1" />
   </ItemGroup>
 
 </Project>

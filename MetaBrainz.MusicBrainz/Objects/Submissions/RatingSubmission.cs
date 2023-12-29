@@ -49,9 +49,7 @@ public sealed class RatingSubmission : Submission {
   /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
   /// <param name="entity">The entity to rate.</param>
   /// <returns>This submission request.</returns>
-  public RatingSubmission Add(byte rating, IRatableEntity entity) {
-    return this.Add(rating, entity.EntityType, entity.Id);
-  }
+  public RatingSubmission Add(byte rating, IRatableEntity entity) => this.Add(rating, entity.EntityType, entity.Id);
 
   /// <summary>Adds the specified rating to the specified entity.</summary>
   /// <param name="rating">The rating to add (1-100), or 0 to remove the rating.</param>
@@ -86,17 +84,15 @@ public sealed class RatingSubmission : Submission {
 
   private readonly RatingMap _works = new();
 
-  private RatingMap GetMap(EntityType entityType) {
-    return entityType switch {
-      EntityType.Artist => this._artists,
-      EntityType.Event => this._events,
-      EntityType.Label => this._labels,
-      EntityType.Recording => this._recordings,
-      EntityType.ReleaseGroup => this._releaseGroups,
-      EntityType.Work => this._works,
-      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be rated.")
-    };
-  }
+  private RatingMap GetMap(EntityType entityType) => entityType switch {
+    EntityType.Artist => this._artists,
+    EntityType.Event => this._events,
+    EntityType.Label => this._labels,
+    EntityType.Recording => this._recordings,
+    EntityType.ReleaseGroup => this._releaseGroups,
+    EntityType.Work => this._works,
+    _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be rated.")
+  };
 
   internal override string RequestBody {
     get {

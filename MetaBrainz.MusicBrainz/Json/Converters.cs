@@ -35,7 +35,8 @@ internal static class Converters {
       yield return SearchResultsReader.Instance;
       yield return TagReader.Instance;
       // Other objects we deserialize
-      yield return MessageOrErrorReader.Instance;
+      yield return ErrorResultReader.Instance;
+      yield return MessageResultReader.Instance;
     }
   }
 

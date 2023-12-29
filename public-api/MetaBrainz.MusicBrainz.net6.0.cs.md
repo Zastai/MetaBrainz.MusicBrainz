@@ -1724,26 +1724,6 @@ public sealed class Query : System.IDisposable {
 }
 ```
 
-### Type: QueryException
-
-```cs
-public sealed class QueryException : System.Exception {
-
-  public readonly System.Net.HttpStatusCode Code;
-
-  public readonly string? Reason;
-
-  public QueryException(System.Net.HttpStatusCode code, string? reason = null, string? message = null, System.Exception? cause = null);
-
-  public QueryException(string message, System.Exception? cause = null);
-
-  public static QueryException FromResponse(System.Net.Http.HttpResponseMessage response);
-
-  public static System.Threading.Tasks.Task<QueryException> FromResponseAsync(System.Net.Http.HttpResponseMessage response, System.Threading.CancellationToken cancellationToken = default);
-
-}
-```
-
 ### Type: ReleaseStatus
 
 ```cs

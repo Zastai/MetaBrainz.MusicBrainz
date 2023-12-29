@@ -8,14 +8,13 @@ using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
 
-internal sealed class MessageOrErrorReader : ObjectReader<MessageOrError> {
+internal sealed class ErrorResultReader : ObjectReader<ErrorResult> {
 
-  public static readonly MessageOrErrorReader Instance = new();
+  public static readonly ErrorResultReader Instance = new();
 
-  protected override MessageOrError ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
+  protected override ErrorResult ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     string? error = null;
     string? help = null;
-    string? message = null;
     Dictionary<string, object?>? rest = null;
     while (reader.TokenType == JsonTokenType.PropertyName) {
       var prop = reader.GetPropertyName();
@@ -28,9 +27,6 @@ internal sealed class MessageOrErrorReader : ObjectReader<MessageOrError> {
           case "help":
             help = reader.GetString();
             break;
-          case "message":
-            message = reader.GetString();
-            break;
           default:
             rest ??= new Dictionary<string, object?>();
             rest[prop] = reader.GetOptionalObject(options);
@@ -42,10 +38,9 @@ internal sealed class MessageOrErrorReader : ObjectReader<MessageOrError> {
       }
       reader.Read();
     }
-    return new MessageOrError {
+    return new ErrorResult {
       Error = error,
       Help = help,
-      Message = message,
       UnhandledProperties = rest
     };
   }

@@ -13,17 +13,17 @@ internal sealed class Track : JsonBasedObject, ITrack {
     this.Title = title;
   }
 
-  public IReadOnlyList<INameCredit>? ArtistCredit { get; set; }
+  public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
 
   public Guid Id { get; }
 
-  public TimeSpan? Length { get; set; }
+  public TimeSpan? Length { get; init; }
 
-  public string? Number { get; set; }
+  public string? Number { get; init; }
 
-  public int? Position { get; set; }
+  public int? Position { get; init; }
 
-  public IRecording? Recording { get; set; }
+  public IRecording? Recording { get; init; }
 
   public string Title { get; }
 

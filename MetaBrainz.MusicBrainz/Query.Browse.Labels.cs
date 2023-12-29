@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +24,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllAreaLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "area", mbid), pageSize, offset).AsStream();
@@ -41,8 +41,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllCollectionLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
@@ -58,8 +58,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(IArea area, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "area", area.Id), pageSize, offset).AsStream();
@@ -75,8 +75,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(ICollection collection, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
@@ -92,8 +92,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(IRelease release, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "release", release.Id), pageSize, offset).AsStream();
@@ -109,8 +109,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllReleaseLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                                Include inc = Include.None)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "release", mbid), pageSize, offset).AsStream();
@@ -121,8 +121,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseAreaLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseAreaLabelsAsync(mbid, limit, offset, inc));
 
@@ -133,8 +133,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseAreaLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None,
                                                             CancellationToken cancellationToken = default)
@@ -146,8 +146,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseCollectionLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseCollectionLabelsAsync(mbid, limit, offset, inc));
 
@@ -158,8 +158,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseCollectionLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default)
@@ -171,8 +171,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseLabelsAsync(area, limit, offset, inc));
 
@@ -182,8 +182,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(ICollection collection, int? limit = null, int? offset = null,
                                              Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseLabelsAsync(collection, limit, offset, inc));
@@ -194,8 +194,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseLabels(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseLabelsAsync(release, limit, offset, inc));
 
@@ -206,8 +206,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
@@ -219,8 +219,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
@@ -232,8 +232,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseLabels(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
@@ -244,8 +244,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<ILabel> BrowseReleaseLabels(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseReleaseLabelsAsync(mbid, limit, offset, inc));
 
@@ -256,8 +256,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseReleaseLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                Include inc = Include.None,
                                                                CancellationToken cancellationToken = default)

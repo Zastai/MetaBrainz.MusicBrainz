@@ -10,59 +10,59 @@ internal sealed class Artist : Entity, IArtist {
   public Artist(Guid id) : base(EntityType.Artist, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public IArea? Area { get; set; }
+  public IArea? Area { get; init; }
 
-  public IArea? BeginArea { get; set; }
+  public IArea? BeginArea { get; init; }
 
-  public string? Country { get; set; }
+  public string? Country { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public IArea? EndArea { get; set; }
+  public IArea? EndArea { get; init; }
 
-  public string? Gender { get; set; }
+  public string? Gender { get; init; }
 
-  public Guid? GenderId { get; set; }
+  public Guid? GenderId { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public IReadOnlyList<string>? Ipis { get; set; }
+  public IReadOnlyList<string>? Ipis { get; init; }
 
-  public IReadOnlyList<string>? Isnis { get; set; }
+  public IReadOnlyList<string>? Isnis { get; init; }
 
-  public ILifeSpan? LifeSpan { get; set; }
+  public ILifeSpan? LifeSpan { get; init; }
 
-  public string? Name { get; set; }
+  public string? Name { get; init; }
 
-  public IRating? Rating { get; set; }
+  public IRating? Rating { get; init; }
 
-  public IReadOnlyList<IRecording>? Recordings { get; set; }
+  public IReadOnlyList<IRecording>? Recordings { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public IReadOnlyList<IReleaseGroup>? ReleaseGroups { get; set; }
+  public IReadOnlyList<IReleaseGroup>? ReleaseGroups { get; init; }
 
-  public IReadOnlyList<IRelease>? Releases { get; set; }
+  public IReadOnlyList<IRelease>? Releases { get; init; }
 
-  public string? SortName { get; set; }
+  public string? SortName { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IRating? UserRating { get; set; }
+  public IRating? UserRating { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
-  public IReadOnlyList<IWork>? Works { get; set; }
+  public IReadOnlyList<IWork>? Works { get; init; }
 
   public override string ToString() {
     var text = this.Name ?? string.Empty;

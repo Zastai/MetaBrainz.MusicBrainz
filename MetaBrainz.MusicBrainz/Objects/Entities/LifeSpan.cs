@@ -5,11 +5,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class LifeSpan : JsonBasedObject, ILifeSpan {
 
-  public PartialDate? Begin { get; set; }
+  public PartialDate? Begin { get; init; }
 
-  public PartialDate? End { get; set; }
+  public PartialDate? End { get; init; }
 
-  public bool Ended { get; set; }
+  public bool Ended { get; init; }
 
   public override string ToString() {
     var text = this.Begin?.ToString() ?? "????";

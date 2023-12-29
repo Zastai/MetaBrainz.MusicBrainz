@@ -63,7 +63,7 @@ public sealed class OAuth2 : IDisposable {
 
   private static string _defaultUrlScheme = "https";
 
-  /// <summary>The default internet access protocol to use for requests.</summary>
+  /// <summary>The default URL scheme (internet access protocol) to use for requests.</summary>
   public static string DefaultUrlScheme {
     get => OAuth2._defaultUrlScheme;
     set {
@@ -150,7 +150,7 @@ public sealed class OAuth2 : IDisposable {
 
   private string _urlScheme = OAuth2.DefaultUrlScheme;
 
-  /// <summary>The internet access protocol to use for requests.</summary>
+  /// <summary>The URL scheme (internet access protocol) to use for requests.</summary>
   public string UrlScheme {
     get => this._urlScheme;
     set {
@@ -241,8 +241,6 @@ public sealed class OAuth2 : IDisposable {
 
   #endregion
 
-  #region Internals
-
   #region HttpClient / IDisposable
 
   private static readonly MediaTypeWithQualityHeaderValue AcceptHeader = new("application/json");
@@ -263,11 +261,15 @@ public sealed class OAuth2 : IDisposable {
 
   private HttpClient Client {
     get {
+#if NET6_0
       if (this._disposed) {
-        throw new ObjectDisposedException(nameof(OAuth2));
+        throw new ObjectDisposedException(typeof(OAuth2).FullName);
       }
+#else
+      ObjectDisposedException.ThrowIf(this._disposed, typeof(OAuth2));
+#endif
       if (this._client is null) {
-        var client = this._clientCreation is not null ? this._clientCreation() : new HttpClient();
+        var client = this._clientCreation?.Invoke() ?? new HttpClient();
         this._clientConfiguration?.Invoke(client);
         this._client = client;
       }
@@ -333,8 +335,10 @@ public sealed class OAuth2 : IDisposable {
 
   #endregion
 
+  #region Internals
+
   private static readonly JsonSerializerOptions JsonReaderOptions =
-    JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance);
+    JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance, AuthorizationErrorReader.Instance);
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
@@ -349,26 +353,51 @@ public sealed class OAuth2 : IDisposable {
     }
     request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
     request.Headers.UserAgent.Add(OAuth2.LibraryComment);
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(request.Headers.ToString())}");
+    Debug.Print("[{0}] => HEADERS: {1}", DateTime.UtcNow, TextUtils.FormatMultiLine(request.Headers.ToString()));
     if (body is not null) {
       // FIXME: Should this include the actual body text too?
-      Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
+      Debug.Print("[{0}] => BODY ({1}): {2} bytes", DateTime.UtcNow, body.Headers.ContentType, body.Headers.ContentLength ?? 0);
     }
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
-                $"'{response.ReasonPhrase}' (v{response.Version})");
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(response.Headers.ToString())}");
-    Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
-                $"{response.Content.Headers.ContentLength ?? 0} bytes");
-    return response;
+    Debug.Print("[{0}] WEB SERVICE RESPONSE: {1}/{2} '{3}' (v{4})", DateTime.UtcNow, (int) response.StatusCode, response.StatusCode,
+                response.ReasonPhrase, response.Version);
+    Debug.Print("[{0}] => HEADERS: {1}", DateTime.UtcNow, TextUtils.FormatMultiLine(response.Headers.ToString()));
+    Debug.Print("[{0}] => CONTENT ({1}): {2} bytes", DateTime.UtcNow, response.Content.Headers.ContentType,
+                response.Content.Headers.ContentLength ?? 0);
+    try {
+      return await response.EnsureSuccessfulAsync(cancellationToken);
+    }
+    catch (HttpError error) {
+      if (!string.IsNullOrWhiteSpace(error.Content)) {
+        AuthorizationError? ae;
+        try {
+          ae = JsonSerializer.Deserialize<AuthorizationError>(error.Content, OAuth2.JsonReaderOptions);
+          if (ae is null) {
+            throw new JsonException("Error response had null content.");
+          }
+          Debug.Print("[{0}] => ERROR '{1}' / '{2}'", DateTime.UtcNow, ae.Error, ae.Description);
+          // FIXME: What is the best way to compose this value?
+          if (ae.UnhandledProperties is not null) {
+            foreach (var prop in ae.UnhandledProperties) {
+              Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
+            }
+          }
+        }
+        catch (Exception e) {
+          Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          ae = null;
+        }
+        if (ae is not null) {
+          throw new HttpError(error.Status, ae.Error, response.Version, ae.Description, error);
+        }
+      }
+      throw;
+    }
   }
 
   private async Task<AuthorizationToken> PostAsync(HttpContent content, CancellationToken cancellationToken) {
     var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
     var response = await this.PerformRequestAsync(uri, HttpMethod.Post, content, cancellationToken).ConfigureAwait(false);
-    if (!response.IsSuccessStatusCode) {
-      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
-    }
     var jsonTask = JsonUtils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
   }
@@ -382,19 +411,19 @@ public sealed class OAuth2 : IDisposable {
     return token;
   }
 
-  private async Task<IAuthorizationToken> RefreshTokenAsync(string type, string codeOrToken, string clientSecret,
-                                                            CancellationToken cancellationToken) {
+  private Task<IAuthorizationToken> RefreshTokenAsync(string type, string codeOrToken, string clientSecret,
+                                                      CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
     body.Append("&token_type=").Append(Uri.EscapeDataString(type));
     body.Append("&grant_type=refresh_token");
     body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
-    return await this.PostAsync(type, body.ToString(), cancellationToken).ConfigureAwait(false);
+    return this.PostAsync(type, body.ToString(), cancellationToken);
   }
 
-  private async Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
-                                                            CancellationToken cancellationToken) {
+  private Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
+                                                      CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
     body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
@@ -402,7 +431,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&grant_type=authorization_code");
     body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
     body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-    return await this.PostAsync(type, body.ToString(), cancellationToken).ConfigureAwait(false);
+    return this.PostAsync(type, body.ToString(), cancellationToken);
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {

@@ -10,39 +10,39 @@ internal sealed class Work : Entity, IWork {
   public Work(Guid id) : base(EntityType.Work, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public IReadOnlyList<IWorkAttribute>? Attributes { get; set; }
+  public IReadOnlyList<IWorkAttribute>? Attributes { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public IReadOnlyList<string>? Iswcs { get; set; }
+  public IReadOnlyList<string>? Iswcs { get; init; }
 
-  public string? Language { get; set; }
+  public string? Language { get; init; }
 
-  public IReadOnlyList<string>? Languages { get; set; }
+  public IReadOnlyList<string>? Languages { get; init; }
 
-  public IRating? Rating { get; set; }
+  public IRating? Rating { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public string? Title { get; set; }
+  public string? Title { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IRating? UserRating { get; set; }
+  public IRating? UserRating { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
   public override string ToString() {
     var text = this.Title ?? string.Empty;

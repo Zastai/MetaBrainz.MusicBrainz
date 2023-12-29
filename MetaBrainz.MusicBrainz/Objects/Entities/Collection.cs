@@ -11,15 +11,15 @@ internal sealed class Collection : Entity, ICollection {
     this.ItemCount = itemCount;
   }
 
-  public string? Editor { get; set; }
+  public string? Editor { get; init; }
 
   public EntityType ContentType { get; }
 
-  public string? Name { get; set; }
+  public string? Name { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
   public int ItemCount { get; }
 

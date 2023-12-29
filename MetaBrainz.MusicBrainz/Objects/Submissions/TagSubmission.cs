@@ -79,9 +79,7 @@ public sealed class TagSubmission : Submission {
   /// <param name="vote">The vote to apply to the tag.</param>
   /// <param name="entity">The entity to tag.</param>
   /// <returns>This submission request.</returns>
-  public TagSubmission Add(string tag, TagVote vote, ITaggableEntity entity) {
-    return this.Add(tag, vote, entity.EntityType, entity.Id);
-  }
+  public TagSubmission Add(string tag, TagVote vote, ITaggableEntity entity) => this.Add(tag, vote, entity.EntityType, entity.Id);
 
   /// <summary>Votes for the specified tag on the specified entities.</summary>
   /// <param name="tag">The tag to vote for.</param>
@@ -131,22 +129,20 @@ public sealed class TagSubmission : Submission {
 
   private readonly TagMap _works = new();
 
-  private TagMap GetMap(EntityType entityType) {
-    return entityType switch {
-      EntityType.Area => this._areas,
-      EntityType.Artist => this._artists,
-      EntityType.Event => this._events,
-      EntityType.Instrument => this._instruments,
-      EntityType.Label => this._labels,
-      EntityType.Place => this._places,
-      EntityType.Recording => this._recordings,
-      EntityType.Release => this._releases,
-      EntityType.ReleaseGroup => this._releaseGroups,
-      EntityType.Series => this._series,
-      EntityType.Work => this._works,
-      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be tagged.")
-    };
-  }
+  private TagMap GetMap(EntityType entityType) => entityType switch {
+    EntityType.Area => this._areas,
+    EntityType.Artist => this._artists,
+    EntityType.Event => this._events,
+    EntityType.Instrument => this._instruments,
+    EntityType.Label => this._labels,
+    EntityType.Place => this._places,
+    EntityType.Recording => this._recordings,
+    EntityType.Release => this._releases,
+    EntityType.ReleaseGroup => this._releaseGroups,
+    EntityType.Series => this._series,
+    EntityType.Work => this._works,
+    _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be tagged.")
+  };
 
   internal override string RequestBody {
     get {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,8 +23,8 @@ public sealed partial class Query {
   /// <param name="area">The area to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, IArea area)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, area));
 
@@ -38,8 +38,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, params IArea[] areas)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, areas));
 
@@ -53,8 +53,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, IEnumerable<IArea> areas)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, areas));
 
@@ -68,8 +68,8 @@ public sealed partial class Query {
   /// <param name="area">The area to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, IArea area)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, area));
 
@@ -83,8 +83,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, params IArea[] areas)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, areas));
 
@@ -98,8 +98,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, IEnumerable<IArea> areas)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, areas));
 
@@ -114,8 +114,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
                                            params IArea[] areas)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -131,8 +131,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IArea area,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, area, cancellationToken);
@@ -147,8 +147,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, params IArea[] areas)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas);
 
@@ -163,8 +163,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IArea> areas,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -180,8 +180,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
                                            params IArea[] areas)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -197,8 +197,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IArea area,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, area, cancellationToken);
@@ -213,8 +213,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, params IArea[] areas)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas);
 
@@ -229,8 +229,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IArea> areas,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -249,8 +249,8 @@ public sealed partial class Query {
   /// <param name="area">The area to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, IArea area)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, area));
 
@@ -264,8 +264,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, params IArea[] areas)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, areas));
 
@@ -279,8 +279,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, IEnumerable<IArea> areas)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, areas));
 
@@ -294,8 +294,8 @@ public sealed partial class Query {
   /// <param name="area">The area to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IArea area)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, area));
 
@@ -309,8 +309,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, params IArea[] areas)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, areas));
 
@@ -324,8 +324,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IEnumerable<IArea> areas)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, areas));
 
@@ -340,8 +340,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
                                                 params IArea[] areas)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -357,8 +357,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IArea area,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, area, cancellationToken);
@@ -373,8 +373,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IArea[] areas)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas);
 
@@ -389,8 +389,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IArea> areas,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -406,8 +406,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
                                                 params IArea[] areas)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);
@@ -423,8 +423,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IArea area,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, area, cancellationToken);
@@ -439,8 +439,8 @@ public sealed partial class Query {
   /// <param name="areas">The areas to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params IArea[] areas)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas);
 
@@ -455,8 +455,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IArea> areas,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Area, areas, cancellationToken);

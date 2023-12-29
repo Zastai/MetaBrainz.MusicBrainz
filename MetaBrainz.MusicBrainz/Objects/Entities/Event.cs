@@ -10,39 +10,39 @@ internal sealed class Event : Entity, IEvent {
   public Event(Guid id) : base(EntityType.Event, id) {
   }
 
-  public IReadOnlyList<IAlias>? Aliases { get; set; }
+  public IReadOnlyList<IAlias>? Aliases { get; init; }
 
-  public string? Annotation { get; set; }
+  public string? Annotation { get; init; }
 
-  public bool Cancelled { get; set; }
+  public bool Cancelled { get; init; }
 
-  public string? Disambiguation { get; set; }
+  public string? Disambiguation { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; set; }
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public ILifeSpan? LifeSpan { get; set; }
+  public ILifeSpan? LifeSpan { get; init; }
 
-  public string? Name { get; set; }
+  public string? Name { get; init; }
 
-  public IRating? Rating { get; set; }
+  public IRating? Rating { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public string? Setlist { get; set; }
+  public string? Setlist { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; set; }
+  public IReadOnlyList<ITag>? Tags { get; init; }
 
-  public string? Time { get; set; }
+  public string? Time { get; init; }
 
-  public string? Type { get; set; }
+  public string? Type { get; init; }
 
-  public Guid? TypeId { get; set; }
+  public Guid? TypeId { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; set; }
+  public IReadOnlyList<IGenre>? UserGenres { get; init; }
 
-  public IRating? UserRating { get; set; }
+  public IRating? UserRating { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; set; }
+  public IReadOnlyList<ITag>? UserTags { get; init; }
 
   public override string ToString() {
     var text = this.Name ?? string.Empty;

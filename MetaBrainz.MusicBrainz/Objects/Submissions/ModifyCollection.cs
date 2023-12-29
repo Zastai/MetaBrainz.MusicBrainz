@@ -61,22 +61,19 @@ internal sealed class ModifyCollection : ISubmission {
 
   string? ISubmission.RequestBody => null;
 
-  private static string MapType(EntityType entityType) {
-    return entityType switch {
-      EntityType.Area => "areas",
-      EntityType.Artist => "artists",
-      EntityType.Event => "events",
-      EntityType.Instrument => "instruments",
-      EntityType.Label => "labels",
-      EntityType.Place => "places",
-      EntityType.Recording => "recordings",
-      EntityType.Release => "releases",
-      EntityType.ReleaseGroup => "release-groups",
-      EntityType.Series => "series",
-      EntityType.Work => "works",
-      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType,
-                                                 "The specified entity type cannot be stored in a collection.")
-    };
-  }
+  private static string MapType(EntityType type) => type switch {
+    EntityType.Area => "areas",
+    EntityType.Artist => "artists",
+    EntityType.Event => "events",
+    EntityType.Instrument => "instruments",
+    EntityType.Label => "labels",
+    EntityType.Place => "places",
+    EntityType.Recording => "recordings",
+    EntityType.Release => "releases",
+    EntityType.ReleaseGroup => "release-groups",
+    EntityType.Series => "series",
+    EntityType.Work => "works",
+    _ => throw new ArgumentOutOfRangeException(nameof(type), type, "The specified entity type cannot be stored in a collection.")
+  };
 
 }

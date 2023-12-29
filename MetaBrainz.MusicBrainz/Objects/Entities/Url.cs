@@ -11,7 +11,7 @@ internal sealed class Url : Entity, IUrl {
     this.Resource = resource;
   }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; set; }
+  public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
   public Uri Resource { get; }
 
