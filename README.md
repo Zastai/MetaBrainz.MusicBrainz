@@ -11,14 +11,6 @@ In addition, interfaces, not classes, are used for the public API (to allow more
 
 This also contains OAuth2 functionality.
 
-## Documentation
-
-A [user guide][UserGuide] is available, which explains the main functionality of the library, with some examples.
-
-## Release Notes
-
-These are available [on GitHub][release-notes].
-
 [CI-S]: https://github.com/Zastai/MetaBrainz.MusicBrainz/actions/workflows/build.yml/badge.svg
 [CI-L]: https://github.com/Zastai/MetaBrainz.MusicBrainz/actions/workflows/build.yml
 
@@ -27,6 +19,15 @@ These are available [on GitHub][release-notes].
 
 [api-reference]: https://musicbrainz.org/doc/MusicBrainz_API
 [home]: https://musicbrainz.org/
-[UserGuide]: https://github.com/Zastai/MetaBrainz.MusicBrainz/blob/main/UserGuide.md
+
+## Documentation
+
+A [user guide][user-guide] is available, which explains the main functionality of the library, with some examples.
+
+[user-guide]: https://github.com/Zastai/MetaBrainz.MusicBrainz/blob/main/UserGuide.md
+
+## Release Notes
+
+These are available [on GitHub][release-notes].
 
 [release-notes]: https://github.com/Zastai/MetaBrainz.MusicBrainz/releases

@@ -453,6 +453,7 @@ public sealed partial class Query : IDisposable {
   private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response, CancellationToken cancellationToken) {
     string? message = null;
     try {
+      var ts = Query.TraceSource;
       var contents = await response.GetStringContentAsync(cancellationToken).ConfigureAwait(false);
       if (!string.IsNullOrWhiteSpace(contents)) {
         try {
@@ -463,23 +464,23 @@ public sealed partial class Query : IDisposable {
           message = mr.Message;
           if (mr.UnhandledProperties is not null) {
             foreach (var prop in mr.UnhandledProperties) {
-              Debug.Print("[{0}] => UNEXPECTED MESSAGE PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
+              ts.TraceEvent(TraceEventType.Verbose, 100, "UNEXPECTED MESSAGE PROPERTY: {0} -> {1}", prop.Key, prop.Value);
             }
           }
         }
         catch (Exception e) {
-          Debug.Print("[{0}] => FAILED TO PARSE MESSAGE RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          ts.TraceEvent(TraceEventType.Verbose, 101, "FAILED TO PARSE MESSAGE RESPONSE CONTENT AS JSON: {0}", e.Message);
           message = null;
         }
         if (message is not null) {
-          Debug.Print("[{0}] => MESSAGE: '{1}'", DateTime.UtcNow, message);
+          ts.TraceEvent(TraceEventType.Verbose, 102, "MESSAGE: '{0}'", message);
         }
         else {
-          Debug.Print("[{0}] => MESSAGE RESPONSE CONTENT: '{1}'", DateTime.UtcNow, contents);
+          ts.TraceEvent(TraceEventType.Verbose, 103, "MESSAGE RESPONSE CONTENT: '{0}'", contents);
         }
       }
       else {
-        Debug.Print("[{0}] => NO MESSAGE RESPONSE CONTENT", DateTime.UtcNow);
+        ts.TraceEvent(TraceEventType.Verbose, 104, "NO MESSAGE RESPONSE CONTENT");
       }
     }
     catch {
@@ -490,7 +491,8 @@ public sealed partial class Query : IDisposable {
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
+    var ts = Query.TraceSource;
+    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, uri);
     var client = this.Client;
     using var request = new HttpRequestMessage(method, uri);
     request.Content = body;
@@ -506,18 +508,26 @@ public sealed partial class Query : IDisposable {
       }
       headers.UserAgent.Add(Query.LibraryProductInfo);
       headers.UserAgent.Add(Query.LibraryComment);
-      Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(headers.ToString())}");
     }
-    if (body is not null) {
-      // FIXME: Should this include the actual body text too?
-      Debug.Print($"[{DateTime.UtcNow}] => BODY ({body.Headers.ContentType}): {body.Headers.ContentLength ?? 0} bytes");
+    if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
+      ts.TraceEvent(TraceEventType.Verbose, 2, "HEADERS: {0}", TextUtils.FormatMultiLine(request.Headers.ToString()));
+      if (body is not null) {
+        var headers = body.Headers;
+        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
+        // FIXME: Should we trace the actual body text too?
+      }
+      else {
+        ts.TraceEvent(TraceEventType.Verbose, 3, "NO BODY");
+      }
     }
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE RESPONSE: {(int) response.StatusCode}/{response.StatusCode} " +
-                $"'{response.ReasonPhrase}' (v{response.Version})");
-    Debug.Print($"[{DateTime.UtcNow}] => HEADERS: {TextUtils.FormatMultiLine(response.Headers.ToString())}");
-    Debug.Print($"[{DateTime.UtcNow}] => CONTENT ({response.Content.Headers.ContentType}): " +
-                $"{response.Content.Headers.ContentLength ?? 0} bytes");
+    if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
+      ts.TraceEvent(TraceEventType.Verbose, 4, "WEB SERVICE RESPONSE: {0:D}/{0} '{1}' (v{2})", response.StatusCode,
+                    response.ReasonPhrase, response.Version);
+      ts.TraceEvent(TraceEventType.Verbose, 5, "HEADERS: {0}", TextUtils.FormatMultiLine(response.Headers.ToString()));
+      var headers = response.Content.Headers;
+      ts.TraceEvent(TraceEventType.Verbose, 6, "CONTENT ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
+    }
     var rateLimitInfo = new RateLimitInfo(response.Headers);
     this._rateLimitLock.EnterWriteLock();
     try {
@@ -537,15 +547,15 @@ public sealed partial class Query : IDisposable {
           if (er is null) {
             throw new JsonException("Error response had null content.");
           }
-          Debug.Print("[{0}] => ERROR '{1}' ({2})", DateTime.UtcNow, er.Error, er.Help);
+          ts.TraceEvent(TraceEventType.Verbose, 7, "ERROR '{0}' ({1})", er.Error, er.Help);
           if (er.UnhandledProperties is not null) {
             foreach (var prop in er.UnhandledProperties) {
-              Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
+              ts.TraceEvent(TraceEventType.Verbose, 8, "UNEXPECTED ERROR PROPERTY: {0} -> {1}", prop.Key, prop.Value);
             }
           }
         }
         catch (Exception e) {
-          Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          ts.TraceEvent(TraceEventType.Verbose, 9, "FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {0}", e.Message);
           er = null;
         }
         if (er is not null) {

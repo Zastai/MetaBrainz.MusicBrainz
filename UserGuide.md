@@ -24,8 +24,8 @@ property, so you can just use `new Query()` to create instances. You must ensure
 ### Software Suggestion
 
 When playing around with these APIs and familiarizing yourself with the various objects involved, it can be very useful to get a
-nice overview of the objects' structures. Rather than writing some code and relying on the debugger's interface to browse the
-contents, I can strongly recommend [LINQPad][LINQPad]. It's free (although there is a premium version with more advanced features).
+nice overview of the objects' structures. Rather than writing some code and relying on the debugger UI to browse the contents, I can
+strongly recommend [LINQPad][LINQPad]. It's free (although there is a premium version with more advanced features).
 
 With it, you just set up a query that references the `MetaBrainz.MusicBrainz` assembly and the corresponding namespace.
 Then you write the code to set up a query object (like above), and call one of its methods, chaining a call to `Dump()` to those
@@ -83,7 +83,7 @@ A browse result provides:
 4. a `Results` property (read-only); a read-only list containing the current set of matched entities
 5. a `TotalResults` property (read-only); this contains the total number of matching results
 6. `Next()` and `NextAsync()` methods, to scroll to the next page of results
-6. `Previous()` and `PreviousAsync()` methods, to scroll to the previous page of results
+7. `Previous()` and `PreviousAsync()` methods, to scroll to the previous page of results
 
 For example:
 ```c#
@@ -189,3 +189,78 @@ q.BearerToken = at.AccessToken;
 
 Note that if this method fails, it may be required to use `GetBearerToken` again, to have the user re-confirm your access
 privileges.
+
+## Debugging
+
+The `OAuth2` and `Query` classes both provide a `TraceSource` that can be used to configure debug output; their names are
+`MetaBrainz.MusicBrainz.OAuth2` and `MetaBrainz.MusicBrainz`, respectively.
+
+### Configuration
+
+#### In Code
+
+In code, you can enable tracing like follows:
+
+```cs
+// Use the default switch, turning it on.
+OAuth2.TraceSource.Switch.Level = SourceLevels.All;
+Query.TraceSource.Switch.Level = SourceLevels.All;
+
+// Alternatively, use your own switch so multiple things can be
+// enabled/disabled at the same time.
+var mySwitch = new TraceSwitch("MyAppDebugSwitch", "All");
+OAuth2.TraceSource.Switch = mySwitch;
+Query.TraceSource.Switch = mySwitch;
+
+// By default, there is a single listener that writes trace events to
+// the debug output (typically only seen in an IDE's debugger). You can
+// add (and remove) listeners as desired.
+var listener = new ConsoleTraceListener {
+  Name = "MyAppConsole",
+  TraceOutputOptions = TraceOptions.DateTime | TraceOptions.ProcessId,
+};
+OAuth2.TraceSource.Listeners.Clear();
+OAuth2.TraceSource.Listeners.Add(listener);
+Query.TraceSource.Listeners.Clear();
+Query.TraceSource.Listeners.Add(listener);
+```
+
+#### In Configuration
+
+Starting from .NET 7 your application can also be set up to read tracing configuration from the application configuration file.
+To do so, the application needs to add the following to its startup code:
+
+```cs
+System.Diagnostics.TraceConfiguration.Register();
+```
+
+(Provided by the `System.Configuration.ConfigurationManager` package.)
+
+The application config file can then have a `system.diagnostics` section where sources, switches and listeners can be configured.
+
+```xml
+<configuration>
+  <system.diagnostics>
+    <sharedListeners>
+      <add name="console" type="System.Diagnostics.ConsoleTraceListener" traceOutputOptions="DateTime,ProcessId" />
+    </sharedListeners>
+    <sources>
+      <source name="MetaBrainz.MusicBrainz" switchName="MetaBrainz.MusicBrainz">
+        <listeners>
+          <add name="console" />
+          <add name="mb-log" type="System.Diagnostics.TextWriterTraceListener" initializeData="mb.log" />
+        </listeners>
+      </source>
+      <source name="MetaBrainz.MusicBrainz.OAuth2" switchName="MetaBrainz.MusicBrainz">
+        <listeners>
+          <add name="console" />
+          <add name="mb-oauth2-log" type="System.Diagnostics.TextWriterTraceListener" initializeData="mb.oauth2.log" />
+        </listeners>
+      </source>
+    </sources>
+    <switches>
+      <add name="MetaBrainz.MusicBrainz" value="All" />
+    </switches>
+  </system.diagnostics>
+</configuration>
+```

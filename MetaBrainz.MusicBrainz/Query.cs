@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
@@ -84,6 +85,9 @@ public sealed partial class Query {
   /// throughput, <see cref="RateLimitInfo"/> can be used to avoid making too many requests and trigger these penalties.
   /// </remarks>
   public static double DelayBetweenRequests { get; set; } = 1.0;
+
+  /// <summary>The trace source (named 'MetaBrainz.MusicBrainz') used by this class.</summary>
+  public static readonly TraceSource TraceSource = new("MetaBrainz.MusicBrainz", SourceLevels.Off);
 
   #endregion
 

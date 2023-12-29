@@ -111,6 +111,8 @@ public sealed class OAuth2 : System.IDisposable {
 
   public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
 
+  public static readonly System.Diagnostics.TraceSource TraceSource;
+
   string ClientId {
     public get;
     public set;
@@ -246,6 +248,8 @@ public sealed class Query : System.IDisposable {
   public const int DefaultPageSize = 25;
 
   public const int MaximumPageSize = 100;
+
+  public static readonly System.Diagnostics.TraceSource TraceSource;
 
   public const string WebServiceRoot = "/ws/2/";
 
