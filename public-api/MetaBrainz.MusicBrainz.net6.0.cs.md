@@ -249,6 +249,8 @@ public sealed class Query : System.IDisposable {
 
   public const int MaximumPageSize = 100;
 
+  public static readonly System.Diagnostics.TraceSource TraceSource;
+
   public const string WebServiceRoot = "/ws/2/";
 
   System.Uri BaseUri {

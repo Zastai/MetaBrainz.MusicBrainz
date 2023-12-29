@@ -78,7 +78,8 @@ where TInterface : ISearchResult {
     var task = JsonUtils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     if (this.Offset != this.CurrentResult.Offset) {
-      Debug.Print($"Unexpected offset in search results: {this.Offset} != {this.CurrentResult.Offset}.");
+      Query.TraceSource.TraceEvent(TraceEventType.Verbose, 200, "Unexpected offset in search results: {0} != {1}.", this.Offset,
+                                   this.CurrentResult.Offset);
     }
     return this;
   }
