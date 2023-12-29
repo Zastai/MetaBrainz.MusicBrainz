@@ -14,6 +14,7 @@ using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 using MetaBrainz.MusicBrainz.Json;
+using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz;
 
@@ -452,54 +453,39 @@ public sealed partial class Query : IDisposable {
   private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response, CancellationToken cancellationToken) {
     string? message = null;
     try {
-      if (response.Content.Headers.ContentLength > 0) {
-        var body = await HttpUtils.GetStringContentAsync(response, cancellationToken).ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(body)) {
-          Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE TEXT");
-        }
-        else {
-          var handled = false;
-          var mediaType = response.Content.Headers.ContentType?.MediaType;
-          if (mediaType is not null) {
-            if (mediaType.StartsWith("application/json")) {
-              using var doc = JsonSerializer.Deserialize<JsonDocument>(body);
-              if (doc is not null && doc.RootElement.ValueKind == JsonValueKind.Object) {
-                // MusicBrainz message response: { "message": "this is a message" }
-                handled = true;
-                foreach (var prop in doc.RootElement.EnumerateObject()) {
-                  switch (prop.Name) {
-                    case "message":
-                      message = prop.Value.GetString();
-                      break;
-                    default:
-                      handled = false;
-                      break;
-                  }
-                  if (!handled) {
-                    break;
-                  }
-                }
-                if (handled && message is not null) {
-                  Debug.Print($"[{DateTime.UtcNow}] => MESSAGE: '{message}'");
-                }
-              }
+      var contents = await response.GetStringContentAsync(cancellationToken).ConfigureAwait(false);
+      if (!string.IsNullOrWhiteSpace(contents)) {
+        try {
+          var mr = JsonSerializer.Deserialize<MessageResult>(contents, Query.JsonReaderOptions);
+          if (mr is null) {
+            throw new JsonException("Message response had null content.");
+          }
+          message = mr.Message;
+          if (mr.UnhandledProperties != null) {
+            foreach (var prop in mr.UnhandledProperties) {
+              Debug.Print("[{0}] => UNEXPECTED MESSAGE PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
             }
           }
-          if (!handled) {
-            Debug.Print($"[{DateTime.UtcNow}] => MESSAGE RESPONSE TEXT: {TextUtils.FormatMultiLine(body)}");
-            message = body;
-          }
+        }
+        catch (Exception e) {
+          Debug.Print("[{0}] => FAILED TO PARSE MESSAGE RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          message = null;
+        }
+        if (message is not null) {
+          Debug.Print("[{0}] => MESSAGE: '{1}'", DateTime.UtcNow, message);
+        }
+        else {
+          Debug.Print("[{0}] => MESSAGE RESPONSE CONTENT: '{1}'", DateTime.UtcNow, contents);
         }
       }
       else {
-        Debug.Print($"[{DateTime.UtcNow}] => NO MESSAGE RESPONSE CONTENT");
+        Debug.Print("[{0}] => NO MESSAGE RESPONSE CONTENT", DateTime.UtcNow);
       }
-      return message;
     }
     catch {
       // keep calm and fall through
     }
-    return null;
+    return message;
   }
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
@@ -540,10 +526,34 @@ public sealed partial class Query : IDisposable {
     finally {
       this._rateLimitLock.ExitWriteLock();
     }
-    if (!response.IsSuccessStatusCode) {
-      throw await QueryException.FromResponseAsync(response, cancellationToken).ConfigureAwait(false);
+    try {
+      return await response.EnsureSuccessfulAsync(cancellationToken);
     }
-    return response;
+    catch (HttpError error) {
+      if (!string.IsNullOrWhiteSpace(error.Content)) {
+        ErrorResult? er;
+        try {
+          er = JsonSerializer.Deserialize<ErrorResult>(error.Content, Query.JsonReaderOptions);
+          if (er is null) {
+            throw new JsonException("Error response had null content.");
+          }
+          Debug.Print("[{0}] => ERROR '{1}' ({2})", DateTime.UtcNow, er.Error, er.Help);
+          if (er.UnhandledProperties != null) {
+            foreach (var prop in er.UnhandledProperties) {
+              Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
+            }
+          }
+        }
+        catch (Exception e) {
+          Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          er = null;
+        }
+        if (er != null) {
+          throw new HttpError(error.Status, er.Error, response.Version, er.Help, error);
+        }
+      }
+      throw;
+    }
   }
 
   internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
