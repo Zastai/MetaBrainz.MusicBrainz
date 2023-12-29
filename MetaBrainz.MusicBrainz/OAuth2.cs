@@ -83,6 +83,9 @@ public sealed class OAuth2 : IDisposable {
   /// <summary>The content type for a token request body.</summary>
   public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
 
+  /// <summary>The trace source (named 'MetaBrainz.MusicBrainz.OAuth2') used by this class.</summary>
+  public static readonly TraceSource TraceSource = new("MetaBrainz.MusicBrainz.OAuth2", SourceLevels.Off);
+
   #endregion
 
   #region Constructors
@@ -342,7 +345,8 @@ public sealed class OAuth2 : IDisposable {
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
-    Debug.Print($"[{DateTime.UtcNow}] WEB SERVICE REQUEST: {method.Method} {uri}");
+    var ts = OAuth2.TraceSource;
+    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, uri);
     var client = this.Client;
     using var request = new HttpRequestMessage(method, uri);
     request.Content = body;
@@ -353,17 +357,25 @@ public sealed class OAuth2 : IDisposable {
     }
     request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
     request.Headers.UserAgent.Add(OAuth2.LibraryComment);
-    Debug.Print("[{0}] => HEADERS: {1}", DateTime.UtcNow, TextUtils.FormatMultiLine(request.Headers.ToString()));
-    if (body is not null) {
-      // FIXME: Should this include the actual body text too?
-      Debug.Print("[{0}] => BODY ({1}): {2} bytes", DateTime.UtcNow, body.Headers.ContentType, body.Headers.ContentLength ?? 0);
+    if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
+      ts.TraceEvent(TraceEventType.Verbose, 2, "HEADERS: {0}", TextUtils.FormatMultiLine(request.Headers.ToString()));
+      if (body is not null) {
+        var headers = body.Headers;
+        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
+        // FIXME: Should we trace the actual body text too?
+      }
+      else {
+        ts.TraceEvent(TraceEventType.Verbose, 3, "NO BODY");
+      }
     }
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
-    Debug.Print("[{0}] WEB SERVICE RESPONSE: {1}/{2} '{3}' (v{4})", DateTime.UtcNow, (int) response.StatusCode, response.StatusCode,
-                response.ReasonPhrase, response.Version);
-    Debug.Print("[{0}] => HEADERS: {1}", DateTime.UtcNow, TextUtils.FormatMultiLine(response.Headers.ToString()));
-    Debug.Print("[{0}] => CONTENT ({1}): {2} bytes", DateTime.UtcNow, response.Content.Headers.ContentType,
-                response.Content.Headers.ContentLength ?? 0);
+    if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
+      ts.TraceEvent(TraceEventType.Verbose, 4, "WEB SERVICE RESPONSE: {0:D}/{0} '{1}' (v{2})", response.StatusCode,
+                    response.ReasonPhrase, response.Version);
+      ts.TraceEvent(TraceEventType.Verbose, 5, "HEADERS: {0}", TextUtils.FormatMultiLine(response.Headers.ToString()));
+      var headers = response.Content.Headers;
+      ts.TraceEvent(TraceEventType.Verbose, 6, "CONTENT ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
+    }
     try {
       return await response.EnsureSuccessfulAsync(cancellationToken);
     }
@@ -375,16 +387,15 @@ public sealed class OAuth2 : IDisposable {
           if (ae is null) {
             throw new JsonException("Error response had null content.");
           }
-          Debug.Print("[{0}] => ERROR '{1}' / '{2}'", DateTime.UtcNow, ae.Error, ae.Description);
-          // FIXME: What is the best way to compose this value?
+          ts.TraceEvent(TraceEventType.Verbose, 7, "ERROR '{0}' / '{1}'", ae.Error, ae.Description);
           if (ae.UnhandledProperties is not null) {
             foreach (var prop in ae.UnhandledProperties) {
-              Debug.Print("[{0}] => UNEXPECTED ERROR PROPERTY: {1} -> {2}", DateTime.UtcNow, prop.Key, prop.Value);
+              ts.TraceEvent(TraceEventType.Verbose, 8, "UNEXPECTED ERROR PROPERTY: {0} -> {1}", prop.Key, prop.Value);
             }
           }
         }
         catch (Exception e) {
-          Debug.Print("[{0}] => FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {1}", DateTime.UtcNow, e.Message);
+          ts.TraceEvent(TraceEventType.Verbose, 9, "FAILED TO PARSE ERROR RESPONSE CONTENT AS JSON: {0}", e.Message);
           ae = null;
         }
         if (ae is not null) {

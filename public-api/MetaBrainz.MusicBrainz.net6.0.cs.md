@@ -111,6 +111,8 @@ public sealed class OAuth2 : System.IDisposable {
 
   public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
 
+  public static readonly System.Diagnostics.TraceSource TraceSource;
+
   string ClientId {
     public get;
     public set;
