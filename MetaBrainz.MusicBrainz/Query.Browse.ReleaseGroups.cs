@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,8 +25,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllArtistReleaseGroups(Guid mbid, int? pageSize = null, int? offset = null,
                                                                             Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", mbid, type), pageSize, offset).AsStream();
@@ -43,8 +43,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllCollectionReleaseGroups(Guid mbid, int? pageSize = null, int? offset = null,
                                                                                 Include inc = Include.None,
                                                                                 ReleaseType? type = null)
@@ -62,8 +62,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should
   /// always return exactly one result.
@@ -84,8 +84,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseGroups(IArtist artist, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null)
     => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", artist.Id, type), pageSize, offset).AsStream();
@@ -102,8 +102,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseGroups(ICollection collection, int? pageSize = null,
                                                                       int? offset = null, Include inc = Include.None,
                                                                       ReleaseType? type = null)
@@ -121,8 +121,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// Currently a release can only be part of a single release group, so this should always return exactly one result.
   /// </remarks>
@@ -143,8 +143,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                             Include inc = Include.None, ReleaseType? type = null,
                                                                             CancellationToken cancellationToken = default)
@@ -163,8 +163,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseCollectionReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                                 Include inc = Include.None,
                                                                                 ReleaseType? type = null,
@@ -186,8 +186,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// Currently a release can only be part of a single release group, so assuming <paramref name="mbid"/> is valid, this should
   /// always return exactly one result.
@@ -204,8 +204,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(IArtist artist, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
     => AsyncUtils.ResultOf(this.BrowseReleaseGroupsAsync(artist, limit, offset, inc, type));
@@ -217,8 +217,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IReleaseGroup> BrowseReleaseGroups(ICollection collection, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null)
     => AsyncUtils.ResultOf(this.BrowseReleaseGroupsAsync(collection, limit, offset, inc, type));
@@ -230,8 +230,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="type">The release type to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// Currently a release can only be part of a single release group, so this should always return exactly one result.
   /// </remarks>
@@ -247,8 +247,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       CancellationToken cancellationToken = default) {
@@ -264,8 +264,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       CancellationToken cancellationToken = default) {
@@ -281,8 +281,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// Currently a release can only be part of a single release group, so this should always return exactly one result.
   /// </remarks>

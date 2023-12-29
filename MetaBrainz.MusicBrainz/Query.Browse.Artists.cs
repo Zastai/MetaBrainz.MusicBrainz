@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +24,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllAreaArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                               Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "area", mbid), pageSize, offset).AsStream();
@@ -41,8 +41,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(IArea area, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "area", area.Id), pageSize, offset).AsStream();
@@ -58,8 +58,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(ICollection collection, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
@@ -75,8 +75,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(IRecording recording, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "recording", recording.Id), pageSize, offset).AsStream();
@@ -92,8 +92,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(IRelease release, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release", release.Id), pageSize, offset).AsStream();
@@ -109,8 +109,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(IReleaseGroup releaseGroup, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release-group", releaseGroup.Id), pageSize, offset).AsStream();
@@ -126,8 +126,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllArtists(IWork work, int? pageSize = null, int? offset = null,
                                                           Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "work", work.Id), pageSize, offset).AsStream();
@@ -143,8 +143,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllCollectionArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                                     Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
@@ -160,8 +160,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllRecordingArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                                    Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "recording", mbid), pageSize, offset).AsStream();
@@ -177,8 +177,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllReleaseArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                                  Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release", mbid), pageSize, offset).AsStream();
@@ -194,8 +194,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllReleaseGroupArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release-group", mbid), pageSize, offset).AsStream();
@@ -211,8 +211,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArtist> BrowseAllWorkArtists(Guid mbid, int? pageSize = null, int? offset = null,
                                                               Include inc = Include.None)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "work", mbid), pageSize, offset).AsStream();
@@ -223,8 +223,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseAreaArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseAreaArtistsAsync(mbid, limit, offset, inc));
 
@@ -235,8 +235,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseAreaArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
                                                               CancellationToken cancellationToken = default)
@@ -248,8 +248,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(area, limit, offset, inc));
 
@@ -259,8 +259,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(ICollection collection, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(collection, limit, offset, inc));
@@ -271,8 +271,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IRecording recording, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(recording, limit, offset, inc));
@@ -283,8 +283,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IRelease release, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(release, limit, offset, inc));
 
@@ -294,8 +294,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(releaseGroup, limit, offset, inc));
@@ -306,8 +306,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseArtists(IWork work, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseArtistsAsync(work, limit, offset, inc));
 
@@ -318,8 +318,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IArea area, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
@@ -331,8 +331,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
@@ -344,8 +344,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRecording recording, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "recording", recording.Id), limit, offset).NextAsync(cancellationToken);
@@ -357,8 +357,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IRelease release, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
@@ -370,8 +370,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                           Include inc = Include.None,
                                                           CancellationToken cancellationToken = default) {
@@ -386,8 +386,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseArtistsAsync(IWork work, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseArtists(this, Query.BuildExtraText(inc, "work", work.Id), limit, offset).NextAsync(cancellationToken);
@@ -398,8 +398,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseCollectionArtists(Guid mbid, int? limit = null, int? offset = null,
                                                          Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseCollectionArtistsAsync(mbid, limit, offset, inc));
@@ -411,8 +411,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseCollectionArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                     Include inc = Include.None,
                                                                     CancellationToken cancellationToken = default)
@@ -424,8 +424,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseRecordingArtists(Guid mbid, int? limit = null, int? offset = null,
                                                         Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseRecordingArtistsAsync(mbid, limit, offset, inc));
@@ -437,8 +437,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseRecordingArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                    Include inc = Include.None,
                                                                    CancellationToken cancellationToken = default)
@@ -450,8 +450,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseReleaseArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseReleaseArtistsAsync(mbid, limit, offset, inc));
 
@@ -462,8 +462,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseReleaseArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None,
                                                                  CancellationToken cancellationToken = default)
@@ -475,8 +475,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseReleaseGroupArtists(Guid mbid, int? limit = null, int? offset = null,
                                                            Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseReleaseGroupArtistsAsync(mbid, limit, offset, inc));
@@ -488,8 +488,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseReleaseGroupArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None,
                                                                       CancellationToken cancellationToken = default)
@@ -501,8 +501,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IArtist> BrowseWorkArtists(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
     => AsyncUtils.ResultOf(this.BrowseWorkArtistsAsync(mbid, limit, offset, inc));
 
@@ -513,8 +513,8 @@ public sealed partial class Query {
   /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArtist>> BrowseWorkArtistsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
                                                               CancellationToken cancellationToken = default)

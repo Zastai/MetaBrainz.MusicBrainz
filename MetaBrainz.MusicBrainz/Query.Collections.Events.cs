@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,8 +23,8 @@ public sealed partial class Query {
   /// <param name="event">The event to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, IEvent @event)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, @event));
 
@@ -38,8 +38,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, params IEvent[] events)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, events));
 
@@ -53,8 +53,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, Guid collection, IEnumerable<IEvent> events)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, events));
 
@@ -68,8 +68,8 @@ public sealed partial class Query {
   /// <param name="event">The event to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, IEvent @event)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, @event));
 
@@ -83,8 +83,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, params IEvent[] events)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, events));
 
@@ -98,8 +98,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string AddToCollection(string client, ICollection collection, IEnumerable<IEvent> events)
     => AsyncUtils.ResultOf(this.AddToCollectionAsync(client, collection, events));
 
@@ -114,8 +114,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
                                            params IEvent[] events)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -131,8 +131,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IEvent @event,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, @event, cancellationToken);
@@ -147,8 +147,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, params IEvent[] events)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events);
 
@@ -163,8 +163,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, Guid collection, IEnumerable<IEvent> events,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -180,8 +180,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
                                            params IEvent[] events)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -197,8 +197,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IEvent @event,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, @event, cancellationToken);
@@ -213,8 +213,8 @@ public sealed partial class Query {
   /// <param name="events">The events to add to <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, params IEvent[] events)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events);
 
@@ -229,8 +229,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> AddToCollectionAsync(string client, ICollection collection, IEnumerable<IEvent> events,
                                            CancellationToken cancellationToken = default)
     => this.AddToCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -249,8 +249,8 @@ public sealed partial class Query {
   /// <param name="event">The event to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, IEvent @event)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, @event));
 
@@ -264,8 +264,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, params IEvent[] events)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, events));
 
@@ -279,8 +279,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, Guid collection, IEnumerable<IEvent> events)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, events));
 
@@ -294,8 +294,8 @@ public sealed partial class Query {
   /// <param name="event">The event to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IEvent @event)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, @event));
 
@@ -309,8 +309,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, params IEvent[] events)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, events));
 
@@ -324,8 +324,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public string RemoveFromCollection(string client, ICollection collection, IEnumerable<IEvent> events)
     => AsyncUtils.ResultOf(this.RemoveFromCollectionAsync(client, collection, events));
 
@@ -340,8 +340,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, CancellationToken cancellationToken,
                                                 params IEvent[] events)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -357,8 +357,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEvent @event,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, @event, cancellationToken);
@@ -373,8 +373,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, params IEvent[] events)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events);
 
@@ -389,8 +389,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, Guid collection, IEnumerable<IEvent> events,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -406,8 +406,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, CancellationToken cancellationToken,
                                                 params IEvent[] events)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);
@@ -423,8 +423,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEvent @event,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, @event, cancellationToken);
@@ -439,8 +439,8 @@ public sealed partial class Query {
   /// <param name="events">The events to remove from <paramref name="collection"/>.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, params IEvent[] events)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events);
 
@@ -455,8 +455,8 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>
   /// <exception cref="ArgumentException">When <paramref name="client"/> is blank.</exception>
-  /// <exception cref="QueryException">When the MusicBrainz web service reports an error.</exception>
-  /// <exception cref="WebException">When the MusicBrainz web service could not be contacted.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<string> RemoveFromCollectionAsync(string client, ICollection collection, IEnumerable<IEvent> events,
                                                 CancellationToken cancellationToken = default)
     => this.RemoveFromCollectionAsync(client, collection, EntityType.Event, events, cancellationToken);

@@ -1,5 +1,5 @@
 using System;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -26,8 +26,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllAreaReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None, ReleaseType? type = null,
                                                                 ReleaseStatus? status = null)
@@ -46,8 +46,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllArtistReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None, ReleaseType? type = null,
                                                                   ReleaseStatus? status = null)
@@ -66,8 +66,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllCollectionReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       ReleaseStatus? status = null)
@@ -86,8 +86,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllLabelReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null)
@@ -106,8 +106,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllRecordingReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                      Include inc = Include.None, ReleaseType? type = null,
                                                                      ReleaseStatus? status = null)
@@ -126,8 +126,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleaseGroupReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                         Include inc = Include.None, ReleaseType? type = null,
                                                                         ReleaseStatus? status = null)
@@ -146,8 +146,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(IArea area, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -166,8 +166,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(IArtist artist, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -186,8 +186,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(ICollection collection, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -207,8 +207,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(ILabel label, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -227,8 +227,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(IRecording recording, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -247,8 +247,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(IReleaseGroup releaseGroup, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -268,8 +268,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllReleases(ITrack track, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -290,8 +290,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllTrackArtistReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null)
@@ -312,8 +312,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllTrackArtistReleases(IArtist artist, int? pageSize = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null)
@@ -332,8 +332,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRelease> BrowseAllTrackReleases(Guid mbid, int? pageSize = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null)
@@ -347,8 +347,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseAreaReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                      ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseAreaReleasesAsync(mbid, limit, offset, inc, type, status));
@@ -362,8 +362,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseAreaReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None, ReleaseType? type = null,
                                                                 ReleaseStatus? status = null,
@@ -378,8 +378,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseArtistReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                        ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseArtistReleasesAsync(mbid, limit, offset, inc, type, status));
@@ -393,8 +393,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None, ReleaseType? type = null,
                                                                   ReleaseStatus? status = null,
@@ -411,8 +411,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseCollectionReleases(Guid mbid, int? limit = null, int? offset = null,
                                                            Include inc = Include.None, ReleaseType? type = null,
                                                            ReleaseStatus? status = null)
@@ -427,8 +427,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseCollectionReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       ReleaseStatus? status = null,
@@ -445,8 +445,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseLabelReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                       ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseLabelReleasesAsync(mbid, limit, offset, inc, type, status));
@@ -460,8 +460,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseLabelReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null,
@@ -476,8 +476,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseRecordingReleases(Guid mbid, int? limit = null, int? offset = null,
                                                           Include inc = Include.None, ReleaseType? type = null,
                                                           ReleaseStatus? status = null)
@@ -492,8 +492,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseRecordingReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                      Include inc = Include.None, ReleaseType? type = null,
                                                                      ReleaseStatus? status = null,
@@ -510,8 +510,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleaseGroupReleases(Guid mbid, int? limit = null, int? offset = null,
                                                              Include inc = Include.None, ReleaseType? type = null,
                                                              ReleaseStatus? status = null)
@@ -526,8 +526,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleaseGroupReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                         Include inc = Include.None, ReleaseType? type = null,
                                                                         ReleaseStatus? status = null,
@@ -544,8 +544,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IArea area, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(area, limit, offset, inc, type, status));
@@ -558,8 +558,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IArtist artist, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(artist, limit, offset, inc, type, status));
@@ -572,8 +572,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ICollection collection, int? limit = null, int? offset = null,
                                                  Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(collection, limit, offset, inc, type, status));
@@ -586,8 +586,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ILabel label, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(label, limit, offset, inc, type, status));
@@ -600,8 +600,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IRecording recording, int? limit = null, int? offset = null,
                                                  Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(recording, limit, offset, inc, type, status));
@@ -614,8 +614,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                  Include inc = Include.None, ReleaseType? type = null, ReleaseStatus? status = null)
     => new BrowseReleases(this, Query.BuildExtraText(inc, "release-group", releaseGroup.Id, type, status), limit, offset)
@@ -629,8 +629,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseReleases(ITrack track, int? limit = null, int? offset = null, Include inc = Include.None,
                                                  ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseReleasesAsync(track, limit, offset, inc, type, status));
@@ -644,8 +644,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArea area, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -663,8 +663,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -682,8 +682,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ICollection collection, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -701,8 +701,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ILabel label, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -720,8 +720,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IRecording recording, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -739,8 +739,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(IReleaseGroup releaseGroup, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -758,8 +758,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseReleasesAsync(ITrack track, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null,
@@ -778,8 +778,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseTrackArtistReleases(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -795,8 +795,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseTrackArtistReleases(IArtist artist, int? limit = null, int? offset = null,
                                                             Include inc = Include.None, ReleaseType? type = null,
                                                             ReleaseStatus? status = null)
@@ -813,8 +813,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null,
@@ -834,8 +834,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackArtistReleasesAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None, ReleaseType? type = null,
                                                                        ReleaseStatus? status = null,
@@ -852,8 +852,8 @@ public sealed partial class Query {
   /// <param name="type">The release type to filter on (if any).</param>
   /// <param name="status">The release status to filter on (if any).</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IBrowseResults<IRelease> BrowseTrackReleases(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None,
                                                       ReleaseType? type = null, ReleaseStatus? status = null)
     => AsyncUtils.ResultOf(this.BrowseTrackReleasesAsync(mbid, limit, offset, inc, type, status));
@@ -867,8 +867,8 @@ public sealed partial class Query {
   /// <param name="status">The release status to filter on (if any).</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IRelease>> BrowseTrackReleasesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                  Include inc = Include.None, ReleaseType? type = null,
                                                                  ReleaseStatus? status = null,

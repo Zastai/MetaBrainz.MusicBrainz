@@ -1,10 +1,11 @@
 using System.Collections.Generic;
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
 using JetBrains.Annotations;
 
+using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz.Interfaces;
@@ -46,8 +47,8 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   TResults Next();
 
   /// <summary>
@@ -56,8 +57,8 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// </summary>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   Task<TResults> NextAsync(CancellationToken cancellationToken = default);
 
   /// <summary>
@@ -77,8 +78,8 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
   /// </summary>
   /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   TResults Previous();
 
   /// <summary>
@@ -87,8 +88,8 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// </summary>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   Task<TResults> PreviousAsync(CancellationToken cancellationToken = default);
 
   /// <summary>The current results.</summary>

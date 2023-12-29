@@ -1,4 +1,4 @@
-using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,8 +23,8 @@ public sealed partial class Query {
   /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
   /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
   /// </returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks>
   /// <para>
   /// When <paramref name="simple"/> is specified as <see langword="true"/>, certain special query characters are escaped
@@ -91,8 +91,8 @@ public sealed partial class Query {
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="simple">If set to <see langword="true"/>, this disables advanced query syntax.</param>
   /// <returns>The search request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks><inheritdoc cref="FindAllReleases"/></remarks>
   public ISearchResults<ISearchResult<IRelease>> FindReleases(string query, int? limit = null, int? offset = null,
                                                               bool simple = false)
@@ -105,8 +105,8 @@ public sealed partial class Query {
   /// <param name="simple">If set to <see langword="true"/>, this disables advanced query syntax.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The search request, including the initial results.</returns>
-  /// <exception cref="QueryException">When the web service reports an error.</exception>
-  /// <exception cref="WebException">When something goes wrong with the web request.</exception>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   /// <remarks><inheritdoc cref="FindAllReleases"/></remarks>
   public Task<ISearchResults<ISearchResult<IRelease>>> FindReleasesAsync(string query, int? limit = null, int? offset = null,
                                                                          bool simple = false,
