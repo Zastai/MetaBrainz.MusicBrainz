@@ -32,11 +32,16 @@ Then you write the code to set up a query object (like above), and call one of i
 for which you want the result to be formatted in the output window. Pressing `F5` will then run that code, and provide you with
 a nice view of the object(s) in question.
 
-For example:
+For example, running the following query:
+
 ```c#
 var q = new Query("Red Stapler", "19.99", "mailto:milton.waddams@initech.com");
 q.FindReleaseGroups("releasegroup:\"Office Space\"").Dump();
 ```
+
+will produce a nicely-rendered and fully expandable/collapsible result view:
+
+![LINQPad Result View](ug-linqpad.png)
 
 [LINQPad]: https://www.linqpad.net/
 
@@ -56,11 +61,13 @@ By default, only the main information about an entity is included. To get inform
 if releases are requested, the same goes for the `status` parameter.
 
 For example, to get information about Metallica, including all their live bootlegs, you would use:
+
 ```c#
 var metallica = q.LookupArtist(new Guid("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab"), Include.Releases, ReleaseType.Live, ReleaseStatus.Bootleg);
 ```
 
 And to include their EPs, you would use:
+
 ```c#
 var metallica = q.LookupArtist(new Guid("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab"), Include.Releases, ReleaseType.Live, ReleaseStatus.Bootleg);
 ```
@@ -86,6 +93,7 @@ A browse result provides:
 7. `Previous()` and `PreviousAsync()` methods, to scroll to the previous page of results
 
 For example:
+
 ```c#
 var works = q.BrowseArtistWorks(new Guid("24f1766e-9635-4d58-a4d4-9413f9f98a4c"), limit: 30, offset: 1000);
 // At the time of writing, works.TotalResults is 6911
@@ -119,6 +127,7 @@ Note that unlike Find or Browse, searches return cached subsets of information; 
 MBIDs to perform an additional Lookup.
 
 For example:
+
 ```c#
 var elvises = q.FindArtist("Elvis", simple: true); // at the time of writing, TotalResults is 248 for this query
 var elvisesFromTupelo = q.FindArtist("name:Elvis AND beginarea:Tupelo"); // but for this one it's 1 
