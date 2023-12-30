@@ -24,7 +24,7 @@ This also contains OAuth2 functionality.
 
 A [user guide][user-guide] is available, which explains the main functionality of the library, with some examples.
 
-[user-guide]: https://github.com/Zastai/MetaBrainz.MusicBrainz/blob/main/UserGuide.md
+[user-guide]: https://github.com/Zastai/MetaBrainz.MusicBrainz/blob/main/user-guide/UserGuide.md
 
 ## Release Notes
 
