@@ -13,7 +13,7 @@ using JetBrains.Annotations;
 using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
-using MetaBrainz.MusicBrainz.Json.Readers;
+using MetaBrainz.MusicBrainz.Json;
 using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz;
@@ -85,6 +85,9 @@ public sealed class OAuth2 : IDisposable {
 
   /// <summary>The trace source (named 'MetaBrainz.MusicBrainz.OAuth2') used by this class.</summary>
   public static readonly TraceSource TraceSource = new("MetaBrainz.MusicBrainz.OAuth2", SourceLevels.Off);
+
+  /// <summary>The endpoint used when requesting user info.</summary>
+  public const string UserInfoEndPoint = "/oauth2/userinfo";
 
   #endregion
 
@@ -226,6 +229,18 @@ public sealed class OAuth2 : IDisposable {
                                                        CancellationToken cancellationToken = default)
     => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, cancellationToken);
 
+  /// <summary>Gets information about the user associated with an access token.</summary>
+  /// <param name="token">The access token.</param>
+  /// <returns>Information about the user associated with the access token.</returns>
+  public IUserInfo GetUserInfo(string token) => AsyncUtils.ResultOf(this.GetUserInfoAsync(token));
+
+  /// <summary>Gets information about the user associated with an access token.</summary>
+  /// <param name="token">The access token.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>Information about the user associated with the access token.</returns>
+  public Task<IUserInfo> GetUserInfoAsync(string token, CancellationToken cancellationToken = default)
+    => this.GetAsync<IUserInfo, UserInfo>(OAuth2.UserInfoEndPoint, token, cancellationToken);
+
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
@@ -340,17 +355,27 @@ public sealed class OAuth2 : IDisposable {
 
   #region Internals
 
-  private static readonly JsonSerializerOptions JsonReaderOptions =
-    JsonUtils.CreateReaderOptions(AuthorizationTokenReader.Instance, AuthorizationErrorReader.Instance);
+  private static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.OAuth2Readers);
 
-  private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
+  private async Task<TInterface> GetAsync<TInterface, TObject>(string endPoint, string? token,
+                                                               CancellationToken cancellationToken) where TObject : TInterface {
+    var response = await this.PerformRequestAsync(HttpMethod.Get, endPoint, null, token, cancellationToken).ConfigureAwait(false);
+    var jsonTask = JsonUtils.GetJsonContentAsync<TObject>(response, OAuth2.JsonReaderOptions, cancellationToken);
+    return await jsonTask.ConfigureAwait(false);
+  }
+
+  private async Task<HttpResponseMessage> PerformRequestAsync(HttpMethod method, string endPoint, HttpContent? body, string? token,
                                                               CancellationToken cancellationToken) {
+    var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, endPoint).Uri;
     var ts = OAuth2.TraceSource;
     ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, uri);
     var client = this.Client;
     using var request = new HttpRequestMessage(method, uri);
     request.Content = body;
     request.Headers.Accept.Add(OAuth2.AcceptHeader);
+    if (token is not null) {
+      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
     // Use whatever user agent the client has set, plus our own.
     foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
       request.Headers.UserAgent.Add(userAgent);
@@ -361,8 +386,8 @@ public sealed class OAuth2 : IDisposable {
       ts.TraceEvent(TraceEventType.Verbose, 2, "HEADERS: {0}", TextUtils.FormatMultiLine(request.Headers.ToString()));
       if (body is not null) {
         var headers = body.Headers;
-        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
-        // FIXME: Should we trace the actual body text too?
+        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}, {1} bytes): {2}", headers.ContentType, headers.ContentLength ?? 0,
+                      TextUtils.FormatMultiLine(await body.ReadAsStringAsync(cancellationToken)));
       }
       else {
         ts.TraceEvent(TraceEventType.Verbose, 3, "NO BODY");
@@ -380,7 +405,7 @@ public sealed class OAuth2 : IDisposable {
       return await response.EnsureSuccessfulAsync(cancellationToken);
     }
     catch (HttpError error) {
-      if (!string.IsNullOrWhiteSpace(error.Content)) {
+      if (!string.IsNullOrWhiteSpace(error.Content) && error.Content.StartsWith('{')) {
         AuthorizationError? ae;
         try {
           ae = JsonSerializer.Deserialize<AuthorizationError>(error.Content, OAuth2.JsonReaderOptions);
@@ -406,16 +431,16 @@ public sealed class OAuth2 : IDisposable {
     }
   }
 
-  private async Task<AuthorizationToken> PostAsync(HttpContent content, CancellationToken cancellationToken) {
-    var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.TokenEndPoint).Uri;
-    var response = await this.PerformRequestAsync(uri, HttpMethod.Post, content, cancellationToken).ConfigureAwait(false);
-    var jsonTask = JsonUtils.GetJsonContentAsync<AuthorizationToken>(response, OAuth2.JsonReaderOptions, cancellationToken);
+  private async Task<T> PostAsync<T>(string endPoint, HttpContent? content, CancellationToken cancellationToken) {
+    var request = this.PerformRequestAsync(HttpMethod.Post, endPoint, content, null, cancellationToken);
+    var response = await request.ConfigureAwait(false);
+    var jsonTask = JsonUtils.GetJsonContentAsync<T>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
   }
 
-  private async Task<IAuthorizationToken> PostAsync(string type, string body, CancellationToken cancellationToken) {
+  private async Task<IAuthorizationToken> PostTokenRequestAsync(string type, string body, CancellationToken cancellationToken) {
     var content = new StringContent(body, Encoding.UTF8, OAuth2.TokenRequestBodyType);
-    var token = await this.PostAsync(content, cancellationToken).ConfigureAwait(false);
+    var token = await this.PostAsync<AuthorizationToken>(OAuth2.TokenEndPoint, content, cancellationToken).ConfigureAwait(false);
     if (token.TokenType != type) {
       throw new InvalidOperationException($"Token request returned a token of the wrong type ('{token.TokenType}' != '{type}').");
     }
@@ -430,7 +455,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&token_type=").Append(Uri.EscapeDataString(type));
     body.Append("&grant_type=refresh_token");
     body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
-    return this.PostAsync(type, body.ToString(), cancellationToken);
+    return this.PostTokenRequestAsync(type, body.ToString(), cancellationToken);
   }
 
   private Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
@@ -442,7 +467,7 @@ public sealed class OAuth2 : IDisposable {
     body.Append("&grant_type=authorization_code");
     body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
     body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-    return this.PostAsync(type, body.ToString(), cancellationToken);
+    return this.PostTokenRequestAsync(type, body.ToString(), cancellationToken);
   }
 
   private static IEnumerable<string> ScopeStrings(AuthorizationScope scope) {
