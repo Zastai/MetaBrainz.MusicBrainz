@@ -16,7 +16,7 @@
 public enum AuthorizationScope {
 
   Collection = 16,
-  EMail = 2,
+  Email = 2,
   Everything = -1,
   None = 0,
   Profile = 1,
@@ -167,15 +167,15 @@ public sealed class OAuth2 : System.IDisposable {
 
   public void ConfigureClientCreation(System.Func<System.Net.Http.HttpClient>? code);
 
-  public System.Uri CreateAuthorizationRequest(System.Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false, bool forcePrompt = false);
+  public System.Uri CreateAuthorizationRequest(System.Uri redirectUri, AuthorizationScope scope, string? state = null, string? challenge = null, string? challengeMethod = null, bool offlineAccess = false, bool forcePrompt = false);
 
   public sealed override void Dispose();
 
   protected override void Finalize();
 
-  public MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken GetBearerToken(string code, string clientSecret, System.Uri redirectUri);
+  public MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken GetBearerToken(string code, string clientSecret, System.Uri redirectUri, string? verifier = null);
 
-  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, System.Uri redirectUri, System.Threading.CancellationToken cancellationToken = default);
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, System.Uri redirectUri, string? verifier = null, System.Threading.CancellationToken cancellationToken = default);
 
   public MetaBrainz.MusicBrainz.Interfaces.IUserInfo GetUserInfo(string token);
 
@@ -1892,8 +1892,9 @@ public interface IStreamingQueryResults<out TItem> : System.Collections.Generic.
 ```cs
 public interface IUserInfo : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string Email {
+  string? Email {
     public abstract get;
+    public abstract init;
   }
 
   string? Gender {

@@ -4,11 +4,13 @@ using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz.Interfaces;
 
-/// <summary>Information about a user as returned by OAuth2.</summary>
+/// <summary>
+/// Information about a user as returned by OAuth2 (if <see cref="AuthorizationScope.Profile"/> has been granted).
+/// </summary>
 public interface IUserInfo : IJsonBasedObject {
 
-  /// <summary>The user's email address.</summary>
-  string Email { get; }
+  /// <summary>The user's email address. Will only be provided if <see cref="AuthorizationScope.Email"/> has been granted.</summary>
+  string? Email { get; init; }
 
   /// <summary>The user's gender.</summary>
   string? Gender { get; }

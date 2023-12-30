@@ -68,13 +68,11 @@ internal sealed class UserInfoReader : ObjectReader<UserInfo> {
     if (name is null) {
       throw new JsonException("Expected user name not found or null.");
     }
-    if (email is null) {
-      throw new JsonException("Expected email address not found or null.");
-    }
     if (profile is null) {
       throw new JsonException("Expected profile URI not found or null.");
     }
-    return new UserInfo(id.Value, name, email, profile) {
+    return new UserInfo(id.Value, name, profile) {
+      Email = email,
       Gender = gender,
       TimeZone = timeZone,
       UnhandledProperties = rest,
