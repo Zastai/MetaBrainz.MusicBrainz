@@ -107,11 +107,15 @@ public sealed class OAuth2 : System.IDisposable {
 
   public static readonly System.Uri OutOfBandUri;
 
+  public const string RevokeEndPoint = "/oauth2/revoke";
+
   public const string TokenEndPoint = "/oauth2/token";
 
   public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
 
   public static readonly System.Diagnostics.TraceSource TraceSource;
+
+  public const string UserInfoEndPoint = "/oauth2/userinfo";
 
   string ClientId {
     public get;
@@ -173,9 +177,17 @@ public sealed class OAuth2 : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, System.Uri redirectUri, System.Threading.CancellationToken cancellationToken = default);
 
+  public MetaBrainz.MusicBrainz.Interfaces.IUserInfo GetUserInfo(string token);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IUserInfo> GetUserInfoAsync(string token, System.Threading.CancellationToken cancellationToken = default);
+
   public MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret, System.Threading.CancellationToken cancellationToken = default);
+
+  public void RevokeToken(string token, string clientSecret);
+
+  public System.Threading.Tasks.Task RevokeTokenAsync(string token, string clientSecret, System.Threading.CancellationToken cancellationToken = default);
 
 }
 ```
@@ -1871,6 +1883,46 @@ public interface IPagedQueryResults<TResults, out TItem> : MetaBrainz.Common.Jso
 
 ```cs
 public interface IStreamingQueryResults<out TItem> : System.Collections.Generic.IAsyncEnumerable<out TItem>, System.Collections.Generic.IEnumerable<out TItem>, System.Collections.IEnumerable {
+
+}
+```
+
+### Type: IUserInfo
+
+```cs
+public interface IUserInfo : MetaBrainz.Common.Json.IJsonBasedObject {
+
+  string Email {
+    public abstract get;
+  }
+
+  string? Gender {
+    public abstract get;
+  }
+
+  string Name {
+    public abstract get;
+  }
+
+  System.Uri Profile {
+    public abstract get;
+  }
+
+  string? TimeZone {
+    public abstract get;
+  }
+
+  int UserId {
+    public abstract get;
+  }
+
+  bool VerifiedEmail {
+    public abstract get;
+  }
+
+  System.Uri? Website {
+    public abstract get;
+  }
 
 }
 ```

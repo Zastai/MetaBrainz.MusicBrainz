@@ -7,6 +7,14 @@ namespace MetaBrainz.MusicBrainz.Json;
 
 internal static class Converters {
 
+  public static IEnumerable<JsonConverter> OAuth2Readers {
+    get {
+      yield return AuthorizationTokenReader.Instance;
+      yield return AuthorizationErrorReader.Instance;
+      yield return UserInfoReader.Instance;
+    }
+  }
+
   public static IEnumerable<JsonConverter> Readers {
     get {
       // Primary Entities
