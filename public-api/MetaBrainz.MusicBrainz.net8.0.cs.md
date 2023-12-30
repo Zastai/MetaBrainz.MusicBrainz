@@ -16,7 +16,7 @@
 public enum AuthorizationScope {
 
   Collection = 16,
-  EMail = 2,
+  Email = 2,
   Everything = -1,
   None = 0,
   Profile = 1,
@@ -1892,8 +1892,9 @@ public interface IStreamingQueryResults<out TItem> : System.Collections.Generic.
 ```cs
 public interface IUserInfo : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string Email {
+  string? Email {
     public abstract get;
+    public abstract init;
   }
 
   string? Gender {

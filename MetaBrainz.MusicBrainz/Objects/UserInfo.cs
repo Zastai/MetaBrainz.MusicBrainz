@@ -7,14 +7,13 @@ namespace MetaBrainz.MusicBrainz.Objects;
 
 internal sealed class UserInfo : JsonBasedObject, IUserInfo {
 
-  public UserInfo(int userId, string name, string email, Uri profile) {
-    this.Email = email;
+  public UserInfo(int userId, string name, Uri profile) {
     this.Name = name;
     this.Profile = profile;
     this.UserId = userId;
   }
 
-  public string Email { get; }
+  public string? Email { get; init; }
 
   public string? Gender { get; init; }
 

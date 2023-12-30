@@ -15,11 +15,11 @@ public enum AuthorizationScope {
   /// <summary>Request all available permissions (not recommended).</summary>
   Everything = -1,
 
-  /// <summary>View the user's public profile information (username, age, country, homepage).</summary>
+  /// <summary>View the user's public profile information (e.g. username and time zone).</summary>
   Profile = 1 << 0,
 
   /// <summary>View the user's email address.</summary>
-  EMail = 1 << 1,
+  Email = 1 << 1,
 
   /// <summary>View and modify the user's private tags.</summary>
   Tag = 1 << 2,

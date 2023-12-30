@@ -262,12 +262,20 @@ public sealed class OAuth2 : IDisposable {
   /// <summary>Gets information about the user associated with an access token.</summary>
   /// <param name="token">The access token.</param>
   /// <returns>Information about the user associated with the access token.</returns>
+  /// <remarks>
+  /// If the <see cref="AuthorizationScope.Profile"/> permission has not been granted, this request will fail. In addition, it will
+  /// only include the user's email address if the <see cref="AuthorizationScope.Email"/> permission has been granted.
+  /// </remarks>
   public IUserInfo GetUserInfo(string token) => AsyncUtils.ResultOf(this.GetUserInfoAsync(token));
 
   /// <summary>Gets information about the user associated with an access token.</summary>
   /// <param name="token">The access token.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>Information about the user associated with the access token.</returns>
+  /// <remarks>
+  /// If the <see cref="AuthorizationScope.Profile"/> permission has not been granted, this request will fail. In addition, it will
+  /// only include the user's email address if the <see cref="AuthorizationScope.Email"/> permission has been granted.
+  /// </remarks>
   public Task<IUserInfo> GetUserInfoAsync(string token, CancellationToken cancellationToken = default)
     => this.GetAsync<IUserInfo, UserInfo>(OAuth2.UserInfoEndPoint, token, cancellationToken);
 
@@ -528,7 +536,7 @@ public sealed class OAuth2 : IDisposable {
     if ((scope & AuthorizationScope.Collection) != 0) {
       yield return "collection";
     }
-    if ((scope & AuthorizationScope.EMail) != 0) {
+    if ((scope & AuthorizationScope.Email) != 0) {
       yield return "email";
     }
     if ((scope & AuthorizationScope.Profile) != 0) {
