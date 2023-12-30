@@ -179,15 +179,26 @@ public sealed class OAuth2 : IDisposable {
   /// The URI that should receive the authorization code; use <see cref="OutOfBandUri"/> for out-of-band requests.
   /// </param>
   /// <param name="scope">The authorization scopes that should be included in the authorization code.</param>
-  /// <param name="state">An optional string that will be included in the response sent to <paramref name="redirectUri"/>.</param>
+  /// <param name="state">
+  /// Any string the application wants passed back after authorization; it will be included in the response sent to
+  /// <paramref name="redirectUri"/>. For example, this can be a CSRF token from your application. This parameter is optional, but
+  /// strongly recommended.
+  /// </param>
+  /// <param name="challenge">
+  /// MusicBrainz supports the use of "Proof Key for Code Exchange" (PKCE) by clients. This is strongly recommended to avoid
+  /// authorization code interception attacks.<br/>
+  /// See <seealso href="https://tools.ietf.org/html/rfc7636#section-4.1">RFC 7636</seealso> for the process of generating a
+  /// <c>code_verifier</c> and then a <c>code_challenge</c> (passed here) based on that.
+  /// </param>
+  /// <param name="challengeMethod">Either "S256" (recommended) or "plain" (the default if not specified).</param>
   /// <param name="offlineAccess">Requests offline use (a refresh token will be provided alongside the access token).</param>
   /// <param name="forcePrompt">
   /// If <see langword="true"/>, the user will be required to confirm authorization even if the requested scopes have already been
   /// granted.
   /// </param>
   /// <returns>The generated URI.</returns>
-  public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, bool offlineAccess = false,
-                                        bool forcePrompt = false) {
+  public Uri CreateAuthorizationRequest(Uri redirectUri, AuthorizationScope scope, string? state = null, string? challenge = null,
+                                        string? challengeMethod = null, bool offlineAccess = false, bool forcePrompt = false) {
     if (scope == AuthorizationScope.None) {
       throw new ArgumentException("At least one authorization scope must be selected.", nameof(scope));
     }
@@ -195,7 +206,7 @@ public sealed class OAuth2 : IDisposable {
     query.Append("?response_type=code");
     query.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
     query.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
-    query.Append("&scope=").Append(string.Join("+", OAuth2.ScopeStrings(scope)));
+    query.Append("&scope=").Append(string.Join('+', OAuth2.ScopeStrings(scope)));
     if (state is not null) {
       query.Append("&state=").Append(Uri.EscapeDataString(state));
     }
@@ -204,6 +215,12 @@ public sealed class OAuth2 : IDisposable {
     }
     if (forcePrompt) {
       query.Append("&approval_prompt=force");
+    }
+    if (challenge is not null) {
+      query.Append("&code_challenge=").Append(Uri.EscapeDataString(challenge));
+      if (challengeMethod is not null) {
+        query.Append("&code_challenge_method=").Append(Uri.EscapeDataString(challengeMethod));
+      }
     }
     return new UriBuilder(this.UrlScheme, this.Server, this.Port, OAuth2.AuthorizationEndPoint, query.ToString()).Uri;
   }
@@ -215,9 +232,14 @@ public sealed class OAuth2 : IDisposable {
   /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
   /// <paramref name="code"/>.
   /// </param>
+  /// <param name="verifier">
+  /// If you're using PKCE, pass the <c>code_verifier</c> here. The request will be rejected if it doesn't agree with the challenge
+  /// and challenge method used for the authorization request as generated via <see cref="CreateAuthorizationRequest"/>. The process
+  /// is described in detail by <seealso href="https://tools.ietf.org/html/rfc7636#section-4.5">RFC 7636</seealso>.
+  /// </param>
   /// <returns>The obtained bearer token.</returns>
-  public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri)
-    => AsyncUtils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri));
+  public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri, string? verifier = null)
+    => AsyncUtils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri, verifier));
 
   /// <summary>Exchanges an authorization code for a bearer token.</summary>
   /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
@@ -226,11 +248,16 @@ public sealed class OAuth2 : IDisposable {
   /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
   /// <paramref name="code"/>.
   /// </param>
+  /// <param name="verifier">
+  /// If you're using PKCE, pass the <c>code_verifier</c> here. The request will be rejected if it doesn't agree with the challenge
+  /// and challenge method used for the authorization request as generated via <see cref="CreateAuthorizationRequest"/>. The process
+  /// is described in detail by <seealso href="https://tools.ietf.org/html/rfc7636#section-4.5">RFC 7636</seealso>.
+  /// </param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
-  public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri,
+  public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri, string? verifier = null,
                                                        CancellationToken cancellationToken = default)
-    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, cancellationToken);
+    => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, verifier, cancellationToken);
 
   /// <summary>Gets information about the user associated with an access token.</summary>
   /// <param name="token">The access token.</param>
@@ -456,8 +483,8 @@ public sealed class OAuth2 : IDisposable {
   private async Task PostRevocationRequestAsync(string token, string clientSecret, CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("token=").Append(Uri.EscapeDataString(token));
-    body.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
-    body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
+    body.Append("&\nclient_id=").Append(Uri.EscapeDataString(this.ClientId));
+    body.Append("&\nclient_secret=").Append(Uri.EscapeDataString(clientSecret));
     var content = new StringContent(body.ToString(), Encoding.UTF8, OAuth2.TokenRequestBodyType);
     await this.PerformRequestAsync(HttpMethod.Post, OAuth2.RevokeEndPoint, content, null, cancellationToken).ConfigureAwait(false);
   }
@@ -475,22 +502,25 @@ public sealed class OAuth2 : IDisposable {
                                                       CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
-    body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
-    body.Append("&token_type=").Append(Uri.EscapeDataString(type));
-    body.Append("&grant_type=refresh_token");
-    body.Append("&refresh_token=").Append(Uri.EscapeDataString(codeOrToken));
+    body.Append("&\nclient_secret=").Append(Uri.EscapeDataString(clientSecret));
+    body.Append("&\ntoken_type=").Append(Uri.EscapeDataString(type));
+    body.Append("&\ngrant_type=refresh_token");
+    body.Append("&\nrefresh_token=").Append(Uri.EscapeDataString(codeOrToken));
     return this.PostTokenRequestAsync(type, body.ToString(), cancellationToken);
   }
 
   private Task<IAuthorizationToken> RequestTokenAsync(string type, string codeOrToken, string clientSecret, Uri redirectUri,
-                                                      CancellationToken cancellationToken) {
+                                                      string? verifier, CancellationToken cancellationToken) {
     var body = new StringBuilder();
     body.Append("client_id=").Append(Uri.EscapeDataString(this.ClientId));
-    body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
-    body.Append("&token_type=").Append(Uri.EscapeDataString(type));
-    body.Append("&grant_type=authorization_code");
-    body.Append("&code=").Append(Uri.EscapeDataString(codeOrToken));
-    body.Append("&redirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
+    body.Append("&\nclient_secret=").Append(Uri.EscapeDataString(clientSecret));
+    body.Append("&\ntoken_type=").Append(Uri.EscapeDataString(type));
+    body.Append("&\ngrant_type=authorization_code");
+    body.Append("&\ncode=").Append(Uri.EscapeDataString(codeOrToken));
+    body.Append("&\nredirect_uri=").Append(Uri.EscapeDataString(redirectUri.ToString()));
+    if (verifier is not null) {
+      body.Append("&\ncode_verifier=").Append(Uri.EscapeDataString(verifier));
+    }
     return this.PostTokenRequestAsync(type, body.ToString(), cancellationToken);
   }
 
