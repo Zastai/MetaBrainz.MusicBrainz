@@ -77,6 +77,9 @@ public sealed class OAuth2 : IDisposable {
   /// <summary>The URI to use for out-of-band authorization.</summary>
   public static readonly Uri OutOfBandUri = new("urn:ietf:wg:oauth:2.0:oob");
 
+  /// <summary>The endpoint used when revoking a token.</summary>
+  public const string RevokeEndPoint = "/oauth2/revoke";
+
   /// <summary>The endpoint used when creating or refreshing a token.</summary>
   public const string TokenEndPoint = "/oauth2/token";
 
@@ -257,6 +260,18 @@ public sealed class OAuth2 : IDisposable {
                                                            CancellationToken cancellationToken = default)
     => this.RefreshTokenAsync("bearer", refreshToken, clientSecret, cancellationToken);
 
+  /// <summary>Revokes a token.</summary>
+  /// <param name="token">The token to revoke. This can be either an access token or a refresh token.</param>
+  /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
+  public void RevokeToken(string token, string clientSecret) => AsyncUtils.ResultOf(this.RevokeTokenAsync(token, clientSecret));
+
+  /// <summary>Revokes a token.</summary>
+  /// <param name="token">The token to revoke. This can be either an access token or a refresh token.</param>
+  /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  public Task RevokeTokenAsync(string token, string clientSecret, CancellationToken cancellationToken = default)
+    => this.PostRevocationRequestAsync(token, clientSecret, cancellationToken);
+
   #endregion
 
   #region HttpClient / IDisposable
@@ -436,6 +451,15 @@ public sealed class OAuth2 : IDisposable {
     var response = await request.ConfigureAwait(false);
     var jsonTask = JsonUtils.GetJsonContentAsync<T>(response, OAuth2.JsonReaderOptions, cancellationToken);
     return await jsonTask.ConfigureAwait(false);
+  }
+
+  private async Task PostRevocationRequestAsync(string token, string clientSecret, CancellationToken cancellationToken) {
+    var body = new StringBuilder();
+    body.Append("token=").Append(Uri.EscapeDataString(token));
+    body.Append("&client_id=").Append(Uri.EscapeDataString(this.ClientId));
+    body.Append("&client_secret=").Append(Uri.EscapeDataString(clientSecret));
+    var content = new StringContent(body.ToString(), Encoding.UTF8, OAuth2.TokenRequestBodyType);
+    await this.PerformRequestAsync(HttpMethod.Post, OAuth2.RevokeEndPoint, content, null, cancellationToken).ConfigureAwait(false);
   }
 
   private async Task<IAuthorizationToken> PostTokenRequestAsync(string type, string body, CancellationToken cancellationToken) {

@@ -107,6 +107,8 @@ public sealed class OAuth2 : System.IDisposable {
 
   public static readonly System.Uri OutOfBandUri;
 
+  public const string RevokeEndPoint = "/oauth2/revoke";
+
   public const string TokenEndPoint = "/oauth2/token";
 
   public const string TokenRequestBodyType = "application/x-www-form-urlencoded";
@@ -182,6 +184,10 @@ public sealed class OAuth2 : System.IDisposable {
   public MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret, System.Threading.CancellationToken cancellationToken = default);
+
+  public void RevokeToken(string token, string clientSecret);
+
+  public System.Threading.Tasks.Task RevokeTokenAsync(string token, string clientSecret, System.Threading.CancellationToken cancellationToken = default);
 
 }
 ```
