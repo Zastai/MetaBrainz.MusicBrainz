@@ -13,8 +13,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Support Files", "Support Fi
 		LICENSE.md = LICENSE.md
 		package-icon.png = package-icon.png
 		README.md = README.md
-		UserGuide.md = UserGuide.md
-		ug-linqpad.png = ug-linqpad.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{E3250100-DF8F-43B1-9270-9A916E85E529}"
@@ -33,6 +31,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{7D13
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MetaBrainz.MusicBrainz", "MetaBrainz.MusicBrainz\MetaBrainz.MusicBrainz.csproj", "{662BD624-2529-405F-9AC5-925C4401FB45}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "User Guide", "User Guide", "{B3118789-197E-4552-BE4D-BB1C793B2EA5}"
+	ProjectSection(SolutionItems) = preProject
+		user-guide\ug-linqpad.png = user-guide\ug-linqpad.png
+		user-guide\UserGuide.md = user-guide\UserGuide.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +54,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{E3250100-DF8F-43B1-9270-9A916E85E529} = {F997B31A-CF25-4C63-BEB5-172F7E13D9B3}
 		{7D13FA78-ECE5-4A69-AF08-17B45EA953E5} = {E3250100-DF8F-43B1-9270-9A916E85E529}
+		{B3118789-197E-4552-BE4D-BB1C793B2EA5} = {F997B31A-CF25-4C63-BEB5-172F7E13D9B3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A0A6B091-8EF6-4A34-AD74-75F1C25A9121}
