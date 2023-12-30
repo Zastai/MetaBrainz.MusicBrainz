@@ -66,10 +66,10 @@ For example, to get information about Metallica, including all their live bootle
 var metallica = q.LookupArtist(new Guid("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab"), Include.Releases, ReleaseType.Live, ReleaseStatus.Bootleg);
 ```
 
-And to include their EPs, you would use:
+And to include their official EPs, you would use:
 
 ```c#
-var metallica = q.LookupArtist(new Guid("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab"), Include.Releases, ReleaseType.Live, ReleaseStatus.Bootleg);
+var metallica = q.LookupArtist(new Guid("65f4f0c5-ef9e-490c-aee3-909e7ae6b2ab"), Include.Releases, ReleaseType.EP, ReleaseStatus.Official);
 ```
 
 Note that included related information is always limited to 25 items. To get everything, you will need to use a Browse (see below).
@@ -96,11 +96,11 @@ For example:
 
 ```c#
 var works = q.BrowseArtistWorks(new Guid("24f1766e-9635-4d58-a4d4-9413f9f98a4c"), limit: 30, offset: 1000);
-// At the time of writing, works.TotalResults is 6911
+// At the time of writing, works.TotalResults is 7345
 foreach (var work in works.Results) {
   // Process Works 1001-1030
 }
-q.Limit = 70;
+works.Limit = 70;
 works = works.Next();
 foreach (var work in works.Results) {
   // Process Works 1031-1100
@@ -129,8 +129,8 @@ MBIDs to perform an additional Lookup.
 For example:
 
 ```c#
-var elvises = q.FindArtist("Elvis", simple: true); // at the time of writing, TotalResults is 248 for this query
-var elvisesFromTupelo = q.FindArtist("name:Elvis AND beginarea:Tupelo"); // but for this one it's 1 
+var elvises = q.FindArtists("Elvis", simple: true); // at the time of writing, TotalResults is 343 for this query
+var elvisesFromTupelo = q.FindArtists("name:Elvis AND beginarea:Tupelo"); // but for this one it's 1 
 ```
 
 [ISSyntax]: https://musicbrainz.org/doc/Indexed_Search_Syntax
@@ -139,10 +139,10 @@ var elvisesFromTupelo = q.FindArtist("name:Elvis AND beginarea:Tupelo"); // but 
 
 Almost all objects returned by the API implement `IJsonBasedObject`. Its `UnhandledProperties` property provides access to a
 (read-only) dictionary containing any and all JSON properties that were returned by the server but not recognized by the library.
-Under normal circumstances, this dictionary should be `null`; if it isn't, please [file a ticket][GHIssues] to add support for the
+Under normal circumstances, this dictionary should be `null`; if it isn't, please [file a ticket][gh-issues] to add support for the
 field(s) in question.
 
-[GHIssues]: https://github.com/Zastai/MetaBrainz.MusicBrainz/issues
+[gh-issues]: https://github.com/Zastai/MetaBrainz.MusicBrainz/issues
 
 ## Authentication
 
@@ -152,7 +152,7 @@ property of a `Query` object.
 
 ### Initial Permissions
 
-As a first step, you will need to go to [your MusicBrainz account page][MBAccount] and register an application. That provides you
+As a first step, you will need to go to [your MusicBrainz account page][mb-account] and register an application. That provides you
 with both a client ID and a client secret.
 
 The second is to get the user to provide your application with the required authorization. You do this by calling the
@@ -183,13 +183,13 @@ var at = await oa.GetBearerTokenAsync(authorizationToken, clientSecret, OAuth2.O
 q.BearerToken = at.AccessToken;
 ```
 
-[MBAccount]: https://musicbrainz.org/account/applications
+[mb-account]: https://musicbrainz.org/account/applications
 
 ### Refreshing Permissions
 
-An access token is typically only valid for an hour. However, you can use the refresh token (obtained at the same time as the
-access token) and your client secret to generate a new access token without user interaction. This is done by calling the
-`RefreshBearerToken` method.
+An access token is typically only valid for an hour. However, for an installed or offline application, you can use the refresh token
+(obtained at the same time as the access token) and your client secret to generate a new access token without user interaction. This
+is done by calling the `RefreshBearerToken` method.
 
 ```c#
 var at = oa.RefreshBearerToken(refreshToken, clientSecret);
