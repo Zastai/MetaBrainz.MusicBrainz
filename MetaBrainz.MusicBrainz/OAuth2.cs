@@ -64,6 +64,7 @@ public sealed class OAuth2 : IDisposable {
   private static string _defaultUrlScheme = "https";
 
   /// <summary>The default URL scheme (internet access protocol) to use for requests.</summary>
+  /// <remarks>For the official MusicBrainz site, this <em>must</em> be <c>https</c>.</remarks>
   public static string DefaultUrlScheme {
     get => OAuth2._defaultUrlScheme;
     set {
@@ -160,6 +161,7 @@ public sealed class OAuth2 : IDisposable {
   private string _urlScheme = OAuth2.DefaultUrlScheme;
 
   /// <summary>The URL scheme (internet access protocol) to use for requests.</summary>
+  /// <remarks>For the official MusicBrainz site, this <em>must</em> be <c>https</c>.</remarks>
   public string UrlScheme {
     get => this._urlScheme;
     set {
@@ -180,7 +182,7 @@ public sealed class OAuth2 : IDisposable {
   /// </param>
   /// <param name="scope">The authorization scopes that should be included in the authorization code.</param>
   /// <param name="state">
-  /// Any string the application wants passed back after authorization; it will be included in the response sent to
+  /// Any string the application wants passed back after authorization; it will be included in the request sent to
   /// <paramref name="redirectUri"/>. For example, this can be a CSRF token from your application. This parameter is optional, but
   /// strongly recommended.
   /// </param>
@@ -345,10 +347,8 @@ public sealed class OAuth2 : IDisposable {
     }
   }
 
-  /// <summary>
-  /// Closes the underlying web service client in use by this OAuth2 client, if one has been created.<br/>
-  /// The next web service request will create a new client.
-  /// </summary>
+  /// <summary>Closes the underlying web service client in use by this OAuth2 client, if one has been created.</summary>
+  /// <remarks>The next web service request will create a new client.</remarks>
   /// <exception cref="InvalidOperationException">When this instance is using an explicitly provided client instance.</exception>
   public void Close() {
     if (!this._clientOwned) {
@@ -396,7 +396,7 @@ public sealed class OAuth2 : IDisposable {
     }
   }
 
-  /// <summary>Finalizes this instance.</summary>
+  /// <summary>Finalizes this instance, releasing any and all resources.</summary>
   ~OAuth2() {
     this.Dispose(false);
   }
@@ -416,22 +416,26 @@ public sealed class OAuth2 : IDisposable {
 
   private async Task<HttpResponseMessage> PerformRequestAsync(HttpMethod method, string endPoint, HttpContent? body, string? token,
                                                               CancellationToken cancellationToken) {
-    var uri = new UriBuilder(this.UrlScheme, this.Server, this.Port, endPoint).Uri;
+    using var request = new HttpRequestMessage(method, new UriBuilder(this.UrlScheme, this.Server, this.Port, endPoint).Uri);
     var ts = OAuth2.TraceSource;
-    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, uri);
+    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, request.RequestUri);
     var client = this.Client;
-    using var request = new HttpRequestMessage(method, uri);
-    request.Content = body;
-    request.Headers.Accept.Add(OAuth2.AcceptHeader);
-    if (token is not null) {
-      request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    {
+      var headers = request.Headers;
+      headers.Accept.Add(OAuth2.AcceptHeader);
+      if (token is not null) {
+        headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+      }
+      // Use whatever user agent the client has set, plus our own.
+      {
+        var userAgent = headers.UserAgent;
+        foreach (var ua in client.DefaultRequestHeaders.UserAgent) {
+          userAgent.Add(ua);
+        }
+        userAgent.Add(OAuth2.LibraryProductInfo);
+        userAgent.Add(OAuth2.LibraryComment);
+      }
     }
-    // Use whatever user agent the client has set, plus our own.
-    foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-      request.Headers.UserAgent.Add(userAgent);
-    }
-    request.Headers.UserAgent.Add(OAuth2.LibraryProductInfo);
-    request.Headers.UserAgent.Add(OAuth2.LibraryComment);
     if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
       ts.TraceEvent(TraceEventType.Verbose, 2, "HEADERS: {0}", TextUtils.FormatMultiLine(request.Headers.ToString()));
       if (body is not null) {
@@ -443,6 +447,7 @@ public sealed class OAuth2 : IDisposable {
         ts.TraceEvent(TraceEventType.Verbose, 3, "NO BODY");
       }
     }
+    request.Content = body;
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
       ts.TraceEvent(TraceEventType.Verbose, 4, "WEB SERVICE RESPONSE: {0:D}/{0} '{1}' (v{2})", response.StatusCode,

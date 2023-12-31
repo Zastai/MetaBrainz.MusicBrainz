@@ -353,7 +353,7 @@ public sealed partial class Query : IDisposable {
 
   private static readonly MediaTypeWithQualityHeaderValue AcceptHeader = new("application/json");
 
-  private static readonly ProductInfoHeaderValue LibraryComment = new("(https://github.com/Zastai/MetaBrainz.MusicBrainz)");
+  private static readonly ProductInfoHeaderValue LibraryComment = new($"({Query.UserAgentUrl})");
 
   private static readonly ProductInfoHeaderValue LibraryProductInfo = HttpUtils.CreateUserAgentHeader<Query>();
 
@@ -371,14 +371,16 @@ public sealed partial class Query : IDisposable {
 
   private HttpClient Client {
     get {
+#if NET6_0
       if (this._disposed) {
         throw new ObjectDisposedException(nameof(Query));
       }
+#else
+      ObjectDisposedException.ThrowIf(this._disposed, typeof(Query));
+#endif
       if (this._client is null) {
         var client = this._clientCreation is not null ? this._clientCreation() : new HttpClient();
-        foreach (var userAgent in this._userAgent) {
-          client.DefaultRequestHeaders.UserAgent.Add(userAgent);
-        }
+        this._userAgent.ForEach(client.DefaultRequestHeaders.UserAgent.Add);
         this._clientConfiguration?.Invoke(client);
         this._client = client;
       }
@@ -387,9 +389,8 @@ public sealed partial class Query : IDisposable {
   }
 
   /// <summary>
-  /// Closes the underlying web service client in use by this MusicBrainz query client, if one has been created.<br/>
-  /// The next web service request will create a new client.
-  /// </summary>
+  /// Closes the underlying web service client in use by this MusicBrainz query client, if there is one.</summary>
+  /// <remarks>The next web service request will create a new client.</remarks>
   /// <exception cref="InvalidOperationException">When this instance is using an explicitly provided client instance.</exception>
   public void Close() {
     if (!this._clientOwned) {
@@ -415,7 +416,7 @@ public sealed partial class Query : IDisposable {
     this._clientCreation = code;
   }
 
-  /// <summary>Discards all resources held by this MusicBrainz query client, if any.</summary>
+  /// <summary>Discards any and all resources held by this MusicBrainz query client.</summary>
   /// <remarks>Further attempts at web service requests will cause <see cref="ObjectDisposedException"/> to be thrown.</remarks>
   public void Dispose() {
     this.Dispose(true);
@@ -438,7 +439,7 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  /// <summary>Finalizes this query, releasing any and all resources.</summary>
+  /// <summary>Finalizes this instance, releasing any and all resources.</summary>
   ~Query() {
     this.Dispose(false);
   }
@@ -491,11 +492,10 @@ public sealed partial class Query : IDisposable {
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
                                                               CancellationToken cancellationToken) {
-    var ts = Query.TraceSource;
-    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, uri);
-    var client = this.Client;
     using var request = new HttpRequestMessage(method, uri);
-    request.Content = body;
+    var ts = Query.TraceSource;
+    ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, request.RequestUri);
+    var client = this.Client;
     {
       var headers = request.Headers;
       headers.Accept.Add(Query.AcceptHeader);
@@ -503,23 +503,27 @@ public sealed partial class Query : IDisposable {
         headers.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
       }
       // Use whatever user agent the client has set, plus our own.
-      foreach (var userAgent in client.DefaultRequestHeaders.UserAgent) {
-        headers.UserAgent.Add(userAgent);
+      {
+        var userAgent = headers.UserAgent;
+        foreach (var ua in client.DefaultRequestHeaders.UserAgent) {
+          userAgent.Add(ua);
+        }
+        userAgent.Add(Query.LibraryProductInfo);
+        userAgent.Add(Query.LibraryComment);
       }
-      headers.UserAgent.Add(Query.LibraryProductInfo);
-      headers.UserAgent.Add(Query.LibraryComment);
     }
     if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
       ts.TraceEvent(TraceEventType.Verbose, 2, "HEADERS: {0}", TextUtils.FormatMultiLine(request.Headers.ToString()));
       if (body is not null) {
         var headers = body.Headers;
-        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
-        // FIXME: Should we trace the actual body text too?
+        ts.TraceEvent(TraceEventType.Verbose, 3, "BODY ({0}, {1} bytes): {2}", headers.ContentType, headers.ContentLength ?? 0,
+                      TextUtils.FormatMultiLine(await body.ReadAsStringAsync(cancellationToken)));
       }
       else {
         ts.TraceEvent(TraceEventType.Verbose, 3, "NO BODY");
       }
     }
+    request.Content = body;
     var response = await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     if (ts.Switch.ShouldTrace(TraceEventType.Verbose)) {
       ts.TraceEvent(TraceEventType.Verbose, 4, "WEB SERVICE RESPONSE: {0:D}/{0} '{1}' (v{2})", response.StatusCode,

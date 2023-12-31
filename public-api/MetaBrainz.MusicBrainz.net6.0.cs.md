@@ -263,6 +263,8 @@ public sealed class Query : System.IDisposable {
 
   public static readonly System.Diagnostics.TraceSource TraceSource;
 
+  public const string UserAgentUrl = "https://github.com/Zastai/MetaBrainz.MusicBrainz";
+
   public const string WebServiceRoot = "/ws/2/";
 
   System.Uri BaseUri {
