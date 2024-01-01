@@ -25,6 +25,9 @@ public sealed partial class Query {
   /// <summary>The maximum number of items returned by a single browse or search request.</summary>
   public const int MaximumPageSize = 100;
 
+  /// <summary>The URL included in the user agent for requests as part of this library's information.</summary>
+  public const string UserAgentUrl = "https://github.com/Zastai/MetaBrainz.MusicBrainz";
+
   /// <summary>The root location of the web service.</summary>
   public const string WebServiceRoot = "/ws/2/";
 
@@ -61,7 +64,7 @@ public sealed partial class Query {
 
   private static string _defaultUrlScheme = "https";
 
-  /// <summary>The default internet access protocol to use for requests.</summary>
+  /// <summary>The default URL scheme (internet access protocol) to use for requests.</summary>
   public static string DefaultUrlScheme {
     get => Query._defaultUrlScheme;
     set {
@@ -156,8 +159,7 @@ public sealed partial class Query {
   /// <param name="contact">
   /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
   /// </param>
-  public Query(string application, Version? version, string contact) : this(application, version?.ToString(), contact) {
-  }
+  public Query(string application, Version? version, string contact) : this(application, version?.ToString(), contact) { }
 
   /// <summary>
   /// Initializes a new MusicBrainz query client instance.<br/>
@@ -165,7 +167,8 @@ public sealed partial class Query {
   /// </summary>
   /// <param name="application">The application name to use in the user agent property for all requests.</param>
   /// <param name="version">The version number to use in the user agent property for all requests.</param>
-  public Query(string application, string? version) : this(new ProductInfoHeaderValue(application, version)) {
+  public Query(string application, string? version) : this() {
+    this._userAgent.Add(new ProductInfoHeaderValue(application, version));
   }
 
   /// <summary>
@@ -177,8 +180,7 @@ public sealed partial class Query {
   /// <param name="contact">
   /// The contact address (typically HTTP[S] or MAILTO) to use in the user agent property for all requests.
   /// </param>
-  public Query(string application, string? version, Uri contact) : this(application, version, contact.ToString()) {
-  }
+  public Query(string application, string? version, Uri contact) : this(application, version, contact.ToString()) { }
 
   /// <summary>
   /// Initializes a new MusicBrainz query client instance.<br/>
@@ -189,8 +191,9 @@ public sealed partial class Query {
   /// <param name="contact">
   /// The contact address (typically a URL or email address) to use in the user agent property for all requests.
   /// </param>
-  public Query(string application, string? version, string contact)
-    : this(new ProductInfoHeaderValue(application, version), new ProductInfoHeaderValue($"({contact})")) {
+  public Query(string application, string? version, string contact) : this() {
+    this._userAgent.Add(new ProductInfoHeaderValue(application, version));
+    this._userAgent.Add(new ProductInfoHeaderValue($"({contact})"));
   }
 
   #endregion
@@ -253,7 +256,7 @@ public sealed partial class Query {
 
   private string _urlScheme = Query.DefaultUrlScheme;
 
-  /// <summary>The internet access protocol to use for requests.</summary>
+  /// <summary>The URL scheme (internet access protocol) to use for requests.</summary>
   public string UrlScheme {
     get => this._urlScheme;
     set {
@@ -266,7 +269,7 @@ public sealed partial class Query {
 
   /// <summary>The user agent values to use for requests.</summary>
   /// <remarks>
-  /// Note that changes to this list only take effect when a new HTTP client is created. the <see cref="Close()"/> method can be
+  /// Note that changes to this list only take effect when a new HTTP client is created. The <see cref="Close()"/> method can be
   /// used to close the current client (if there is one) so that the next request creates a new client.
   /// </remarks>
   public IList<ProductInfoHeaderValue> UserAgent => this._userAgent;
