@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllAreaEvents(Guid mbid, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "area", mbid), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("area", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose events should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllArtistEvents(Guid mbid, int? pageSize = null, int? offset = null,
                                                               Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", mbid), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("artist", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose events should be retrieved.</param>
@@ -62,7 +62,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllCollectionEvents(Guid mbid, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given area.</summary>
   /// <param name="area">The area whose events should be retrieved.</param>
@@ -79,7 +79,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllEvents(IArea area, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "area", area.Id), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("area", area.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given artist.</summary>
   /// <param name="artist">The artist whose events should be retrieved.</param>
@@ -96,7 +96,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllEvents(IArtist artist, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", artist.Id), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("artist", artist.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events in the given collection.</summary>
   /// <param name="collection">The collection whose contained events should be retrieved.</param>
@@ -113,7 +113,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllEvents(ICollection collection, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given place.</summary>
   /// <param name="place">The place whose events should be retrieved.</param>
@@ -130,7 +130,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllEvents(IPlace place, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "place", place.Id), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("place", place.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given place.</summary>
   /// <param name="mbid">The MBID for the place whose events should be retrieved.</param>
@@ -147,7 +147,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IEvent> BrowseAllPlaceEvents(Guid mbid, int? pageSize = null, int? offset = null,
                                                              Include inc = Include.None)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "place", mbid), pageSize, offset).AsStream();
+    => new BrowseEvents(this, Query.CreateOptions("place", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the events associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose events should be retrieved.</param>
@@ -172,7 +172,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IEvent>> BrowseAreaEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None,
                                                             CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("area", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose events should be retrieved.</param>
@@ -197,7 +197,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IEvent>> BrowseArtistEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                               Include inc = Include.None,
                                                               CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("artist", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained events should be retrieved.</param>
@@ -222,7 +222,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IEvent>> BrowseCollectionEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given area.</summary>
   /// <param name="area">The area whose events should be retrieved.</param>
@@ -280,7 +280,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArea area, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("area", area.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given artist.</summary>
   /// <param name="artist">The artist whose events should be retrieved.</param>
@@ -293,7 +293,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IArtist artist, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "artist", artist.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("artist", artist.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events in the given collection.</summary>
   /// <param name="collection">The collection whose contained events should be retrieved.</param>
@@ -306,7 +306,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
   /// <param name="place">The place whose events should be retrieved.</param>
@@ -319,7 +319,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "place", place.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("place", place.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
   /// <param name="mbid">The MBID for the place whose events should be retrieved.</param>
@@ -344,6 +344,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<IEvent>> BrowsePlaceEventsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                              Include inc = Include.None,
                                                              CancellationToken cancellationToken = default)
-    => new BrowseEvents(this, Query.BuildExtraText(inc, "place", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseEvents(this, Query.CreateOptions("place", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
 }

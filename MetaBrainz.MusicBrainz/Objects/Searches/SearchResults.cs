@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -61,15 +62,15 @@ internal abstract class SearchResults<TInterface>
   : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults>, ISearchResults<TInterface>
 where TInterface : ISearchResult {
 
-  protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset, bool simple)
-    : base(query, endpoint, null, limit, offset) {
-    this._queryString = queryString;
-    this._simple = simple;
+  protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset,
+                          bool simple) : base(query, endpoint, null, limit, offset) {
+    this._options["query"] = Uri.EscapeDataString(queryString);
+    if (simple) {
+      this._options["dismax"] = "true";
+    }
   }
 
-  private readonly string _queryString;
-
-  private readonly bool _simple;
+  private readonly Dictionary<string, string> _options = new();
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
@@ -84,18 +85,20 @@ where TInterface : ISearchResult {
     return this;
   }
 
-  protected sealed override string FullExtraText() {
-    var extra = "?query=" + Uri.EscapeDataString(this._queryString);
+  protected sealed override IReadOnlyDictionary<string, string> FullOptions() {
     if (this.Offset > 0) {
-      extra += $"&offset={this.Offset}";
+      this._options["offset"] = this.Offset.ToString(CultureInfo.InvariantCulture);
+    }
+    else {
+      this._options.Remove("offset");
     }
     if (this.Limit is not null) {
-      extra += $"&limit={this.Limit}";
+      this._options["limit"] = this.Limit.Value.ToString(CultureInfo.InvariantCulture);
     }
-    if (this._simple) {
-      extra += "&dismax=true";
+    else {
+      this._options.Remove("limit");
     }
-    return extra;
+    return this._options;
   }
 
   public sealed override int TotalResults => this.CurrentResult?.Count ?? 0;

@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IWork> BrowseAllArtistWorks(Guid mbid, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "artist", mbid), pageSize, offset).AsStream();
+    => new BrowseWorks(this, Query.CreateOptions("artist", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the works in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained works should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IWork> BrowseAllCollectionWorks(Guid mbid, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseWorks(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the works associated with the given artist.</summary>
   /// <param name="artist">The artist whose works should be retrieved.</param>
@@ -62,7 +62,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IWork> BrowseAllWorks(IArtist artist, int? pageSize = null, int? offset = null,
                                                       Include inc = Include.None)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "artist", artist.Id), pageSize, offset).AsStream();
+    => new BrowseWorks(this, Query.CreateOptions("artist", artist.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the works in the given collection.</summary>
   /// <param name="collection">The collection whose contained works should be retrieved.</param>
@@ -79,7 +79,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IWork> BrowseAllWorks(ICollection collection, int? pageSize = null, int? offset = null,
                                                       Include inc = Include.None)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseWorks(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose works should be retrieved.</param>
@@ -104,7 +104,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IWork>> BrowseArtistWorksAsync(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None,
                                                             CancellationToken cancellationToken = default)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "artist", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseWorks(this, Query.CreateOptions("artist", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained works should be retrieved.</param>
@@ -129,7 +129,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IWork>> BrowseCollectionWorksAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
                                                                 CancellationToken cancellationToken = default)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseWorks(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the works associated with the given artist.</summary>
   /// <param name="artist">The artist whose works should be retrieved.</param>
@@ -165,7 +165,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IWork>> BrowseWorksAsync(IArtist artist, int? limit = null, int? offset = null,
                                                       Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "artist", artist.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseWorks(this, Query.CreateOptions("artist", artist.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the works in the given collection.</summary>
   /// <param name="collection">The collection whose contained works should be retrieved.</param>
@@ -178,6 +178,6 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IWork>> BrowseWorksAsync(ICollection collection, int? limit = null, int? offset = null,
                                                       Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseWorks(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseWorks(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
 }

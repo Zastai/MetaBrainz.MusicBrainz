@@ -29,7 +29,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllArtistReleaseGroups(Guid mbid, int? pageSize = null, int? offset = null,
                                                                             Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", mbid, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("artist", mbid, inc, type), pageSize, offset).AsStream();
 
   /// <summary>Returns the release groups in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained release groups should be retrieved.</param>
@@ -48,7 +48,7 @@ public sealed partial class Query {
   public IStreamingQueryResults<IReleaseGroup> BrowseAllCollectionReleaseGroups(Guid mbid, int? pageSize = null, int? offset = null,
                                                                                 Include inc = Include.None,
                                                                                 ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", mbid, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("collection", mbid, inc, type), pageSize, offset).AsStream();
 
   /// <summary>Returns the release groups associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose release groups should be retrieved.</param>
@@ -70,7 +70,7 @@ public sealed partial class Query {
   /// </remarks>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseReleaseGroups(Guid mbid, int? pageSize = null, int? offset = null,
                                                                              Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", mbid, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("release", mbid, inc, type), pageSize, offset).AsStream();
 
   /// <summary>Returns the release groups associated with the given artist.</summary>
   /// <param name="artist">The artist whose release groups should be retrieved.</param>
@@ -88,7 +88,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseGroups(IArtist artist, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", artist.Id, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("artist", artist.Id, inc, type), pageSize, offset).AsStream();
 
   /// <summary>Returns the release groups in the given collection.</summary>
   /// <param name="collection">The collection whose contained release groups should be retrieved.</param>
@@ -107,7 +107,7 @@ public sealed partial class Query {
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseGroups(ICollection collection, int? pageSize = null,
                                                                       int? offset = null, Include inc = Include.None,
                                                                       ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", collection.Id, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("collection", collection.Id, inc, type), pageSize, offset).AsStream();
 
   /// <summary>Returns the release groups associated with the given release.</summary>
   /// <param name="release">The release whose release groups should be retrieved.</param>
@@ -128,7 +128,7 @@ public sealed partial class Query {
   /// </remarks>
   public IStreamingQueryResults<IReleaseGroup> BrowseAllReleaseGroups(IRelease release, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", release.Id, type), pageSize, offset).AsStream();
+    => new BrowseReleaseGroups(this, Query.CreateOptions("release", release.Id, inc, type), pageSize, offset).AsStream();
 
   /// <inheritdoc cref="BrowseArtistReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseArtistReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
@@ -148,7 +148,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IReleaseGroup>> BrowseArtistReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                             Include inc = Include.None, ReleaseType? type = null,
                                                                             CancellationToken cancellationToken = default)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", mbid, type), limit, offset).NextAsync(cancellationToken);
+    => new BrowseReleaseGroups(this, Query.CreateOptions("artist", mbid, inc, type), limit, offset).NextAsync(cancellationToken);
 
   /// <inheritdoc cref="BrowseCollectionReleaseGroupsAsync"/>
   public IBrowseResults<IReleaseGroup> BrowseCollectionReleaseGroups(Guid mbid, int? limit = null, int? offset = null,
@@ -169,7 +169,7 @@ public sealed partial class Query {
                                                                                 Include inc = Include.None,
                                                                                 ReleaseType? type = null,
                                                                                 CancellationToken cancellationToken = default) {
-    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", mbid, type), limit, offset);
+    var browse = new BrowseReleaseGroups(this, Query.CreateOptions("collection", mbid, inc, type), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 
@@ -195,7 +195,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseReleaseGroupsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                              Include inc = Include.None, ReleaseType? type = null,
                                                                              CancellationToken cancellationToken = default)
-    => new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", mbid, type), limit, offset).NextAsync(cancellationToken);
+    => new BrowseReleaseGroups(this, Query.CreateOptions("release", mbid, inc, type), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the release groups associated with the given artist.</summary>
   /// <param name="artist">The artist whose release groups should be retrieved.</param>
@@ -252,7 +252,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       CancellationToken cancellationToken = default) {
-    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "artist", artist.Id, type), limit, offset);
+    var browse = new BrowseReleaseGroups(this, Query.CreateOptions("artist", artist.Id, inc, type), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 
@@ -269,7 +269,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       CancellationToken cancellationToken = default) {
-    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "collection", collection.Id, type), limit, offset);
+    var browse = new BrowseReleaseGroups(this, Query.CreateOptions("collection", collection.Id, inc, type), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 
@@ -289,7 +289,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IReleaseGroup>> BrowseReleaseGroupsAsync(IRelease release, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None, ReleaseType? type = null,
                                                                       CancellationToken cancellationToken = default) {
-    var browse = new BrowseReleaseGroups(this, Query.BuildExtraText(inc, "release", release.Id, type), limit, offset);
+    var browse = new BrowseReleaseGroups(this, Query.CreateOptions("release", release.Id, inc, type), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 

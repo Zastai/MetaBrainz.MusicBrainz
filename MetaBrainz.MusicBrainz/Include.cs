@@ -150,6 +150,14 @@ public enum Include : long {
   /// <summary>Include information about relationships with works.</summary>
   WorkRelationships = 1L << 53,
 
+  /// <summary>Include information about relationships involving the release groups associated with the release.</summary>
+  /// <remarks>
+  /// Only valid on queries for releases. Will have no real effect unless information about related release groups (via
+  /// <see cref="ReleaseGroups"/>) and one or more relationships (via <see cref="ArtistRelationships"/>,
+  /// <see cref="WorkRelationships"/>, ...) is being requested at the same time.
+  /// </remarks>
+  ReleaseGroupLevelRelationships = 1L << 54,
+
   #endregion
 
 }

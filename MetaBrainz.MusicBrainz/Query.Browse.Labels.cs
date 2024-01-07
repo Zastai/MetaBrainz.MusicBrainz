@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllAreaLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "area", mbid), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("area", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the labels in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained labels should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllCollectionLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the labels associated with the given area.</summary>
   /// <param name="area">The area whose labels should be retrieved.</param>
@@ -62,7 +62,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(IArea area, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "area", area.Id), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("area", area.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the labels in the given collection.</summary>
   /// <param name="collection">The collection whose contained labels should be retrieved.</param>
@@ -79,7 +79,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(ICollection collection, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the labels associated with the given release.</summary>
   /// <param name="release">The release whose labels should be retrieved.</param>
@@ -96,7 +96,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllLabels(IRelease release, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "release", release.Id), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("release", release.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the labels associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose labels should be retrieved.</param>
@@ -113,7 +113,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<ILabel> BrowseAllReleaseLabels(Guid mbid, int? pageSize = null, int? offset = null,
                                                                Include inc = Include.None)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "release", mbid), pageSize, offset).AsStream();
+    => new BrowseLabels(this, Query.CreateOptions("release", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose labels should be retrieved.</param>
@@ -138,7 +138,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<ILabel>> BrowseAreaLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None,
                                                             CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("area", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained labels should be retrieved.</param>
@@ -163,7 +163,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<ILabel>> BrowseCollectionLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given area.</summary>
   /// <param name="area">The area whose labels should be retrieved.</param>
@@ -210,7 +210,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IArea area, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("area", area.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels in the given collection.</summary>
   /// <param name="collection">The collection whose contained labels should be retrieved.</param>
@@ -223,7 +223,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
   /// <param name="release">The release whose labels should be retrieved.</param>
@@ -236,7 +236,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<ILabel>> BrowseLabelsAsync(IRelease release, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("release", release.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the labels associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose labels should be retrieved.</param>
@@ -261,6 +261,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<ILabel>> BrowseReleaseLabelsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                Include inc = Include.None,
                                                                CancellationToken cancellationToken = default)
-    => new BrowseLabels(this, Query.BuildExtraText(inc, "release", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseLabels(this, Query.CreateOptions("release", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
 }

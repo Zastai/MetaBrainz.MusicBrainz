@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllArtistRecordings(Guid mbid, int? pageSize = null, int? offset = null,
                                                                       Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", mbid), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("artist", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the recordings in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained recordings should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllCollectionRecordings(Guid mbid, int? pageSize = null, int? offset = null,
                                                                           Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the recordings associated with the given artist.</summary>
   /// <param name="artist">The artist whose recordings should be retrieved.</param>
@@ -62,7 +62,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllRecordings(IArtist artist, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", artist.Id), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("artist", artist.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the recordings in the given collection.</summary>
   /// <param name="collection">The collection whose contained recordings should be retrieved.</param>
@@ -79,7 +79,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllRecordings(ICollection collection, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the recordings associated with the given release.</summary>
   /// <param name="release">The release whose recordings should be retrieved.</param>
@@ -96,7 +96,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllRecordings(IRelease release, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", release.Id), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("release", release.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the recordings associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose recordings should be retrieved.</param>
@@ -113,7 +113,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IRecording> BrowseAllReleaseRecordings(Guid mbid, int? pageSize = null, int? offset = null,
                                                                        Include inc = Include.None)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", mbid), pageSize, offset).AsStream();
+    => new BrowseRecordings(this, Query.CreateOptions("release", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
   /// <param name="mbid">The MBID for the artist whose recordings should be retrieved.</param>
@@ -139,7 +139,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseArtistRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                       Include inc = Include.None,
                                                                       CancellationToken cancellationToken = default)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseRecordings(this, Query.CreateOptions("artist", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained recordings should be retrieved.</param>
@@ -165,7 +165,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseCollectionRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                           Include inc = Include.None,
                                                                           CancellationToken cancellationToken = default)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseRecordings(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given artist.</summary>
   /// <param name="artist">The artist whose recordings should be retrieved.</param>
@@ -215,7 +215,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IArtist artist, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
                                                                 CancellationToken cancellationToken = default)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "artist", artist.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseRecordings(this, Query.CreateOptions("artist", artist.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings in the given collection.</summary>
   /// <param name="collection">The collection whose contained recordings should be retrieved.</param>
@@ -229,7 +229,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
                                                                 CancellationToken cancellationToken = default) {
-    var browse = new BrowseRecordings(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset);
+    var browse = new BrowseRecordings(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 
@@ -245,7 +245,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseRecordingsAsync(IRelease release, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
                                                                 CancellationToken cancellationToken = default)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", release.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseRecordings(this, Query.CreateOptions("release", release.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the recordings associated with the given release.</summary>
   /// <param name="mbid">The MBID for the release whose recordings should be retrieved.</param>
@@ -271,6 +271,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                        Include inc = Include.None,
                                                                        CancellationToken cancellationToken = default)
-    => new BrowseRecordings(this, Query.BuildExtraText(inc, "release", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseRecordings(this, Query.CreateOptions("release", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
 }
