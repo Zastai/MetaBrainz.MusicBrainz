@@ -1324,6 +1324,10 @@ public sealed class Query : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResults<MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResult<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork>>> FindWorksAsync(string query, int? limit = default, int? offset = default, bool simple = false, System.Threading.CancellationToken cancellationToken = default);
 
+  public string[] GetAllGenreNames();
+
+  public System.Threading.Tasks.Task<string[]> GetAllGenreNamesAsync(System.Threading.CancellationToken cancellationToken = default);
+
   public MetaBrainz.MusicBrainz.Interfaces.Entities.IArea LookupArea(System.Guid mbid, Include inc = Include.None);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> LookupAreaAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
