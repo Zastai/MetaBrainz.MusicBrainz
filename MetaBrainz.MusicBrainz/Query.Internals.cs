@@ -28,9 +28,10 @@ public sealed partial class Query : IDisposable {
 
   private static DateTime _lastRequestTime;
 
-  private static async Task<T> ApplyDelayAsync<T>([InstantHandle] Func<Task<T>> request, CancellationToken cancellationToken) {
+  private static async Task<T> ApplyDelayAsync<T>([InstantHandle] Func<CancellationToken, Task<T>> request,
+                                                  CancellationToken cancellationToken) {
     if (Query.DelayBetweenRequests <= 0.0) {
-      return await request().ConfigureAwait(false);
+      return await request(cancellationToken).ConfigureAwait(false);
     }
     while (true) {
       await Query.DelayLock.WaitAsync(cancellationToken).ConfigureAwait(false);
@@ -46,7 +47,7 @@ public sealed partial class Query : IDisposable {
         Query.DelayLock.Release();
       }
       if (ready) {
-        return await request().ConfigureAwait(false);
+        return await request(cancellationToken).ConfigureAwait(false);
       }
       await Task.Delay((int) (500 * Query.DelayBetweenRequests), cancellationToken).ConfigureAwait(false);
     }
@@ -56,294 +57,282 @@ public sealed partial class Query : IDisposable {
 
   #region Query String Processing
 
-  private static void AddIncludeText(StringBuilder sb, Include inc) {
+  private static void AddIncludeText(IDictionary<string, string> options, Include inc) {
     if (inc == Include.None) {
       return;
     }
-    sb.Append((sb.Length == 0) ? '?' : '&').Append("inc");
-    var letter = '=';
+    var included = new List<string>(16);
     // Linked Entities
     if ((inc & Include.Artists) != 0) {
-      sb.Append(letter).Append("artists");
-      letter = '+';
+      included.Add("artists");
     }
     if ((inc & Include.Collections) != 0) {
-      sb.Append(letter).Append("collections");
-      letter = '+';
+      included.Add("collections");
     }
     if ((inc & Include.Labels) != 0) {
-      sb.Append(letter).Append("labels");
-      letter = '+';
+      included.Add("labels");
     }
     if ((inc & Include.Recordings) != 0) {
-      sb.Append(letter).Append("recordings");
-      letter = '+';
+      included.Add("recordings");
     }
     if ((inc & Include.ReleaseGroups) != 0) {
-      sb.Append(letter).Append("release-groups");
-      letter = '+';
+      included.Add("release-groups");
     }
     if ((inc & Include.Releases) != 0) {
-      sb.Append(letter).Append("releases");
-      letter = '+';
+      included.Add("releases");
     }
     if ((inc & Include.Works) != 0) {
-      sb.Append(letter).Append("works");
-      letter = '+';
+      included.Add("works");
     }
     // Special Cases
     if ((inc & Include.ArtistCredits) != 0) {
-      sb.Append(letter).Append("artist-credits");
-      letter = '+';
+      included.Add("artist-credits");
     }
     if ((inc & Include.DiscIds) != 0) {
-      sb.Append(letter).Append("discids");
-      letter = '+';
+      included.Add("discids");
     }
     if ((inc & Include.Isrcs) != 0) {
-      sb.Append(letter).Append("isrcs");
-      letter = '+';
+      included.Add("isrcs");
     }
     if ((inc & Include.Media) != 0) {
-      sb.Append(letter).Append("media");
-      letter = '+';
+      included.Add("media");
     }
     if ((inc & Include.UserCollections) != 0) {
-      sb.Append(letter).Append("user-collections");
-      letter = '+';
+      included.Add("user-collections");
     }
     if ((inc & Include.VariousArtists) != 0) {
-      sb.Append(letter).Append("various-artists");
-      letter = '+';
+      included.Add("various-artists");
     }
     // Optional Info
     if ((inc & Include.Aliases) != 0) {
-      sb.Append(letter).Append("aliases");
-      letter = '+';
+      included.Add("aliases");
     }
     if ((inc & Include.Annotation) != 0) {
-      sb.Append(letter).Append("annotation");
-      letter = '+';
+      included.Add("annotation");
     }
     if ((inc & Include.Genres) != 0) {
-      sb.Append(letter).Append("genres");
-      letter = '+';
+      included.Add("genres");
     }
     if ((inc & Include.Ratings) != 0) {
-      sb.Append(letter).Append("ratings");
-      letter = '+';
+      included.Add("ratings");
     }
     if ((inc & Include.Tags) != 0) {
-      sb.Append(letter).Append("tags");
-      letter = '+';
+      included.Add("tags");
     }
     if ((inc & Include.UserGenres) != 0) {
-      sb.Append(letter).Append("user-genres");
-      letter = '+';
+      included.Add("user-genres");
     }
     if ((inc & Include.UserRatings) != 0) {
-      sb.Append(letter).Append("user-ratings");
-      letter = '+';
+      included.Add("user-ratings");
     }
     if ((inc & Include.UserTags) != 0) {
-      sb.Append(letter).Append("user-tags");
-      letter = '+';
+      included.Add("user-tags");
     }
     // Relationships
     if ((inc & Include.AreaRelationships) != 0) {
-      sb.Append(letter).Append("area-rels");
-      letter = '+';
+      included.Add("area-rels");
     }
     if ((inc & Include.ArtistRelationships) != 0) {
-      sb.Append(letter).Append("artist-rels");
-      letter = '+';
+      included.Add("artist-rels");
     }
     if ((inc & Include.EventRelationships) != 0) {
-      sb.Append(letter).Append("event-rels");
-      letter = '+';
+      included.Add("event-rels");
     }
     if ((inc & Include.InstrumentRelationships) != 0) {
-      sb.Append(letter).Append("instrument-rels");
-      letter = '+';
+      included.Add("instrument-rels");
     }
     if ((inc & Include.LabelRelationships) != 0) {
-      sb.Append(letter).Append("label-rels");
-      letter = '+';
+      included.Add("label-rels");
     }
     if ((inc & Include.PlaceRelationships) != 0) {
-      sb.Append(letter).Append("place-rels");
-      letter = '+';
+      included.Add("place-rels");
     }
     if ((inc & Include.RecordingLevelRelationships) != 0) {
-      sb.Append(letter).Append("recording-level-rels");
-      letter = '+';
+      included.Add("recording-level-rels");
     }
     if ((inc & Include.RecordingRelationships) != 0) {
-      sb.Append(letter).Append("recording-rels");
-      letter = '+';
+      included.Add("recording-rels");
+    }
+    if ((inc & Include.ReleaseGroupLevelRelationships) != 0) {
+      included.Add("release-group-level-rels");
     }
     if ((inc & Include.ReleaseGroupRelationships) != 0) {
-      sb.Append(letter).Append("release-group-rels");
-      letter = '+';
+      included.Add("release-group-rels");
     }
     if ((inc & Include.ReleaseRelationships) != 0) {
-      sb.Append(letter).Append("release-rels");
-      letter = '+';
+      included.Add("release-rels");
     }
     if ((inc & Include.SeriesRelationships) != 0) {
-      sb.Append(letter).Append("series-rels");
-      letter = '+';
+      included.Add("series-rels");
     }
     if ((inc & Include.UrlRelationships) != 0) {
-      sb.Append(letter).Append("url-rels");
-      letter = '+';
+      included.Add("url-rels");
     }
     if ((inc & Include.WorkLevelRelationships) != 0) {
-      sb.Append(letter).Append("work-level-rels");
-      letter = '+';
+      included.Add("work-level-rels");
     }
     if ((inc & Include.WorkRelationships) != 0) {
-      sb.Append(letter).Append("work-rels");
+      included.Add("work-rels");
     }
+    options["inc"] = string.Join('+', included);
   }
 
-  private static void AddReleaseFilter(StringBuilder sb, ReleaseType? type, ReleaseStatus? status) {
+  private static void AddReleaseFilter(IDictionary<string, string> options, ReleaseType? type, ReleaseStatus? status) {
     if (type is not null) {
-      sb.Append((sb.Length == 0) ? '?' : '&').Append("type");
-      var letter = '=';
+      var types = new List<string>(8);
       // Primary Types
       if ((type.Value & ReleaseType.Album) != 0) {
-        sb.Append(letter).Append("album");
-        letter = '|';
+        types.Add("album");
       }
       if ((type.Value & ReleaseType.Broadcast) != 0) {
-        sb.Append(letter).Append("broadcast");
-        letter = '|';
+        types.Add("broadcast");
       }
       if ((type.Value & ReleaseType.EP) != 0) {
-        sb.Append(letter).Append("ep");
-        letter = '|';
+        types.Add("ep");
       }
       if ((type.Value & ReleaseType.Other) != 0) {
-        sb.Append(letter).Append("other");
-        letter = '|';
+        types.Add("other");
       }
       if ((type.Value & ReleaseType.Single) != 0) {
-        sb.Append(letter).Append("single");
-        letter = '|';
+        types.Add("single");
       }
       // Secondary Types
+      if ((type.Value & ReleaseType.AudioDrama) != 0) {
+        types.Add("audio drama");
+      }
       if ((type.Value & ReleaseType.Audiobook) != 0) {
-        sb.Append(letter).Append("audiobook");
-        letter = '|';
+        types.Add("audiobook");
       }
       if ((type.Value & ReleaseType.Compilation) != 0) {
-        sb.Append(letter).Append("compilation");
-        letter = '|';
+        types.Add("compilation");
       }
       if ((type.Value & ReleaseType.DJMix) != 0) {
-        sb.Append(letter).Append("dj-mix");
-        letter = '|';
+        types.Add("dj-mix");
+      }
+      if ((type.Value & ReleaseType.Demo) != 0) {
+        types.Add("demo");
+      }
+      if ((type.Value & ReleaseType.FieldRecording) != 0) {
+        types.Add("field recording");
       }
       if ((type.Value & ReleaseType.Interview) != 0) {
-        sb.Append(letter).Append("interview");
-        letter = '|';
+        types.Add("interview");
       }
       if ((type.Value & ReleaseType.Live) != 0) {
-        sb.Append(letter).Append("live");
-        letter = '|';
+        types.Add("live");
       }
       if ((type.Value & ReleaseType.MixTape) != 0) {
-        sb.Append(letter).Append("mixtape/street");
-        letter = '|';
+        types.Add("mixtape/street");
       }
       if ((type.Value & ReleaseType.Remix) != 0) {
-        sb.Append(letter).Append("remix");
-        letter = '|';
+        types.Add("remix");
       }
       if ((type.Value & ReleaseType.Soundtrack) != 0) {
-        sb.Append(letter).Append("soundtrack");
-        letter = '|';
+        types.Add("soundtrack");
       }
       if ((type.Value & ReleaseType.SpokenWord) != 0) {
-        sb.Append(letter).Append("spokenword");
+        types.Add("spokenword");
       }
+      options["type"] = string.Join('|', types);
     }
     if (status is not null) {
-      sb.Append((sb.Length == 0) ? '?' : '&').Append("status");
-      var letter = '=';
+      var statuses = new List<string>(8);
       if ((status.Value & ReleaseStatus.Bootleg) != 0) {
-        sb.Append(letter).Append("bootleg");
-        letter = '|';
+        statuses.Add("bootleg");
+      }
+      if ((status.Value & ReleaseStatus.Cancelled) != 0) {
+        statuses.Add("cancelled");
       }
       if ((status.Value & ReleaseStatus.Official) != 0) {
-        sb.Append(letter).Append("official");
-        letter = '|';
+        statuses.Add("official");
       }
       if ((status.Value & ReleaseStatus.Promotion) != 0) {
-        sb.Append(letter).Append("promotion");
-        letter = '|';
+        statuses.Add("promotion");
       }
       if ((status.Value & ReleaseStatus.PseudoRelease) != 0) {
-        sb.Append(letter).Append("pseudo-release");
+        statuses.Add("pseudo-release");
       }
+      if ((status.Value & ReleaseStatus.Withdrawn) != 0) {
+        statuses.Add("withdrawn");
+      }
+      options["status"] = string.Join('|', statuses);
     }
   }
 
-  private static string BuildExtraText(Include inc) {
-    var sb = new StringBuilder();
-    Query.AddIncludeText(sb, inc);
-    return sb.ToString();
+  private Uri BuildUri(string path, IReadOnlyDictionary<string, string>? options, string? format)
+    => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot + path, Query.Extra(options, format)).Uri;
+
+  private static Dictionary<string, string> CreateOptions(Include inc) {
+    var options = new Dictionary<string, string>();
+    Query.AddIncludeText(options, inc);
+    return options;
   }
 
-  private static string BuildExtraText(Include inc, Uri resource) {
-    var sb = new StringBuilder();
-    sb.Append("?resource=").Append(Uri.EscapeDataString(resource.ToString()));
-    Query.AddIncludeText(sb, inc);
-    return sb.ToString();
+  private static Dictionary<string, string> CreateOptions(Include inc, Uri resource) {
+    var options = new Dictionary<string, string> {
+      ["resource"] = Uri.EscapeDataString(resource.ToString())
+    };
+    Query.AddIncludeText(options, inc);
+    return options;
   }
 
-  private static string BuildExtraText(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
-    var sb = new StringBuilder();
-    Query.AddIncludeText(sb, inc);
-    Query.AddReleaseFilter(sb, type, status);
-    return sb.ToString();
+  private static Dictionary<string, string> CreateOptions(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
+    var options = new Dictionary<string, string>();
+    Query.AddIncludeText(options, inc);
+    Query.AddReleaseFilter(options, type, status);
+    return options;
   }
 
-  private static string BuildExtraText(Include inc, int[]? toc, bool allMediaFormats, bool noStubs) {
-    var sb = new StringBuilder();
+  private static Dictionary<string, string> CreateOptions(string field, Guid id) => Query.CreateOptions(field, id.ToString("D"));
+
+  private static Dictionary<string, string> CreateOptions(string field, Guid id, Include inc, ReleaseType? type = null,
+                                                          ReleaseStatus? status = null) {
+    var options = new Dictionary<string, string> {
+      [field] = id.ToString("D")
+    };
+    Query.AddIncludeText(options, inc);
+    Query.AddReleaseFilter(options, type, status);
+    return options;
+  }
+
+  private static Dictionary<string, string> CreateOptions(string field, string value) => new() { [field] = value };
+
+  private static Dictionary<string, string> CreateOptions(int[]? toc, Include inc, bool allMediaFormats, bool noStubs) {
+    var options = new Dictionary<string, string>();
     if (toc is not null) {
-      sb.Append((sb.Length == 0) ? '?' : '&').Append("toc=");
-      for (var i = 0; i < toc.Length; ++i) {
-        if (i > 0) {
-          sb.Append('+');
-        }
-        sb.Append(toc[i]);
-      }
+      options["toc"] = string.Join('+', toc);
     }
     if (allMediaFormats) {
-      sb.Append((sb.Length == 0) ? '?' : '&').Append("media-format=all");
+      options["media-format"] = "all";
     }
     if (noStubs) {
-      sb.Append((sb.Length == 0) ? '?' : '&').Append("cdstubs=no");
+      options["cdstubs"] = "no";
     }
-    Query.AddIncludeText(sb, inc);
-    return sb.ToString();
+    Query.AddIncludeText(options, inc);
+    return options;
   }
 
-  private static string BuildExtraText(Include inc, string field, Guid id, ReleaseType? type = null, ReleaseStatus? status = null) {
+  private static string Extra(IReadOnlyDictionary<string, string>? options, string? format) {
+    if ((options is null || options.Count == 0) && format is null) {
+      return "";
+    }
     var sb = new StringBuilder();
-    sb.Append('?').Append(field).Append('=').Append(id.ToString("D"));
-    Query.AddIncludeText(sb, inc);
-    Query.AddReleaseFilter(sb, type, status);
-    return sb.ToString();
-  }
-
-  private static string BuildExtraText(string field, Guid id) => Query.BuildExtraText(field, id.ToString("D"));
-
-  private static string BuildExtraText(string field, string value) {
-    var sb = new StringBuilder();
-    sb.Append('?').Append(field).Append('=').Append(value);
+    char separator;
+    if (format is not null) {
+      sb.Append("?fmt=").Append(format);
+      separator = '&';
+    }
+    else {
+      separator = '?';
+    }
+    if (options is not null) {
+      foreach (var (field, value) in options) {
+        // Should we just use Uri.EscapeDataString here? We'd need to be careful with stuff we join together with | and +.
+        var adjustedValue = value.Replace(' ', '+');
+        sb.Append(separator).Append(field).Append('=').Append(adjustedValue);
+        separator = '&';
+      }
+    }
     return sb.ToString();
   }
 
@@ -447,9 +436,6 @@ public sealed partial class Query : IDisposable {
   #endregion
 
   #region Basic Request Execution
-
-  private Uri BuildUri(string path, string? extra = null)
-    => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot + path, extra).Uri;
 
   private static async Task<string?> ExtractMessageAsync(HttpResponseMessage response, CancellationToken cancellationToken) {
     string? message = null;
@@ -570,32 +556,33 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, string extra, CancellationToken cancellationToken)
-    => this.PerformRequestAsync(entity, id.ToString("D"), extra, cancellationToken);
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
+                                                         CancellationToken cancellationToken)
+    => this.PerformRequestAsync(entity, id.ToString("D"), options, cancellationToken);
 
-  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, string extra,
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, IReadOnlyDictionary<string, string>? options,
                                                          CancellationToken cancellationToken) {
-    return Query.ApplyDelayAsync(() => {
-      var uri = this.BuildUri($"{entity}/{id}", extra);
-      return this.PerformRequestAsync(uri, HttpMethod.Get, null, cancellationToken);
-    }, cancellationToken);
+    var uri = this.BuildUri($"{entity}/{id}", options, "json");
+    return Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, HttpMethod.Get, null, token), cancellationToken);
   }
 
-  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, string extra, CancellationToken cancellationToken)
-    => this.PerformRequestAsync<T>(entity, id.ToString("D"), extra, cancellationToken);
+  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
+                                          CancellationToken cancellationToken)
+    => this.PerformRequestAsync<T>(entity, id.ToString("D"), options, cancellationToken);
 
-  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, string extra, CancellationToken cancellationToken) {
-    using var response = await this.PerformRequestAsync(entity, id, extra, cancellationToken).ConfigureAwait(false);
+  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, IReadOnlyDictionary<string, string>? options,
+                                                CancellationToken cancellationToken) {
+    using var response = await this.PerformRequestAsync(entity, id, options, cancellationToken).ConfigureAwait(false);
     return await JsonUtils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {
-    var uri = this.BuildUri(submission.Entity, Query.BuildExtraText("client", submission.Client));
+    var uri = this.BuildUri(submission.Entity, Query.CreateOptions("client", submission.Client), null);
     var method = submission.Method;
     var body = submission.RequestBody;
     using var content = body is null ? null : new StringContent(body, Encoding.UTF8, submission.ContentType);
-    using var response = await Query.ApplyDelayAsync(() => this.PerformRequestAsync(uri, method, content, cancellationToken),
-                                                     cancellationToken).ConfigureAwait(false);
+    var delayedRequest = Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, method, content, token), cancellationToken);
+    using var response = await delayedRequest.ConfigureAwait(false);
     return await Query.ExtractMessageAsync(response, cancellationToken).ConfigureAwait(false) ?? "";
   }
 

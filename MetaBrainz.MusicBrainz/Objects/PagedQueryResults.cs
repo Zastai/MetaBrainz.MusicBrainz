@@ -62,7 +62,7 @@ where TResultObject : class {
 
   protected abstract Task<TResults> DeserializeAsync(HttpResponseMessage response, CancellationToken cancellationToken);
 
-  protected abstract string FullExtraText();
+  protected abstract IReadOnlyDictionary<string, string> FullOptions();
 
   #endregion
 
@@ -75,7 +75,7 @@ where TResultObject : class {
   private readonly string? _value;
 
   private async Task<TResults> PerformRequestAsync(CancellationToken cancellationToken) {
-    var task = this._query.PerformRequestAsync(this._endpoint, this._value, this.FullExtraText(), cancellationToken);
+    var task = this._query.PerformRequestAsync(this._endpoint, this._value, this.FullOptions(), cancellationToken);
     var response = await task.ConfigureAwait(false);
     return await this.DeserializeAsync(response, cancellationToken).ConfigureAwait(false);
   }

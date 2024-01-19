@@ -79,6 +79,7 @@ public enum Include : long {
   RecordingLevelRelationships = 70368744177664L,
   RecordingRelationships = 140737488355328L,
   Recordings = 8L,
+  ReleaseGroupLevelRelationships = 18014398509481984L,
   ReleaseGroupRelationships = 281474976710656L,
   ReleaseGroups = 16L,
   ReleaseRelationships = 562949953421312L,
@@ -1749,10 +1750,13 @@ public sealed class Query : System.IDisposable {
 public enum ReleaseStatus : byte {
 
   Bootleg = (byte) 1,
+  Cancelled = (byte) 32,
   Official = (byte) 2,
   Promotion = (byte) 4,
+  [System.ObsoleteAttribute("Use Promotion instead.")]
   Promotional = (byte) 4,
   PseudoRelease = (byte) 8,
+  Withdrawn = (byte) 16,
 
 }
 ```
@@ -1765,10 +1769,13 @@ public enum ReleaseType {
 
   Album = 1,
   Audiobook = 1024,
+  AudioDrama = 524288,
   Broadcast = 2,
   Compilation = 2048,
+  Demo = 1048576,
   DJMix = 4096,
   EP = 4,
+  FieldRecording = 2097152,
   Interview = 8192,
   Live = 16384,
   MixTape = 32768,

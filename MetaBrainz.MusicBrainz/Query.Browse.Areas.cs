@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArea> BrowseAllAreas(ICollection collection, int? pageSize = null, int? offset = null,
                                                       Include inc = Include.None)
-    => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseAreas(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the areas in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IArea> BrowseAllCollectionAreas(Guid mbid, int? pageSize = null, int? offset = null,
                                                                 Include inc = Include.None)
-    => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseAreas(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
   /// <param name="collection">The collection whose contained areas should be retrieved.</param>
@@ -70,7 +70,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null,
                                                       Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowseAreas(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>
@@ -95,6 +95,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<IArea>> BrowseCollectionAreasAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                 Include inc = Include.None,
                                                                 CancellationToken cancellationToken = default)
-    => new BrowseAreas(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseAreas(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
 }

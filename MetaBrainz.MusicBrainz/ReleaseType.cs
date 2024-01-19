@@ -69,6 +69,12 @@ public enum ReleaseType {
 
   #region Secondary Types
 
+  /// <summary>
+  /// An audio drama is an audio-only performance of a play (often, but not always, meant for radio). Unlike audiobooks, it usually
+  /// has multiple performers rather than a main narrator.
+  /// </summary>
+  AudioDrama = 1 << 19,
+
   /// <summary>An audiobook is a book read by a narrator without music.</summary>
   Audiobook = 1 << 10,
 
@@ -104,6 +110,15 @@ public enum ReleaseType {
   /// </summary>
   DJMix = 1 << 12,
 
+  /// <summary>
+  /// A demo is typically distributed for limited circulation or reference use, rather than for general public release. It is a way
+  /// for artists to pass along their music to record labels, producers, DJs or other artists.
+  /// </summary>
+  Demo = 1 << 20,
+
+  /// <summary>A release mostly consisting of field recordings (such as nature sounds or city/industrial noise).</summary>
+  FieldRecording = 1 << 21,
+
   /// <summary>An interview release contains an interview, generally with an artist.</summary>
   Interview = 1 << 13,
 
@@ -133,6 +148,10 @@ public enum ReleaseType {
 
   /// <summary>Non-music spoken word releases.</summary>
   SpokenWord = 1 << 18,
+
+  #endregion
+
+  #region Aliases
 
   /// <inheritdoc cref="MixTape"/>
   StreetAlbum = ReleaseType.MixTape,

@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IInstrument> BrowseAllInstruments(ICollection collection, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None)
-    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowseInstruments(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the instruments in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained instruments should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IInstrument> BrowseAllCollectionInstruments(Guid mbid, int? pageSize = null, int? offset = null,
                                                                             Include inc = Include.None)
-    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowseInstruments(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the instruments in the given collection.</summary>
   /// <param name="collection">The collection whose contained instruments should be retrieved.</param>
@@ -71,7 +71,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IInstrument>> BrowseInstrumentsAsync(ICollection collection, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default) {
-    var browse = new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset);
+    var browse = new BrowseInstruments(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset);
     return browse.NextAsync(cancellationToken);
   }
 
@@ -99,6 +99,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<IInstrument>> BrowseCollectionInstrumentsAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                             Include inc = Include.None,
                                                                             CancellationToken cancellationToken = default)
-    => new BrowseInstruments(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowseInstruments(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
 }

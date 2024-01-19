@@ -28,7 +28,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IPlace> BrowseAllAreaPlaces(Guid mbid, int? pageSize = null, int? offset = null,
                                                             Include inc = Include.None)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "area", mbid), pageSize, offset).AsStream();
+    => new BrowsePlaces(this, Query.CreateOptions("area", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the places in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained places should be retrieved.</param>
@@ -45,7 +45,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IPlace> BrowseAllCollectionPlaces(Guid mbid, int? pageSize = null, int? offset = null,
                                                                   Include inc = Include.None)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "collection", mbid), pageSize, offset).AsStream();
+    => new BrowsePlaces(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the places associated with the given area.</summary>
   /// <param name="area">The area whose places should be retrieved.</param>
@@ -62,7 +62,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IPlace> BrowseAllPlaces(IArea area, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "area", area.Id), pageSize, offset).AsStream();
+    => new BrowsePlaces(this, Query.CreateOptions("area", area.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the places in the given collection.</summary>
   /// <param name="collection">The collection whose contained places should be retrieved.</param>
@@ -79,7 +79,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public IStreamingQueryResults<IPlace> BrowseAllPlaces(ICollection collection, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "collection", collection.Id), pageSize, offset).AsStream();
+    => new BrowsePlaces(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
   /// <param name="mbid">The MBID for the area whose places should be retrieved.</param>
@@ -104,7 +104,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IPlace>> BrowseAreaPlacesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                             Include inc = Include.None,
                                                             CancellationToken cancellationToken = default)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "area", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowsePlaces(this, Query.CreateOptions("area", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained places should be retrieved.</param>
@@ -129,7 +129,7 @@ public sealed partial class Query {
   public Task<IBrowseResults<IPlace>> BrowseCollectionPlacesAsync(Guid mbid, int? limit = null, int? offset = null,
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "collection", mbid), limit, offset).NextAsync(cancellationToken);
+    => new BrowsePlaces(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
   /// <param name="area">The area whose places should be retrieved.</param>
@@ -165,7 +165,7 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(IArea area, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "area", area.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowsePlaces(this, Query.CreateOptions("area", area.Id, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
   /// <param name="collection">The collection whose contained places should be retrieved.</param>
@@ -178,6 +178,6 @@ public sealed partial class Query {
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
   public Task<IBrowseResults<IPlace>> BrowsePlacesAsync(ICollection collection, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
-    => new BrowsePlaces(this, Query.BuildExtraText(inc, "collection", collection.Id), limit, offset).NextAsync(cancellationToken);
+    => new BrowsePlaces(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
 }

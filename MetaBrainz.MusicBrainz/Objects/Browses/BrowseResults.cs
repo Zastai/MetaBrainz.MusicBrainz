@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,12 +15,12 @@ internal abstract class BrowseResults<TResult>
     IBrowseResults<TResult>
 where TResult : IEntity {
 
-  protected BrowseResults(Query query, string endpoint, string? value, string extra, int? limit = null, int? offset = null)
-    : base(query, endpoint, value, limit, offset) {
-    this._extra = extra;
+  protected BrowseResults(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
+                          int? limit = null, int? offset = null) : base(query, endpoint, value, limit, offset) {
+    this._options = options is null ? new Dictionary<string, string>() : new Dictionary<string, string>(options);
   }
 
-  private readonly string _extra;
+  private readonly Dictionary<string, string> _options;
 
   protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
                                                                                  CancellationToken cancellationToken) {
@@ -28,18 +29,15 @@ where TResult : IEntity {
     return this;
   }
 
-  protected sealed override string FullExtraText() {
-    var extra = this._extra;
-    if (string.IsNullOrEmpty(extra)) {
-      extra = $"?offset={this.Offset}";
+  protected sealed override IReadOnlyDictionary<string, string> FullOptions() {
+    this._options["offset"] = this.Offset.ToString(CultureInfo.InvariantCulture);
+    if (this.Limit is not null) {
+      this._options["limit"] = this.Limit.Value.ToString(CultureInfo.InvariantCulture);
     }
     else {
-      extra += $"&offset={this.Offset}";
+      this._options.Remove("limit");
     }
-    if (this.Limit is not null) {
-      extra += $"&limit={this.Limit}";
-    }
-    return extra;
+    return this._options;
   }
 
   public override int TotalResults => this.CurrentResult?.Count ?? 0;
