@@ -475,7 +475,7 @@ public sealed partial class Query : IDisposable {
   }
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
-                                                              CancellationToken cancellationToken, string? format = null) {
+                                                              CancellationToken cancellationToken, string? format = "json") {
     using var request = new HttpRequestMessage(method, uri);
     var ts = Query.TraceSource;
     ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, request.RequestUri);
