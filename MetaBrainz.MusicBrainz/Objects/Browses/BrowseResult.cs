@@ -22,6 +22,8 @@ internal sealed class BrowseResult : JsonBasedObject {
 
   public IReadOnlyList<IEvent>? Events;
 
+  public IReadOnlyList<IGenre>? Genres;
+
   public IReadOnlyList<IInstrument>? Instruments;
 
   public IReadOnlyList<ILabel>? Labels;
