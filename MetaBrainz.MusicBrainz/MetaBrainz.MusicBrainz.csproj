@@ -8,10 +8,10 @@
     <Title>MusicBrainz Web Service Client Library</Title>
     <Description>This package provides classes for accessing the MusicBrainz web services (lookup, search and OAuth2).</Description>
     <PackageCopyrightOwners>Tim Van Holder</PackageCopyrightOwners>
-    <PackageCopyrightYears>2016-2023</PackageCopyrightYears>
+    <PackageCopyrightYears>2016-2024</PackageCopyrightYears>
     <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <Version>6.1.0-pre</Version>
+    <Version>6.1.0</Version>
   </PropertyGroup>
 
   <PropertyGroup>
