@@ -269,9 +269,7 @@ public sealed partial class Query : IDisposable {
   }
 
   private static Dictionary<string, string> CreateOptions(Include inc, Uri resource) {
-    var options = new Dictionary<string, string> {
-      ["resource"] = Uri.EscapeDataString(resource.ToString())
-    };
+    var options = new Dictionary<string, string> { ["resource"] = Uri.EscapeDataString(resource.ToString()) };
     Query.AddIncludeText(options, inc);
     return options;
   }
@@ -287,9 +285,7 @@ public sealed partial class Query : IDisposable {
 
   private static Dictionary<string, string> CreateOptions(string field, Guid id, Include inc, ReleaseType? type = null,
                                                           ReleaseStatus? status = null) {
-    var options = new Dictionary<string, string> {
-      [field] = id.ToString("D")
-    };
+    var options = new Dictionary<string, string> { [field] = id.ToString("D") };
     Query.AddIncludeText(options, inc);
     Query.AddReleaseFilter(options, type, status);
     return options;
@@ -340,7 +336,9 @@ public sealed partial class Query : IDisposable {
 
   #region HttpClient / IDisposable
 
-  private static readonly MediaTypeWithQualityHeaderValue AcceptHeader = new("application/json");
+  private static readonly MediaTypeWithQualityHeaderValue AcceptHeaderForJson = new("application/json");
+
+  private static readonly MediaTypeWithQualityHeaderValue AcceptHeaderForText = new("text/plain");
 
   private static readonly ProductInfoHeaderValue LibraryComment = new($"({Query.UserAgentUrl})");
 
@@ -477,14 +475,21 @@ public sealed partial class Query : IDisposable {
   }
 
   private async Task<HttpResponseMessage> PerformRequestAsync(Uri uri, HttpMethod method, HttpContent? body,
-                                                              CancellationToken cancellationToken) {
+                                                              CancellationToken cancellationToken, string? format = "json") {
     using var request = new HttpRequestMessage(method, uri);
     var ts = Query.TraceSource;
     ts.TraceEvent(TraceEventType.Verbose, 1, "WEB SERVICE REQUEST: {0} {1}", method.Method, request.RequestUri);
     var client = this.Client;
     {
       var headers = request.Headers;
-      headers.Accept.Add(Query.AcceptHeader);
+      switch (format) {
+        case "json":
+          headers.Accept.Add(Query.AcceptHeaderForJson);
+          break;
+        case "txt":
+          headers.Accept.Add(Query.AcceptHeaderForText);
+          break;
+      }
       if (this.BearerToken is not null) {
         headers.Authorization = new AuthenticationHeaderValue("Bearer", this.BearerToken);
       }
@@ -561,9 +566,9 @@ public sealed partial class Query : IDisposable {
     => this.PerformRequestAsync(entity, id.ToString("D"), options, cancellationToken);
 
   internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, IReadOnlyDictionary<string, string>? options,
-                                                         CancellationToken cancellationToken) {
-    var uri = this.BuildUri($"{entity}/{id}", options, "json");
-    return Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, HttpMethod.Get, null, token), cancellationToken);
+                                                         CancellationToken cancellationToken, string? format = "json") {
+    var uri = this.BuildUri($"{entity}/{id}", options, format);
+    return Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, HttpMethod.Get, null, token, format), cancellationToken);
   }
 
   internal Task<T> PerformRequestAsync<T>(string entity, Guid id, IReadOnlyDictionary<string, string>? options,

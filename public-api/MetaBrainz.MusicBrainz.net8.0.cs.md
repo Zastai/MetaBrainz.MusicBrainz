@@ -772,6 +772,10 @@ public sealed class Query : System.IDisposable {
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
+  public MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre> BrowseAllGenres(int? limit = default, int? offset = default);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre>> BrowseAllGenresAsync(int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection> BrowseAllInstrumentCollections(System.Guid mbid, int? pageSize = default, int? offset = default);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> BrowseAllInstruments(MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, int? pageSize = default, int? offset = default, Include inc = Include.None);
@@ -1323,6 +1327,10 @@ public sealed class Query : System.IDisposable {
   public MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResults<MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResult<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork>> FindWorks(string query, int? limit = default, int? offset = default, bool simple = false);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResults<MetaBrainz.MusicBrainz.Interfaces.Searches.ISearchResult<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork>>> FindWorksAsync(string query, int? limit = default, int? offset = default, bool simple = false, System.Threading.CancellationToken cancellationToken = default);
+
+  public string[] GetAllGenreNames();
+
+  public System.Threading.Tasks.Task<string[]> GetAllGenreNamesAsync(System.Threading.CancellationToken cancellationToken = default);
 
   public MetaBrainz.MusicBrainz.Interfaces.Entities.IArea LookupArea(System.Guid mbid, Include inc = Include.None);
 

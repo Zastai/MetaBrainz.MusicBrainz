@@ -19,6 +19,7 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
     IReadOnlyList<ICollection>? collections = null;
     int? count = null;
     IReadOnlyList<IEvent>? events = null;
+    IReadOnlyList<IGenre>? genres = null;
     IReadOnlyList<IInstrument>? instruments = null;
     IReadOnlyList<ILabel>? labels = null;
     int? offset = null;
@@ -38,6 +39,7 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
           case "artist-count":
           case "collection-count":
           case "event-count":
+          case "genre-count":
           case "instrument-count":
           case "label-count":
           case "place-count":
@@ -52,6 +54,7 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
           case "artist-offset":
           case "collection-offset":
           case "event-offset":
+          case "genre-offset":
           case "instrument-offset":
           case "label-offset":
           case "place-offset":
@@ -73,6 +76,9 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
             break;
           case "events":
             events = reader.ReadList(EventReader.Instance, options);
+            break;
+          case "genres":
+            genres = reader.ReadList(GenreReader.Instance, options);
             break;
           case "instruments":
             instruments = reader.ReadList(InstrumentReader.Instance, options);
@@ -120,6 +126,7 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
       Artists = artists,
       Collections = collections,
       Events = events,
+      Genres = genres,
       Instruments = instruments,
       Labels = labels,
       Places = places,
