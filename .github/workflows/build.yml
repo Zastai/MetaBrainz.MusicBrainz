@@ -21,7 +21,7 @@ jobs:
 
     steps:
     - name: Check out the project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
     - name: Set up .NET ${{env.dotnet-version}}
       uses: actions/setup-dotnet@v4
       id: setup
