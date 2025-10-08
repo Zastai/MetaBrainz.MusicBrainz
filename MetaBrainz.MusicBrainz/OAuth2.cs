@@ -331,13 +331,7 @@ public sealed class OAuth2 : IDisposable {
 
   private HttpClient Client {
     get {
-#if NET6_0
-      if (this._disposed) {
-        throw new ObjectDisposedException(typeof(OAuth2).FullName);
-      }
-#else
       ObjectDisposedException.ThrowIf(this._disposed, typeof(OAuth2));
-#endif
       if (this._client is null) {
         var client = this._clientCreation?.Invoke() ?? new HttpClient();
         this._clientConfiguration?.Invoke(client);

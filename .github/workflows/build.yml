@@ -27,6 +27,7 @@ jobs:
       id: setup
       with:
         dotnet-version: ${{env.dotnet-version}}
+        dotnet-quality: ga
       env:
         NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
     - name: Create global.json to force use of .NET SDK ${{steps.setup.outputs.dotnet-version}}
@@ -46,7 +47,7 @@ jobs:
         path: "output/package/${{matrix.configuration}}/*.*nupkg"
     - name: Publish (NuGet - GitHub Packages)
       if: matrix.configuration == 'Release' && startsWith(github.ref, 'refs/tags/v')
-      run: "dotnet nuget push output/package/${{matrix.configuration}}/*.nupkg -s https://nuget.pkg.github.com/zastai/index.json -k ${{secrets.GITHUB_TOKEN}}"
+      run: "dotnet nuget push output/package/${{matrix.configuration}}/*.nupkg --skip-duplicate -s https://nuget.pkg.github.com/zastai/index.json -k ${{secrets.GITHUB_TOKEN}}"
     - name: Publish (NuGet - nuget.org)
       if: matrix.configuration == 'Release' && startsWith(github.ref, 'refs/tags/v')
-      run: "dotnet nuget push output/package/${{matrix.configuration}}/*.nupkg -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}}"
+      run: "dotnet nuget push output/package/${{matrix.configuration}}/*.nupkg --skip-duplicate -s https://api.nuget.org/v3/index.json -k ${{secrets.NUGET_API_KEY}}"
