@@ -15,15 +15,15 @@
 [System.FlagsAttribute]
 public enum AuthorizationScope {
 
-  Collection = 16,
-  Email = 2,
-  Everything = -1,
-  None = 0,
-  Profile = 1,
-  Rating = 8,
-  SubmitBarcode = 64,
-  SubmitIsrc = 32,
-  Tag = 4,
+  Collection = 0x00000010,
+  Email = 0x00000002,
+  Everything = 0xFFFFFFFF,
+  None = 0x00000000,
+  Profile = 0x00000001,
+  Rating = 0x00000008,
+  SubmitBarcode = 0x00000040,
+  SubmitIsrc = 0x00000020,
+  Tag = 0x00000004,
 
 }
 ```
@@ -58,43 +58,43 @@ public enum EntityType {
 [System.FlagsAttribute]
 public enum Include : long {
 
-  Aliases = 268435456L,
-  Annotation = 536870912L,
-  AreaRelationships = 1099511627776L,
-  ArtistCredits = 65536L,
-  ArtistRelationships = 2199023255552L,
-  Artists = 1L,
-  Collections = 2L,
-  DiscIds = 131072L,
-  EventRelationships = 4398046511104L,
-  Genres = 17179869184L,
-  InstrumentRelationships = 8796093022208L,
-  Isrcs = 262144L,
-  LabelRelationships = 17592186044416L,
-  Labels = 4L,
-  Media = 524288L,
-  None = 0L,
-  PlaceRelationships = 35184372088832L,
-  Ratings = 1073741824L,
-  RecordingLevelRelationships = 70368744177664L,
-  RecordingRelationships = 140737488355328L,
-  Recordings = 8L,
-  ReleaseGroupLevelRelationships = 18014398509481984L,
-  ReleaseGroupRelationships = 281474976710656L,
-  ReleaseGroups = 16L,
-  ReleaseRelationships = 562949953421312L,
-  Releases = 32L,
-  SeriesRelationships = 1125899906842624L,
-  Tags = 2147483648L,
-  UrlRelationships = 2251799813685248L,
-  UserCollections = 1048576L,
-  UserGenres = 34359738368L,
-  UserRatings = 4294967296L,
-  UserTags = 8589934592L,
-  VariousArtists = 2097152L,
-  WorkLevelRelationships = 4503599627370496L,
-  WorkRelationships = 9007199254740992L,
-  Works = 64L,
+  Aliases = 0x00000010000000,
+  Annotation = 0x00000020000000,
+  AreaRelationships = 0x00010000000000,
+  ArtistCredits = 0x00000000010000,
+  ArtistRelationships = 0x00020000000000,
+  Artists = 0x00000000000001,
+  Collections = 0x00000000000002,
+  DiscIds = 0x00000000020000,
+  EventRelationships = 0x00040000000000,
+  Genres = 0x00000400000000,
+  InstrumentRelationships = 0x00080000000000,
+  Isrcs = 0x00000000040000,
+  LabelRelationships = 0x00100000000000,
+  Labels = 0x00000000000004,
+  Media = 0x00000000080000,
+  None = 0x00000000000000,
+  PlaceRelationships = 0x00200000000000,
+  Ratings = 0x00000040000000,
+  RecordingLevelRelationships = 0x00400000000000,
+  RecordingRelationships = 0x00800000000000,
+  Recordings = 0x00000000000008,
+  ReleaseGroupLevelRelationships = 0x40000000000000,
+  ReleaseGroupRelationships = 0x01000000000000,
+  ReleaseGroups = 0x00000000000010,
+  ReleaseRelationships = 0x02000000000000,
+  Releases = 0x00000000000020,
+  SeriesRelationships = 0x04000000000000,
+  Tags = 0x00000080000000,
+  UrlRelationships = 0x08000000000000,
+  UserCollections = 0x00000000100000,
+  UserGenres = 0x00000800000000,
+  UserRatings = 0x00000100000000,
+  UserTags = 0x00000200000000,
+  VariousArtists = 0x00000000200000,
+  WorkLevelRelationships = 0x10000000000000,
+  WorkRelationships = 0x20000000000000,
+  Works = 0x00000000000040,
 
 }
 ```
@@ -1757,14 +1757,14 @@ public sealed class Query : System.IDisposable {
 [System.FlagsAttribute]
 public enum ReleaseStatus : byte {
 
-  Bootleg = (byte) 1,
-  Cancelled = (byte) 32,
-  Official = (byte) 2,
-  Promotion = (byte) 4,
+  Bootleg = 0x01,
+  Cancelled = 0x20,
+  Official = 0x02,
+  Promotion = 0x04,
   [System.ObsoleteAttribute("Use Promotion instead.")]
-  Promotional = (byte) 4,
-  PseudoRelease = (byte) 8,
-  Withdrawn = (byte) 16,
+  Promotional = 0x04,
+  PseudoRelease = 0x08,
+  Withdrawn = 0x10,
 
 }
 ```
@@ -1775,24 +1775,24 @@ public enum ReleaseStatus : byte {
 [System.FlagsAttribute]
 public enum ReleaseType {
 
-  Album = 1,
-  Audiobook = 1024,
-  AudioDrama = 524288,
-  Broadcast = 2,
-  Compilation = 2048,
-  Demo = 1048576,
-  DJMix = 4096,
-  EP = 4,
-  FieldRecording = 2097152,
-  Interview = 8192,
-  Live = 16384,
-  MixTape = 32768,
-  Other = 8,
-  Remix = 65536,
-  Single = 16,
-  Soundtrack = 131072,
-  SpokenWord = 262144,
-  StreetAlbum = 32768,
+  Album = 0x000001,
+  Audiobook = 0x000400,
+  AudioDrama = 0x080000,
+  Broadcast = 0x000002,
+  Compilation = 0x000800,
+  Demo = 0x100000,
+  DJMix = 0x001000,
+  EP = 0x000004,
+  FieldRecording = 0x200000,
+  Interview = 0x002000,
+  Live = 0x004000,
+  MixTape = 0x008000,
+  Other = 0x000008,
+  Remix = 0x010000,
+  Single = 0x000010,
+  Soundtrack = 0x020000,
+  SpokenWord = 0x040000,
+  StreetAlbum = 0x008000,
 
 }
 ```
@@ -2631,11 +2631,11 @@ public interface IRelationship : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Attributes {
+  System.Collections.Generic.IReadOnlyDictionary<string, string>? AttributeValues {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyDictionary<string, string>? AttributeValues {
+  System.Collections.Generic.IReadOnlyList<string>? Attributes {
     public abstract get;
   }
 

@@ -358,13 +358,7 @@ public sealed partial class Query : IDisposable {
 
   private HttpClient Client {
     get {
-#if NET6_0
-      if (this._disposed) {
-        throw new ObjectDisposedException(nameof(Query));
-      }
-#else
       ObjectDisposedException.ThrowIf(this._disposed, typeof(Query));
-#endif
       if (this._client is null) {
         var client = this._clientCreation is not null ? this._clientCreation() : new HttpClient();
         this._userAgent.ForEach(client.DefaultRequestHeaders.UserAgent.Add);
