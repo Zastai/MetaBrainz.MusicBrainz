@@ -27,7 +27,7 @@ public sealed class IsrcSubmission : Submission {
       current.AddRange(isrcs);
     }
     else {
-      this._isrcs.Add(mbid, new List<string>(isrcs));
+      this._isrcs.Add(mbid, [..isrcs]);
     }
     return this;
   }

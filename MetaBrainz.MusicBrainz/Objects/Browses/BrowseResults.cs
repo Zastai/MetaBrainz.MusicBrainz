@@ -10,20 +10,15 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal abstract class BrowseResults<TResult>
-  : PagedQueryResults<IBrowseResults<TResult>, TResult, BrowseResult>,
-    IBrowseResults<TResult>
-where TResult : IEntity {
+internal abstract class BrowseResults<T>(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
+                                         int? limit = null, int? offset = null)
+  : PagedQueryResults<IBrowseResults<T>, T, BrowseResult>(query, endpoint, value, limit, offset), IBrowseResults<T>
+  where T : IEntity {
 
-  protected BrowseResults(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
-                          int? limit = null, int? offset = null) : base(query, endpoint, value, limit, offset) {
-    this._options = options is null ? new Dictionary<string, string>() : new Dictionary<string, string>(options);
-  }
+  private readonly Dictionary<string, string> _options = options is null ? [] : new Dictionary<string, string>(options);
 
-  private readonly Dictionary<string, string> _options;
-
-  protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
-                                                                                 CancellationToken cancellationToken) {
+  protected sealed override async Task<IBrowseResults<T>> DeserializeAsync(HttpResponseMessage response,
+                                                                           CancellationToken cancellationToken) {
     var task = JsonUtils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     return this;

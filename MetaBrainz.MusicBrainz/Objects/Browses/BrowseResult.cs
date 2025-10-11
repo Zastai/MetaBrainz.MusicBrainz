@@ -5,12 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal sealed class BrowseResult : JsonBasedObject {
-
-  public BrowseResult(int count, int offset) {
-    this.Count = count;
-    this.Offset = offset;
-  }
+internal sealed class BrowseResult(int count, int offset) : JsonBasedObject {
 
   public IReadOnlyList<IArea>? Areas;
 
@@ -18,7 +13,7 @@ internal sealed class BrowseResult : JsonBasedObject {
 
   public IReadOnlyList<ICollection>? Collections;
 
-  public readonly int Count;
+  public readonly int Count = count;
 
   public IReadOnlyList<IEvent>? Events;
 
@@ -28,7 +23,7 @@ internal sealed class BrowseResult : JsonBasedObject {
 
   public IReadOnlyList<ILabel>? Labels;
 
-  public readonly int Offset;
+  public readonly int Offset = offset;
 
   public IReadOnlyList<IPlace>? Places;
 

@@ -12,13 +12,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
-internal sealed class SearchResults : JsonBasedObject {
-
-  public SearchResults(int count, int offset, DateTimeOffset created) {
-    this.Count = count;
-    this.Created = created;
-    this.Offset = offset;
-  }
+internal sealed class SearchResults(int count, int offset, DateTimeOffset created) : JsonBasedObject {
 
   public IReadOnlyList<ISearchResult<IAnnotation>>? Annotations;
 
@@ -28,9 +22,9 @@ internal sealed class SearchResults : JsonBasedObject {
 
   public IReadOnlyList<ISearchResult<ICdStub>>? CdStubs;
 
-  public readonly int Count;
+  public readonly int Count = count;
 
-  public readonly DateTimeOffset Created;
+  public readonly DateTimeOffset Created = created;
 
   public IReadOnlyList<ISearchResult<IEvent>>? Events;
 
@@ -38,7 +32,7 @@ internal sealed class SearchResults : JsonBasedObject {
 
   public IReadOnlyList<ISearchResult<ILabel>>? Labels;
 
-  public readonly int Offset;
+  public readonly int Offset = offset;
 
   public IReadOnlyList<ISearchResult<IPlace>>? Places;
 
@@ -58,9 +52,8 @@ internal sealed class SearchResults : JsonBasedObject {
 
 }
 
-internal abstract class SearchResults<TInterface>
-  : PagedQueryResults<ISearchResults<TInterface>, TInterface, SearchResults>, ISearchResults<TInterface>
-where TInterface : ISearchResult {
+internal abstract class SearchResults<T> : PagedQueryResults<ISearchResults<T>, T, SearchResults>, ISearchResults<T>
+  where T : ISearchResult {
 
   protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset,
                           bool simple) : base(query, endpoint, null, limit, offset) {
@@ -74,8 +67,8 @@ where TInterface : ISearchResult {
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
-  protected sealed override async Task<ISearchResults<TInterface>> DeserializeAsync(HttpResponseMessage response,
-                                                                                    CancellationToken cancellationToken) {
+  protected sealed override async Task<ISearchResults<T>> DeserializeAsync(HttpResponseMessage response,
+                                                                           CancellationToken cancellationToken) {
     var task = JsonUtils.GetJsonContentAsync<SearchResults>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     if (this.Offset != this.CurrentResult.Offset) {

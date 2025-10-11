@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal sealed class BrowseArtists : BrowseResults<IArtist> {
+internal sealed class BrowseArtists(Query query, IReadOnlyDictionary<string, string> options, int? limit, int? offset)
+  : BrowseResults<IArtist>(query, "artist", null, options, limit, offset) {
 
-  public BrowseArtists(Query query, IReadOnlyDictionary<string, string> options, int? limit,
-                       int? offset) : base(query, "artist", null, options, limit, offset) {
-  }
-
-  public override IReadOnlyList<IArtist> Results => this.CurrentResult?.Artists ?? Array.Empty<IArtist>();
+  public override IReadOnlyList<IArtist> Results => this.CurrentResult?.Artists ?? [];
 
 }
