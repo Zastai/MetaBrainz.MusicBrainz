@@ -16,6 +16,8 @@ internal sealed class Medium : JsonBasedObject, IMedium {
 
   public Guid? FormatId { get; init; }
 
+  public Guid? Id { get; init; }
+
   public int Position { get; init; }
 
   public ITrack? Pregap { get; init; }

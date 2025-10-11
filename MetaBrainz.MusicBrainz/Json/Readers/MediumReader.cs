@@ -18,6 +18,7 @@ internal sealed class MediumReader : ObjectReader<Medium> {
     IReadOnlyList<IDisc>? discs = null;
     string? format = null;
     Guid? formatId = null;
+    Guid? id = null;
     int? position = null;
     ITrack? pregap = null;
     string? title = null;
@@ -41,6 +42,9 @@ internal sealed class MediumReader : ObjectReader<Medium> {
             break;
           case "format-id":
             formatId = reader.GetOptionalGuid();
+            break;
+          case "id":
+            id = reader.GetOptionalGuid();
             break;
           case "position":
             position = reader.GetOptionalInt32();
@@ -77,6 +81,7 @@ internal sealed class MediumReader : ObjectReader<Medium> {
       Discs = discs,
       Format = format,
       FormatId = formatId,
+      Id = id,
       Position = position ?? -1,
       Pregap = pregap,
       Title = title,
