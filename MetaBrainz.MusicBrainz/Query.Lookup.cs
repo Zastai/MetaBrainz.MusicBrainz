@@ -22,8 +22,8 @@ public sealed partial class Query {
   /// <returns>The requested area.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Area>("area", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IArea> LookupAreaAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IArea, Area>("area", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified artist.</summary>
   /// <param name="mbid">The MBID for the artist to look up.</param>
@@ -39,10 +39,9 @@ public sealed partial class Query {
   /// <returns>The requested artist.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                               ReleaseStatus? status = null, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Artist>("artist", mbid, Query.CreateOptions(inc, status, type), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<IArtist> LookupArtistAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                         ReleaseStatus? status = null, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IArtist, Artist>("artist", mbid, Query.CreateOptions(inc, status, type), cancellationToken);
 
   /// <summary>Looks up the specified collection.</summary>
   /// <param name="mbid">The MBID for the collection to look up.</param>
@@ -51,10 +50,9 @@ public sealed partial class Query {
   /// <returns>The requested collection.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None,
-                                                       CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Collection>("collection", mbid, Query.CreateOptions(inc), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<ICollection> LookupCollectionAsync(Guid mbid, Include inc = Include.None,
+                                                 CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<ICollection, Collection>("collection", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified disc ID.</summary>
   /// <param name="discid">
@@ -77,11 +75,11 @@ public sealed partial class Query {
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
-                                                           bool allMediaFormats = false, bool noStubs = false,
-                                                           CancellationToken cancellationToken = default) {
+  public Task<IDiscIdLookupResult> LookupDiscIdAsync(string discid, int[]? toc = null, Include inc = Include.None,
+                                                     bool allMediaFormats = false, bool noStubs = false,
+                                                     CancellationToken cancellationToken = default) {
     var extra = Query.CreateOptions(toc, inc, allMediaFormats, noStubs);
-    return await this.PerformRequestAsync<DiscIdLookupResult>("discid", discid, extra, cancellationToken).ConfigureAwait(false);
+    return this.PerformRequestAsync<IDiscIdLookupResult, DiscIdLookupResult>("discid", discid, extra, cancellationToken);
   }
 
   /// <summary>Looks up the specified event.</summary>
@@ -91,8 +89,8 @@ public sealed partial class Query {
   /// <returns>The requested event.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Event>("event", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IEvent> LookupEventAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IEvent, Event>("event", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified genre.</summary>
   /// <param name="mbid">The MBID for the genre to look up.</param>
@@ -101,8 +99,8 @@ public sealed partial class Query {
   /// <returns>The requested genre.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IGenre> LookupGenreAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Genre>("genre", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IGenre> LookupGenreAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IGenre, Genre>("genre", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified instrument.</summary>
   /// <param name="mbid">The MBID for the instrument to look up.</param>
@@ -111,10 +109,9 @@ public sealed partial class Query {
   /// <returns>The requested instrument.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None,
-                                                       CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Instrument>("instrument", mbid, Query.CreateOptions(inc), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<IInstrument> LookupInstrumentAsync(Guid mbid, Include inc = Include.None,
+                                                 CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IInstrument, Instrument>("instrument", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the recordings associated with the specified ISRC value.</summary>
   /// <param name="isrc">The ISRC to look up.</param>
@@ -123,8 +120,8 @@ public sealed partial class Query {
   /// <returns>The recordings associated with the requested ISRC.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Isrc>("isrc", isrc, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IIsrc> LookupIsrcAsync(string isrc, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IIsrc, Isrc>("isrc", isrc, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the works associated with the specified ISWC.</summary>
   /// <param name="iswc">The ISWC to look up.</param>
@@ -154,10 +151,9 @@ public sealed partial class Query {
   /// <returns>The requested label.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                             ReleaseStatus? status = null, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Label>("label", mbid, Query.CreateOptions(inc, status, type), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<ILabel> LookupLabelAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                       ReleaseStatus? status = null, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<ILabel, Label>("label", mbid, Query.CreateOptions(inc, status, type), cancellationToken);
 
   /// <summary>Looks up the specified place.</summary>
   /// <param name="mbid">The MBID for the place to look up.</param>
@@ -166,8 +162,8 @@ public sealed partial class Query {
   /// <returns>The requested place.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Place>("place", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IPlace> LookupPlaceAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IPlace, Place>("place", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified recording.</summary>
   /// <param name="mbid">The MBID for the recording to look up.</param>
@@ -182,10 +178,11 @@ public sealed partial class Query {
   /// <returns>The requested recording.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
-                                                     ReleaseStatus? status = null, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Recording>("recording", mbid, Query.CreateOptions(inc, status, type), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<IRecording> LookupRecordingAsync(Guid mbid, Include inc = Include.None, ReleaseType? type = null,
+                                               ReleaseStatus? status = null, CancellationToken cancellationToken = default) {
+    var options = Query.CreateOptions(inc, status, type);
+    return this.PerformRequestAsync<IRecording, Recording>("recording", mbid, options, cancellationToken);
+  }
 
   /// <summary>Looks up the specified release.</summary>
   /// <param name="mbid">The MBID for the release to look up.</param>
@@ -194,9 +191,8 @@ public sealed partial class Query {
   /// <returns>The requested release.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None,
-                                                 CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Release>("release", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IRelease> LookupReleaseAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IRelease, Release>("release", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified release group.</summary>
   /// <param name="mbid">The MBID for the release group to look up.</param>
@@ -208,10 +204,11 @@ public sealed partial class Query {
   /// <returns>The requested release group.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null,
-                                                           CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<ReleaseGroup>("release-group", mbid, Query.CreateOptions(inc, status), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<IReleaseGroup> LookupReleaseGroupAsync(Guid mbid, Include inc = Include.None, ReleaseStatus? status = null,
+                                                     CancellationToken cancellationToken = default) {
+    var options = Query.CreateOptions(inc, status);
+    return this.PerformRequestAsync<IReleaseGroup, ReleaseGroup>("release-group", mbid, options, cancellationToken);
+  }
 
   /// <summary>Looks up the specified series.</summary>
   /// <param name="mbid">The MBID for the series to look up.</param>
@@ -220,8 +217,8 @@ public sealed partial class Query {
   /// <returns>The requested series.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Series>("series", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<ISeries> LookupSeriesAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<ISeries, Series>("series", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="mbid">The MBID for the URL to look up.</param>
@@ -230,8 +227,8 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Url>("url", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IUrl> LookupUrlAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IUrl, Url>("url", mbid, Query.CreateOptions(inc), cancellationToken);
 
   /// <summary>Looks up the specified URL.</summary>
   /// <param name="resource">The resource to look up.</param>
@@ -240,9 +237,8 @@ public sealed partial class Query {
   /// <returns>The requested URL.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Url>("url", null, Query.CreateOptions(inc, resource), cancellationToken)
-                 .ConfigureAwait(false);
+  public Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IUrl, Url>("url", null, Query.CreateOptions(inc, resource), cancellationToken);
 
   /// <summary>Looks up the specified work.</summary>
   /// <param name="mbid">The MBID for the work to look up.</param>
@@ -251,7 +247,7 @@ public sealed partial class Query {
   /// <returns>The requested work.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Work>("work", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
+  public Task<IWork> LookupWorkAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => this.PerformRequestAsync<IWork, Work>("work", mbid, Query.CreateOptions(inc), cancellationToken);
 
 }
