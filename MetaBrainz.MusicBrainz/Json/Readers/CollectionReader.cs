@@ -101,51 +101,20 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    if (contentType is null) {
-      throw new JsonException("Expected entity type not found or null.");
-    }
-    int itemCount;
-    switch (contentType.Value) {
-      case EntityType.Area:
-        itemCount = areaCount ?? throw new JsonException("Expected area count not found or null.");
-        break;
-      case EntityType.Artist:
-        itemCount = artistCount ?? throw new JsonException("Expected artist count not found or null.");
-        break;
-      case EntityType.Event:
-        itemCount = eventCount ?? throw new JsonException("Expected event count not found or null.");
-        break;
-      case EntityType.Instrument:
-        itemCount = instrumentCount ?? throw new JsonException("Expected instrument count not found or null.");
-        break;
-      case EntityType.Label:
-        itemCount = labelCount ?? throw new JsonException("Expected label count not found or null.");
-        break;
-      case EntityType.Place:
-        itemCount = placeCount ?? throw new JsonException("Expected place count not found or null.");
-        break;
-      case EntityType.Recording:
-        itemCount = recordingCount ?? throw new JsonException("Expected recording count not found or null.");
-        break;
-      case EntityType.Release:
-        itemCount = releaseCount ?? throw new JsonException("Expected release count not found or null.");
-        break;
-      case EntityType.ReleaseGroup:
-        itemCount = releaseGroupCount ?? throw new JsonException("Expected release group count not found or null.");
-        break;
-      case EntityType.Series:
-        itemCount = seriesCount ?? throw new JsonException("Expected series count not found or null.");
-        break;
-      case EntityType.Work:
-        itemCount = workCount ?? throw new JsonException("Expected work count not found or null.");
-        break;
-      default:
-        itemCount = -1;
-        break;
-    }
+    var itemCount = contentType switch {
+      EntityType.Area => areaCount ?? throw new MissingPropertyException("area-count"),
+      EntityType.Artist => artistCount ?? throw new MissingPropertyException("artist-count"),
+      EntityType.Event => eventCount ?? throw new MissingPropertyException("event-count"),
+      EntityType.Instrument => instrumentCount ?? throw new MissingPropertyException("instrument-count"),
+      EntityType.Label => labelCount ?? throw new MissingPropertyException("label-count"),
+      EntityType.Place => placeCount ?? throw new MissingPropertyException("place-count"),
+      EntityType.Recording => recordingCount ?? throw new MissingPropertyException("recording-count"),
+      EntityType.Release => releaseCount ?? throw new MissingPropertyException("release-count"),
+      EntityType.ReleaseGroup => releaseGroupCount ?? throw new MissingPropertyException("release-group-count"),
+      EntityType.Series => seriesCount ?? throw new MissingPropertyException("series-count"),
+      EntityType.Work => workCount ?? throw new MissingPropertyException("work-count"),
+      _ => -1
+    };
     // Add unexpected counts to UnhandledProperties
     CollectionReader.CheckCount(ref rest, contentType == EntityType.Area, "area-count", areaCount);
     CollectionReader.CheckCount(ref rest, contentType == EntityType.Artist, "artist-count", artistCount);
@@ -159,8 +128,11 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
     CollectionReader.CheckCount(ref rest, contentType == EntityType.Series, "series-count", seriesCount);
     CollectionReader.CheckCount(ref rest, contentType == EntityType.Work, "work-count", workCount);
     // Create the object
-    return new Collection(id.Value, contentType.Value, itemCount) {
+    return new Collection {
+      ContentType = contentType ?? throw new MissingPropertyException("entity-type"),
       Editor = editor,
+      Id = id ?? throw new MissingPropertyException("id"),
+      ItemCount = itemCount,
       Name = name,
       Type = type,
       TypeId = typeId,

@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
-internal sealed class FoundLabels : SearchResults<ISearchResult<ILabel>> {
-
-  public FoundLabels(Query query, string queryString, int? limit, int? offset, bool simple)
-    : base(query, "label", queryString, limit, offset, simple) {
-  }
-
-  public override IReadOnlyList<ISearchResult<ILabel>> Results
-    => this.CurrentResult?.Labels ?? Array.Empty<ISearchResult<ILabel>>();
-
-}
+internal sealed class FoundLabels(Query query, string queryString, int? limit, int? offset, bool simple)
+  : SearchResults<ILabel>(query, "label", queryString, limit, offset, simple, static r => r?.Labels);

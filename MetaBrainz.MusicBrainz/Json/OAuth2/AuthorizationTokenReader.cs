@@ -4,9 +4,9 @@ using System.Text.Json;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
-using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Objects.OAuth2;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers;
+namespace MetaBrainz.MusicBrainz.Json.OAuth2;
 
 internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken> {
 
@@ -46,19 +46,13 @@ internal sealed class AuthorizationTokenReader : ObjectReader<AuthorizationToken
       }
       reader.Read();
     }
-    if (accessToken is null) {
-      throw new JsonException("Expected access token not found or null.");
-    }
-    if (lifetime is null) {
-      throw new JsonException("Expected token lifetime not found or null.");
-    }
-    if (refreshToken is null) {
-      throw new JsonException("Expected refresh token not found or null.");
-    }
-    if (tokenType is null) {
-      throw new JsonException("Expected token type not found or null.");
-    }
-    return new AuthorizationToken(accessToken, lifetime.Value, refreshToken, tokenType) { UnhandledProperties = rest };
+    return new AuthorizationToken {
+      AccessToken = accessToken ?? throw new MissingPropertyException("access_token"),
+      Lifetime = lifetime ?? throw new MissingPropertyException("lifetime"),
+      RefreshToken = refreshToken ?? throw new MissingPropertyException("refresh_token"),
+      TokenType = tokenType ?? throw new MissingPropertyException("token_type"),
+      UnhandledProperties = rest,
+    };
   }
 
 }

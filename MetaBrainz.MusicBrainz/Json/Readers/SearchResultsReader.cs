@@ -11,12 +11,12 @@ using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
 
-internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
+internal sealed class SearchResultsReader : ObjectReader<RawResults> {
 
   public static readonly SearchResultsReader Instance = new();
 
 
-  protected override SearchResults ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
+  protected override RawResults ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<ISearchResult<IAnnotation>>? annotations = null;
     IReadOnlyList<ISearchResult<IArea>>? areas = null;
     IReadOnlyList<ISearchResult<IArtist>>? artists = null;
@@ -106,23 +106,17 @@ internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
       }
       reader.Read();
     }
-    if (count is null) {
-      throw new JsonException("Expected result count not found or null.");
-    }
-    if (offset is null) {
-      throw new JsonException("Expected result offset not found or null.");
-    }
-    if (created is null) {
-      throw new JsonException("Expected result creation timestamp not found or null.");
-    }
-    return new SearchResults(count.Value, offset.Value, created.Value) {
+    return new RawResults {
       Annotations = annotations,
       Areas = areas,
       Artists = artists,
       CdStubs = cdStubs,
+      Count = count ?? throw new MissingPropertyException("id"),
+      Created = created ?? throw new MissingPropertyException("created"),
       Events = events,
       Instruments = instruments,
       Labels = labels,
+      Offset = offset ?? throw new MissingPropertyException("id"),
       Places = places,
       Recordings = recordings,
       ReleaseGroups = releaseGroups,

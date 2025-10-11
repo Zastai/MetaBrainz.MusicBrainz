@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IEvent : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity,
                           ITypedEntity {
 
-  /// <summary>A flag indicating whether or not the event was cancelled.</summary>
+  /// <summary>A flag indicating whether the event was cancelled.</summary>
   bool Cancelled { get; }
 
   /// <summary>The event's lifespan.</summary>

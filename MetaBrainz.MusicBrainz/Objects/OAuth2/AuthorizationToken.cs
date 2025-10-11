@@ -1,29 +1,22 @@
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 
-namespace MetaBrainz.MusicBrainz.Objects;
+namespace MetaBrainz.MusicBrainz.Objects.OAuth2;
 
 /// <summary>Class representing an OAuth2 authorization token.</summary>
 internal sealed class AuthorizationToken : JsonBasedObject, IAuthorizationToken {
 
-  public AuthorizationToken(string accessToken, int lifetime, string refreshToken, string tokenType) {
-    this.AccessToken = accessToken;
-    this.Lifetime = lifetime;
-    this.RefreshToken = refreshToken;
-    this.TokenType = tokenType;
-  }
-
   /// <summary>The access token (i.e. the one you use for authenticated requests).</summary>
-  public string AccessToken { get; }
+  public required string AccessToken { get; init; }
 
   /// <summary>The lifetime of the token, in seconds (typically one hour).</summary>
-  public int Lifetime { get; }
+  public required int Lifetime { get; init; }
 
   /// <summary>The refresh token (i.e. the one you use to get a new access token).</summary>
-  public string RefreshToken { get; }
+  public required string RefreshToken { get; init; }
 
   /// <summary>The type of this authorization token.</summary>
-  public string TokenType { get; }
+  public required string TokenType { get; init; }
 
   /// <summary>Gets the textual representation of this authorization token.</summary>
   /// <returns><see cref="AccessToken"/>.</returns>

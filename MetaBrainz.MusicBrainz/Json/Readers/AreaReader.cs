@@ -84,7 +84,7 @@ internal sealed class AreaReader : ObjectReader<Area> {
             }
             reader.Read();
             if (reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "relations") {
-              throw new JsonException("Expected 'relations' property not found.");
+              throw new MissingPropertyException("relations");
             }
             reader.Read();
             relations = reader.ReadList(RelationshipReader.Instance, options);
@@ -130,14 +130,12 @@ internal sealed class AreaReader : ObjectReader<Area> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Area(id.Value) {
+    return new Area {
       Aliases = aliases,
       Annotation = annotation,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Iso31661Codes = iso31661Codes,
       Iso31662Codes = iso31662Codes,
       Iso31663Codes = iso31663Codes,

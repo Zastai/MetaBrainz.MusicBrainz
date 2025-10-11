@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
-internal sealed class FoundSeries : SearchResults<ISearchResult<ISeries>> {
-
-  public FoundSeries(Query query, string queryString, int? limit, int? offset, bool simple)
-    : base(query, "series", queryString, limit, offset, simple) {
-  }
-
-  public override IReadOnlyList<ISearchResult<ISeries>> Results
-    => this.CurrentResult?.Series ?? Array.Empty<ISearchResult<ISeries>>();
-
-}
+internal sealed class FoundSeries(Query query, string queryString, int? limit, int? offset, bool simple)
+  : SearchResults<ISeries>(query, "series", queryString, limit, offset, simple, static r => r?.Series);

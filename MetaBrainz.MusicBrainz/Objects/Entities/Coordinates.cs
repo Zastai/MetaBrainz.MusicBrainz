@@ -5,14 +5,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Coordinates : JsonBasedObject, ICoordinates {
 
-  public Coordinates(double latitude, double longitude) {
-    this.Latitude = latitude;
-    this.Longitude = longitude;
-  }
+  public required double Latitude { get; init; }
 
-  public double Latitude { get; }
-
-  public double Longitude { get; }
+  public required double Longitude { get; init; }
 
   public override string ToString() => $"({this.Latitude:F6}, {this.Longitude:F6})";
 

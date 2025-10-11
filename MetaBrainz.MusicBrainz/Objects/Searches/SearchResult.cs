@@ -2,16 +2,11 @@
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
-internal sealed class SearchResult<T> : ISearchResult<T> {
+internal sealed class SearchResult<T>(T item, byte score) : ISearchResult<T> {
 
-  public SearchResult(T item, byte score) {
-    this.Item = item;
-    this.Score = score;
-  }
+  public T Item { get; } = item;
 
-  public T Item { get; }
-
-  public byte Score { get; }
+  public byte Score { get; } = score;
 
   public override string ToString() => $"[Score: {this.Score}] {this.Item}";
 

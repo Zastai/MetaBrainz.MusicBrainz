@@ -1,5 +1,7 @@
 ﻿using System;
 
+using JetBrains.Annotations;
+
 using MetaBrainz.Common.Json;
 
 namespace MetaBrainz.MusicBrainz.Interfaces;
@@ -7,6 +9,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 /// <summary>
 /// Information about a user as returned by OAuth2 (if <see cref="AuthorizationScope.Profile"/> has been granted).
 /// </summary>
+[PublicAPI]
 public interface IUserInfo : IJsonBasedObject {
 
   /// <summary>The user's email address. Will only be provided if <see cref="AuthorizationScope.Email"/> has been granted.</summary>

@@ -2562,6 +2562,18 @@ public interface ISearchResults<T> : MetaBrainz.Common.Json.IJsonBasedObject, Me
 }
 ```
 
+## Namespace: MetaBrainz.MusicBrainz.Json
+
+### Type: MissingPropertyException
+
+```cs
+public sealed class MissingPropertyException : System.Text.Json.JsonException {
+
+  public MissingPropertyException(string name);
+
+}
+```
+
 ## Namespace: MetaBrainz.MusicBrainz.Objects.Submissions
 
 ### Type: BarcodeSubmission

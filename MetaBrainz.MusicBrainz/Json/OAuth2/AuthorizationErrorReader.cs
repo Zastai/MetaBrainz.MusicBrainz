@@ -4,9 +4,9 @@ using System.Text.Json;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
-using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Objects.OAuth2;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers;
+namespace MetaBrainz.MusicBrainz.Json.OAuth2;
 
 internal sealed class AuthorizationErrorReader : ObjectReader<AuthorizationError> {
 

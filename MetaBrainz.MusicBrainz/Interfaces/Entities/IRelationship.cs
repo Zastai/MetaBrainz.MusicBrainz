@@ -41,7 +41,7 @@ public interface IRelationship : IJsonBasedObject {
   /// <summary>The date the relationship ended.</summary>
   PartialDate? End { get; }
 
-  /// <summary>Flag indicating whether or not the relationship has ended.</summary>
+  /// <summary>Flag indicating whether the relationship has ended.</summary>
   bool Ended { get; }
 
   /// <summary>The target event of the relationship, if applicable.</summary>

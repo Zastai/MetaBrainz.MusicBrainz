@@ -7,11 +7,6 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Alias : JsonBasedObject, IAlias {
 
-  public Alias(string name, bool primary) {
-    this.Name = name;
-    this.Primary = primary;
-  }
-
   public PartialDate? Begin { get; init; }
 
   public PartialDate? End { get; init; }
@@ -20,9 +15,9 @@ internal sealed class Alias : JsonBasedObject, IAlias {
 
   public string? Locale { get; init; }
 
-  public string Name { get; }
+  public required string Name { get; init; }
 
-  public bool Primary { get; }
+  public required bool Primary { get; init; }
 
   public string? SortName { get; init; }
 

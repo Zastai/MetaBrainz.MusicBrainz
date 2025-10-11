@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
@@ -10,21 +11,16 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal abstract class BrowseResults<TResult>
-  : PagedQueryResults<IBrowseResults<TResult>, TResult, BrowseResult>,
-    IBrowseResults<TResult>
-where TResult : IEntity {
+internal abstract class BrowseResults<T>(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
+                                         int? limit, int? offset, Func<RawResults?, IReadOnlyList<T>?> getter)
+  : PagedQueryResults<IBrowseResults<T>, T, RawResults>(query, endpoint, value, limit, offset), IBrowseResults<T>
+  where T : IEntity {
 
-  protected BrowseResults(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
-                          int? limit = null, int? offset = null) : base(query, endpoint, value, limit, offset) {
-    this._options = options is null ? new Dictionary<string, string>() : new Dictionary<string, string>(options);
-  }
+  private readonly Dictionary<string, string> _options = options is null ? [] : new Dictionary<string, string>(options);
 
-  private readonly Dictionary<string, string> _options;
-
-  protected sealed override async Task<IBrowseResults<TResult>> DeserializeAsync(HttpResponseMessage response,
-                                                                                 CancellationToken cancellationToken) {
-    var task = JsonUtils.GetJsonContentAsync<BrowseResult>(response, Query.JsonReaderOptions, cancellationToken);
+  protected sealed override async Task<IBrowseResults<T>> DeserializeAsync(HttpResponseMessage response,
+                                                                           CancellationToken cancellationToken) {
+    var task = JsonUtils.GetJsonContentAsync<RawResults>(response, Query.JsonReaderOptions, cancellationToken);
     this.CurrentResult = await task.ConfigureAwait(false);
     return this;
   }
@@ -40,8 +36,10 @@ where TResult : IEntity {
     return this._options;
   }
 
-  public override int TotalResults => this.CurrentResult?.Count ?? 0;
+  public sealed override IReadOnlyList<T> Results => getter.Invoke(this.CurrentResult) ?? [];
 
-  public override IReadOnlyDictionary<string, object?>? UnhandledProperties => this.CurrentResult?.UnhandledProperties;
+  public sealed override int TotalResults => this.CurrentResult?.Count ?? 0;
+
+  public sealed override IReadOnlyDictionary<string, object?>? UnhandledProperties => this.CurrentResult?.UnhandledProperties;
 
 }

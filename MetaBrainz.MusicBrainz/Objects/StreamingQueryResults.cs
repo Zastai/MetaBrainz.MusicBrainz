@@ -5,11 +5,10 @@ using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects;
 
-internal sealed class StreamingQueryResults<TResult, TItem, TResultObject> : IStreamingQueryResults<TItem>
-where TResult : IPagedQueryResults<TResult, TItem>
-where TResultObject : class {
+internal sealed class StreamingQueryResults<TResult, TItem, TResultObject>
+  : IStreamingQueryResults<TItem> where TResult : IPagedQueryResults<TResult, TItem> where TResultObject : class {
 
-  public StreamingQueryResults(PagedQueryResults<TResult, TItem, TResultObject> pagedResults) {
+  internal StreamingQueryResults(PagedQueryResults<TResult, TItem, TResultObject> pagedResults) {
     this._pagedResults = pagedResults;
   }
 

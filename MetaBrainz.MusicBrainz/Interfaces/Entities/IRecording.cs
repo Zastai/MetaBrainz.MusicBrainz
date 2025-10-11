@@ -24,7 +24,7 @@ public interface IRecording : IAliasedEntity, IAnnotatedEntity, IRatableEntity, 
   /// <summary>The releases that include the recording.</summary>
   IReadOnlyList<IRelease>? Releases { get; }
 
-  /// <summary>Flag indicating whether or not this recording includes visual content.</summary>
+  /// <summary>Flag indicating whether this recording includes visual content.</summary>
   bool Video { get; }
 
 }

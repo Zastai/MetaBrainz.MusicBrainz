@@ -5,10 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Release : Entity, IRelease {
-
-  public Release(Guid id) : base(EntityType.Release, id) {
-  }
+internal sealed class Release() : Entity(EntityType.Release), IRelease {
 
   public IReadOnlyList<IAlias>? Aliases { get; init; }
 

@@ -60,12 +60,6 @@ internal sealed class CdStubReader : ObjectReader<CdStub> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected disc ID not found or null.");
-    }
-    if (title is null) {
-      throw new JsonException("Expected title not found or null.");
-    }
     if (trackCount is not null && tracks is not null) {
       var reported = trackCount.Value;
       var actual = tracks.Count;
@@ -73,10 +67,12 @@ internal sealed class CdStubReader : ObjectReader<CdStub> {
         throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
       }
     }
-    return new CdStub(id, title) {
+    return new CdStub {
       Artist = artist,
       Barcode = barcode,
       Disambiguation = disambiguation,
+      Id = id ?? throw new MissingPropertyException("id"),
+      Title = title ?? throw new MissingPropertyException("title"),
       TrackCount = trackCount ?? 0,
       Tracks = tracks,
       UnhandledProperties = rest,

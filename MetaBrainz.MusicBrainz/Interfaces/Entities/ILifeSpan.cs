@@ -14,7 +14,7 @@ public interface ILifeSpan : IJsonBasedObject {
   /// <summary>The ending date of the lifespan.</summary>
   PartialDate? End { get; }
 
-  /// <summary>Flag indicating whether or not the lifespan has ended.</summary>
+  /// <summary>Flag indicating whether the lifespan has ended.</summary>
   bool Ended { get; }
 
 }

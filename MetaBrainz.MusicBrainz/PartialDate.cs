@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz;
 
-/// <summary>A partial date. Can contain any or all of year, month and day.</summary>
+/// <summary>A partial date. Can contain year, month and day, with each being optional.</summary>
 [PublicAPI]
-public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDate> {
+public sealed partial class PartialDate : IComparable<PartialDate>, IEquatable<PartialDate> {
 
   #region Constructors
 
@@ -25,7 +25,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
       var msg = $"The year, if specified, should be between {PartialDate.MinYear} and {PartialDate.MaxYear}.";
       throw new ArgumentOutOfRangeException(nameof(year), year, msg);
     }
-    if (month is not null && (month.Value < 1 || month.Value > 12)) {
+    if (month is < 1 or > 12) {
       throw new ArgumentOutOfRangeException(nameof(month), month, "The month, if specified, should be between 1 and 12.");
     }
     if (day is not null) {
@@ -34,11 +34,12 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
         if (year is not null) {
           maxDays = DateTime.DaysInMonth(year.Value, month.Value);
         }
-        else if (month.Value == 2) {
-          maxDays = 29;
-        }
-        else if (month.Value == 4 || month.Value == 6 || month.Value == 9 || month.Value == 11) {
-          maxDays = 30;
+        else {
+          maxDays = month.Value switch {
+            2 => 29,
+            4 or 6 or 9 or 11 => 30,
+            _ => maxDays
+          };
         }
       }
       if (day.Value < 1 || day.Value > maxDays) {
@@ -50,9 +51,6 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
     this.Month = month;
     this.Day = day;
   }
-
-  private static readonly Regex Format =
-    new(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z");
 
   /// <summary>Creates a new partial date based on the given string representation.</summary>
   /// <param name="text">
@@ -68,32 +66,33 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
     if (text.Length == 0) {
       return; // ok, empty
     }
-    var match = PartialDate.Format.Match(text);
+    var match = PartialDate.Pattern().Match(text);
     var ok = match.Success;
     if (ok) {
       if (match.Groups[1].Success) {
-        if (!match.Groups[1].Value.Contains("?")) {
+        if (!match.Groups[1].Value.Contains('?')) {
           this.Year = int.Parse(match.Groups[1].Value, NumberStyles.None);
         }
       }
       if (match.Groups[2].Success) {
-        if (!match.Groups[2].Value.Contains("?")) {
+        if (!match.Groups[2].Value.Contains('?')) {
           this.Month = int.Parse(match.Groups[2].Value, NumberStyles.None);
         }
       }
       if (match.Groups[3].Success) {
-        if (!match.Groups[3].Value.Contains("?")) {
+        if (!match.Groups[3].Value.Contains('?')) {
           var day = int.Parse(match.Groups[3].Value, NumberStyles.None);
           var maxDays = 31;
           if (this.Month is not null) {
             if (this.Year is not null) {
               maxDays = DateTime.DaysInMonth(this.Year.Value, this.Month.Value);
             }
-            else if (this.Month.Value == 2) {
-              maxDays = 29;
-            }
-            else if (this.Month.Value == 4 || this.Month.Value == 6 || this.Month.Value == 9 || this.Month.Value == 11) {
-              maxDays = 30;
+            else {
+              maxDays = this.Month.Value switch {
+                2 => 29,
+                4 or 6 or 9 or 11 => 30,
+                _ => maxDays
+              };
             }
           }
           if (day > maxDays) {
@@ -111,6 +110,9 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
     }
   }
 
+  [GeneratedRegex(@"\A([?]+|[0-9]{1,4})(?:-([?]+|0?[1-9]|1[0-2])(?:-([?]+|0?[1-9]|[12][0-9]|3[01]))?)?\Z")]
+  private static partial Regex Pattern();
+
   #endregion
 
   #region Constants
@@ -118,27 +120,27 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// <summary>An empty partial date.</summary>
   public static readonly PartialDate Empty = new();
 
-  /// <summary>The smallest value allowed for a partial date's year component.</summary>
-  public static readonly int MinYear = DateTime.MinValue.Year;
-
   /// <summary>The largest value allowed for a partial date's year component.</summary>
   public static readonly int MaxYear = DateTime.MaxValue.Year;
+
+  /// <summary>The smallest value allowed for a partial date's year component.</summary>
+  public static readonly int MinYear = DateTime.MinValue.Year;
 
   #endregion
 
   #region Properties
 
-  /// <summary>The year component, if any, of this partial date.</summary>
-  public int? Year { get; }
+  /// <summary>The day component, if any, of this partial date.</summary>
+  public int? Day { get; }
+
+  /// <summary>A flag indicating whether this partial date is empty.</summary>
+  public bool IsEmpty => this.Year is null && this.Month is null && this.Day is null;
 
   /// <summary>The month component, if any, of this partial date.</summary>
   public int? Month { get; }
 
-  /// <summary>The day component, if any, of this partial date.</summary>
-  public int? Day { get; }
-
-  /// <summary>A flag indicating whether or not this partial date is empty.</summary>
-  public bool IsEmpty => !(this.Year is not null || this.Month is not null || this.Day is not null);
+  /// <summary>The year component, if any, of this partial date.</summary>
+  public int? Year { get; }
 
   /// <summary>
   /// The nearest complete (Gregorian) date/time value for this partial date.
@@ -192,7 +194,8 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
       return +1;
     }
     if (this.Year is not null) {
-      if (other.Year is not null) { // YYYY vs YYYY
+      if (other.Year is not null) {
+        // YYYY vs YYYY
         if (this.Year.Value < other.Year.Value) {
           return -1;
         }
@@ -208,7 +211,8 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
       return 0; // can't usefully compare ???? vs YYYY
     }
     if (this.Month is not null) {
-      if (other.Month is not null) { // YYYY-MM vs YYYY-MM
+      if (other.Month is not null) {
+        // YYYY-MM vs YYYY-MM
         if (this.Month.Value < other.Month.Value) {
           return -1;
         }
@@ -223,7 +227,8 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
     else if (other.Month is not null) {
       return 0; // can't usefully compare YYYY-?? vs YYYY-MM
     }
-    if (this.Day is not null && other.Day is not null) { // YYYY-MM-DD vs YYYY-MM-DD
+    if (this.Day is not null && other.Day is not null) {
+      // YYYY-MM-DD vs YYYY-MM-DD
       if (this.Day.Value < other.Day.Value) {
         return -1;
       }
@@ -270,7 +275,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
 
   #region IEquatable
 
-  /// <summary>Determines whether or not a given object is a partial date with the same contents as this one.</summary>
+  /// <summary>Determines whether a given object is a partial date with the same contents as this one.</summary>
   /// <param name="obj">The object to compare to this one.</param>
   /// <returns>
   /// <see langword="true"/> if <paramref name="obj"/> is a <see cref="PartialDate"/> and has the same contents as this one;
@@ -278,7 +283,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// </returns>
   public override bool Equals(object? obj) => this.Equals(obj as PartialDate);
 
-  /// <summary>Determines whether or not two partial dates have the same contents.</summary>
+  /// <summary>Determines whether two partial dates have the same contents.</summary>
   /// <param name="other">The partial date to compare to this one.</param>
   /// <returns>
   /// <see langword="true"/> if the two partial dates have the same contents; <see langword="false"/> otherwise.
@@ -296,7 +301,7 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// </returns>
   public override int GetHashCode() => ((this.Year ?? 0) * 100) + ((this.Month ?? 0) * 100) + (this.Day ?? 0);
 
-  /// <summary>Determines whether or not two partial dates have the same contents.</summary>
+  /// <summary>Determines whether two partial dates have the same contents.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
   /// <param name="rhs">The seconds partial date to compare .</param>
   /// <returns>
@@ -305,11 +310,11 @@ public sealed class PartialDate : IComparable<PartialDate>, IEquatable<PartialDa
   /// </returns>
   public static bool operator ==(PartialDate? lhs, PartialDate? rhs) => lhs?.Equals(rhs) ?? rhs is null;
 
-  /// <summary>Determines whether or not two partial dates have the same contents.</summary>
+  /// <summary>Determines whether two partial dates have the same contents.</summary>
   /// <param name="lhs">The first partial date to compare.</param>
   /// <param name="rhs">The seconds partial date to compare .</param>
   /// <returns>
-  /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> do not have have the same contents;
+  /// <see langword="true"/> if <paramref name="lhs"/> and <paramref name="rhs"/> do not have the same contents;
   /// <see langword="false"/> otherwise.
   /// </returns>
   public static bool operator !=(PartialDate? lhs, PartialDate? rhs) => !(lhs == rhs);

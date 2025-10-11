@@ -8,14 +8,9 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Track : JsonBasedObject, ITrack {
 
-  public Track(Guid id, string title) {
-    this.Id = id;
-    this.Title = title;
-  }
-
   public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
 
-  public Guid Id { get; }
+  public required Guid Id { get; init; }
 
   public TimeSpan? Length { get; init; }
 
@@ -25,7 +20,7 @@ internal sealed class Track : JsonBasedObject, ITrack {
 
   public IRecording? Recording { get; init; }
 
-  public string Title { get; }
+  public required string Title { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

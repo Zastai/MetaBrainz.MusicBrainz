@@ -5,10 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Event : Entity, IEvent {
-
-  public Event(Guid id) : base(EntityType.Event, id) {
-  }
+internal sealed class Event() : Entity(EntityType.Event), IEvent {
 
   public IReadOnlyList<IAlias>? Aliases { get; init; }
 

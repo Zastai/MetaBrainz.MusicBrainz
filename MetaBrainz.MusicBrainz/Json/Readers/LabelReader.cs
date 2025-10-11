@@ -119,16 +119,14 @@ internal sealed class LabelReader : ObjectReader<Label> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Label(id.Value) {
+    return new Label {
       Aliases = aliases,
       Annotation = annotation,
       Area = area,
       Country = country,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Ipis = ipis,
       Isnis = isnis,
       LabelCode = labelCode,

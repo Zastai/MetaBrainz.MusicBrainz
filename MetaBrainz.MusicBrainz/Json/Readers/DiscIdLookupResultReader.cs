@@ -98,8 +98,11 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
           throw new JsonException($"The number of offsets ({actual}) does not match the reported offset count ({reported}).");
         }
       }
-      var disc = new Disc(id, offsets, sectors.Value) {
+      var disc = new Disc {
+        Id = id,
+        Offsets = offsets,
         Releases = releases,
+        Sectors = sectors.Value,
       };
       result = new DiscIdLookupResult(disc);
       // clear used fields
@@ -118,10 +121,12 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
           throw new JsonException($"The number of tracks ({actual}) does not match the reported track count ({reported}).");
         }
       }
-      var stub = new CdStub(id, title) {
+      var stub = new CdStub {
         Artist = artist,
         Barcode = barcode,
         Disambiguation = disambiguation,
+        Id = id,
+        Title = title,
         TrackCount = trackCount ?? 0,
         Tracks = tracks,
       };

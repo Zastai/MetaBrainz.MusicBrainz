@@ -1,18 +1,12 @@
-﻿using System;
-
-using MetaBrainz.MusicBrainz.Interfaces.Entities;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Genre : Entity, IGenre {
-
-  public Genre(Guid id, string name) : base(EntityType.Genre, id) {
-    this.Name = name;
-  }
+internal sealed class Genre() : Entity(EntityType.Genre), IGenre {
 
   public string? Disambiguation { get; init; }
 
-  public string Name { get; }
+  public required string Name { get; init; }
 
   public int? VoteCount { get; init; }
 

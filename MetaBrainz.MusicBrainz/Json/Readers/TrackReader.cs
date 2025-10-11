@@ -59,18 +59,14 @@ internal sealed class TrackReader : ObjectReader<Track> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    if (title is null) {
-      throw new JsonException("Expected track title not found or null.");
-    }
-    return new Track(id.Value, title) {
+    return new Track {
       ArtistCredit = artistCredit,
+      Id = id ?? throw new MissingPropertyException("id"),
       Length = length,
       Number = number,
       Position = position,
       Recording = recording,
+      Title = title ?? throw new MissingPropertyException("title"),
       UnhandledProperties = rest,
     };
   }

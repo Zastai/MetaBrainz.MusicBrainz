@@ -7,12 +7,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class CdStub : JsonBasedObject, ICdStub {
 
-  public CdStub(string id, string title) {
-    this.Id = id;
-    this.Title = title;
-  }
-
-  public string Id { get; }
+  public required string Id { get; init; }
 
   public string? Artist { get; init; }
 
@@ -20,7 +15,7 @@ internal sealed class CdStub : JsonBasedObject, ICdStub {
 
   public string? Disambiguation { get; init; }
 
-  public string Title { get; }
+  public required string Title { get; init; }
 
   public int TrackCount { get; init; }
 

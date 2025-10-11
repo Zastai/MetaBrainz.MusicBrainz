@@ -568,14 +568,14 @@ public sealed partial class Query : IDisposable {
     return Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, HttpMethod.Get, null, token, format), cancellationToken);
   }
 
-  internal Task<T> PerformRequestAsync<T>(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
-                                          CancellationToken cancellationToken)
-    => this.PerformRequestAsync<T>(entity, id.ToString("D"), options, cancellationToken);
+  internal Task<TI> PerformRequestAsync<TI, TO>(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
+                                                CancellationToken cancellationToken) where TO : class, TI
+    => this.PerformRequestAsync<TI, TO>(entity, id.ToString("D"), options, cancellationToken);
 
-  internal async Task<T> PerformRequestAsync<T>(string entity, string? id, IReadOnlyDictionary<string, string>? options,
-                                                CancellationToken cancellationToken) {
+  internal async Task<TI> PerformRequestAsync<TI, TO>(string entity, string? id, IReadOnlyDictionary<string, string>? options,
+                                                      CancellationToken cancellationToken) where TO : class, TI {
     using var response = await this.PerformRequestAsync(entity, id, options, cancellationToken).ConfigureAwait(false);
-    return await JsonUtils.GetJsonContentAsync<T>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
+    return await JsonUtils.GetJsonContentAsync<TO>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);
   }
 
   internal async Task<string> PerformSubmissionAsync(ISubmission submission, CancellationToken cancellationToken) {

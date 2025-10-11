@@ -13,8 +13,8 @@ using JetBrains.Annotations;
 using MetaBrainz.Common;
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
-using MetaBrainz.MusicBrainz.Json;
-using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Json.OAuth2;
+using MetaBrainz.MusicBrainz.Objects.OAuth2;
 
 namespace MetaBrainz.MusicBrainz;
 
@@ -147,7 +147,7 @@ public sealed class OAuth2 : IDisposable {
 
   private string _server = OAuth2.DefaultServer;
 
-  /// <summary>The web site to use for requests.</summary>
+  /// <summary>The website to use for requests.</summary>
   public string Server {
     get => this._server;
     set {
@@ -362,7 +362,7 @@ public sealed class OAuth2 : IDisposable {
 
   #region Internals
 
-  private static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.OAuth2Readers);
+  private static readonly JsonSerializerOptions JsonReaderOptions = JsonUtils.CreateReaderOptions(Converters.Readers);
 
   private async Task<TInterface> GetAsync<TInterface, TObject>(string endPoint, string? token,
                                                                CancellationToken cancellationToken) where TObject : TInterface {

@@ -5,11 +5,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Tag : JsonBasedObject, ITag {
 
-  public Tag(string name) {
-    this.Name = name;
-  }
-
-  public string Name { get; }
+  public required string Name { get; init; }
 
   public int? VoteCount { get; init; }
 

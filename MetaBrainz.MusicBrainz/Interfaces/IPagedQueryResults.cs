@@ -14,8 +14,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 /// <typeparam name="TResults">The specific type of query results.</typeparam>
 /// <typeparam name="TItem">The type of item being returned.</typeparam>
 [PublicAPI]
-public interface IPagedQueryResults<TResults, out TItem> : IJsonBasedObject
-where TResults : IPagedQueryResults<TResults, TItem> {
+public interface IPagedQueryResults<TResults, out TItem> : IJsonBasedObject where TResults : IPagedQueryResults<TResults, TItem> {
 
   /// <summary>Gets the streaming form of this set of query results.</summary>
   /// <returns>

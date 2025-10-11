@@ -4,16 +4,14 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-using MetaBrainz.Common;
 using MetaBrainz.MusicBrainz.Interfaces;
 
 namespace MetaBrainz.MusicBrainz.Objects;
 
-internal abstract class PagedQueryResults<TResults, TItem, TResultObject> : IPagedQueryResults<TResults, TItem>
-where TResults : IPagedQueryResults<TResults, TItem>
-where TResultObject : class {
+internal abstract class PagedQueryResults<TResults, TItem, TResultObject>
+  : IPagedQueryResults<TResults, TItem> where TResults : IPagedQueryResults<TResults, TItem> where TResultObject : class {
 
-  protected PagedQueryResults(Query query, string endpoint, string? value, int? limit, int? offset) {
+  private protected PagedQueryResults(Query query, string endpoint, string? value, int? limit, int? offset) {
     this._endpoint = endpoint;
     this.Limit = limit;
     this.NextOffset = offset;
