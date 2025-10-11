@@ -8,10 +8,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
-internal sealed class ReleaseGroup : Entity, IReleaseGroup {
-
-  public ReleaseGroup(Guid id) : base(EntityType.ReleaseGroup, id) {
-  }
+internal sealed class ReleaseGroup() : Entity(EntityType.ReleaseGroup), IReleaseGroup {
 
   public IReadOnlyList<IAlias>? Aliases { get; init; }
 

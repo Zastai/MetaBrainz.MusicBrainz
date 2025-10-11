@@ -43,7 +43,7 @@ internal sealed class UrlReader : ObjectReader<Url> {
             }
             reader.Read();
             if (reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "relations") {
-              throw new JsonException("Expected 'relations' property not found.");
+              throw new MissingPropertyException("relations");
             }
             reader.Read();
             relations = reader.ReadList(RelationshipReader.Instance, options);
@@ -74,14 +74,10 @@ internal sealed class UrlReader : ObjectReader<Url> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    if (resource is null) {
-      throw new JsonException("Expected property 'resource' not found or null.");
-    }
-    return new Url(id.Value, resource) {
+    return new Url {
+      Id = id ?? throw new MissingPropertyException("id"),
       Relationships = relations,
+      Resource = resource ?? throw new MissingPropertyException("resource"),
       UnhandledProperties = rest,
     };
   }

@@ -115,20 +115,16 @@ internal sealed class BrowseResultReader : ObjectReader<RawResults> {
       }
       reader.Read();
     }
-    if (count is null) {
-      throw new JsonException("Expected result count not found or null.");
-    }
-    if (offset is null) {
-      throw new JsonException("Expected result offset not found or null.");
-    }
-    return new RawResults(count.Value, offset.Value) {
+    return new RawResults {
       Areas = areas,
       Artists = artists,
       Collections = collections,
+      Count = count ?? throw new MissingPropertyException("xxx-count"),
       Events = events,
       Genres = genres,
       Instruments = instruments,
       Labels = labels,
+      Offset = offset ?? throw new MissingPropertyException("xxx-offset"),
       Places = places,
       Recordings = recordings,
       ReleaseGroups = releaseGroups,

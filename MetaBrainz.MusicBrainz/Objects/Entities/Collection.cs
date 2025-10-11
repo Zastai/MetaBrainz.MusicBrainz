@@ -4,16 +4,11 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Collection : Entity, ICollection {
-
-  public Collection(Guid id, EntityType contentType, int itemCount) : base(EntityType.Collection, id) {
-    this.ContentType = contentType;
-    this.ItemCount = itemCount;
-  }
+internal sealed class Collection() : Entity(EntityType.Collection), ICollection {
 
   public string? Editor { get; init; }
 
-  public EntityType ContentType { get; }
+  public required EntityType ContentType { get; init; }
 
   public string? Name { get; init; }
 
@@ -21,7 +16,7 @@ internal sealed class Collection : Entity, ICollection {
 
   public Guid? TypeId { get; init; }
 
-  public int ItemCount { get; }
+  public required int ItemCount { get; init; }
 
   public override string ToString() => $"{this.Name} ({this.Type}) ({this.ItemCount} item(s))";
 

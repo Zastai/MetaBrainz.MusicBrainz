@@ -38,10 +38,8 @@ internal sealed class TagReader : ObjectReader<Tag> {
       }
       reader.Read();
     }
-    if (name is null) {
-      throw new JsonException("Expected tag name not found or null.");
-    }
-    return new Tag(name) {
+    return new Tag {
+      Name = name ?? throw new MissingPropertyException("name"),
       UnhandledProperties = rest,
       VoteCount = count,
     };

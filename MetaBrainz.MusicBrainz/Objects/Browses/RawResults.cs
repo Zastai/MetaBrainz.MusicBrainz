@@ -5,36 +5,36 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal sealed class RawResults(int count, int offset) : JsonBasedObject {
+internal sealed class RawResults : JsonBasedObject {
 
-  public IReadOnlyList<IArea>? Areas;
+  public IReadOnlyList<IArea>? Areas { get; init; }
 
-  public IReadOnlyList<IArtist>? Artists;
+  public IReadOnlyList<IArtist>? Artists { get; init; }
 
-  public IReadOnlyList<ICollection>? Collections;
+  public IReadOnlyList<ICollection>? Collections { get; init; }
 
-  public readonly int Count = count;
+  public required int Count { get; init; }
 
-  public IReadOnlyList<IEvent>? Events;
+  public IReadOnlyList<IEvent>? Events { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres;
+  public IReadOnlyList<IGenre>? Genres { get; init; }
 
-  public IReadOnlyList<IInstrument>? Instruments;
+  public IReadOnlyList<IInstrument>? Instruments { get; init; }
 
-  public IReadOnlyList<ILabel>? Labels;
+  public IReadOnlyList<ILabel>? Labels { get; init; }
 
-  public readonly int Offset = offset;
+  public required int Offset { get; init; }
 
-  public IReadOnlyList<IPlace>? Places;
+  public IReadOnlyList<IPlace>? Places { get; init; }
 
-  public IReadOnlyList<IRecording>? Recordings;
+  public IReadOnlyList<IRecording>? Recordings { get; init; }
 
-  public IReadOnlyList<IReleaseGroup>? ReleaseGroups;
+  public IReadOnlyList<IReleaseGroup>? ReleaseGroups { get; init; }
 
-  public IReadOnlyList<IRelease>? Releases;
+  public IReadOnlyList<IRelease>? Releases { get; init; }
 
-  public IReadOnlyList<ISeries>? Series;
+  public IReadOnlyList<ISeries>? Series { get; init; }
 
-  public IReadOnlyList<IWork>? Works;
+  public IReadOnlyList<IWork>? Works { get; init; }
 
 }

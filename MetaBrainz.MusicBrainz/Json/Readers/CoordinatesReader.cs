@@ -14,7 +14,7 @@ internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
   public static readonly CoordinatesReader Instance = new();
 
   private static double? ReadCoordinate(ref Utf8JsonReader reader, string property) {
-    // These are typically numbers, but in search results (e.g. FindPlaces()) they can be strings (issue #48, MBS-).
+    // These are typically numbers, but in search results (e.g. FindPlaces()) they can be strings.
     switch (reader.TokenType) {
       case JsonTokenType.Null:
         return null;
@@ -63,13 +63,9 @@ internal sealed class CoordinatesReader : ObjectReader<Coordinates> {
       }
       reader.Read();
     }
-    if (latitude is null) {
-      throw new JsonException("Expected property 'latitude' not found or null.");
-    }
-    if (longitude is null) {
-      throw new JsonException("Expected property 'longitude' not found or null.");
-    }
-    return new Coordinates(latitude.Value, longitude.Value) {
+    return new Coordinates {
+      Latitude = latitude ?? throw new MissingPropertyException("latitude"),
+      Longitude = longitude ?? throw new MissingPropertyException("longitude"),
       UnhandledProperties = rest,
     };
   }

@@ -103,15 +103,13 @@ internal sealed class WorkReader : ObjectReader<Work> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Work(id.Value) {
+    return new Work {
       Aliases = aliases,
       Annotation = annotation,
       Attributes = attributes,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Iswcs = iswcs,
       Language = language,
       Languages = languages,

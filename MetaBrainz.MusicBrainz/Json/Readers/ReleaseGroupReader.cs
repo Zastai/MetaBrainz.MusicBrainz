@@ -107,16 +107,14 @@ internal sealed class ReleaseGroupReader : ObjectReader<ReleaseGroup> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new ReleaseGroup(id.Value) {
+    return new ReleaseGroup {
       Aliases = aliases,
       Annotation = annotation,
       ArtistCredit = artistCredit,
       Disambiguation = disambiguation,
       FirstReleaseDate = firstReleaseDate,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       PrimaryType = primaryType,
       PrimaryTypeId = primaryTypeId,
       Rating = rating,

@@ -8,19 +8,13 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Disc : JsonBasedObject, IDisc {
 
-  public Disc(string id, IReadOnlyList<int> offsets, int sectors) {
-    this.Id = id;
-    this.Offsets = offsets;
-    this.Sectors = sectors;
-  }
+  public required string Id { get; init; }
 
-  public string Id { get; }
-
-  public IReadOnlyList<int> Offsets { get; }
+  public required IReadOnlyList<int> Offsets { get; init; }
 
   public IReadOnlyList<IRelease>? Releases { get; init; }
 
-  public int Sectors { get; }
+  public required int Sectors { get; init; }
 
   public override string ToString() {
     var duration = TimeSpan.FromSeconds(this.Sectors / 75.0);

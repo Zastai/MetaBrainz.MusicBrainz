@@ -51,24 +51,18 @@ internal sealed class DiscReader : ObjectReader<Disc> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected disc ID not found or null.");
-    }
-    if (offsets is null) {
-      throw new JsonException("Expected offset list not found or null.");
-    }
-    if (sectors is null) {
-      throw new JsonException("Expected sector count not found or null.");
-    }
-    if (offsetCount is not null) {
-      var reported = offsetCount.Value;
-      var actual = offsets.Count;
+    if (offsetCount is not null || offsets is not null) {
+      var reported = offsetCount.GetValueOrDefault();
+      var actual = offsets?.Count ?? 0;
       if (reported != actual) {
         throw new JsonException($"The number of offsets ({actual}) does not match the reported offset count ({reported}).");
       }
     }
-    return new Disc(id, offsets, sectors.Value) {
+    return new Disc {
+      Id = id ?? throw new MissingPropertyException("id"),
+      Offsets = offsets ?? throw new MissingPropertyException("offsets"),
       Releases = releases,
+      Sectors = sectors ?? throw new MissingPropertyException("sectors"),
       UnhandledProperties = rest,
     };
   }

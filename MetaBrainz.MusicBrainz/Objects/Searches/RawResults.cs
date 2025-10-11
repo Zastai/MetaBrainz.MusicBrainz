@@ -7,42 +7,42 @@ using MetaBrainz.MusicBrainz.Interfaces.Searches;
 
 namespace MetaBrainz.MusicBrainz.Objects.Searches;
 
-internal sealed class RawResults(int count, int offset, DateTimeOffset created) : JsonBasedObject {
+internal sealed class RawResults : JsonBasedObject {
 
-  public IReadOnlyList<ISearchResult<IAnnotation>>? Annotations;
+  public IReadOnlyList<ISearchResult<IAnnotation>>? Annotations { get; init; }
 
-  public IReadOnlyList<ISearchResult<IArea>>? Areas;
+  public IReadOnlyList<ISearchResult<IArea>>? Areas { get; init; }
 
-  public IReadOnlyList<ISearchResult<IArtist>>? Artists;
+  public IReadOnlyList<ISearchResult<IArtist>>? Artists { get; init; }
 
-  public IReadOnlyList<ISearchResult<ICdStub>>? CdStubs;
+  public IReadOnlyList<ISearchResult<ICdStub>>? CdStubs { get; init; }
 
-  public readonly int Count = count;
+  public required int Count { get; init; }
 
-  public readonly DateTimeOffset Created = created;
+  public required DateTimeOffset Created { get; init; }
 
-  public IReadOnlyList<ISearchResult<IEvent>>? Events;
+  public IReadOnlyList<ISearchResult<IEvent>>? Events { get; init; }
 
-  public IReadOnlyList<ISearchResult<IInstrument>>? Instruments;
+  public IReadOnlyList<ISearchResult<IInstrument>>? Instruments { get; init; }
 
-  public IReadOnlyList<ISearchResult<ILabel>>? Labels;
+  public IReadOnlyList<ISearchResult<ILabel>>? Labels { get; init; }
 
-  public readonly int Offset = offset;
+  public required int Offset { get; init; }
 
-  public IReadOnlyList<ISearchResult<IPlace>>? Places;
+  public IReadOnlyList<ISearchResult<IPlace>>? Places { get; init; }
 
-  public IReadOnlyList<ISearchResult<IRecording>>? Recordings;
+  public IReadOnlyList<ISearchResult<IRecording>>? Recordings { get; init; }
 
-  public IReadOnlyList<ISearchResult<IReleaseGroup>>? ReleaseGroups;
+  public IReadOnlyList<ISearchResult<IReleaseGroup>>? ReleaseGroups { get; init; }
 
-  public IReadOnlyList<ISearchResult<IRelease>>? Releases;
+  public IReadOnlyList<ISearchResult<IRelease>>? Releases { get; init; }
 
-  public IReadOnlyList<ISearchResult<ISeries>>? Series;
+  public IReadOnlyList<ISearchResult<ISeries>>? Series { get; init; }
 
-  public IReadOnlyList<ISearchResult<ITag>>? Tags;
+  public IReadOnlyList<ISearchResult<ITag>>? Tags { get; init; }
 
-  public IReadOnlyList<ISearchResult<IUrl>>? Urls;
+  public IReadOnlyList<ISearchResult<IUrl>>? Urls { get; init; }
 
-  public IReadOnlyList<ISearchResult<IWork>>? Works;
+  public IReadOnlyList<ISearchResult<IWork>>? Works { get; init; }
 
 }

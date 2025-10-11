@@ -79,14 +79,12 @@ internal sealed class SeriesReader : ObjectReader<Series> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Series(id.Value) {
+    return new Series {
       Aliases = aliases,
       Annotation = annotation,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Name = name,
       Relationships = relations,
       Tags = tags,

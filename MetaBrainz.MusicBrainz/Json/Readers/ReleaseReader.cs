@@ -90,46 +90,6 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
             media = reader.ReadList(MediumReader.Instance, options);
             break;
           case "packaging":
-            if (reader.TokenType == JsonTokenType.StartObject) { // SEARCH-579: packaging: { "name": "foo", id: "guid" }
-              packaging = null;
-              packagingId = null;
-              while (reader.Read()) {
-                if (reader.TokenType == JsonTokenType.EndObject) {
-                  break;
-                }
-                if (reader.TokenType != JsonTokenType.PropertyName) {
-                  throw new JsonException($"Token ({reader.TokenType}: {reader.GetRawStringValue()}) found instead of property " +
-                                          $"name (at offset {reader.TokenStartIndex}).");
-                }
-                var field = reader.GetString();
-                try {
-                  if (!reader.Read()) {
-                    throw new JsonException($"Expected value for the '{field}' property of Release object's '{prop}' field not " +
-                                            "encountered.");
-                  }
-                  switch (field) {
-                    case "name":
-                      packaging = reader.GetString();
-                      break;
-                    case "id":
-                      packagingId = reader.GetOptionalGuid();
-                      break;
-                    default:
-                      rest ??= new Dictionary<string, object?>();
-                      rest[prop + ":" + field] = reader.GetOptionalObject(options);
-                      break;
-                  }
-                }
-                catch (Exception e) {
-                  throw new JsonException($"Failed to deserialize the '{field}' sub-property.", e);
-                }
-              }
-              // in this case, both values MUST be present and non-null
-              if (packaging is null || packagingId is null) {
-                throw new JsonException("Required packaging name and id not found or null.");
-              }
-              break;
-            }
             packaging = reader.GetString();
             break;
           case "packaging-id":
@@ -179,10 +139,7 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Release(id.Value) {
+    return new Release {
       Aliases = aliases,
       Annotation = annotation,
       ArtistCredit = artistCredit,
@@ -194,6 +151,7 @@ internal sealed class ReleaseReader : ObjectReader<Release> {
       Date = date,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       LabelInfo = labelInfo,
       Media = media,
       Packaging = packaging,

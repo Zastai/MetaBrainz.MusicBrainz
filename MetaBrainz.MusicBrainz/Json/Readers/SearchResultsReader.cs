@@ -106,23 +106,17 @@ internal sealed class SearchResultsReader : ObjectReader<RawResults> {
       }
       reader.Read();
     }
-    if (count is null) {
-      throw new JsonException("Expected result count not found or null.");
-    }
-    if (offset is null) {
-      throw new JsonException("Expected result offset not found or null.");
-    }
-    if (created is null) {
-      throw new JsonException("Expected result creation timestamp not found or null.");
-    }
-    return new RawResults(count.Value, offset.Value, created.Value) {
+    return new RawResults {
       Annotations = annotations,
       Areas = areas,
       Artists = artists,
       CdStubs = cdStubs,
+      Count = count ?? throw new MissingPropertyException("id"),
+      Created = created ?? throw new MissingPropertyException("created"),
       Events = events,
       Instruments = instruments,
       Labels = labels,
+      Offset = offset ?? throw new MissingPropertyException("id"),
       Places = places,
       Recordings = recordings,
       ReleaseGroups = releaseGroups,

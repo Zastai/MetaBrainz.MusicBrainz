@@ -5,15 +5,11 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Url : Entity, IUrl {
-
-  public Url(Guid id, Uri resource) : base(EntityType.Url, id) {
-    this.Resource = resource;
-  }
+internal sealed class Url() : Entity(EntityType.Url), IUrl {
 
   public IReadOnlyList<IRelationship>? Relationships { get; init; }
 
-  public Uri Resource { get; }
+  public required Uri Resource { get; init; }
 
   public override string ToString() => this.Resource.ToString();
 

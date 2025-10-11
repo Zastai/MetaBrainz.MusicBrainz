@@ -7,16 +7,11 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class SimpleTrack : JsonBasedObject, ISimpleTrack {
 
-  public SimpleTrack(string title, TimeSpan length) {
-    this.Title = title;
-    this.Length = length;
-  }
-
   public string? Artist { get; init; }
 
-  public TimeSpan Length { get; }
+  public required TimeSpan Length { get; init; }
 
-  public string Title { get; }
+  public required string Title { get; init; }
 
   public override string ToString() {
     var text = string.Empty;

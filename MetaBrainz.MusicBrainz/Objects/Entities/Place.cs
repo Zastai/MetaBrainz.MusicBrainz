@@ -5,10 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Place : Entity, IPlace {
-
-  public Place(Guid id) : base(EntityType.Place, id) {
-  }
+internal sealed class Place() : Entity(EntityType.Place), IPlace {
 
   public string? Address { get; init; }
 

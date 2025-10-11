@@ -145,10 +145,7 @@ internal sealed class ArtistReader : ObjectReader<Artist> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Artist(id.Value) {
+    return new Artist {
       Aliases = aliases,
       Annotation = annotation,
       Area = area,
@@ -159,6 +156,7 @@ internal sealed class ArtistReader : ObjectReader<Artist> {
       Gender = gender,
       GenderId = genderId,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Ipis = ipis,
       Isnis = isnis,
       LifeSpan = lifeSpan,
@@ -176,7 +174,7 @@ internal sealed class ArtistReader : ObjectReader<Artist> {
       UserGenres = userGenres,
       UserRating = userRating,
       UserTags = userTags,
-      Works = works
+      Works = works,
     };
   }
 

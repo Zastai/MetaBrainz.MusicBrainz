@@ -95,10 +95,7 @@ internal sealed class PlaceReader : ObjectReader<Place> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Place(id.Value) {
+    return new Place {
       Address = address,
       Aliases = aliases,
       Annotation = annotation,
@@ -106,6 +103,7 @@ internal sealed class PlaceReader : ObjectReader<Place> {
       Coordinates = coordinates,
       Disambiguation = disambiguation,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       LifeSpan = lifeSpan,
       Name = name,
       Relationships = relations,

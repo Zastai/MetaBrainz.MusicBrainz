@@ -5,10 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
-internal sealed class Series : Entity, ISeries {
-
-  public Series(Guid id) : base(EntityType.Series, id) {
-  }
+internal sealed class Series() : Entity(EntityType.Series), ISeries {
 
   public IReadOnlyList<IAlias>? Aliases { get; init; }
 

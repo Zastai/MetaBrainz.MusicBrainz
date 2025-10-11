@@ -103,16 +103,14 @@ internal sealed class RecordingReader : ObjectReader<Recording> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected property 'id' not found or null.");
-    }
-    return new Recording(id.Value) {
+    return new Recording {
       Aliases = aliases,
       Annotation = annotation,
       ArtistCredit = artistCredit,
       Disambiguation = disambiguation,
       FirstReleaseDate = firstReleaseDate,
       Genres = genres,
+      Id = id ?? throw new MissingPropertyException("id"),
       Isrcs = isrcs,
       Length = length,
       Rating = rating,
