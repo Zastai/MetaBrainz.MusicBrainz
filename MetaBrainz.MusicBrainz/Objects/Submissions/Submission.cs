@@ -18,12 +18,6 @@ public abstract class Submission : ISubmission {
 
   #region Public API
 
-  /// <summary>Submits the request.</summary>
-  /// <returns>A message describing the result (usually "OK").</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public string Submit() => AsyncUtils.ResultOf(this.SubmitAsync());
-
   /// <summary>Submits the request asynchronously.</summary>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>A message describing the result (usually "OK").</returns>

@@ -18,7 +18,7 @@ using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz;
 
-/// <summary>Class providing convenient access to MusicBrainz' OAuth2 service.</summary>
+/// <summary>Class providing convenient access to the MusicBrainz OAuth2 service.</summary>
 [PublicAPI]
 public sealed class OAuth2 : IDisposable {
 
@@ -239,36 +239,11 @@ public sealed class OAuth2 : IDisposable {
   /// and challenge method used for the authorization request as generated via <see cref="CreateAuthorizationRequest"/>. The process
   /// is described in detail by <seealso href="https://tools.ietf.org/html/rfc7636#section-4.5">RFC 7636</seealso>.
   /// </param>
-  /// <returns>The obtained bearer token.</returns>
-  public IAuthorizationToken GetBearerToken(string code, string clientSecret, Uri redirectUri, string? verifier = null)
-    => AsyncUtils.ResultOf(this.GetBearerTokenAsync(code, clientSecret, redirectUri, verifier));
-
-  /// <summary>Exchanges an authorization code for a bearer token.</summary>
-  /// <param name="code">The authorization code to be used. If the request succeeds, this code will be invalidated.</param>
-  /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
-  /// <param name="redirectUri">
-  /// The URI to redirect to (or <see cref="OutOfBandUri"/> for out-of-band requests); must match the request URI used to obtain
-  /// <paramref name="code"/>.
-  /// </param>
-  /// <param name="verifier">
-  /// If you're using PKCE, pass the <c>code_verifier</c> here. The request will be rejected if it doesn't agree with the challenge
-  /// and challenge method used for the authorization request as generated via <see cref="CreateAuthorizationRequest"/>. The process
-  /// is described in detail by <seealso href="https://tools.ietf.org/html/rfc7636#section-4.5">RFC 7636</seealso>.
-  /// </param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> GetBearerTokenAsync(string code, string clientSecret, Uri redirectUri, string? verifier = null,
                                                        CancellationToken cancellationToken = default)
     => this.RequestTokenAsync("bearer", code, clientSecret, redirectUri, verifier, cancellationToken);
-
-  /// <summary>Gets information about the user associated with an access token.</summary>
-  /// <param name="token">The access token.</param>
-  /// <returns>Information about the user associated with the access token.</returns>
-  /// <remarks>
-  /// If the <see cref="AuthorizationScope.Profile"/> permission has not been granted, this request will fail. In addition, it will
-  /// only include the user's email address if the <see cref="AuthorizationScope.Email"/> permission has been granted.
-  /// </remarks>
-  public IUserInfo GetUserInfo(string token) => AsyncUtils.ResultOf(this.GetUserInfoAsync(token));
 
   /// <summary>Gets information about the user associated with an access token.</summary>
   /// <param name="token">The access token.</param>
@@ -284,23 +259,11 @@ public sealed class OAuth2 : IDisposable {
   /// <summary>Refreshes a bearer token.</summary>
   /// <param name="refreshToken">The refresh token to use.</param>
   /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
-  /// <returns>The obtained bearer token.</returns>
-  public IAuthorizationToken RefreshBearerToken(string refreshToken, string clientSecret)
-    => AsyncUtils.ResultOf(this.RefreshBearerTokenAsync(refreshToken, clientSecret));
-
-  /// <summary>Refreshes a bearer token.</summary>
-  /// <param name="refreshToken">The refresh token to use.</param>
-  /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The obtained bearer token.</returns>
   public Task<IAuthorizationToken> RefreshBearerTokenAsync(string refreshToken, string clientSecret,
                                                            CancellationToken cancellationToken = default)
     => this.RefreshTokenAsync("bearer", refreshToken, clientSecret, cancellationToken);
-
-  /// <summary>Revokes a token.</summary>
-  /// <param name="token">The token to revoke. This can be either an access token or a refresh token.</param>
-  /// <param name="clientSecret">The client secret associated with <see cref="ClientId"/>.</param>
-  public void RevokeToken(string token, string clientSecret) => AsyncUtils.ResultOf(this.RevokeTokenAsync(token, clientSecret));
 
   /// <summary>Revokes a token.</summary>
   /// <param name="token">The token to revoke. This can be either an access token or a refresh token.</param>

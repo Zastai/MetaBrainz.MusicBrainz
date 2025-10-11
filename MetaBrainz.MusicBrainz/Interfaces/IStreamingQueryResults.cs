@@ -10,6 +10,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces;
 /// </summary>
 /// <typeparam name="TItem">The type of item being returned.</typeparam>
 [PublicAPI]
-public interface IStreamingQueryResults<out TItem> : IAsyncEnumerable<TItem>, IEnumerable<TItem> {
+public interface IStreamingQueryResults<out TItem> : IAsyncEnumerable<TItem> {
 
 }
