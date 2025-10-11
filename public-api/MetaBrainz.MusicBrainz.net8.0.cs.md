@@ -1895,6 +1895,10 @@ public interface IMedium : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
+  System.Guid? Id {
+    public abstract get;
+  }
+
   int Position {
     public abstract get;
   }

@@ -23,6 +23,9 @@ public interface IMedium : IJsonBasedObject {
   /// <summary>The medium's format, expressed as an MBID.</summary>
   Guid? FormatId { get; }
 
+  /// <summary>The MBID for the medium.</summary>
+  Guid? Id { get; }
+
   /// <summary>The position of the medium in its release's medium list.</summary>
   int Position { get; }
 
