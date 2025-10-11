@@ -52,18 +52,6 @@ public sealed partial class Query {
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IArea> BrowseAreas(ICollection collection, int? limit = null, int? offset = null,
-                                           Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowseAreasAsync(collection, limit, offset, inc));
-
-  /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
-  /// <param name="collection">The collection whose contained areas should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
@@ -71,17 +59,6 @@ public sealed partial class Query {
   public Task<IBrowseResults<IArea>> BrowseAreasAsync(ICollection collection, int? limit = null, int? offset = null,
                                                       Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseAreas(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
-
-  /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
-  /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IArea> BrowseCollectionAreas(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowseCollectionAreasAsync(mbid, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the areas in the given collection.</summary>
   /// <param name="mbid">The MBID for the collection whose contained areas should be retrieved.</param>

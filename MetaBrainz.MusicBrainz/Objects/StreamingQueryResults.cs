@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 
 using MetaBrainz.MusicBrainz.Interfaces;
@@ -37,28 +36,6 @@ where TResultObject : class {
         break;
       }
       currentPage = await currentPage.NextAsync(cancellationToken).ConfigureAwait(false);
-    }
-  }
-
-  #endregion
-
-  #region IEnumerable
-
-  IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-  public IEnumerator<TItem> GetEnumerator() {
-    IPagedQueryResults<TResult, TItem> currentPage = this._pagedResults;
-    if (!currentPage.IsActive) {
-      currentPage = currentPage.Next();
-    }
-    while (currentPage.Results.Count > 0) {
-      foreach (var item in currentPage.Results) {
-        yield return item;
-      }
-      if (currentPage.Offset + currentPage.Results.Count >= currentPage.TotalResults) {
-        break;
-      }
-      currentPage = currentPage.Next();
     }
   }
 

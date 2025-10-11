@@ -58,19 +58,6 @@ public sealed partial class Query {
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="simple">If set to <see langword="true"/>, this disables advanced query syntax.</param>
-  /// <returns>The search request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  /// <remarks><inheritdoc cref="FindAllCdStubs"/></remarks>
-  public ISearchResults<ISearchResult<ICdStub>> FindCdStubs(string query, int? limit = null, int? offset = null,
-                                                            bool simple = false)
-    => AsyncUtils.ResultOf(this.FindCdStubsAsync(query, limit, offset, simple));
-
-  /// <summary>Searches for CD stubs using the given query.</summary>
-  /// <param name="query">The search query to use.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="simple">If set to <see langword="true"/>, this disables advanced query syntax.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The search request, including the initial results.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>

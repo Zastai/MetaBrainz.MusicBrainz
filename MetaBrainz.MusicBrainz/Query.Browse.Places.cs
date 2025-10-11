@@ -86,17 +86,6 @@ public sealed partial class Query {
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IPlace> BrowseAreaPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowseAreaPlacesAsync(mbid, limit, offset, inc));
-
-  /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
-  /// <param name="mbid">The MBID for the area whose places should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
@@ -111,17 +100,6 @@ public sealed partial class Query {
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
   /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
   /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IPlace> BrowseCollectionPlaces(Guid mbid, int? limit = null, int? offset = null, Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowseCollectionPlacesAsync(mbid, limit, offset, inc));
-
-  /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
-  /// <param name="mbid">The MBID for the collection whose contained places should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The browse request, including the initial results.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
@@ -130,29 +108,6 @@ public sealed partial class Query {
                                                                   Include inc = Include.None,
                                                                   CancellationToken cancellationToken = default)
     => new BrowsePlaces(this, Query.CreateOptions("collection", mbid, inc), limit, offset).NextAsync(cancellationToken);
-
-  /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
-  /// <param name="area">The area whose places should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IPlace> BrowsePlaces(IArea area, int? limit = null, int? offset = null, Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowsePlacesAsync(area, limit, offset, inc));
-
-  /// <summary>Returns (the specified subset of) the places in the given collection.</summary>
-  /// <param name="collection">The collection whose contained places should be retrieved.</param>
-  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
-  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
-  /// <param name="inc">Additional information to include in the result.</param>
-  /// <returns>The browse request, including the initial results.</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public IBrowseResults<IPlace> BrowsePlaces(ICollection collection, int? limit = null, int? offset = null,
-                                             Include inc = Include.None)
-    => AsyncUtils.ResultOf(this.BrowsePlacesAsync(collection, limit, offset, inc));
 
   /// <summary>Returns (the specified subset of) the places associated with the given area.</summary>
   /// <param name="area">The area whose places should be retrieved.</param>

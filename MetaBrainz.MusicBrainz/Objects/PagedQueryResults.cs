@@ -32,8 +32,6 @@ where TResultObject : class {
 
   public abstract IReadOnlyDictionary<string, object?>? UnhandledProperties { get; }
 
-  public TResults Next() => AsyncUtils.ResultOf(this.NextAsync());
-
   public async Task<TResults> NextAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset(this.Results.Count);
     return await this.PerformRequestAsync(cancellationToken).ConfigureAwait(false);
@@ -42,8 +40,6 @@ where TResultObject : class {
   public int? NextOffset { get; set; }
 
   public int Offset { get; private set; }
-
-  public TResults Previous() => AsyncUtils.ResultOf(this.PreviousAsync());
 
   public async Task<TResults> PreviousAsync(CancellationToken cancellationToken = default) {
     this.UpdateOffset();

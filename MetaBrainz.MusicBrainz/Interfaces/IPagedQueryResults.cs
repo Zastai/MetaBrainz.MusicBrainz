@@ -22,14 +22,14 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// The streaming form of this set of query results, suitable for enumeration (e.g. by <c>foreach</c> or <c>await foreach</c>).
   /// </returns>
   /// <remarks>
-  /// Enumerating the return value is equivalent to enumerating this result set and then calling <see cref="Next"/> or
-  /// <see cref="NextAsync"/> and processing those results, and so on until there are no more results to process.<br/>
+  /// Enumerating the return value is equivalent to enumerating this result set and then calling <see cref="NextAsync"/> and
+  /// processing those results, and so on until there are no more results to process.<br/>
   /// Operating on this set of paged results while the streaming form is in use is not recommended, because it will interfere with
   /// the streaming enumeration.
   /// </remarks>
   IStreamingQueryResults<TItem> AsStream();
 
-  /// <summary>Indicates whether or not these results are active (i.e. at least one request has been issued for them).</summary>
+  /// <summary>Indicates whether these results are active (i.e. at least one request has been issued for them).</summary>
   internal bool IsActive { get; }
 
   /// <summary>
@@ -38,18 +38,9 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   /// Valid range is 1-100; if not specifically set, the server's default (normally 25) is used.
   /// </summary>
   /// <remarks>
-  /// Setting this only affects further web requests made via calls to <see cref="Next()"/> and/or <see cref="Previous()"/>.
+  /// Setting this only affects further web requests made via calls to <see cref="NextAsync"/> and/or <see cref="PreviousAsync"/>.
   /// </remarks>
   int? Limit { get; set; }
-
-  /// <summary>
-  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the next set
-  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
-  /// </summary>
-  /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  TResults Next();
 
   /// <summary>
   /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the next set
@@ -62,8 +53,8 @@ where TResults : IPagedQueryResults<TResults, TItem> {
   Task<TResults> NextAsync(CancellationToken cancellationToken = default);
 
   /// <summary>
-  /// The offset to use for the next request (via <see cref="Next()"/> and/or <see cref="Previous()"/>), or <see langword="null"/>
-  /// to continue where the current results end.
+  /// The offset to use for the next request (via <see cref="NextAsync"/> and/or <see cref="PreviousAsync"/>), or
+  /// <see langword="null"/> to continue where the current results end.
   /// </summary>
   /// <remarks>
   /// This is reset to <see langword="null"/> when a request is made, so when set to a specific value, that value is only used once.
@@ -72,15 +63,6 @@ where TResults : IPagedQueryResults<TResults, TItem> {
 
   /// <summary>The starting offset within the total set of matches for the current result set.</summary>
   int Offset { get; }
-
-  /// <summary>
-  /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the previous set
-  /// of results, based on <see cref="Offset"/> and <see cref="Limit"/>.
-  /// </summary>
-  /// <returns>This result set (with updated values).</returns>
-  /// <exception cref="HttpError">When the web service reports an error.</exception>
-  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  TResults Previous();
 
   /// <summary>
   /// Queries the MusicBrainz server (using the same <see cref="Query"/> object used for the original request) for the previous set
