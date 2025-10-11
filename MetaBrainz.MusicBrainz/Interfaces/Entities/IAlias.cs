@@ -16,7 +16,7 @@ public interface IAlias : IJsonBasedObject {
   /// <summary>The date at which the alias ceased to be applicable.</summary>
   PartialDate? End { get; }
 
-  /// <summary>A flag indicating whether or not the alias has ceased to be applicable.</summary>
+  /// <summary>A flag indicating whether the alias has ceased to be applicable.</summary>
   bool Ended { get; }
 
   /// <summary>The specific locale where the alias applies.</summary>
@@ -25,9 +25,7 @@ public interface IAlias : IJsonBasedObject {
   /// <summary>The alias.</summary>
   string Name { get; }
 
-  /// <summary>
-  /// Flag indicating whether or not this is the primary alias within the locale specified by <see cref="Locale"/>.
-  /// </summary>
+  /// <summary>Flag indicating whether this is the primary alias within the locale specified by <see cref="Locale"/>.</summary>
   bool Primary { get; }
 
   /// <summary>The sort name form of the alias, if applicable.</summary>

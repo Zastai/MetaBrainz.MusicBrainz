@@ -2,7 +2,7 @@
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-/// <summary>A entity that can be rated.</summary>
+/// <summary>An entity that can be rated.</summary>
 [PublicAPI]
 public interface IRatableEntity : IEntity {
 

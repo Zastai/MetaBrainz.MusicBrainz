@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
-/// <summary>A entity that can have tags applied to it.</summary>
+/// <summary>An entity that can have tags applied to it.</summary>
 [PublicAPI]
 public interface ITaggableEntity : IEntity {
 
