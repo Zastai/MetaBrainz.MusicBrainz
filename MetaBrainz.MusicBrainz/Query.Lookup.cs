@@ -96,12 +96,13 @@ public sealed partial class Query {
 
   /// <summary>Looks up the specified genre.</summary>
   /// <param name="mbid">The MBID for the genre to look up.</param>
+  /// <param name="inc">Additional information to include in the result.</param>
   /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
   /// <returns>The requested genre.</returns>
   /// <exception cref="HttpError">When the web service reports an error.</exception>
   /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
-  public async Task<IGenre> LookupGenreAsync(Guid mbid, CancellationToken cancellationToken = default)
-    => await this.PerformRequestAsync<Genre>("genre", mbid, null, cancellationToken).ConfigureAwait(false);
+  public async Task<IGenre> LookupGenreAsync(Guid mbid, Include inc = Include.None, CancellationToken cancellationToken = default)
+    => await this.PerformRequestAsync<Genre>("genre", mbid, Query.CreateOptions(inc), cancellationToken).ConfigureAwait(false);
 
   /// <summary>Looks up the specified instrument.</summary>
   /// <param name="mbid">The MBID for the instrument to look up.</param>

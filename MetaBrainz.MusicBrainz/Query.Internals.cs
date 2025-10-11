@@ -138,6 +138,9 @@ public sealed partial class Query : IDisposable {
     if ((inc & Include.EventRelationships) != 0) {
       included.Add("event-rels");
     }
+    if ((inc & Include.GenreRelationships) != 0) {
+      included.Add("genre-rels");
+    }
     if ((inc & Include.InstrumentRelationships) != 0) {
       included.Add("instrument-rels");
     }
