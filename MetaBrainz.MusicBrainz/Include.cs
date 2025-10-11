@@ -158,6 +158,9 @@ public enum Include : long {
   /// </remarks>
   ReleaseGroupLevelRelationships = 1L << 54,
 
+  /// <summary>Include information about relationships with genres.</summary>
+  GenreRelationships = 1L << 55,
+
   #endregion
 
 }

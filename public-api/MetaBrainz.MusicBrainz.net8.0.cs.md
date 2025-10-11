@@ -67,6 +67,7 @@ public enum Include : long {
   Collections = 0x00000000000002,
   DiscIds = 0x00000000020000,
   EventRelationships = 0x00040000000000,
+  GenreRelationships = 0x80000000000000,
   Genres = 0x00000400000000,
   InstrumentRelationships = 0x00080000000000,
   Isrcs = 0x00000000040000,
@@ -620,7 +621,7 @@ public sealed class Query : System.IDisposable {
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
-  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre>> BrowseAllGenresAsync(int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre>> BrowseAllGenresAsync(int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection> BrowseAllInstrumentCollections(System.Guid mbid, int? pageSize = default, int? offset = default);
 
@@ -974,7 +975,7 @@ public sealed class Query : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> LookupEventAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
-  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre> LookupGenreAsync(System.Guid mbid, System.Threading.CancellationToken cancellationToken = default);
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IGenre> LookupGenreAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> LookupInstrumentAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
