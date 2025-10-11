@@ -11,12 +11,12 @@ using MetaBrainz.MusicBrainz.Objects.Searches;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
 
-internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
+internal sealed class SearchResultsReader : ObjectReader<RawResults> {
 
   public static readonly SearchResultsReader Instance = new();
 
 
-  protected override SearchResults ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
+  protected override RawResults ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<ISearchResult<IAnnotation>>? annotations = null;
     IReadOnlyList<ISearchResult<IArea>>? areas = null;
     IReadOnlyList<ISearchResult<IArtist>>? artists = null;
@@ -115,7 +115,7 @@ internal sealed class SearchResultsReader : ObjectReader<SearchResults> {
     if (created is null) {
       throw new JsonException("Expected result creation timestamp not found or null.");
     }
-    return new SearchResults(count.Value, offset.Value, created.Value) {
+    return new RawResults(count.Value, offset.Value, created.Value) {
       Annotations = annotations,
       Areas = areas,
       Artists = artists,

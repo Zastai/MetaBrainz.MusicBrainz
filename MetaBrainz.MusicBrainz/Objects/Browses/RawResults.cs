@@ -5,7 +5,7 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal sealed class BrowseResult(int count, int offset) : JsonBasedObject {
+internal sealed class RawResults(int count, int offset) : JsonBasedObject {
 
   public IReadOnlyList<IArea>? Areas;
 

@@ -9,11 +9,11 @@ using MetaBrainz.MusicBrainz.Objects.Browses;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
 
-internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
+internal sealed class BrowseResultReader : ObjectReader<RawResults> {
 
   public static readonly BrowseResultReader Instance = new();
 
-  protected override BrowseResult ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
+  protected override RawResults ReadObjectContents(ref Utf8JsonReader reader, JsonSerializerOptions options) {
     IReadOnlyList<IArea>? areas = null;
     IReadOnlyList<IArtist>? artists = null;
     IReadOnlyList<ICollection>? collections = null;
@@ -121,7 +121,7 @@ internal sealed class BrowseResultReader : ObjectReader<BrowseResult> {
     if (offset is null) {
       throw new JsonException("Expected result offset not found or null.");
     }
-    return new BrowseResult(count.Value, offset.Value) {
+    return new RawResults(count.Value, offset.Value) {
       Areas = areas,
       Artists = artists,
       Collections = collections,
