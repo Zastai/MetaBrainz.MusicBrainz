@@ -147,7 +147,7 @@ public sealed class OAuth2 : IDisposable {
 
   private string _server = OAuth2.DefaultServer;
 
-  /// <summary>The web site to use for requests.</summary>
+  /// <summary>The website to use for requests.</summary>
   public string Server {
     get => this._server;
     set {

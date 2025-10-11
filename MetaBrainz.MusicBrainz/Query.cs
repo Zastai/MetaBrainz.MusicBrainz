@@ -243,7 +243,7 @@ public sealed partial class Query {
 
   private string _server = Query.DefaultServer;
 
-  /// <summary>The web site to use for requests.</summary>
+  /// <summary>The website to use for requests.</summary>
   public string Server {
     get => this._server;
     set {
