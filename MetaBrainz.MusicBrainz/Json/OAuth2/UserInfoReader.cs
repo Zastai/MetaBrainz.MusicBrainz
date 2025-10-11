@@ -4,9 +4,9 @@ using System.Text.Json;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
-using MetaBrainz.MusicBrainz.Objects;
+using MetaBrainz.MusicBrainz.Objects.OAuth2;
 
-namespace MetaBrainz.MusicBrainz.Json.Readers;
+namespace MetaBrainz.MusicBrainz.Json.OAuth2;
 
 internal sealed class UserInfoReader : ObjectReader<UserInfo> {
 
@@ -62,20 +62,14 @@ internal sealed class UserInfoReader : ObjectReader<UserInfo> {
       }
       reader.Read();
     }
-    if (id is null) {
-      throw new JsonException("Expected MusicBrainz user ID not found or null.");
-    }
-    if (name is null) {
-      throw new JsonException("Expected user name not found or null.");
-    }
-    if (profile is null) {
-      throw new JsonException("Expected profile URI not found or null.");
-    }
-    return new UserInfo(id.Value, name, profile) {
+    return new UserInfo {
       Email = email,
       Gender = gender,
+      Name = name ?? throw new MissingPropertyException("sub"),
+      Profile = profile ?? throw new MissingPropertyException("profile"),
       TimeZone = timeZone,
       UnhandledProperties = rest,
+      UserId = id ?? throw new MissingPropertyException("metabrainz_user_id"),
       VerifiedEmail = verifiedEmail,
       Website = webSite,
     };

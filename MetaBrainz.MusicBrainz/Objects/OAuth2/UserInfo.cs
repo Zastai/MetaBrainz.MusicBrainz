@@ -3,27 +3,21 @@
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces;
 
-namespace MetaBrainz.MusicBrainz.Objects;
+namespace MetaBrainz.MusicBrainz.Objects.OAuth2;
 
 internal sealed class UserInfo : JsonBasedObject, IUserInfo {
-
-  public UserInfo(int userId, string name, Uri profile) {
-    this.Name = name;
-    this.Profile = profile;
-    this.UserId = userId;
-  }
 
   public string? Email { get; init; }
 
   public string? Gender { get; init; }
 
-  public string Name { get; }
+  public required string Name { get; init; }
 
-  public Uri Profile { get; }
+  public required Uri Profile { get; init; }
 
   public string? TimeZone { get; init; }
 
-  public int UserId { get; }
+  public required int UserId { get; init; }
 
   public bool VerifiedEmail { get; init; }
 
