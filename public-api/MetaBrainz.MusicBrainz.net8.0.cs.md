@@ -613,11 +613,15 @@ public sealed class Query : System.IDisposable {
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection> BrowseAllEventCollections(System.Guid mbid, int? pageSize = default, int? offset = default);
 
+  public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEventEvents(System.Guid mbid, int? pageSize = default, int? offset = default, Include inc = Include.None);
+
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, int? pageSize = default, int? offset = default, Include inc = Include.None);
+
+  public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> BrowseAllEvents(MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
@@ -797,11 +801,15 @@ public sealed class Query : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection>> BrowseEventCollectionsAsync(System.Guid mbid, int? limit = default, int? offset = default, System.Threading.CancellationToken cancellationToken = default);
 
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventEventsAsync(System.Guid mbid, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
+
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventsAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventsAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventsAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventsAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Browses.IBrowseResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent>> BrowseEventsAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, int? limit = default, int? offset = default, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 

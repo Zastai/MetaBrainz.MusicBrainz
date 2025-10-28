@@ -64,6 +64,26 @@ public sealed partial class Query {
                                                                   Include inc = Include.None)
     => new BrowseEvents(this, Query.CreateOptions("collection", mbid, inc), pageSize, offset).AsStream();
 
+  /// <summary>
+  /// Returns the events associated with the given event. This includes both child events (and their child events, recursively) and
+  /// parent events.
+  /// </summary>
+  /// <param name="mbid">The MBID for the event whose parent and child events should be retrieved.</param>
+  /// <param name="pageSize">The maximum number of results to get in one request (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <returns>
+  /// The requested events.<br/>
+  /// Note that this may use multiple "paged" requests to the web service. As such, an item can potentially be returned more than
+  /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
+  /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
+  /// </returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public IStreamingQueryResults<IEvent> BrowseAllEventEvents(Guid mbid, int? pageSize = null, int? offset = null,
+                                                             Include inc = Include.None)
+    => new BrowseEvents(this, Query.CreateOptions("event", mbid, inc), pageSize, offset).AsStream();
+
   /// <summary>Returns the events associated with the given area.</summary>
   /// <param name="area">The area whose events should be retrieved.</param>
   /// <param name="pageSize">The maximum number of results to get in one request (1-100; default is 25).</param>
@@ -114,6 +134,26 @@ public sealed partial class Query {
   public IStreamingQueryResults<IEvent> BrowseAllEvents(ICollection collection, int? pageSize = null, int? offset = null,
                                                         Include inc = Include.None)
     => new BrowseEvents(this, Query.CreateOptions("collection", collection.Id, inc), pageSize, offset).AsStream();
+
+  /// <summary>
+  /// Returns the events associated with the given event. This includes both child events (and their child events, recursively) and
+  /// parent events.
+  /// </summary>
+  /// <param name="event">The event whose parent and child events should be retrieved.</param>
+  /// <param name="pageSize">The maximum number of results to get in one request (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <returns>
+  /// The requested events.<br/>
+  /// Note that this may use multiple "paged" requests to the web service. As such, an item can potentially be returned more than
+  /// once: once at the end of a page, then again in the next page, if a new entry was inserted earlier in the sequence. Similarly,
+  /// a result may be skipped if an item that was already returned is deleted (but deletions are far less likely).
+  /// </returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public IStreamingQueryResults<IEvent> BrowseAllEvents(IEvent @event, int? pageSize = null, int? offset = null,
+                                                        Include inc = Include.None)
+    => new BrowseEvents(this, Query.CreateOptions("event", @event.Id, inc), pageSize, offset).AsStream();
 
   /// <summary>Returns the events associated with the given place.</summary>
   /// <param name="place">The place whose events should be retrieved.</param>
@@ -230,6 +270,22 @@ public sealed partial class Query {
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.CreateOptions("collection", collection.Id, inc), limit, offset).NextAsync(cancellationToken);
 
+  /// <summary>
+  /// Returns (the specified subset of) the events associated with the given event. This includes both child events (and their
+  /// child events, recursively) and parent events.
+  /// </summary>
+  /// <param name="event">The event whose parent and child events should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IEvent @event, int? limit = null, int? offset = null,
+                                                        Include inc = Include.None, CancellationToken cancellationToken = default)
+    => new BrowseEvents(this, Query.CreateOptions("event", @event.Id, inc), limit, offset).NextAsync(cancellationToken);
+
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
   /// <param name="place">The place whose events should be retrieved.</param>
   /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
@@ -242,6 +298,23 @@ public sealed partial class Query {
   public Task<IBrowseResults<IEvent>> BrowseEventsAsync(IPlace place, int? limit = null, int? offset = null,
                                                         Include inc = Include.None, CancellationToken cancellationToken = default)
     => new BrowseEvents(this, Query.CreateOptions("place", place.Id, inc), limit, offset).NextAsync(cancellationToken);
+
+  /// <summary>
+  /// Returns (the specified subset of) the events associated with the given event. This includes both child events (and their
+  /// child events, recursively) and parent events.
+  /// </summary>
+  /// <param name="mbid">The MBID for the event whose parent and child events should be retrieved.</param>
+  /// <param name="limit">The maximum number of results to return (1-100; default is 25).</param>
+  /// <param name="offset">The offset at which to start (i.e. the number of results to skip).</param>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <returns>The browse request, including the initial results.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public Task<IBrowseResults<IEvent>> BrowseEventEventsAsync(Guid mbid, int? limit = null, int? offset = null,
+                                                             Include inc = Include.None,
+                                                             CancellationToken cancellationToken = default)
+    => new BrowseEvents(this, Query.CreateOptions("event", mbid, inc), limit, offset).NextAsync(cancellationToken);
 
   /// <summary>Returns (the specified subset of) the events associated with the given place.</summary>
   /// <param name="mbid">The MBID for the place whose events should be retrieved.</param>
