@@ -1,3 +1,6 @@
+global using QueryOptions = System.Collections.Generic.Dictionary<string, string[]>;
+global using ReadOnlyQueryOptions = System.Collections.Generic.IReadOnlyDictionary<string, string[]>;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,7 +60,7 @@ public sealed partial class Query : IDisposable {
 
   #region Query String Processing
 
-  private static void AddIncludeText(IDictionary<string, string> options, Include inc) {
+  private static void AddIncludeText(QueryOptions options, Include inc) {
     if (inc == Include.None) {
       return;
     }
@@ -177,10 +180,10 @@ public sealed partial class Query : IDisposable {
     if ((inc & Include.WorkRelationships) != 0) {
       included.Add("work-rels");
     }
-    options["inc"] = string.Join('+', included);
+    options["inc"] = [ string.Join('+', included) ];
   }
 
-  private static void AddReleaseFilter(IDictionary<string, string> options, ReleaseType? type, ReleaseStatus? status) {
+  private static void AddReleaseFilter(QueryOptions options, ReleaseType? type, ReleaseStatus? status) {
     if (type is not null) {
       var types = new List<string>(8);
       // Primary Types
@@ -236,7 +239,7 @@ public sealed partial class Query : IDisposable {
       if ((type.Value & ReleaseType.SpokenWord) != 0) {
         types.Add("spokenword");
       }
-      options["type"] = string.Join('|', types);
+      options["type"] = [ string.Join('|', types) ];
     }
     if (status is not null) {
       var statuses = new List<string>(8);
@@ -258,60 +261,76 @@ public sealed partial class Query : IDisposable {
       if ((status.Value & ReleaseStatus.Withdrawn) != 0) {
         statuses.Add("withdrawn");
       }
-      options["status"] = string.Join('|', statuses);
+      options["status"] = [ string.Join('|', statuses) ];
     }
   }
 
-  private Uri BuildUri(string path, IReadOnlyDictionary<string, string>? options, string? format)
+  private Uri BuildUri(string path, ReadOnlyQueryOptions? options, string? format)
     => new UriBuilder(this.UrlScheme, this.Server, this.Port, Query.WebServiceRoot + path, Query.Extra(options, format)).Uri;
 
-  private static Dictionary<string, string> CreateOptions(Include inc) {
-    var options = new Dictionary<string, string>();
+  private static QueryOptions CreateOptions(Include inc) {
+    QueryOptions options = [];
     Query.AddIncludeText(options, inc);
     return options;
   }
 
-  private static Dictionary<string, string> CreateOptions(Include inc, Uri resource) {
-    var options = new Dictionary<string, string> { ["resource"] = Uri.EscapeDataString(resource.ToString()) };
+  private static QueryOptions CreateOptions(Include inc, Uri resource) {
+    var options = new QueryOptions {
+      ["resource"] = [ Uri.EscapeDataString(resource.ToString()) ],
+    };
     Query.AddIncludeText(options, inc);
     return options;
   }
 
-  private static Dictionary<string, string> CreateOptions(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
-    var options = new Dictionary<string, string>();
+  private static QueryOptions CreateOptions(Include inc, params Uri[] resources) {
+    var escapedResources = new string[resources.Length];
+    for (var i = 0; i < resources.Length; i++) {
+      escapedResources[i] = Uri.EscapeDataString(resources[i].ToString());
+    }
+    var options = new QueryOptions {
+      ["resource"] = escapedResources,
+    };
+    Query.AddIncludeText(options, inc);
+    return options;
+  }
+
+  private static QueryOptions CreateOptions(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
+    QueryOptions options = [];
     Query.AddIncludeText(options, inc);
     Query.AddReleaseFilter(options, type, status);
     return options;
   }
 
-  private static Dictionary<string, string> CreateOptions(string field, Guid id) => Query.CreateOptions(field, id.ToString("D"));
+  private static QueryOptions CreateOptions(string field, Guid id) => Query.CreateOptions(field, id.ToString("D"));
 
-  private static Dictionary<string, string> CreateOptions(string field, Guid id, Include inc, ReleaseType? type = null,
-                                                          ReleaseStatus? status = null) {
-    var options = new Dictionary<string, string> { [field] = id.ToString("D") };
+  private static QueryOptions CreateOptions(string field, Guid id, Include inc, ReleaseType? type = null,
+                                            ReleaseStatus? status = null) {
+    var options = new QueryOptions {
+      [field] = [id.ToString("D")],
+    };
     Query.AddIncludeText(options, inc);
     Query.AddReleaseFilter(options, type, status);
     return options;
   }
 
-  private static Dictionary<string, string> CreateOptions(string field, string value) => new() { [field] = value };
+  private static QueryOptions CreateOptions(string field, params string[] values) => new() { [field] = values };
 
-  private static Dictionary<string, string> CreateOptions(int[]? toc, Include inc, bool allMediaFormats, bool noStubs) {
-    var options = new Dictionary<string, string>();
+  private static QueryOptions CreateOptions(int[]? toc, Include inc, bool allMediaFormats, bool noStubs) {
+    QueryOptions options = [];
     if (toc is not null) {
-      options["toc"] = string.Join('+', toc);
+      options["toc"] = [ string.Join('+', toc) ];
     }
     if (allMediaFormats) {
-      options["media-format"] = "all";
+      options["media-format"] = [ "all" ];
     }
     if (noStubs) {
-      options["cdstubs"] = "no";
+      options["cdstubs"] = [ "no" ];
     }
     Query.AddIncludeText(options, inc);
     return options;
   }
 
-  private static string Extra(IReadOnlyDictionary<string, string>? options, string? format) {
+  private static string Extra(ReadOnlyQueryOptions? options, string? format) {
     if ((options is null || options.Count == 0) && format is null) {
       return "";
     }
@@ -325,11 +344,13 @@ public sealed partial class Query : IDisposable {
       separator = '?';
     }
     if (options is not null) {
-      foreach (var (field, value) in options) {
-        // Should we just use Uri.EscapeDataString here? We'd need to be careful with stuff we join together with | and +.
-        var adjustedValue = value.Replace(' ', '+');
-        sb.Append(separator).Append(field).Append('=').Append(adjustedValue);
-        separator = '&';
+      foreach (var (field, values) in options) {
+        foreach (var value in values) {
+          // Should we just use EscapeDataString here? We'd need to be careful with stuff we join together with | and +.
+          var adjustedValue = value.Replace(' ', '+');
+          sb.Append(separator).Append(field).Append('=').Append(adjustedValue);
+          separator = '&';
+        }
       }
     }
     return sb.ToString();
@@ -357,7 +378,7 @@ public sealed partial class Query : IDisposable {
 
   private bool _disposed;
 
-  private readonly List<ProductInfoHeaderValue> _userAgent = new(Query.DefaultUserAgent);
+  private readonly List<ProductInfoHeaderValue> _userAgent = [..Query.DefaultUserAgent];
 
   private HttpClient Client {
     get {
@@ -558,21 +579,21 @@ public sealed partial class Query : IDisposable {
     }
   }
 
-  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, Guid id, ReadOnlyQueryOptions? options,
                                                          CancellationToken cancellationToken)
     => this.PerformRequestAsync(entity, id.ToString("D"), options, cancellationToken);
 
-  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, IReadOnlyDictionary<string, string>? options,
+  internal Task<HttpResponseMessage> PerformRequestAsync(string entity, string? id, ReadOnlyQueryOptions? options,
                                                          CancellationToken cancellationToken, string? format = "json") {
     var uri = this.BuildUri($"{entity}/{id}", options, format);
     return Query.ApplyDelayAsync(token => this.PerformRequestAsync(uri, HttpMethod.Get, null, token, format), cancellationToken);
   }
 
-  internal Task<TI> PerformRequestAsync<TI, TO>(string entity, Guid id, IReadOnlyDictionary<string, string>? options,
+  internal Task<TI> PerformRequestAsync<TI, TO>(string entity, Guid id, ReadOnlyQueryOptions? options,
                                                 CancellationToken cancellationToken) where TO : class, TI
     => this.PerformRequestAsync<TI, TO>(entity, id.ToString("D"), options, cancellationToken);
 
-  internal async Task<TI> PerformRequestAsync<TI, TO>(string entity, string? id, IReadOnlyDictionary<string, string>? options,
+  internal async Task<TI> PerformRequestAsync<TI, TO>(string entity, string? id, ReadOnlyQueryOptions? options,
                                                       CancellationToken cancellationToken) where TO : class, TI {
     using var response = await this.PerformRequestAsync(entity, id, options, cancellationToken).ConfigureAwait(false);
     return await JsonUtils.GetJsonContentAsync<TO>(response, Query.JsonReaderOptions, cancellationToken).ConfigureAwait(false);

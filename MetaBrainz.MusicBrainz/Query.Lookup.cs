@@ -240,6 +240,55 @@ public sealed partial class Query {
   public Task<IUrl> LookupUrlAsync(Uri resource, Include inc = Include.None, CancellationToken cancellationToken = default)
     => this.PerformRequestAsync<IUrl, Url>("url", null, Query.CreateOptions(inc, resource), cancellationToken);
 
+  /// <summary>Looks up a number of URLs.</summary>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="resources">The resources to look up.</param>
+  /// <returns>The requested URLs.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public Task<IMultiUrlLookupResult> LookupUrlsAsync(CancellationToken cancellationToken, params Uri[] resources)
+    => this.LookupUrlsAsync(Include.None, cancellationToken, resources);
+
+  /// <summary>Looks up a number of URLs.</summary>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="cancellationToken">The cancellation token to cancel the operation.</param>
+  /// <param name="resources">The resources to look up.</param>
+  /// <returns>The requested URLs.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public async Task<IMultiUrlLookupResult> LookupUrlsAsync(Include inc, CancellationToken cancellationToken,
+                                                           params Uri[] resources) {
+    if (resources is null || resources.Length == 0) {
+      throw new ArgumentException("At least one URL must be provided.", nameof(resources));
+    }
+    var options = Query.CreateOptions(inc, resources);
+    if (resources.Length == 1) {
+      // Same as a normal lookup, this returns either 404 or a single URL.
+      var url = await this.PerformRequestAsync<IUrl, Url>("url", null, options, cancellationToken);
+      return MultiUrlLookupResult.Of(url);
+    }
+    // If multiple resources are passed, you always get either 404 or a list of URLs (looking like browse results), even if there is
+    // only one match.
+    return await this.PerformRequestAsync<IMultiUrlLookupResult, MultiUrlLookupResult>("url", null, options, cancellationToken);
+  }
+
+  /// <summary>Looks up a number of URLs.</summary>
+  /// <param name="inc">Additional information to include in the result.</param>
+  /// <param name="resources">The resources to look up.</param>
+  /// <returns>The requested URLs.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public Task<IMultiUrlLookupResult> LookupUrlsAsync(Include inc, params Uri[] resources)
+    => this.LookupUrlsAsync(inc, CancellationToken.None, resources);
+
+  /// <summary>Looks up a number of URLs.</summary>
+  /// <param name="resources">The resources to look up.</param>
+  /// <returns>The requested URLs.</returns>
+  /// <exception cref="HttpError">When the web service reports an error.</exception>
+  /// <exception cref="HttpRequestException">When something goes wrong with the request.</exception>
+  public Task<IMultiUrlLookupResult> LookupUrlsAsync(params Uri[] resources)
+    => this.LookupUrlsAsync(Include.None, CancellationToken.None, resources);
+
   /// <summary>Looks up the specified work.</summary>
   /// <param name="mbid">The MBID for the work to look up.</param>
   /// <param name="inc">Additional information to include in the result.</param>

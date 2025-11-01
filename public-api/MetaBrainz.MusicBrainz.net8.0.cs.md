@@ -1007,6 +1007,14 @@ public sealed class Query : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IUrl> LookupUrlAsync(System.Uri resource, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IMultiUrlLookupResult> LookupUrlsAsync(Include inc, System.Threading.CancellationToken cancellationToken, params System.Uri[] resources);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IMultiUrlLookupResult> LookupUrlsAsync(Include inc, params System.Uri[] resources);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IMultiUrlLookupResult> LookupUrlsAsync(System.Threading.CancellationToken cancellationToken, params System.Uri[] resources);
+
+  public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.IMultiUrlLookupResult> LookupUrlsAsync(params System.Uri[] resources);
+
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> LookupWorkAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
   public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, System.Threading.CancellationToken cancellationToken = default);
@@ -1310,6 +1318,26 @@ public interface IDiscIdLookupResult : MetaBrainz.Common.Json.IJsonBasedObject {
   }
 
   MetaBrainz.MusicBrainz.Interfaces.Entities.ICdStub? Stub {
+    public abstract get;
+  }
+
+}
+```
+
+### Type: IMultiUrlLookupResult
+
+```cs
+public interface IMultiUrlLookupResult : MetaBrainz.Common.Json.IJsonBasedObject {
+
+  int Offset {
+    public abstract get;
+  }
+
+  System.Collections.Generic.IReadOnlyList<MetaBrainz.MusicBrainz.Interfaces.Entities.IUrl> Results {
+    public abstract get;
+  }
+
+  int TotalResults {
     public abstract get;
   }
 
