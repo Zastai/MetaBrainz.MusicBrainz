@@ -282,6 +282,18 @@ public sealed partial class Query : IDisposable {
     return options;
   }
 
+  private static QueryOptions CreateOptions(Include inc, params Uri[] resources) {
+    var escapedResources = new string[resources.Length];
+    for (var i = 0; i < resources.Length; i++) {
+      escapedResources[i] = Uri.EscapeDataString(resources[i].ToString());
+    }
+    var options = new QueryOptions {
+      ["resource"] = escapedResources,
+    };
+    Query.AddIncludeText(options, inc);
+    return options;
+  }
+
   private static QueryOptions CreateOptions(Include inc, ReleaseStatus? status, ReleaseType? type = null) {
     QueryOptions options = [];
     Query.AddIncludeText(options, inc);

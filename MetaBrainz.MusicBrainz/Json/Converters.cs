@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using MetaBrainz.MusicBrainz.Json.Readers;
+using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz.Json;
 
@@ -26,6 +27,7 @@ internal static class Converters {
       // Secondary Lookup Results
       yield return CollectionReader.Instance;
       yield return DiscIdLookupResultReader.Instance;
+      yield return MultiUrlLookupResultReader.Instance;
       yield return IsrcReader.Instance;
       // Browse Results
       yield return BrowseResultReader.Instance;
