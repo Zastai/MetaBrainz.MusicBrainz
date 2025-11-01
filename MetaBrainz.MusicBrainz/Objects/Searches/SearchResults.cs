@@ -17,15 +17,15 @@ internal abstract class SearchResults<T> : PagedQueryResults<ISearchResults<ISea
   protected SearchResults(Query query, string endpoint, string queryString, int? limit, int? offset, bool simple,
                           Func<RawResults?, IReadOnlyList<ISearchResult<T>>?> get) : base(query, endpoint, null, limit, offset) {
     this._get = get;
-    this._options["query"] = Uri.EscapeDataString(queryString);
+    this._options["query"] = [ Uri.EscapeDataString(queryString) ];
     if (simple) {
-      this._options["dismax"] = "true";
+      this._options["dismax"] = [ "true" ];
     }
   }
 
   private readonly Func<RawResults?, IReadOnlyList<ISearchResult<T>>?> _get;
 
-  private readonly Dictionary<string, string> _options = new();
+  private readonly QueryOptions _options = [];
 
   public DateTimeOffset? Created => this.CurrentResult?.Created;
 
@@ -40,15 +40,15 @@ internal abstract class SearchResults<T> : PagedQueryResults<ISearchResults<ISea
     return this;
   }
 
-  protected sealed override IReadOnlyDictionary<string, string> FullOptions() {
+  protected sealed override ReadOnlyQueryOptions FullOptions() {
     if (this.Offset > 0) {
-      this._options["offset"] = this.Offset.ToString(CultureInfo.InvariantCulture);
+      this._options["offset"] = [ this.Offset.ToString(CultureInfo.InvariantCulture) ];
     }
     else {
       this._options.Remove("offset");
     }
     if (this.Limit is not null) {
-      this._options["limit"] = this.Limit.Value.ToString(CultureInfo.InvariantCulture);
+      this._options["limit"] = [ this.Limit.Value.ToString(CultureInfo.InvariantCulture) ];
     }
     else {
       this._options.Remove("limit");

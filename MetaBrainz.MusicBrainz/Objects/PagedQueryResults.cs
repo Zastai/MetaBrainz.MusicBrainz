@@ -56,7 +56,7 @@ internal abstract class PagedQueryResults<TResults, TItem, TResultObject>
 
   protected abstract Task<TResults> DeserializeAsync(HttpResponseMessage response, CancellationToken cancellationToken);
 
-  protected abstract IReadOnlyDictionary<string, string> FullOptions();
+  protected abstract ReadOnlyQueryOptions FullOptions();
 
   #endregion
 

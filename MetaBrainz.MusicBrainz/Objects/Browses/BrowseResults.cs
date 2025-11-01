@@ -11,12 +11,12 @@ using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal abstract class BrowseResults<T>(Query query, string endpoint, string? value, IReadOnlyDictionary<string, string>? options,
-                                         int? limit, int? offset, Func<RawResults?, IReadOnlyList<T>?> getter)
+internal abstract class BrowseResults<T>(Query query, string endpoint, string? value, ReadOnlyQueryOptions? options, int? limit,
+                                         int? offset, Func<RawResults?, IReadOnlyList<T>?> getter)
   : PagedQueryResults<IBrowseResults<T>, T, RawResults>(query, endpoint, value, limit, offset), IBrowseResults<T>
   where T : IEntity {
 
-  private readonly Dictionary<string, string> _options = options is null ? [] : new Dictionary<string, string>(options);
+  private readonly QueryOptions _options = options is null ? [] : new QueryOptions(options);
 
   protected sealed override async Task<IBrowseResults<T>> DeserializeAsync(HttpResponseMessage response,
                                                                            CancellationToken cancellationToken) {
@@ -25,10 +25,15 @@ internal abstract class BrowseResults<T>(Query query, string endpoint, string? v
     return this;
   }
 
-  protected sealed override IReadOnlyDictionary<string, string> FullOptions() {
-    this._options["offset"] = this.Offset.ToString(CultureInfo.InvariantCulture);
+  protected sealed override ReadOnlyQueryOptions FullOptions() {
+    if (this.Offset > 0) {
+      this._options["offset"] = [ this.Offset.ToString(CultureInfo.InvariantCulture) ];
+    }
+    else {
+      this._options.Remove("limit");
+    }
     if (this.Limit is not null) {
-      this._options["limit"] = this.Limit.Value.ToString(CultureInfo.InvariantCulture);
+      this._options["limit"] = [ this.Limit.Value.ToString(CultureInfo.InvariantCulture) ];
     }
     else {
       this._options.Remove("limit");

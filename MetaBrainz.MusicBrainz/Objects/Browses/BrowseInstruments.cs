@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-using MetaBrainz.MusicBrainz.Interfaces.Entities;
+﻿using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Browses;
 
-internal sealed class BrowseInstruments(Query query, IReadOnlyDictionary<string, string> options, int? limit, int? offset)
+internal sealed class BrowseInstruments(Query query, ReadOnlyQueryOptions options, int? limit, int? offset)
   : BrowseResults<IInstrument>(query, "instrument", null, options, limit, offset, static r => r?.Instruments);
