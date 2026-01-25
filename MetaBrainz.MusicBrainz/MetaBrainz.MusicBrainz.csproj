@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project>
 
-  <Sdk Name="MetaBrainz.Build.Sdk" Version="4.0.0" />
+  <Sdk Name="MetaBrainz.Build.Sdk" Version="4.1.1" />
 
   <PropertyGroup>
     <Authors>Zastai</Authors>
