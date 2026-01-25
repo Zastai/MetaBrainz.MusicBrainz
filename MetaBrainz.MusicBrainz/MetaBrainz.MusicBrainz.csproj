@@ -11,7 +11,7 @@
     <PackageCopyrightYears>2016-2026</PackageCopyrightYears>
     <PackageRepositoryName>MetaBrainz.MusicBrainz</PackageRepositoryName>
     <PackageTags>MusicBrainz music metadata libmusicbrainz OAuth2</PackageTags>
-    <Version>7.1.0-pre</Version>
+    <Version>8.0.0-pre</Version>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -23,6 +23,11 @@
     <PackageReference Include="JetBrains.Annotations" IncludeAssets="compile" PrivateAssets="all" />
     <PackageReference Include="MetaBrainz.Common" />
     <PackageReference Include="MetaBrainz.Common.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Objects\Submissions\ModifyCollection.cs" />
+    <Compile Remove="Query.Collections.Areas.cs" />
   </ItemGroup>
 
 </Project>

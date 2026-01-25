@@ -335,198 +335,6 @@ public sealed class Query : System.IDisposable {
 
   public Query(string application, string? version, string contact);
 
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument instrument, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel label, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease release, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup releaseGroup, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork work, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> areas, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> artists, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> events, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> instruments, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> labels, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> places, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> recordings, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> releases, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> releaseGroups, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> works, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<System.Guid> items, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Guid item, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Collections.Generic.IEnumerable<System.Guid> items, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Guid item, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, EntityType entityType, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Threading.CancellationToken cancellationToken, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument instrument, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel label, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease release, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup releaseGroup, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork work, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> areas, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> artists, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> events, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> instruments, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> labels, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> places, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> recordings, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> releases, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> releaseGroups, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> works, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> AddToCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> BrowseAllAreaArtists(System.Guid mbid, int? pageSize = default, int? offset = default, Include inc = Include.None);
 
   public MetaBrainz.MusicBrainz.Interfaces.IStreamingQueryResults<MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection> BrowseAllAreaCollections(System.Guid mbid, int? pageSize = default, int? offset = default);
@@ -1017,197 +825,53 @@ public sealed class Query : System.IDisposable {
 
   public System.Threading.Tasks.Task<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> LookupWorkAsync(System.Guid mbid, Include inc = Include.None, System.Threading.CancellationToken cancellationToken = default);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.AreaCollectionModification ModifyAreaCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.AreaCollectionModification ModifyAreaCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ArtistCollectionModification ModifyArtistCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ArtistCollectionModification ModifyArtistCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.CollectionModification ModifyCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.CollectionModification ModifyCollection(string client, System.Guid id, EntityType type);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument instrument, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.EventCollectionModification ModifyEventCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.EventCollectionModification ModifyEventCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel label, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.InstrumentCollectionModification ModifyInstrumentCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.InstrumentCollectionModification ModifyInstrumentCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.LabelCollectionModification ModifyLabelCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.LabelCollectionModification ModifyLabelCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.PlaceCollectionModification ModifyPlaceCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.PlaceCollectionModification ModifyPlaceCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease release, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.RecordingCollectionModification ModifyRecordingCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup releaseGroup, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.RecordingCollectionModification ModifyRecordingCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ReleaseCollectionModification ModifyReleaseCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ReleaseCollectionModification ModifyReleaseCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries series, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ReleaseGroupCollectionModification ModifyReleaseGroupCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.ReleaseGroupCollectionModification ModifyReleaseGroupCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork work, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.SeriesCollectionModification ModifySeriesCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.SeriesCollectionModification ModifySeriesCollection(string client, System.Guid id);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> areas, System.Threading.CancellationToken cancellationToken = default);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.WorkCollectionModification ModifyWorkCollection(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection);
 
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> artists, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> events, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> instruments, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> labels, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> places, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> recordings, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> releases, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> releaseGroups, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> works, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Collections.Generic.IEnumerable<System.Guid> items, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Guid item, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, MetaBrainz.MusicBrainz.Interfaces.Entities.ICollection collection, System.Threading.CancellationToken cancellationToken, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Collections.Generic.IEnumerable<System.Guid> items, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Guid item, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, EntityType entityType, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, EntityType entityType, System.Threading.CancellationToken cancellationToken, params System.Guid[] items);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea area, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist artist, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent event, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument instrument, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel label, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace place, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease release, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup releaseGroup, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork work, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> areas, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> artists, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> events, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> instruments, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> labels, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> places, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> recordings, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> releases, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> releaseGroups, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> series, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> works, System.Threading.CancellationToken cancellationToken = default);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArea[] areas);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist[] artists);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent[] events);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument[] instruments);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel[] labels);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace[] places);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording[] recordings);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup[] releaseGroups);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease[] releases);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries[] series);
-
-  public System.Threading.Tasks.Task<string> RemoveFromCollectionAsync(string client, System.Guid collection, System.Threading.CancellationToken cancellationToken, params MetaBrainz.MusicBrainz.Interfaces.Entities.IWork[] works);
+  public MetaBrainz.MusicBrainz.Objects.Submissions.Collections.WorkCollectionModification ModifyWorkCollection(string client, System.Guid id);
 
   public MetaBrainz.MusicBrainz.Objects.Submissions.BarcodeSubmission SubmitBarcodes(string client);
 
@@ -2722,6 +2386,136 @@ public sealed class TagSubmission : Submission {
   public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, System.Collections.Generic.IAsyncEnumerable<System.Guid> mbids);
 
   public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, System.Collections.Generic.IAsyncEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity> entities);
+
+}
+```
+
+## Namespace: MetaBrainz.MusicBrainz.Objects.Submissions.Collections
+
+### Type: AreaCollectionModification
+
+```cs
+public sealed class AreaCollectionModification : CollectionModificationBase<AreaCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> {
+
+}
+```
+
+### Type: ArtistCollectionModification
+
+```cs
+public sealed class ArtistCollectionModification : CollectionModificationBase<ArtistCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> {
+
+}
+```
+
+### Type: CollectionModification
+
+```cs
+public sealed class CollectionModification : CollectionModificationBase<CollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity> {
+
+}
+```
+
+### Type: CollectionModificationBase\<T, E>
+
+```cs
+public abstract class CollectionModificationBase<T, E>
+  where T : CollectionModificationBase<T, E>
+  where E : MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity {
+
+  public void Clear();
+
+  public T Include(E item);
+
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<E> items);
+
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<System.Guid> items);
+
+  public T Include(System.Guid item);
+
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<E> items);
+
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<System.Guid> items);
+
+  public System.Threading.Tasks.Task<T> IncludeAsync(System.Collections.Generic.IAsyncEnumerable<E> items);
+
+  public System.Threading.Tasks.Task<T> IncludeAsync(System.Collections.Generic.IAsyncEnumerable<System.Guid> items);
+
+  public System.Threading.Tasks.Task<string> SubmitAdditionAsync(System.Threading.CancellationToken cancellationToken = default);
+
+  public System.Threading.Tasks.Task<string> SubmitRemovalAsync(System.Threading.CancellationToken cancellationToken = default);
+
+}
+```
+
+### Type: EventCollectionModification
+
+```cs
+public sealed class EventCollectionModification : CollectionModificationBase<EventCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> {
+
+}
+```
+
+### Type: InstrumentCollectionModification
+
+```cs
+public sealed class InstrumentCollectionModification : CollectionModificationBase<InstrumentCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> {
+
+}
+```
+
+### Type: LabelCollectionModification
+
+```cs
+public sealed class LabelCollectionModification : CollectionModificationBase<LabelCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> {
+
+}
+```
+
+### Type: PlaceCollectionModification
+
+```cs
+public sealed class PlaceCollectionModification : CollectionModificationBase<PlaceCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> {
+
+}
+```
+
+### Type: RecordingCollectionModification
+
+```cs
+public sealed class RecordingCollectionModification : CollectionModificationBase<RecordingCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> {
+
+}
+```
+
+### Type: ReleaseCollectionModification
+
+```cs
+public sealed class ReleaseCollectionModification : CollectionModificationBase<ReleaseCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> {
+
+}
+```
+
+### Type: ReleaseGroupCollectionModification
+
+```cs
+public sealed class ReleaseGroupCollectionModification : CollectionModificationBase<ReleaseGroupCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> {
+
+}
+```
+
+### Type: SeriesCollectionModification
+
+```cs
+public sealed class SeriesCollectionModification : CollectionModificationBase<SeriesCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> {
+
+}
+```
+
+### Type: WorkCollectionModification
+
+```cs
+public sealed class WorkCollectionModification : CollectionModificationBase<WorkCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> {
 
 }
 ```
