@@ -541,14 +541,7 @@ public sealed partial class Query : IDisposable {
       var headers = response.Content.Headers;
       ts.TraceEvent(TraceEventType.Verbose, 6, "CONTENT ({0}): {1} bytes", headers.ContentType, headers.ContentLength ?? 0);
     }
-    var rateLimitInfo = new RateLimitInfo(response.Headers);
-    this._rateLimitLock.EnterWriteLock();
-    try {
-      this._rateLimitInfo = rateLimitInfo;
-    }
-    finally {
-      this._rateLimitLock.ExitWriteLock();
-    }
+    this.RateLimitInfo = new RateLimitInfo(response.Headers);
     try {
       return await response.EnsureSuccessfulAsync(cancellationToken);
     }
