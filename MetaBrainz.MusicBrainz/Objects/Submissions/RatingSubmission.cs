@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for adding ratings to various entities.</summary>
 [PublicAPI]
-public sealed class RatingSubmission : Submission {
+public sealed class RatingSubmission : XmlSubmission {
 
   #region Public API
 
@@ -139,25 +139,16 @@ public sealed class RatingSubmission : Submission {
     map[mbid] = rating;
   }
 
-  internal override string RequestBody {
-    get {
-      using var sw = new U8StringWriter();
-      using (var xml = XmlWriter.Create(sw)) {
-        xml.WriteStartDocument();
-        xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        RatingSubmission.Write(xml, this._artists, "artist");
-        RatingSubmission.Write(xml, this._events, "event");
-        RatingSubmission.Write(xml, this._labels, "label");
-        RatingSubmission.Write(xml, this._recordings, "recording");
-        RatingSubmission.Write(xml, this._releaseGroups, "release-group");
-        RatingSubmission.Write(xml, this._works, "work");
-        xml.WriteEndElement();
-      }
-      return sw.ToString();
-    }
+  private protected override void WriteBodyContents(XmlWriter xml) {
+    RatingSubmission.WriteBodyContents(xml, this._artists, "artist");
+    RatingSubmission.WriteBodyContents(xml, this._events, "event");
+    RatingSubmission.WriteBodyContents(xml, this._labels, "label");
+    RatingSubmission.WriteBodyContents(xml, this._recordings, "recording");
+    RatingSubmission.WriteBodyContents(xml, this._releaseGroups, "release-group");
+    RatingSubmission.WriteBodyContents(xml, this._works, "work");
   }
 
-  private static void Write(XmlWriter xml, Dictionary<Guid, byte> items, string element) {
+  private static void WriteBodyContents(XmlWriter xml, Dictionary<Guid, byte> items, string element) {
     if (items.Count == 0) {
       return;
     }

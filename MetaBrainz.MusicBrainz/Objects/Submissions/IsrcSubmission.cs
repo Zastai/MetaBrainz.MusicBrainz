@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for adding ISRCs to recordings.</summary>
 [PublicAPI]
-public sealed class IsrcSubmission : Submission {
+public sealed class IsrcSubmission : XmlSubmission {
 
   #region Public API
 
@@ -98,35 +98,26 @@ public sealed class IsrcSubmission : Submission {
     return current;
   }
 
-  internal override string RequestBody {
-    get {
-      using var sw = new U8StringWriter();
-      using (var xml = XmlWriter.Create(sw)) {
-        xml.WriteStartDocument();
-        xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        xml.WriteStartElement("recording-list");
-        foreach (var entry in this._isrcs) {
-          var isrcs = entry.Value;
-          if (isrcs.Count == 0) {
-            continue;
-          }
-          xml.WriteStartElement("recording");
-          xml.WriteAttributeString("id", entry.Key.ToString("D"));
-          xml.WriteStartElement("isrc-list");
-          xml.WriteAttributeString("count", isrcs.Count.ToString());
-          foreach (var isrc in isrcs) {
-            xml.WriteStartElement("isrc");
-            xml.WriteAttributeString("id", isrc);
-            xml.WriteEndElement();
-          }
-          xml.WriteEndElement();
-          xml.WriteEndElement();
-        }
-        xml.WriteEndElement();
+  private protected override void WriteBodyContents(XmlWriter xml) {
+    xml.WriteStartElement("recording-list");
+    foreach (var entry in this._isrcs) {
+      var isrcs = entry.Value;
+      if (isrcs.Count == 0) {
+        continue;
+      }
+      xml.WriteStartElement("recording");
+      xml.WriteAttributeString("id", entry.Key.ToString("D"));
+      xml.WriteStartElement("isrc-list");
+      xml.WriteAttributeString("count", isrcs.Count.ToString());
+      foreach (var isrc in isrcs) {
+        xml.WriteStartElement("isrc");
+        xml.WriteAttributeString("id", isrc);
         xml.WriteEndElement();
       }
-      return sw.ToString();
+      xml.WriteEndElement();
+      xml.WriteEndElement();
     }
+    xml.WriteEndElement();
   }
 
   #endregion

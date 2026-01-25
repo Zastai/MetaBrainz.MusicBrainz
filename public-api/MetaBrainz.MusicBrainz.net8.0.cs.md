@@ -2279,7 +2279,7 @@ public sealed class MissingPropertyException : System.Text.Json.JsonException {
 ### Type: BarcodeSubmission
 
 ```cs
-public sealed class BarcodeSubmission : Submission {
+public sealed class BarcodeSubmission : XmlSubmission {
 
   public BarcodeSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease release, string barcode);
 
@@ -2291,7 +2291,7 @@ public sealed class BarcodeSubmission : Submission {
 ### Type: IsrcSubmission
 
 ```cs
-public sealed class IsrcSubmission : Submission {
+public sealed class IsrcSubmission : XmlSubmission {
 
   public IsrcSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> isrcs);
 
@@ -2315,7 +2315,7 @@ public sealed class IsrcSubmission : Submission {
 ### Type: RatingSubmission
 
 ```cs
-public sealed class RatingSubmission : Submission {
+public sealed class RatingSubmission : XmlSubmission {
 
   public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<System.Guid> mbids);
 
@@ -2336,20 +2336,10 @@ public sealed class RatingSubmission : Submission {
 }
 ```
 
-### Type: Submission
-
-```cs
-public abstract class Submission : MetaBrainz.MusicBrainz.Interfaces.Submissions.ISubmission {
-
-  public System.Threading.Tasks.Task<string> SubmitAsync(System.Threading.CancellationToken cancellationToken = default);
-
-}
-```
-
 ### Type: TagSubmission
 
 ```cs
-public sealed class TagSubmission : Submission {
+public sealed class TagSubmission : XmlSubmission {
 
   public TagSubmission Add(MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> tags);
 
@@ -2386,6 +2376,16 @@ public sealed class TagSubmission : Submission {
   public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, System.Collections.Generic.IAsyncEnumerable<System.Guid> mbids);
 
   public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, System.Collections.Generic.IAsyncEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity> entities);
+
+}
+```
+
+### Type: XmlSubmission
+
+```cs
+public abstract class XmlSubmission : MetaBrainz.MusicBrainz.Interfaces.Submissions.ISubmission {
+
+  public System.Threading.Tasks.Task<string> SubmitAsync(System.Threading.CancellationToken cancellationToken = default);
 
 }
 ```
