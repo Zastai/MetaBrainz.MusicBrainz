@@ -1,0 +1,27 @@
+<Solution>
+  <Folder Name="/Support Files/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="build-package.ps1" />
+    <File Path="Directory.Packages.props" />
+    <File Path="LICENSE.md" />
+    <File Path="package-icon.png" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Support Files/GitHub/">
+    <File Path=".github/dependabot.yml" />
+    <File Path=".github/github-labels.yml" />
+    <File Path=".github/release-drafter.yml" />
+  </Folder>
+  <Folder Name="/Support Files/GitHub/Actions/">
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/release-drafter.yml" />
+    <File Path=".github/workflows/update-labels.yml" />
+  </Folder>
+  <Folder Name="/Support Files/User Guide/">
+    <File Path="user-guide/ug-linqpad.png" />
+    <File Path="user-guide/UserGuide.md" />
+  </Folder>
+  <Project Path="MetaBrainz.MusicBrainz/MetaBrainz.MusicBrainz.csproj" />
+</Solution>
