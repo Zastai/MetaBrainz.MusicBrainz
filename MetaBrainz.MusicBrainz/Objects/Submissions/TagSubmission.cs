@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Xml;
 
 using JetBrains.Annotations;
@@ -23,24 +24,62 @@ public sealed class TagSubmission : Submission {
   /// <param name="vote">The vote to apply to the tags.</param>
   /// <param name="tags">The tags to vote for.</param>
   /// <returns>This submission request.</returns>
-  public TagSubmission Add(EntityType entityType, Guid mbid, TagVote vote, params string[] tags) {
+  public TagSubmission Add(EntityType entityType, Guid mbid, TagVote vote, params IEnumerable<string> tags) {
     foreach (var tag in tags) {
-      this.Add(tag, vote, entityType, mbid);
+      this.AddVote(tag, vote, entityType, mbid);
     }
     return this;
   }
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbid">The MBID of the entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(EntityType entityType, Guid mbid, TagVote vote, params ReadOnlySpan<string> tags) {
+    foreach (var tag in tags) {
+      this.AddVote(tag, vote, entityType, mbid);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbid">The MBID of the entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(EntityType entityType, Guid mbid, TagVote vote, params string[] tags)
+    => this.Add(entityType, mbid, vote, tags.AsSpan());
 
   /// <summary>Votes for the specified tags on the specified entity.</summary>
   /// <param name="entity">The entity to tag.</param>
   /// <param name="vote">The vote to apply to the tags.</param>
   /// <param name="tags">The tags to vote for.</param>
   /// <returns>This submission request.</returns>
-  public TagSubmission Add(ITaggableEntity entity, TagVote vote, params string[] tags) {
-    foreach (var tag in tags) {
-      this.Add(tag, vote, entity.EntityType, entity.Id);
-    }
-    return this;
-  }
+  public TagSubmission Add(ITaggableEntity entity, TagVote vote, params IEnumerable<string> tags)
+    => this.Add(entity.EntityType, entity.Id, vote, tags);
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entity">The entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(ITaggableEntity entity, TagVote vote, params ReadOnlySpan<string> tags)
+    => this.Add(entity.EntityType, entity.Id, vote, tags);
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entity">The entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(ITaggableEntity entity, TagVote vote, params string[] tags)
+    => this.Add(entity.EntityType, entity.Id, vote, tags);
 
   /// <summary>Votes for the specified tag on the specified entity.</summary>
   /// <param name="tag">The tag to vote for.</param>
@@ -51,11 +90,7 @@ public sealed class TagSubmission : Submission {
   /// <param name="mbid">The MBID of the entity to tag.</param>
   /// <returns>This submission request.</returns>
   public TagSubmission Add(string tag, TagVote vote, EntityType entityType, Guid mbid) {
-    var map = this.GetMap(entityType);
-    if (!map.TryGetValue(mbid, out var tagVote)) {
-      map.Add(mbid, tagVote = new VoteMap());
-    }
-    tagVote[tag] = vote;
+    this.AddVote(tag, vote, entityType, mbid);
     return this;
   }
 
@@ -67,9 +102,47 @@ public sealed class TagSubmission : Submission {
   /// </param>
   /// <param name="mbids">The MBIDs of the entities to tag.</param>
   /// <returns>This submission request.</returns>
-  public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params Guid[] mbids) {
+  public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params Guid[] mbids)
+    => this.Add(tag, vote, entityType, mbids.AsSpan());
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbids"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbids">The MBIDs of the entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params IEnumerable<Guid> mbids) {
     foreach (var mbid in mbids) {
-      this.Add(tag, vote, entityType, mbid);
+      this.AddVote(tag, vote, entityType, mbid);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbids"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbids">The MBIDs of the entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(string tag, TagVote vote, EntityType entityType, params ReadOnlySpan<Guid> mbids) {
+    foreach (var mbid in mbids) {
+      this.AddVote(tag, vote, entityType, mbid);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entities">The entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(string tag, TagVote vote, params IEnumerable<ITaggableEntity> entities) {
+    foreach (var item in entities) {
+      this.AddVote(tag, vote, item.EntityType, item.Id);
     }
     return this;
   }
@@ -86,9 +159,66 @@ public sealed class TagSubmission : Submission {
   /// <param name="vote">The vote to apply to the tag.</param>
   /// <param name="entities">The entities to tag.</param>
   /// <returns>This submission request.</returns>
-  public TagSubmission Add(string tag, TagVote vote, params ITaggableEntity[] entities) {
+  public TagSubmission Add(string tag, TagVote vote, params ITaggableEntity[] entities) => this.Add(tag, vote, entities.AsSpan());
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entities">The entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public TagSubmission Add(string tag, TagVote vote, params ReadOnlySpan<ITaggableEntity> entities) {
     foreach (var item in entities) {
-      this.Add(tag, vote, item.EntityType, item.Id);
+      this.AddVote(tag, vote, item.EntityType, item.Id);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbid"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbid">The MBID of the entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public async Task<TagSubmission> AddAsync(EntityType entityType, Guid mbid, TagVote vote, IAsyncEnumerable<string> tags) {
+    await foreach (var tag in tags) {
+      this.AddVote(tag, vote, entityType, mbid);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tags on the specified entity.</summary>
+  /// <param name="entity">The entity to tag.</param>
+  /// <param name="vote">The vote to apply to the tags.</param>
+  /// <param name="tags">The tags to vote for.</param>
+  /// <returns>This submission request.</returns>
+  public Task<TagSubmission> AddAsync(ITaggableEntity entity, TagVote vote, IAsyncEnumerable<string> tags)
+    => this.AddAsync(entity.EntityType, entity.Id, vote, tags);
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entityType">
+  /// The type of entity identified by <paramref name="mbids"/>; must be an entity that supports tags.
+  /// </param>
+  /// <param name="mbids">The MBIDs of the entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public async Task<TagSubmission> AddAsync(string tag, TagVote vote, EntityType entityType, IAsyncEnumerable<Guid> mbids) {
+    await foreach (var mbid in mbids) {
+      this.AddVote(tag, vote, entityType, mbid);
+    }
+    return this;
+  }
+
+  /// <summary>Votes for the specified tag on the specified entities.</summary>
+  /// <param name="tag">The tag to vote for.</param>
+  /// <param name="vote">The vote to apply to the tag.</param>
+  /// <param name="entities">The entities to tag.</param>
+  /// <returns>This submission request.</returns>
+  public async Task<TagSubmission> AddAsync(string tag, TagVote vote, IAsyncEnumerable<ITaggableEntity> entities) {
+    await foreach (var item in entities) {
+      this.AddVote(tag, vote, item.EntityType, item.Id);
     }
     return this;
   }
@@ -99,13 +229,9 @@ public sealed class TagSubmission : Submission {
 
   internal TagSubmission(Query query, string client) : base(query, client, "tag", HttpMethod.Post) { }
 
-  private class VoteMap : Dictionary<string, TagVote> {
+  private class VoteMap : Dictionary<string, TagVote>;
 
-  }
-
-  private class TagMap : Dictionary<Guid, VoteMap> {
-
-  }
+  private class TagMap : Dictionary<Guid, VoteMap>;
 
   private readonly TagMap _areas = new();
 
@@ -129,20 +255,29 @@ public sealed class TagSubmission : Submission {
 
   private readonly TagMap _works = new();
 
-  private TagMap GetMap(EntityType entityType) => entityType switch {
-    EntityType.Area => this._areas,
-    EntityType.Artist => this._artists,
-    EntityType.Event => this._events,
-    EntityType.Instrument => this._instruments,
-    EntityType.Label => this._labels,
-    EntityType.Place => this._places,
-    EntityType.Recording => this._recordings,
-    EntityType.Release => this._releases,
-    EntityType.ReleaseGroup => this._releaseGroups,
-    EntityType.Series => this._series,
-    EntityType.Work => this._works,
-    _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be tagged.")
-  };
+  private void AddVote(string tag, TagVote vote, EntityType entityType, Guid mbid) {
+    var tags = entityType switch {
+      EntityType.Area => this._areas,
+      EntityType.Artist => this._artists,
+      EntityType.Event => this._events,
+      EntityType.Instrument => this._instruments,
+      EntityType.Label => this._labels,
+      EntityType.Place => this._places,
+      EntityType.Recording => this._recordings,
+      EntityType.Release => this._releases,
+      EntityType.ReleaseGroup => this._releaseGroups,
+      EntityType.Series => this._series,
+      EntityType.Work => this._works,
+      _ => throw new ArgumentOutOfRangeException(nameof(entityType), entityType, "Entities of this type cannot be tagged.")
+    };
+    VoteMap? votes;
+    while (!tags.TryGetValue(mbid, out votes)) {
+      if (tags.TryAdd(mbid, votes = [])) {
+        break;
+      }
+    }
+    votes[tag] = vote;
+  }
 
   internal override string RequestBody {
     get {

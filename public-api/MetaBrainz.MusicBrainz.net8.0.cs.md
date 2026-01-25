@@ -2629,9 +2629,21 @@ public sealed class BarcodeSubmission : Submission {
 ```cs
 public sealed class IsrcSubmission : Submission {
 
+  public IsrcSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> isrcs);
+
+  public IsrcSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<string> isrcs);
+
   public IsrcSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, params string[] isrcs);
 
+  public IsrcSubmission Add(System.Guid mbid, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> isrcs);
+
+  public IsrcSubmission Add(System.Guid mbid, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<string> isrcs);
+
   public IsrcSubmission Add(System.Guid mbid, params string[] isrcs);
+
+  public System.Threading.Tasks.Task<IsrcSubmission> AddAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording recording, System.Collections.Generic.IAsyncEnumerable<string> isrcs);
+
+  public System.Threading.Tasks.Task<IsrcSubmission> AddAsync(System.Guid mbid, System.Collections.Generic.IAsyncEnumerable<string> isrcs);
 
 }
 ```
@@ -2641,13 +2653,21 @@ public sealed class IsrcSubmission : Submission {
 ```cs
 public sealed class RatingSubmission : Submission {
 
+  public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<System.Guid> mbids);
+
   public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid);
 
   public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, params System.Guid[] mbids);
 
+  public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<System.Guid> mbids);
+
   public RatingSubmission Add(byte rating, MetaBrainz.MusicBrainz.Interfaces.Entities.IRatableEntity entity);
 
   public RatingSubmission Add(byte rating, params MetaBrainz.MusicBrainz.Interfaces.Entities.IRatableEntity[] entities);
+
+  public RatingSubmission Add(byte rating, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<MetaBrainz.MusicBrainz.Interfaces.Entities.IRatableEntity> entities);
+
+  public System.Threading.Tasks.Task<RatingSubmission> AddAsync(byte rating, MetaBrainz.MusicBrainz.EntityType entityType, System.Collections.Generic.IAsyncEnumerable<System.Guid> mbids);
 
 }
 ```
@@ -2667,17 +2687,41 @@ public abstract class Submission : MetaBrainz.MusicBrainz.Interfaces.Submissions
 ```cs
 public sealed class TagSubmission : Submission {
 
+  public TagSubmission Add(MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> tags);
+
+  public TagSubmission Add(MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<string> tags);
+
   public TagSubmission Add(MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid, MetaBrainz.MusicBrainz.TagVote vote, params string[] tags);
 
+  public TagSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity entity, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<string> tags);
+
+  public TagSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity entity, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<string> tags);
+
   public TagSubmission Add(MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity entity, MetaBrainz.MusicBrainz.TagVote vote, params string[] tags);
+
+  public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<System.Guid> mbids);
 
   public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid);
 
   public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, params System.Guid[] mbids);
 
+  public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<System.Guid> mbids);
+
   public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity entity);
 
   public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, params MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity[] entities);
+
+  public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity> entities);
+
+  public TagSubmission Add(string tag, MetaBrainz.MusicBrainz.TagVote vote, [System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity> entities);
+
+  public System.Threading.Tasks.Task<TagSubmission> AddAsync(MetaBrainz.MusicBrainz.EntityType entityType, System.Guid mbid, MetaBrainz.MusicBrainz.TagVote vote, System.Collections.Generic.IAsyncEnumerable<string> tags);
+
+  public System.Threading.Tasks.Task<TagSubmission> AddAsync(MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity entity, MetaBrainz.MusicBrainz.TagVote vote, System.Collections.Generic.IAsyncEnumerable<string> tags);
+
+  public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, MetaBrainz.MusicBrainz.EntityType entityType, System.Collections.Generic.IAsyncEnumerable<System.Guid> mbids);
+
+  public System.Threading.Tasks.Task<TagSubmission> AddAsync(string tag, MetaBrainz.MusicBrainz.TagVote vote, System.Collections.Generic.IAsyncEnumerable<MetaBrainz.MusicBrainz.Interfaces.Entities.ITaggableEntity> entities);
 
 }
 ```
