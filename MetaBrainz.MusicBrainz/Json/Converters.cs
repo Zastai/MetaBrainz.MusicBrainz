@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 using MetaBrainz.MusicBrainz.Json.Readers;
-using MetaBrainz.MusicBrainz.Objects;
 
 namespace MetaBrainz.MusicBrainz.Json;
 
