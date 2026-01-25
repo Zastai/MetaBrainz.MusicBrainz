@@ -11,7 +11,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for adding barcodes to releases.</summary>
 [PublicAPI]
-public sealed class BarcodeSubmission : Submission {
+public sealed class BarcodeSubmission : XmlSubmission {
 
   #region Public API
 
@@ -38,24 +38,15 @@ public sealed class BarcodeSubmission : Submission {
 
   private readonly Dictionary<Guid, string> _barcodes = new();
 
-  internal override string RequestBody {
-    get {
-      using var sw = new U8StringWriter();
-      using (var xml = XmlWriter.Create(sw)) {
-        xml.WriteStartDocument();
-        xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        xml.WriteStartElement("release-list");
-        foreach (var entry in this._barcodes) {
-          xml.WriteStartElement("release");
-          xml.WriteAttributeString("id", entry.Key.ToString("D"));
-          xml.WriteElementString("barcode", entry.Value);
-          xml.WriteEndElement();
-        }
-        xml.WriteEndElement();
-        xml.WriteEndElement();
-      }
-      return sw.ToString();
+  private protected override void WriteBodyContents(XmlWriter xml) {
+    xml.WriteStartElement("release-list");
+    foreach (var entry in this._barcodes) {
+      xml.WriteStartElement("release");
+      xml.WriteAttributeString("id", entry.Key.ToString("D"));
+      xml.WriteElementString("barcode", entry.Value);
+      xml.WriteEndElement();
     }
+    xml.WriteEndElement();
   }
 
   #endregion

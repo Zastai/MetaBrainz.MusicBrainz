@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
 /// <summary>A submission request for modifying tags on various entities.</summary>
 [PublicAPI]
-public sealed class TagSubmission : Submission {
+public sealed class TagSubmission : XmlSubmission {
 
   #region Public API
 
@@ -279,30 +279,21 @@ public sealed class TagSubmission : Submission {
     votes[tag] = vote;
   }
 
-  internal override string RequestBody {
-    get {
-      using var sw = new U8StringWriter();
-      using (var xml = XmlWriter.Create(sw)) {
-        xml.WriteStartDocument();
-        xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
-        TagSubmission.Write(xml, this._areas, "area");
-        TagSubmission.Write(xml, this._artists, "artist");
-        TagSubmission.Write(xml, this._events, "event");
-        TagSubmission.Write(xml, this._instruments, "instrument");
-        TagSubmission.Write(xml, this._labels, "label");
-        TagSubmission.Write(xml, this._places, "place");
-        TagSubmission.Write(xml, this._recordings, "recording");
-        TagSubmission.Write(xml, this._releases, "release");
-        TagSubmission.Write(xml, this._releaseGroups, "release-group");
-        TagSubmission.Write(xml, this._series, "series");
-        TagSubmission.Write(xml, this._works, "work");
-        xml.WriteEndElement();
-      }
-      return sw.ToString();
-    }
+  private protected override void WriteBodyContents(XmlWriter xml) {
+    TagSubmission.WriteBodyContents(xml, this._areas, "area");
+    TagSubmission.WriteBodyContents(xml, this._artists, "artist");
+    TagSubmission.WriteBodyContents(xml, this._events, "event");
+    TagSubmission.WriteBodyContents(xml, this._instruments, "instrument");
+    TagSubmission.WriteBodyContents(xml, this._labels, "label");
+    TagSubmission.WriteBodyContents(xml, this._places, "place");
+    TagSubmission.WriteBodyContents(xml, this._recordings, "recording");
+    TagSubmission.WriteBodyContents(xml, this._releases, "release");
+    TagSubmission.WriteBodyContents(xml, this._releaseGroups, "release-group");
+    TagSubmission.WriteBodyContents(xml, this._series, "series");
+    TagSubmission.WriteBodyContents(xml, this._works, "work");
   }
 
-  private static void Write(XmlWriter xml, TagMap items, string element) {
+  private static void WriteBodyContents(XmlWriter xml, TagMap items, string element) {
     if (items.Count == 0) {
       return;
     }

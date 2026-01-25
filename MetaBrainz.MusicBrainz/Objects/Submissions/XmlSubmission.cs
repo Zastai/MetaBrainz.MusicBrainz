@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 using JetBrains.Annotations;
 
@@ -12,9 +13,9 @@ using MetaBrainz.MusicBrainz.Interfaces.Submissions;
 
 namespace MetaBrainz.MusicBrainz.Objects.Submissions;
 
-/// <summary>Base class for the submission request classes.</summary>
+/// <summary>Base class for the submission request classes that use XML bodies.</summary>
 [PublicAPI]
-public abstract class Submission : ISubmission {
+public abstract class XmlSubmission : ISubmission {
 
   #region Public API
 
@@ -30,9 +31,14 @@ public abstract class Submission : ISubmission {
 
   #region Internals
 
-  internal abstract string RequestBody { get; }
+  // A StringWriter using UTF-8 as encoding (so that XmlWriter writes "utf-8" as encoding instead of "utf-16").
+  private sealed class U8StringWriter : StringWriter {
 
-  internal Submission(Query query, string client, string entity, HttpMethod method) {
+    public override Encoding Encoding => Encoding.UTF8;
+
+  }
+
+  private protected XmlSubmission(Query query, string client, string entity, HttpMethod method) {
     if (string.IsNullOrWhiteSpace(client)) {
       throw new ArgumentException("The client ID must not be blank.", nameof(client));
     }
@@ -42,7 +48,20 @@ public abstract class Submission : ISubmission {
     this._method = method;
   }
 
-  private readonly Query _query;
+  internal string RequestBody {
+    get {
+      using var sw = new U8StringWriter();
+      using (var xml = XmlWriter.Create(sw)) {
+        xml.WriteStartDocument();
+        xml.WriteStartElement("", "metadata", "http://musicbrainz.org/ns/mmd-2.0#");
+        this.WriteBodyContents(xml);
+        xml.WriteEndElement();
+      }
+      return sw.ToString();
+    }
+  }
+
+  private protected abstract void WriteBodyContents(XmlWriter xml);
 
   private readonly string _client;
 
@@ -50,22 +69,17 @@ public abstract class Submission : ISubmission {
 
   private readonly HttpMethod _method;
 
+  private readonly Query _query;
+
   string ISubmission.Client => this._client;
+
+  string ISubmission.ContentType => "application/xml";
 
   string ISubmission.Entity => this._entity;
 
   HttpMethod ISubmission.Method => this._method;
 
   string ISubmission.RequestBody => this.RequestBody;
-
-  string ISubmission.ContentType => "application/xml";
-
-  // A StringWriter using UTF-8 as encoding (so that XmlWriter writes "utf-8" as encoding instead of "utf-16").
-  internal sealed class U8StringWriter : StringWriter {
-
-    public override Encoding Encoding => Encoding.UTF8;
-
-  }
 
   #endregion
 
