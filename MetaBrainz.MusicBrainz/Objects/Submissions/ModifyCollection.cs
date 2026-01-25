@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 using MetaBrainz.MusicBrainz.Interfaces.Submissions;
@@ -26,21 +27,46 @@ internal sealed class ModifyCollection : ISubmission {
     return this;
   }
 
-  public ModifyCollection Add<T>(T item) where T : IEntity {
-    this._request.Append(item.Id.ToString("D")).Append(';');
-    return this;
-  }
-
   public ModifyCollection Add(IEnumerable<Guid> items) {
     foreach (var item in items) {
-      this._request.Append(item.ToString("D")).Append(';');
+      this.Add(item);
     }
     return this;
   }
 
   public ModifyCollection Add<T>(IEnumerable<T> items) where T : IEntity {
     foreach (var item in items) {
-      this._request.Append(item.Id.ToString("D")).Append(';');
+      this.Add(item);
+    }
+    return this;
+  }
+
+  public ModifyCollection Add(ReadOnlySpan<Guid> items) {
+    foreach (var item in items) {
+      this.Add(item);
+    }
+    return this;
+  }
+
+  public ModifyCollection Add<T>(ReadOnlySpan<T> items) where T : IEntity {
+    foreach (var item in items) {
+      this.Add(item);
+    }
+    return this;
+  }
+
+  public ModifyCollection Add<T>(T item) where T : IEntity => this.Add(item.Id);
+
+  public async Task<ModifyCollection> AddAsync(IAsyncEnumerable<Guid> items) {
+    await foreach (var item in items) {
+      this.Add(item);
+    }
+    return this;
+  }
+
+  public async Task<ModifyCollection> AddAsync<T>(IAsyncEnumerable<T> items) where T : IEntity {
+    await foreach (var item in items) {
+      this.Add(item);
     }
     return this;
   }

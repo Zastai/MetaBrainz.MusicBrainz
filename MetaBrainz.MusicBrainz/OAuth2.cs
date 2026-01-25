@@ -34,46 +34,40 @@ public sealed class OAuth2 : IDisposable {
   /// </remarks>
   public static string DefaultClientId { get; set; } = "";
 
-  private static int _defaultPort = -1;
-
   /// <summary>The default port number to use for requests (-1 to not specify any explicit port).</summary>
   public static int DefaultPort {
-    get => OAuth2._defaultPort;
+    get;
     set {
       if (value is < -1 or > 65535) {
         throw new ArgumentOutOfRangeException(nameof(OAuth2.DefaultPort), value,
                                               "The default port number must not be less than -1 or greater than 65535.");
       }
-      OAuth2._defaultPort = value;
+      field = value;
     }
-  }
-
-  private static string _defaultServer = "musicbrainz.org";
+  } = -1;
 
   /// <summary>The default server to use for requests.</summary>
   public static string DefaultServer {
-    get => OAuth2._defaultServer;
+    get;
     set {
       if (string.IsNullOrWhiteSpace(value)) {
         throw new ArgumentException("The default server name must not be blank.", nameof(OAuth2.DefaultServer));
       }
-      OAuth2._defaultServer = value.Trim();
+      field = value.Trim();
     }
-  }
-
-  private static string _defaultUrlScheme = "https";
+  } = "musicbrainz.org";
 
   /// <summary>The default URL scheme (internet access protocol) to use for requests.</summary>
   /// <remarks>For the official MusicBrainz site, this <em>must</em> be <c>https</c>.</remarks>
   public static string DefaultUrlScheme {
-    get => OAuth2._defaultUrlScheme;
+    get;
     set {
       if (string.IsNullOrWhiteSpace(value)) {
         throw new ArgumentException("The default URL scheme must not be blank.", nameof(OAuth2.DefaultUrlScheme));
       }
-      OAuth2._defaultUrlScheme = value.Trim();
+      field = value.Trim();
     }
-  }
+  } = "https";
 
   /// <summary>The URI to use for out-of-band authorization.</summary>
   public static readonly Uri OutOfBandUri = new("urn:ietf:wg:oauth:2.0:oob");
@@ -131,46 +125,40 @@ public sealed class OAuth2 : IDisposable {
   /// </remarks>
   public string ClientId { get; set; } = OAuth2.DefaultClientId;
 
-  private int _port = OAuth2.DefaultPort;
-
   /// <summary>The port number to use for requests (-1 to not specify any explicit port).</summary>
   public int Port {
-    get => this._port;
+    get;
     set {
       if (value is < -1 or > 65535) {
         throw new ArgumentOutOfRangeException(nameof(OAuth2.Port), value,
                                               "The port number must not be less than -1 or greater than 65535.");
       }
-      this._port = value;
+      field = value;
     }
-  }
-
-  private string _server = OAuth2.DefaultServer;
+  } = OAuth2.DefaultPort;
 
   /// <summary>The website to use for requests.</summary>
   public string Server {
-    get => this._server;
+    get;
     set {
       if (string.IsNullOrWhiteSpace(value)) {
         throw new ArgumentException("The server name must not be blank.", nameof(OAuth2.Server));
       }
-      this._server = value.Trim();
+      field = value.Trim();
     }
-  }
-
-  private string _urlScheme = OAuth2.DefaultUrlScheme;
+  } = OAuth2.DefaultServer;
 
   /// <summary>The URL scheme (internet access protocol) to use for requests.</summary>
   /// <remarks>For the official MusicBrainz site, this <em>must</em> be <c>https</c>.</remarks>
   public string UrlScheme {
-    get => this._urlScheme;
+    get;
     set {
       if (string.IsNullOrWhiteSpace(value)) {
         throw new ArgumentException("The URL scheme must not be blank.", nameof(OAuth2.UrlScheme));
       }
-      this._urlScheme = value.Trim();
+      field = value.Trim();
     }
-  }
+  } = OAuth2.DefaultUrlScheme;
 
   #endregion
 
