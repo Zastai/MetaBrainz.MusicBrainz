@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -26,11 +27,12 @@ internal sealed class Alias : JsonBasedObject, IAlias {
   public Guid? TypeId { get; init; }
 
   public override string ToString() {
-    var text = this.Name;
-    if (!string.IsNullOrEmpty(this.Type)) {
-      text += $" ({this.Type})";
+    var text = new StringBuilder();
+    text.Append(this.Name);
+    if (this.Type is not null) {
+      text.Append(" (").Append(this.Type).Append(')');
     }
-    return text;
+    return text.ToString();
   }
 
 }

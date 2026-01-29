@@ -84,20 +84,20 @@ internal sealed class InstrumentReader : ObjectReader<Instrument> {
       reader.Read();
     }
     return new Instrument {
-      Aliases = aliases,
-      Annotation = annotation,
-      Description = description,
-      Disambiguation = disambiguation,
-      Genres = genres,
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
+      Description = description ?? "",
+      Disambiguation = disambiguation ?? "",
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
-      Name = name,
-      Relationships = relations,
-      Tags = tags,
-      Type = type,
+      Name = name ?? "",
+      Relationships = relations ?? [],
+      Tags = tags ?? [],
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      UserGenres = userGenres,
-      UserTags = userTags,
+      UserGenres = userGenres ?? [],
+      UserTags = userTags ?? [],
     };
   }
 

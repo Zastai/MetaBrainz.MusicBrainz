@@ -68,13 +68,13 @@ internal sealed class CdStubReader : ObjectReader<CdStub> {
       }
     }
     return new CdStub {
-      Artist = artist,
-      Barcode = barcode,
-      Disambiguation = disambiguation,
+      Artist = artist ?? "",
+      Barcode = barcode ?? "",
+      Disambiguation = disambiguation ?? "",
       Id = id ?? throw new MissingPropertyException("id"),
       Title = title ?? throw new MissingPropertyException("title"),
       TrackCount = trackCount ?? 0,
-      Tracks = tracks,
+      Tracks = tracks ?? [],
       UnhandledProperties = rest,
     };
   }

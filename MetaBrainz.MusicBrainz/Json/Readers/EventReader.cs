@@ -104,25 +104,25 @@ internal sealed class EventReader : ObjectReader<Event> {
       reader.Read();
     }
     return new Event {
-      Aliases = aliases,
-      Annotation = annotation,
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
       Cancelled = cancelled,
-      Disambiguation = disambiguation,
-      Genres = genres,
+      Disambiguation = disambiguation ?? "",
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
       LifeSpan = lifeSpan,
-      Name = name,
+      Name = name ?? "",
       Rating = rating,
-      Relationships = relations,
-      Setlist = setlist,
-      Tags = tags,
-      Time = time,
-      Type = type,
+      Relationships = relations ?? [],
+      Setlist = setlist ?? "",
+      Tags = tags ?? [],
+      Time = time is null or "" ? null : TimeOnly.ParseExact(time, "HH:mm"),
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      UserGenres = userGenres,
+      UserGenres = userGenres ?? [],
       UserRating = userRating,
-      UserTags = userTags,
+      UserTags = userTags ?? [],
     };
   }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -12,13 +13,13 @@ internal sealed class Relationship : JsonBasedObject, IRelationship {
 
   public IArtist? Artist { get; init; }
 
-  public IReadOnlyList<string>? Attributes { get; init; }
+  public required IReadOnlyList<string> Attributes { get; init; }
 
-  public IReadOnlyDictionary<string, string>? AttributeCredits { get; init; }
+  public required IReadOnlyDictionary<string, string> AttributeCredits { get; init; }
 
-  public IReadOnlyDictionary<string, Guid>? AttributeIds { get; init; }
+  public required IReadOnlyDictionary<string, Guid> AttributeIds { get; init; }
 
-  public IReadOnlyDictionary<string, string>? AttributeValues { get; init; }
+  public required IReadOnlyDictionary<string, string> AttributeValues { get; init; }
 
   public PartialDate? Begin { get; init; }
 
@@ -78,6 +79,16 @@ internal sealed class Relationship : JsonBasedObject, IRelationship {
 
   public IWork? Work { get; init; }
 
-  public override string ToString() => $"{this.Type} → {this.TargetType}: {this.Target}";
+  public override string ToString() {
+    var text = new StringBuilder();
+    text.Append(this.Type ?? "???").Append(" → ");
+    if (this.TargetType is null) {
+      text.Append("???");
+    }
+    else {
+      text.Append(this.TargetType).Append(": ").Append(this.Target);
+    }
+    return text.ToString();
+  }
 
 }

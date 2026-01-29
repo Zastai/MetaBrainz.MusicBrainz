@@ -47,10 +47,10 @@ internal sealed class WorkAttributeReader : ObjectReader<WorkAttribute> {
       reader.Read();
     }
     return new WorkAttribute {
-      Type = type,
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      Value = value,
+      Value = value is "" ? null : value,
       ValueId = valueId,
     };
   }

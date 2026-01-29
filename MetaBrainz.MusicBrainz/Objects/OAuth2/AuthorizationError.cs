@@ -4,8 +4,8 @@ namespace MetaBrainz.MusicBrainz.Objects.OAuth2;
 
 internal sealed class AuthorizationError : JsonBasedObject {
 
-  public string? Error { get; init; }
+  public required string Error { get; init; }
 
-  public string? Description { get; init; }
+  public required string Description { get; init; }
 
 }

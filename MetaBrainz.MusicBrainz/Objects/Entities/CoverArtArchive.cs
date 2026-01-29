@@ -19,7 +19,7 @@ internal sealed class CoverArtArchive : JsonBasedObject, ICoverArtArchive {
     if (this.Darkened) {
       return "<cover art taken down>";
     }
-    return (this.Count == 0) ? "<no cover art>" : $"{this.Count} item(s)";
+    return this.Count == 0 ? "<no cover art>" : $"{this.Count} item(s)";
   }
 
 }

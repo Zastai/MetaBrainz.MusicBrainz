@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 using JetBrains.Annotations;
 
@@ -10,17 +11,17 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 [UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 internal sealed class ReleaseGroup() : Entity(EntityType.ReleaseGroup), IReleaseGroup {
 
-  public IReadOnlyList<IAlias>? Aliases { get; init; }
+  public required IReadOnlyList<IAlias> Aliases { get; init; }
 
-  public string? Annotation { get; init; }
+  public required string Annotation { get; init; }
 
-  public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
+  public required IReadOnlyList<INameCredit> ArtistCredit { get; init; }
 
-  public string? Disambiguation { get; init; }
+  public required string Disambiguation { get; init; }
 
   public PartialDate? FirstReleaseDate { get; init; }
 
-  public IReadOnlyList<IGenre>? Genres { get; init; }
+  public required IReadOnlyList<IGenre> Genres { get; init; }
 
   public string? PrimaryType { get; init; }
 
@@ -28,40 +29,40 @@ internal sealed class ReleaseGroup() : Entity(EntityType.ReleaseGroup), IRelease
 
   public IRating? Rating { get; init; }
 
-  public IReadOnlyList<IRelationship>? Relationships { get; init; }
+  public required IReadOnlyList<IRelationship> Relationships { get; init; }
 
-  public IReadOnlyList<IRelease>? Releases { get; init; }
+  public required IReadOnlyList<IRelease> Releases { get; init; }
 
-  public IReadOnlyList<string>? SecondaryTypes { get; init; }
+  public required IReadOnlyList<string> SecondaryTypes { get; init; }
 
-  public IReadOnlyList<Guid>? SecondaryTypeIds { get; init; }
+  public required IReadOnlyList<Guid> SecondaryTypeIds { get; init; }
 
-  public IReadOnlyList<ITag>? Tags { get; init; }
+  public required IReadOnlyList<ITag> Tags { get; init; }
 
-  public string? Title { get; init; }
+  public required string Title { get; init; }
 
-  public IReadOnlyList<IGenre>? UserGenres { get; init; }
+  public required IReadOnlyList<IGenre> UserGenres { get; init; }
 
   public IRating? UserRating { get; init; }
 
-  public IReadOnlyList<ITag>? UserTags { get; init; }
+  public required IReadOnlyList<ITag> UserTags { get; init; }
 
   public override string ToString() {
-    var text = string.Empty;
-    if (this.ArtistCredit is not null) {
-      foreach (var nc in this.ArtistCredit) {
-        text += nc.ToString();
-      }
-      text += " / ";
+    var text = new StringBuilder();
+    foreach (var nc in this.ArtistCredit) {
+      text.Append(nc);
     }
-    text += this.Title;
-    if (!string.IsNullOrEmpty(this.Disambiguation)) {
-      text += $" ({this.Disambiguation})";
+    if (text.Length > 0) {
+      text.Append(" / ");
     }
-    if (!string.IsNullOrEmpty(this.PrimaryType)) {
-      text += $" ({this.PrimaryType})";
+    text.Append(this.Title);
+    if (this.Disambiguation is not "") {
+      text.Append(" (").Append(this.Disambiguation).Append(')');
     }
-    return text;
+    if (this.PrimaryType is not null) {
+      text.Append(" (").Append(this.PrimaryType).Append(')');
+    }
+    return text.ToString();
   }
 
 }

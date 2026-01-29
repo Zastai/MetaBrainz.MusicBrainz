@@ -1,4 +1,6 @@
-﻿using MetaBrainz.Common.Json;
+﻿using System.Text;
+
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
@@ -10,17 +12,17 @@ internal sealed class LabelInfo : JsonBasedObject, ILabelInfo {
   public ILabel? Label { get; init; }
 
   public override string ToString() {
-    var text = string.Empty;
+    var text = new StringBuilder();
     if (this.Label is not null) {
-      text += this.Label;
+      text.Append(this.Label);
       if (this.CatalogNumber is not null) {
-        text += ": ";
+        text.Append(": ");
       }
     }
     if (this.CatalogNumber is not null) {
-      text += this.CatalogNumber;
+      text.Append(this.CatalogNumber);
     }
-    return text;
+    return text.ToString();
   }
 
 }

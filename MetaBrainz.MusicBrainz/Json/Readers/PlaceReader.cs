@@ -96,23 +96,23 @@ internal sealed class PlaceReader : ObjectReader<Place> {
       reader.Read();
     }
     return new Place {
-      Address = address,
-      Aliases = aliases,
-      Annotation = annotation,
+      Address = address ?? "",
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
       Area = area,
       Coordinates = coordinates,
-      Disambiguation = disambiguation,
-      Genres = genres,
+      Disambiguation = disambiguation ?? "",
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
       LifeSpan = lifeSpan,
-      Name = name,
-      Relationships = relations,
-      Tags = tags,
-      Type = type,
+      Name = name ?? "",
+      Relationships = relations ?? [],
+      Tags = tags ?? [],
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      UserGenres = userGenres,
-      UserTags = userTags,
+      UserGenres = userGenres ?? [],
+      UserTags = userTags ?? [],
     };
   }
 

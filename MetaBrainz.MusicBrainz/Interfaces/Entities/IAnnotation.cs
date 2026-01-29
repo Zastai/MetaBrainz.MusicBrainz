@@ -17,9 +17,9 @@ public interface IAnnotation : IJsonBasedObject {
   EntityType? Type { get; }
 
   /// <summary>The name of the entity the annotation is attached to.</summary>
-  string? Name { get; }
+  string Name { get; }
 
   /// <summary>The annotation's text.</summary>
-  string? Text { get; }
+  string Text { get; }
 
 }

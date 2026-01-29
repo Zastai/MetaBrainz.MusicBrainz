@@ -76,7 +76,7 @@ internal sealed class AliasReader : ObjectReader<Alias> {
       Name = name ?? throw new MissingPropertyException("name"),
       Primary = primary,
       SortName = sortName,
-      Type = type,
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
     };

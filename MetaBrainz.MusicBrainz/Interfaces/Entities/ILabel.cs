@@ -16,10 +16,10 @@ public interface ILabel : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatab
   string? Country { get; }
 
   /// <summary>The IPI (Interested Parties Information) codes associated with this label.</summary>
-  IReadOnlyList<string>? Ipis { get; }
+  IReadOnlyList<string> Ipis { get; }
 
   /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this label.</summary>
-  IReadOnlyList<string>? Isnis { get; }
+  IReadOnlyList<string> Isnis { get; }
 
   /// <summary>The label code for this label (as in &quot;LC-<em>nnnn</em>&quot;).</summary>
   int? LabelCode { get; }
@@ -28,7 +28,7 @@ public interface ILabel : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatab
   ILifeSpan? LifeSpan { get; }
 
   /// <summary>The releases associated with the label, if any.</summary>
-  IReadOnlyList<IRelease>? Releases { get; }
+  IReadOnlyList<IRelease> Releases { get; }
 
   /// <summary>The label's sort name.</summary>
   string? SortName { get; }

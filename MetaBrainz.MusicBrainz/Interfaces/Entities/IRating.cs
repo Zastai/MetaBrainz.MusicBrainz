@@ -9,9 +9,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IRating : IJsonBasedObject {
 
   /// <summary>The rating value, if any, expressed as a fractional number of stars (0-5).</summary>
-  decimal? Value { get; }
+  decimal Value { get; }
 
   /// <summary>The number of ratings submitted for the entity, if applicable.</summary>
-  int? VoteCount { get; }
+  int VoteCount { get; }
 
 }

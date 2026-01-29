@@ -131,24 +131,24 @@ internal sealed class AreaReader : ObjectReader<Area> {
       reader.Read();
     }
     return new Area {
-      Aliases = aliases,
-      Annotation = annotation,
-      Disambiguation = disambiguation,
-      Genres = genres,
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
+      Disambiguation = disambiguation ?? "",
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
-      Iso31661Codes = iso31661Codes,
-      Iso31662Codes = iso31662Codes,
-      Iso31663Codes = iso31663Codes,
+      Iso31661Codes = iso31661Codes ?? [],
+      Iso31662Codes = iso31662Codes ?? [],
+      Iso31663Codes = iso31663Codes ?? [],
       LifeSpan = lifeSpan,
-      Name = name,
-      Relationships = relations,
+      Name = name ?? "",
+      Relationships = relations ?? [],
       SortName = sortName,
-      Tags = tags,
-      Type = type,
+      Tags = tags ?? [],
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      UserGenres = userGenres,
-      UserTags = userTags,
+      UserGenres = userGenres ?? [],
+      UserTags = userTags ?? [],
     };
   }
 

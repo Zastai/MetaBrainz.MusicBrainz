@@ -35,7 +35,7 @@ internal sealed class MessageResultReader : ObjectReader<MessageResult> {
       reader.Read();
     }
     return new MessageResult {
-      Message = message,
+      Message = message ?? "",
       UnhandledProperties = rest
     };
   }

@@ -22,6 +22,6 @@ public interface ICollection : ITypedEntity {
   int ItemCount { get; }
 
   /// <summary>The name of the collection.</summary>
-  string? Name { get; }
+  string Name { get; }
 
 }

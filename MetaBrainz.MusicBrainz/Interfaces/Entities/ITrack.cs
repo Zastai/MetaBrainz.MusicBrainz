@@ -12,7 +12,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface ITrack : IJsonBasedObject {
 
   /// <summary>The artist credit for the track.</summary>
-  IReadOnlyList<INameCredit>? ArtistCredit { get; }
+  IReadOnlyList<INameCredit> ArtistCredit { get; }
 
   /// <summary>The MBID for the track.</summary>
   Guid Id { get; }
@@ -30,6 +30,6 @@ public interface ITrack : IJsonBasedObject {
   IRecording? Recording { get; }
 
   /// <summary>The track title.</summary>
-  string? Title { get; }
+  string Title { get; }
 
 }

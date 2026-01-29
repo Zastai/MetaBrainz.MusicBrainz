@@ -1156,7 +1156,7 @@ public interface IAlias : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IAliasedEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<IAlias>? Aliases {
+  System.Collections.Generic.IReadOnlyList<IAlias> Aliases {
     public abstract get;
   }
 
@@ -1168,7 +1168,7 @@ public interface IAliasedEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObje
 ```cs
 public interface IAnnotatedEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Annotation {
+  string Annotation {
     public abstract get;
   }
 
@@ -1184,11 +1184,11 @@ public interface IAnnotation : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  string? Name {
+  string Name {
     public abstract get;
   }
 
-  string? Text {
+  string Text {
     public abstract get;
   }
 
@@ -1204,15 +1204,15 @@ public interface IAnnotation : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IArea : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<string>? Iso31661Codes {
+  System.Collections.Generic.IReadOnlyList<string> Iso31661Codes {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Iso31662Codes {
+  System.Collections.Generic.IReadOnlyList<string> Iso31662Codes {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Iso31663Codes {
+  System.Collections.Generic.IReadOnlyList<string> Iso31663Codes {
     public abstract get;
   }
 
@@ -1256,11 +1256,11 @@ public interface IArtist : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEnti
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Ipis {
+  System.Collections.Generic.IReadOnlyList<string> Ipis {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Isnis {
+  System.Collections.Generic.IReadOnlyList<string> Isnis {
     public abstract get;
   }
 
@@ -1268,15 +1268,15 @@ public interface IArtist : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEnti
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRecording>? Recordings {
+  System.Collections.Generic.IReadOnlyList<IRecording> Recordings {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IReleaseGroup>? ReleaseGroups {
+  System.Collections.Generic.IReadOnlyList<IReleaseGroup> ReleaseGroups {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRelease>? Releases {
+  System.Collections.Generic.IReadOnlyList<IRelease> Releases {
     public abstract get;
   }
 
@@ -1284,7 +1284,7 @@ public interface IArtist : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEnti
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IWork>? Works {
+  System.Collections.Generic.IReadOnlyList<IWork> Works {
     public abstract get;
   }
 
@@ -1296,15 +1296,15 @@ public interface IArtist : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEnti
 ```cs
 public interface ICdStub : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Artist {
+  string Artist {
     public abstract get;
   }
 
-  string? Barcode {
+  string Barcode {
     public abstract get;
   }
 
-  string? Disambiguation {
+  string Disambiguation {
     public abstract get;
   }
 
@@ -1320,7 +1320,7 @@ public interface ICdStub : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ISimpleTrack>? Tracks {
+  System.Collections.Generic.IReadOnlyList<ISimpleTrack> Tracks {
     public abstract get;
   }
 
@@ -1344,7 +1344,7 @@ public interface ICollection : IEntity, ITypedEntity, MetaBrainz.Common.Json.IJs
     public abstract get;
   }
 
-  string? Name {
+  string Name {
     public abstract get;
   }
 
@@ -1408,7 +1408,7 @@ public interface IDisc : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRelease>? Releases {
+  System.Collections.Generic.IReadOnlyList<IRelease> Releases {
     public abstract get;
   }
 
@@ -1448,11 +1448,11 @@ public interface IEvent : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntit
     public abstract get;
   }
 
-  string? Setlist {
+  string Setlist {
     public abstract get;
   }
 
-  string? Time {
+  System.TimeOnly? Time {
     public abstract get;
   }
 
@@ -1464,7 +1464,7 @@ public interface IEvent : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntit
 ```cs
 public interface IGenre : IEntity, INamedEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  int? VoteCount {
+  int VoteCount {
     public abstract get;
   }
 
@@ -1476,7 +1476,7 @@ public interface IGenre : IEntity, INamedEntity, MetaBrainz.Common.Json.IJsonBas
 ```cs
 public interface IInstrument : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Description {
+  string Description {
     public abstract get;
   }
 
@@ -1512,11 +1512,11 @@ public interface ILabel : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntit
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Ipis {
+  System.Collections.Generic.IReadOnlyList<string> Ipis {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Isnis {
+  System.Collections.Generic.IReadOnlyList<string> Isnis {
     public abstract get;
   }
 
@@ -1528,7 +1528,7 @@ public interface ILabel : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntit
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRelease>? Releases {
+  System.Collections.Generic.IReadOnlyList<IRelease> Releases {
     public abstract get;
   }
 
@@ -1580,11 +1580,11 @@ public interface ILifeSpan : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IMedium : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<ITrack>? DataTracks {
+  System.Collections.Generic.IReadOnlyList<ITrack> DataTracks {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IDisc>? Discs {
+  System.Collections.Generic.IReadOnlyList<IDisc> Discs {
     public abstract get;
   }
 
@@ -1608,7 +1608,7 @@ public interface IMedium : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  string? Title {
+  string Title {
     public abstract get;
   }
 
@@ -1620,7 +1620,7 @@ public interface IMedium : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ITrack>? Tracks {
+  System.Collections.Generic.IReadOnlyList<ITrack> Tracks {
     public abstract get;
   }
 
@@ -1652,11 +1652,11 @@ public interface INameCredit : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface INamedEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Disambiguation {
+  string Disambiguation {
     public abstract get;
   }
 
-  string? Name {
+  string Name {
     public abstract get;
   }
 
@@ -1668,7 +1668,7 @@ public interface INamedEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject
 ```cs
 public interface IPlace : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Address {
+  string Address {
     public abstract get;
   }
 
@@ -1708,11 +1708,11 @@ public interface IRatableEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObje
 ```cs
 public interface IRating : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  decimal? Value {
+  decimal Value {
     public abstract get;
   }
 
-  int? VoteCount {
+  int VoteCount {
     public abstract get;
   }
 
@@ -1724,7 +1724,7 @@ public interface IRating : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IRecording : IAliasedEntity, IAnnotatedEntity, IEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<INameCredit>? ArtistCredit {
+  System.Collections.Generic.IReadOnlyList<INameCredit> ArtistCredit {
     public abstract get;
   }
 
@@ -1732,7 +1732,7 @@ public interface IRecording : IAliasedEntity, IAnnotatedEntity, IEntity, IRatabl
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Isrcs {
+  System.Collections.Generic.IReadOnlyList<string> Isrcs {
     public abstract get;
   }
 
@@ -1740,7 +1740,7 @@ public interface IRecording : IAliasedEntity, IAnnotatedEntity, IEntity, IRatabl
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRelease>? Releases {
+  System.Collections.Generic.IReadOnlyList<IRelease> Releases {
     public abstract get;
   }
 
@@ -1756,7 +1756,7 @@ public interface IRecording : IAliasedEntity, IAnnotatedEntity, IEntity, IRatabl
 ```cs
 public interface IRelatableEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<IRelationship>? Relationships {
+  System.Collections.Generic.IReadOnlyList<IRelationship> Relationships {
     public abstract get;
   }
 
@@ -1776,19 +1776,19 @@ public interface IRelationship : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyDictionary<string, string>? AttributeCredits {
+  System.Collections.Generic.IReadOnlyDictionary<string, string> AttributeCredits {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyDictionary<string, System.Guid>? AttributeIds {
+  System.Collections.Generic.IReadOnlyDictionary<string, System.Guid> AttributeIds {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyDictionary<string, string>? AttributeValues {
+  System.Collections.Generic.IReadOnlyDictionary<string, string> AttributeValues {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Attributes {
+  System.Collections.Generic.IReadOnlyList<string> Attributes {
     public abstract get;
   }
 
@@ -1888,19 +1888,19 @@ public interface IRelationship : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IRelease : IAliasedEntity, IAnnotatedEntity, IEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<INameCredit>? ArtistCredit {
+  System.Collections.Generic.IReadOnlyList<INameCredit> ArtistCredit {
     public abstract get;
   }
 
-  string? Asin {
+  string Asin {
     public abstract get;
   }
 
-  string? Barcode {
+  string Barcode {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ICollection>? Collections {
+  System.Collections.Generic.IReadOnlyList<ICollection> Collections {
     public abstract get;
   }
 
@@ -1916,11 +1916,11 @@ public interface IRelease : IAliasedEntity, IAnnotatedEntity, IEntity, IRelatabl
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ILabelInfo>? LabelInfo {
+  System.Collections.Generic.IReadOnlyList<ILabelInfo> LabelInfo {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IMedium>? Media {
+  System.Collections.Generic.IReadOnlyList<IMedium> Media {
     public abstract get;
   }
 
@@ -1936,7 +1936,7 @@ public interface IRelease : IAliasedEntity, IAnnotatedEntity, IEntity, IRelatabl
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IReleaseEvent>? ReleaseEvents {
+  System.Collections.Generic.IReadOnlyList<IReleaseEvent> ReleaseEvents {
     public abstract get;
   }
 
@@ -1980,7 +1980,7 @@ public interface IReleaseEvent : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface IReleaseGroup : IAliasedEntity, IAnnotatedEntity, IEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<INameCredit>? ArtistCredit {
+  System.Collections.Generic.IReadOnlyList<INameCredit> ArtistCredit {
     public abstract get;
   }
 
@@ -1996,15 +1996,15 @@ public interface IReleaseGroup : IAliasedEntity, IAnnotatedEntity, IEntity, IRat
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IRelease>? Releases {
+  System.Collections.Generic.IReadOnlyList<IRelease> Releases {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<System.Guid>? SecondaryTypeIds {
+  System.Collections.Generic.IReadOnlyList<System.Guid> SecondaryTypeIds {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? SecondaryTypes {
+  System.Collections.Generic.IReadOnlyList<string> SecondaryTypes {
     public abstract get;
   }
 
@@ -2024,7 +2024,7 @@ public interface ISeries : IAliasedEntity, IAnnotatedEntity, IEntity, INamedEnti
 ```cs
 public interface ISimpleTrack : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Artist {
+  string Artist {
     public abstract get;
   }
 
@@ -2032,7 +2032,7 @@ public interface ISimpleTrack : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  string? Title {
+  string Title {
     public abstract get;
   }
 
@@ -2048,7 +2048,7 @@ public interface ITag : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  int? VoteCount {
+  int VoteCount {
     public abstract get;
   }
 
@@ -2060,19 +2060,19 @@ public interface ITag : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface ITaggableEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<IGenre>? Genres {
+  System.Collections.Generic.IReadOnlyList<IGenre> Genres {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ITag>? Tags {
+  System.Collections.Generic.IReadOnlyList<ITag> Tags {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<IGenre>? UserGenres {
+  System.Collections.Generic.IReadOnlyList<IGenre> UserGenres {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<ITag>? UserTags {
+  System.Collections.Generic.IReadOnlyList<ITag> UserTags {
     public abstract get;
   }
 
@@ -2100,11 +2100,11 @@ public interface ITextRepresentation : MetaBrainz.Common.Json.IJsonBasedObject {
 ```cs
 public interface ITitledEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  string? Disambiguation {
+  string Disambiguation {
     public abstract get;
   }
 
-  string? Title {
+  string Title {
     public abstract get;
   }
 
@@ -2116,7 +2116,7 @@ public interface ITitledEntity : IEntity, MetaBrainz.Common.Json.IJsonBasedObjec
 ```cs
 public interface ITrack : MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<INameCredit>? ArtistCredit {
+  System.Collections.Generic.IReadOnlyList<INameCredit> ArtistCredit {
     public abstract get;
   }
 
@@ -2140,7 +2140,7 @@ public interface ITrack : MetaBrainz.Common.Json.IJsonBasedObject {
     public abstract get;
   }
 
-  string? Title {
+  string Title {
     public abstract get;
   }
 
@@ -2180,11 +2180,11 @@ public interface IUrl : IEntity, IRelatableEntity, MetaBrainz.Common.Json.IJsonB
 ```cs
 public interface IWork : IAliasedEntity, IAnnotatedEntity, IEntity, IRatableEntity, IRelatableEntity, ITaggableEntity, ITitledEntity, ITypedEntity, MetaBrainz.Common.Json.IJsonBasedObject {
 
-  System.Collections.Generic.IReadOnlyList<IWorkAttribute>? Attributes {
+  System.Collections.Generic.IReadOnlyList<IWorkAttribute> Attributes {
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Iswcs {
+  System.Collections.Generic.IReadOnlyList<string> Iswcs {
     public abstract get;
   }
 
@@ -2192,7 +2192,7 @@ public interface IWork : IAliasedEntity, IAnnotatedEntity, IEntity, IRatableEnti
     public abstract get;
   }
 
-  System.Collections.Generic.IReadOnlyList<string>? Languages {
+  System.Collections.Generic.IReadOnlyList<string> Languages {
     public abstract get;
   }
 
@@ -2395,7 +2395,7 @@ public abstract class XmlSubmission : MetaBrainz.MusicBrainz.Interfaces.Submissi
 ### Type: AreaCollectionModification
 
 ```cs
-public sealed class AreaCollectionModification : CollectionModificationBase<AreaCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> {
+public sealed class AreaCollectionModification : CollectionModification<AreaCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArea> {
 
 }
 ```
@@ -2403,7 +2403,7 @@ public sealed class AreaCollectionModification : CollectionModificationBase<Area
 ### Type: ArtistCollectionModification
 
 ```cs
-public sealed class ArtistCollectionModification : CollectionModificationBase<ArtistCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> {
+public sealed class ArtistCollectionModification : CollectionModification<ArtistCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IArtist> {
 
 }
 ```
@@ -2411,35 +2411,35 @@ public sealed class ArtistCollectionModification : CollectionModificationBase<Ar
 ### Type: CollectionModification
 
 ```cs
-public sealed class CollectionModification : CollectionModificationBase<CollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity> {
+public sealed class CollectionModification : CollectionModification<CollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity> {
 
 }
 ```
 
-### Type: CollectionModificationBase\<T, E>
+### Type: CollectionModification\<T, TEntity>
 
 ```cs
-public abstract class CollectionModificationBase<T, E>
-  where T : CollectionModificationBase<T, E>
-  where E : MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity {
+public abstract class CollectionModification<T, TEntity>
+  where T : CollectionModification<T, TEntity>
+  where TEntity : MetaBrainz.MusicBrainz.Interfaces.Entities.IEntity {
 
   public void Clear();
 
-  public T Include(E item);
-
-  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<E> items);
-
   public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<System.Guid> items);
+
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] System.Collections.Generic.IEnumerable<TEntity> items);
 
   public T Include(System.Guid item);
 
-  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<E> items);
-
   public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<System.Guid> items);
 
-  public System.Threading.Tasks.Task<T> IncludeAsync(System.Collections.Generic.IAsyncEnumerable<E> items);
+  public T Include([System.Runtime.CompilerServices.ParamCollectionAttribute] scoped System.ReadOnlySpan<TEntity> items);
+
+  public T Include(TEntity item);
 
   public System.Threading.Tasks.Task<T> IncludeAsync(System.Collections.Generic.IAsyncEnumerable<System.Guid> items);
+
+  public System.Threading.Tasks.Task<T> IncludeAsync(System.Collections.Generic.IAsyncEnumerable<TEntity> items);
 
   public System.Threading.Tasks.Task<string> SubmitAdditionAsync(System.Threading.CancellationToken cancellationToken = default);
 
@@ -2451,7 +2451,7 @@ public abstract class CollectionModificationBase<T, E>
 ### Type: EventCollectionModification
 
 ```cs
-public sealed class EventCollectionModification : CollectionModificationBase<EventCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> {
+public sealed class EventCollectionModification : CollectionModification<EventCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IEvent> {
 
 }
 ```
@@ -2459,7 +2459,7 @@ public sealed class EventCollectionModification : CollectionModificationBase<Eve
 ### Type: InstrumentCollectionModification
 
 ```cs
-public sealed class InstrumentCollectionModification : CollectionModificationBase<InstrumentCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> {
+public sealed class InstrumentCollectionModification : CollectionModification<InstrumentCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IInstrument> {
 
 }
 ```
@@ -2467,7 +2467,7 @@ public sealed class InstrumentCollectionModification : CollectionModificationBas
 ### Type: LabelCollectionModification
 
 ```cs
-public sealed class LabelCollectionModification : CollectionModificationBase<LabelCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> {
+public sealed class LabelCollectionModification : CollectionModification<LabelCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ILabel> {
 
 }
 ```
@@ -2475,7 +2475,7 @@ public sealed class LabelCollectionModification : CollectionModificationBase<Lab
 ### Type: PlaceCollectionModification
 
 ```cs
-public sealed class PlaceCollectionModification : CollectionModificationBase<PlaceCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> {
+public sealed class PlaceCollectionModification : CollectionModification<PlaceCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IPlace> {
 
 }
 ```
@@ -2483,7 +2483,7 @@ public sealed class PlaceCollectionModification : CollectionModificationBase<Pla
 ### Type: RecordingCollectionModification
 
 ```cs
-public sealed class RecordingCollectionModification : CollectionModificationBase<RecordingCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> {
+public sealed class RecordingCollectionModification : CollectionModification<RecordingCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRecording> {
 
 }
 ```
@@ -2491,7 +2491,7 @@ public sealed class RecordingCollectionModification : CollectionModificationBase
 ### Type: ReleaseCollectionModification
 
 ```cs
-public sealed class ReleaseCollectionModification : CollectionModificationBase<ReleaseCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> {
+public sealed class ReleaseCollectionModification : CollectionModification<ReleaseCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IRelease> {
 
 }
 ```
@@ -2499,7 +2499,7 @@ public sealed class ReleaseCollectionModification : CollectionModificationBase<R
 ### Type: ReleaseGroupCollectionModification
 
 ```cs
-public sealed class ReleaseGroupCollectionModification : CollectionModificationBase<ReleaseGroupCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> {
+public sealed class ReleaseGroupCollectionModification : CollectionModification<ReleaseGroupCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IReleaseGroup> {
 
 }
 ```
@@ -2507,7 +2507,7 @@ public sealed class ReleaseGroupCollectionModification : CollectionModificationB
 ### Type: SeriesCollectionModification
 
 ```cs
-public sealed class SeriesCollectionModification : CollectionModificationBase<SeriesCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> {
+public sealed class SeriesCollectionModification : CollectionModification<SeriesCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.ISeries> {
 
 }
 ```
@@ -2515,7 +2515,7 @@ public sealed class SeriesCollectionModification : CollectionModificationBase<Se
 ### Type: WorkCollectionModification
 
 ```cs
-public sealed class WorkCollectionModification : CollectionModificationBase<WorkCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> {
+public sealed class WorkCollectionModification : CollectionModification<WorkCollectionModification, MetaBrainz.MusicBrainz.Interfaces.Entities.IWork> {
 
 }
 ```

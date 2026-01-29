@@ -104,24 +104,24 @@ internal sealed class RecordingReader : ObjectReader<Recording> {
       reader.Read();
     }
     return new Recording {
-      Aliases = aliases,
-      Annotation = annotation,
-      ArtistCredit = artistCredit,
-      Disambiguation = disambiguation,
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
+      ArtistCredit = artistCredit ?? [],
+      Disambiguation = disambiguation ?? "",
       FirstReleaseDate = firstReleaseDate,
-      Genres = genres,
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
-      Isrcs = isrcs,
+      Isrcs = isrcs ?? [],
       Length = length,
       Rating = rating,
-      Relationships = relations,
-      Releases = releases,
-      Tags = tags,
-      Title = title,
+      Relationships = relations ?? [],
+      Releases = releases ?? [],
+      Tags = tags ?? [],
+      Title = title ?? "",
       UnhandledProperties = rest,
-      UserGenres = userGenres,
+      UserGenres = userGenres ?? [],
       UserRating = userRating,
-      UserTags = userTags,
+      UserTags = userTags ?? [],
       Video = video
     };
   }

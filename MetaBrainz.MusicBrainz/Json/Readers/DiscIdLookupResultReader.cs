@@ -101,7 +101,7 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
       var disc = new Disc {
         Id = id,
         Offsets = offsets,
-        Releases = releases,
+        Releases = releases ?? [],
         Sectors = sectors.Value,
       };
       result = new DiscIdLookupResult(disc);
@@ -122,9 +122,9 @@ internal sealed class DiscIdLookupResultReader : ObjectReader<DiscIdLookupResult
         }
       }
       var stub = new CdStub {
-        Artist = artist,
-        Barcode = barcode,
-        Disambiguation = disambiguation,
+        Artist = artist ?? "",
+        Barcode = barcode ?? "",
+        Disambiguation = disambiguation ?? "",
         Id = id,
         Title = title,
         TrackCount = trackCount ?? 0,

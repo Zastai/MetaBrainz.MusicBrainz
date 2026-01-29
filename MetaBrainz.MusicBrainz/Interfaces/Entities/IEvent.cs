@@ -1,4 +1,6 @@
-﻿using JetBrains.Annotations;
+﻿using System;
+
+using JetBrains.Annotations;
 
 namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 
@@ -7,16 +9,16 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IEvent : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRatableEntity, IRelatableEntity, ITaggableEntity,
                           ITypedEntity {
 
-  /// <summary>A flag indicating whether the event was cancelled.</summary>
+  /// <summary>A flag indicating whether the event was canceled.</summary>
   bool Cancelled { get; }
 
   /// <summary>The event's lifespan.</summary>
   ILifeSpan? LifeSpan { get; }
 
   /// <summary>The setlist for the event.</summary>
-  string? Setlist { get; }
+  string Setlist { get; }
 
   /// <summary>The starting time for the event, in HH:MM format.</summary>
-  string? Time { get; }
+  TimeOnly? Time { get; }
 
 }

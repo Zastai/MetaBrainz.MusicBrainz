@@ -7,6 +7,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IAnnotatedEntity : IEntity {
 
   /// <summary>The annotation for this entity.</summary>
-  string? Annotation { get; }
+  string Annotation { get; }
 
 }

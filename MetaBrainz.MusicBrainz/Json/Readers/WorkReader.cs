@@ -104,25 +104,25 @@ internal sealed class WorkReader : ObjectReader<Work> {
       reader.Read();
     }
     return new Work {
-      Aliases = aliases,
-      Annotation = annotation,
-      Attributes = attributes,
-      Disambiguation = disambiguation,
-      Genres = genres,
+      Aliases = aliases ?? [],
+      Annotation = annotation ?? "",
+      Attributes = attributes ?? [],
+      Disambiguation = disambiguation ?? "",
+      Genres = genres ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
-      Iswcs = iswcs,
+      Iswcs = iswcs ?? [],
       Language = language,
-      Languages = languages,
+      Languages = languages ?? [],
       Rating = rating,
-      Relationships = relations,
-      Tags = tags,
-      Title = title,
-      Type = type,
+      Relationships = relations ?? [],
+      Tags = tags ?? [],
+      Title = title ?? "",
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
-      UserGenres = userGenres,
+      UserGenres = userGenres ?? [],
       UserRating = userRating,
-      UserTags = userTags,
+      UserTags = userTags ?? [],
     };
   }
 

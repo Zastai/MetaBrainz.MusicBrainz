@@ -77,17 +77,17 @@ internal sealed class MediumReader : ObjectReader<Medium> {
       reader.Read();
     }
     return new Medium {
-      DataTracks = dataTracks,
-      Discs = discs,
-      Format = format,
+      DataTracks = dataTracks ?? [],
+      Discs = discs ?? [],
+      Format = format is "" ? null : format,
       FormatId = formatId,
       Id = id,
       Position = position ?? -1,
       Pregap = pregap,
-      Title = title,
+      Title = title ?? "",
       TrackCount = trackCount ?? 0,
       TrackOffset = trackOffset,
-      Tracks = tracks,
+      Tracks = tracks ?? [],
       UnhandledProperties = rest,
     };
   }
