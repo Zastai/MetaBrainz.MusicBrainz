@@ -10,16 +10,16 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IRelease : IAliasedEntity, IAnnotatedEntity, IRelatableEntity, ITaggableEntity, ITitledEntity {
 
   /// <summary>The artist credit for the release.</summary>
-  IReadOnlyList<INameCredit>? ArtistCredit { get; }
+  IReadOnlyList<INameCredit> ArtistCredit { get; }
 
   /// <summary>The Amazon Standard Identification Number (ASIN) associated with the release.</summary>
-  string? Asin { get; }
+  string Asin { get; }
 
   /// <summary>The "barcode" (i.e. the UPC or EAN) associated with the release.</summary>
-  string? Barcode { get; }
+  string Barcode { get; }
 
   /// <summary>The collections containing the release, if any.</summary>
-  IReadOnlyList<ICollection>? Collections { get; }
+  IReadOnlyList<ICollection> Collections { get; }
 
   /// <summary>The ISO 3166-1 code for the (primary) country associated with the release.</summary>
   string? Country { get; }
@@ -31,10 +31,10 @@ public interface IRelease : IAliasedEntity, IAnnotatedEntity, IRelatableEntity, 
   PartialDate? Date { get; }
 
   /// <summary>The label information for the release.</summary>
-  IReadOnlyList<ILabelInfo>? LabelInfo { get; }
+  IReadOnlyList<ILabelInfo> LabelInfo { get; }
 
   /// <summary>The media comprising the release.</summary>
-  IReadOnlyList<IMedium>? Media { get; }
+  IReadOnlyList<IMedium> Media { get; }
 
   /// <summary>The packaging for the release, expressed as text.</summary>
   string? Packaging { get; }
@@ -46,7 +46,7 @@ public interface IRelease : IAliasedEntity, IAnnotatedEntity, IRelatableEntity, 
   string? Quality { get; }
 
   /// <summary>The release events for the release.</summary>
-  IReadOnlyList<IReleaseEvent>? ReleaseEvents { get; }
+  IReadOnlyList<IReleaseEvent> ReleaseEvents { get; }
 
   /// <summary>The release group the release belongs to.</summary>
   IReleaseGroup? ReleaseGroup { get; }

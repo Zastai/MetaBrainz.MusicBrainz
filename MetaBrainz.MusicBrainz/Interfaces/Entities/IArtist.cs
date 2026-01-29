@@ -29,27 +29,27 @@ public interface IArtist : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRata
   Guid? GenderId { get; }
 
   /// <summary>The IPI (Interested Parties Information) codes associated with this artist.</summary>
-  IReadOnlyList<string>? Ipis { get; }
+  IReadOnlyList<string> Ipis { get; }
 
   /// <summary>The ISNI (International Standard Name Identifier, ISO 27729) codes associated with this artist.</summary>
-  IReadOnlyList<string>? Isnis { get; }
+  IReadOnlyList<string> Isnis { get; }
 
   /// <summary>The artist's lifespan.</summary>
   ILifeSpan? LifeSpan { get; }
 
-  /// <summary>The labels associated with the artist, if any.</summary>
-  IReadOnlyList<IRecording>? Recordings { get; }
+  /// <summary>The labels associated with the artist.</summary>
+  IReadOnlyList<IRecording> Recordings { get; }
 
-  /// <summary>The release groups associated with the artist, if any.</summary>
-  IReadOnlyList<IReleaseGroup>? ReleaseGroups { get; }
+  /// <summary>The release groups associated with the artist.</summary>
+  IReadOnlyList<IReleaseGroup> ReleaseGroups { get; }
 
-  /// <summary>The releases associated with the artist, if any.</summary>
-  IReadOnlyList<IRelease>? Releases { get; }
+  /// <summary>The releases associated with the artist.</summary>
+  IReadOnlyList<IRelease> Releases { get; }
 
   /// <summary>The artist's sort name.</summary>
   string? SortName { get; }
 
-  /// <summary>The works associated with the artist, if any.</summary>
-  IReadOnlyList<IWork>? Works { get; }
+  /// <summary>The works associated with the artist.</summary>
+  IReadOnlyList<IWork> Works { get; }
 
 }

@@ -12,6 +12,6 @@ public interface ITag : IJsonBasedObject {
   string Name { get; }
 
   /// <summary>The number of votes that have been registered for this tag, if applicable.</summary>
-  int? VoteCount { get; }
+  int VoteCount { get; }
 
 }

@@ -9,6 +9,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IAliasedEntity : IEntity {
 
   /// <summary>The aliases for this entity.</summary>
-  IReadOnlyList<IAlias>? Aliases { get; }
+  IReadOnlyList<IAlias> Aliases { get; }
 
 }

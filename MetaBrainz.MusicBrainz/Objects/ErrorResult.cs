@@ -4,8 +4,8 @@ namespace MetaBrainz.MusicBrainz.Objects;
 
 internal sealed class ErrorResult : JsonBasedObject {
 
-  public string? Error { get; init; }
+  public required string Error { get; init; }
 
-  public string? Help { get; init; }
+  public required string Help { get; init; }
 
 }

@@ -10,7 +10,7 @@ internal sealed class Collection() : Entity(EntityType.Collection), ICollection 
 
   public required EntityType ContentType { get; init; }
 
-  public string? Name { get; init; }
+  public required string Name { get; init; }
 
   public string? Type { get; init; }
 

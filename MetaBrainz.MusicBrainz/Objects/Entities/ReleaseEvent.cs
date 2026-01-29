@@ -11,13 +11,9 @@ internal sealed class ReleaseEvent : JsonBasedObject, IReleaseEvent {
 
   public override string ToString() {
     if (this.Date is null) {
-      return this.Area?.ToString() ?? string.Empty;
+      return this.Area?.ToString() ?? "";
     }
-    var text = this.Date.ToString();
-    if (this.Area is not null) {
-      text += " (" + this.Area + ")";
-    }
-    return text;
+    return this.Area is null ? this.Date.ToString() : $"{this.Date} ({this.Area})";
   }
 
 }

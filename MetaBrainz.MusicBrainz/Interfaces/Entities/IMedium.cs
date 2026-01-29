@@ -12,10 +12,10 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IMedium : IJsonBasedObject {
 
   /// <summary>The data tracks on the medium, if any.</summary>
-  IReadOnlyList<ITrack>? DataTracks { get; }
+  IReadOnlyList<ITrack> DataTracks { get; }
 
   /// <summary>The physical discs associated with the medium, if any.</summary>
-  IReadOnlyList<IDisc>? Discs { get; }
+  IReadOnlyList<IDisc> Discs { get; }
 
   /// <summary>The medium's format, expressed as text.</summary>
   string? Format { get; }
@@ -33,7 +33,7 @@ public interface IMedium : IJsonBasedObject {
   ITrack? Pregap { get; }
 
   /// <summary>The medium's title.</summary>
-  string? Title { get; }
+  string Title { get; }
 
   /// <summary>The number of tracks on the medium.</summary>
   int TrackCount { get; }
@@ -42,6 +42,6 @@ public interface IMedium : IJsonBasedObject {
   int? TrackOffset { get; }
 
   /// <summary>The normal (audio) tracks on the medium, if any.</summary>
-  IReadOnlyList<ITrack>? Tracks { get; }
+  IReadOnlyList<ITrack> Tracks { get; }
 
 }

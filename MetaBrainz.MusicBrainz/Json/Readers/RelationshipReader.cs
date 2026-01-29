@@ -5,6 +5,7 @@ using System.Text.Json;
 using MetaBrainz.Common.Json;
 using MetaBrainz.Common.Json.Converters;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
+using MetaBrainz.MusicBrainz.Objects;
 using MetaBrainz.MusicBrainz.Objects.Entities;
 
 namespace MetaBrainz.MusicBrainz.Json.Readers;
@@ -147,10 +148,10 @@ internal sealed class RelationshipReader : ObjectReader<Relationship> {
     return new Relationship {
       Area = area,
       Artist = artist,
-      AttributeCredits = attributeCredits,
-      AttributeIds = attributeIds,
-      AttributeValues = attributeValues,
-      Attributes = attributes,
+      AttributeCredits = attributeCredits ?? EmptyDictionary<string, string>.Instance,
+      AttributeIds = attributeIds ?? EmptyDictionary<string, Guid>.Instance,
+      AttributeValues = attributeValues ?? EmptyDictionary<string, string>.Instance,
+      Attributes = attributes ?? [],
       Begin = begin,
       Direction = direction,
       End = end,
@@ -168,7 +169,7 @@ internal sealed class RelationshipReader : ObjectReader<Relationship> {
       TargetId = target,
       TargetCredit = targetCredit,
       TargetType = targetType,
-      Type = type,
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
       Url = url,

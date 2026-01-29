@@ -133,8 +133,8 @@ internal sealed class CollectionReader : ObjectReader<Collection> {
       Editor = editor,
       Id = id ?? throw new MissingPropertyException("id"),
       ItemCount = itemCount,
-      Name = name,
-      Type = type,
+      Name = name ?? "",
+      Type = type is "" ? null : type,
       TypeId = typeId,
       UnhandledProperties = rest,
     };

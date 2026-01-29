@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -9,28 +10,28 @@ internal sealed class CdStub : JsonBasedObject, ICdStub {
 
   public required string Id { get; init; }
 
-  public string? Artist { get; init; }
+  public required string Artist { get; init; }
 
-  public string? Barcode { get; init; }
+  public required string Barcode { get; init; }
 
-  public string? Disambiguation { get; init; }
+  public required string Disambiguation { get; init; }
 
   public required string Title { get; init; }
 
   public int TrackCount { get; init; }
 
-  public IReadOnlyList<ISimpleTrack>? Tracks { get; init; }
+  public required IReadOnlyList<ISimpleTrack> Tracks { get; init; }
 
   public override string ToString() {
-    var text = string.Empty;
-    if (this.Artist is not null) {
-      text += this.Artist + " / ";
+    var text = new StringBuilder();
+    if (this.Artist is not "") {
+      text.Append(this.Artist).Append(" / ");
     }
-    text += this.Title;
-    if (!string.IsNullOrEmpty(this.Disambiguation)) {
-      text += " (" + this.Disambiguation + ")";
+    text.Append(this.Title);
+    if (this.Disambiguation is not "") {
+      text.Append(" (").Append(this.Disambiguation).Append(')');
     }
-    return text;
+    return text.ToString();
   }
 
 }

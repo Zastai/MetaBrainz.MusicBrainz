@@ -17,7 +17,7 @@ public interface IDisc : IJsonBasedObject {
   IReadOnlyList<int> Offsets { get; }
 
   /// <summary>The releases that include this disc.</summary>
-  IReadOnlyList<IRelease>? Releases { get; }
+  IReadOnlyList<IRelease> Releases { get; }
 
   /// <summary>The total size of this disc, in Red Book sectors.</summary>
   int Sectors { get; }

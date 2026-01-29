@@ -1,4 +1,6 @@
-﻿using MetaBrainz.Common.Json;
+﻿using System.Text;
+
+using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
 
 namespace MetaBrainz.MusicBrainz.Objects.Entities;
@@ -12,19 +14,25 @@ internal sealed class LifeSpan : JsonBasedObject, ILifeSpan {
   public bool Ended { get; init; }
 
   public override string ToString() {
-    var text = this.Begin?.ToString() ?? "????";
+    var text = new StringBuilder();
+    if (this.Begin != null) {
+      text.Append(this.Begin);
+    }
+    else {
+      text.Append("????");
+    }
     if (this.End is not null) {
       if (this.End != this.Begin) {
-        text += $" – {this.End}";
+        text.Append(" - ").Append(this.End);
       }
     }
     else if (this.Ended) {
-      text += " – ????";
+      text.Append(" – ????");
     }
     else {
-      text += " –";
+      text.Append(" –");
     }
-    return text;
+    return text.ToString();
   }
 
 }

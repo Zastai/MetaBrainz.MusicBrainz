@@ -51,8 +51,8 @@ internal sealed class AnnotationReader : ObjectReader<Annotation> {
     }
     return new Annotation {
       Entity = entity,
-      Name = name,
-      Text = text,
+      Name = name ?? "",
+      Text = text ?? "",
       Type = type,
       UnhandledProperties = rest,
     };

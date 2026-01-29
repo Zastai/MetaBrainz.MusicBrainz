@@ -18,19 +18,19 @@ public interface IRelationship : IJsonBasedObject {
   IArtist? Artist { get; }
 
   /// <summary>
-  /// The attributes attached to the relationship (if any).
+  /// The attributes attached to the relationship (if any).<br/>
   /// These values may be keys into <see cref="AttributeCredits"/> and/or <see cref="AttributeValues"/>.
   /// </summary>
-  IReadOnlyList<string>? Attributes { get; }
+  IReadOnlyList<string> Attributes { get; }
 
   /// <summary>The credits attached to specific attributes of the relationship (if any).</summary>
-  IReadOnlyDictionary<string, string>? AttributeCredits { get; }
+  IReadOnlyDictionary<string, string> AttributeCredits { get; }
 
   /// <summary>The MBIDs linked to specific attributes of the relationship (if any).</summary>
-  IReadOnlyDictionary<string, Guid>? AttributeIds { get; }
+  IReadOnlyDictionary<string, Guid> AttributeIds { get; }
 
   /// <summary>The values attached to specific attributes of the relationship (if any).</summary>
-  IReadOnlyDictionary<string, string>? AttributeValues { get; }
+  IReadOnlyDictionary<string, string> AttributeValues { get; }
 
   /// <summary>The date the relationship began.</summary>
   PartialDate? Begin { get; }

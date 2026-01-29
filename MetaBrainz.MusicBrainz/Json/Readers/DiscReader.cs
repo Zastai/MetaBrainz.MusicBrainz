@@ -61,7 +61,7 @@ internal sealed class DiscReader : ObjectReader<Disc> {
     return new Disc {
       Id = id ?? throw new MissingPropertyException("id"),
       Offsets = offsets ?? throw new MissingPropertyException("offsets"),
-      Releases = releases,
+      Releases = releases ?? [],
       Sectors = sectors ?? throw new MissingPropertyException("sectors"),
       UnhandledProperties = rest,
     };

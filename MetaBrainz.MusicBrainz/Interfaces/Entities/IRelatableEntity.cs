@@ -9,6 +9,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IRelatableEntity : IEntity {
 
   /// <summary>The relationships associated with this entity.</summary>
-  IReadOnlyList<IRelationship>? Relationships { get; }
+  IReadOnlyList<IRelationship> Relationships { get; }
 
 }

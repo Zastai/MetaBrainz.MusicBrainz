@@ -39,8 +39,8 @@ internal sealed class AuthorizationErrorReader : ObjectReader<AuthorizationError
       reader.Read();
     }
     return new AuthorizationError {
-      Error = error,
-      Description = description,
+      Error = error ?? "",
+      Description = description ?? "",
       UnhandledProperties = rest
     };
   }

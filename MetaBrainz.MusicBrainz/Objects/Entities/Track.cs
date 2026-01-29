@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -8,7 +9,7 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Track : JsonBasedObject, ITrack {
 
-  public IReadOnlyList<INameCredit>? ArtistCredit { get; init; }
+  public required IReadOnlyList<INameCredit> ArtistCredit { get; init; }
 
   public required Guid Id { get; init; }
 
@@ -23,21 +24,21 @@ internal sealed class Track : JsonBasedObject, ITrack {
   public required string Title { get; init; }
 
   public override string ToString() {
-    var text = string.Empty;
+    var text = new StringBuilder();
     if (this.Number is not null) {
-      text += $"{this.Number}. ";
+      text.Append(this.Number).Append(". ");
     }
-    if (this.ArtistCredit is not null) {
-      foreach (var nc in this.ArtistCredit) {
-        text += nc.ToString();
-      }
-      text += " / ";
+    foreach (var nc in this.ArtistCredit) {
+      text.Append(nc);
     }
-    text += this.Title;
+    if (this.ArtistCredit.Count > 0) {
+      text.Append(" / ");
+    }
+    text.Append(this.Title);
     if (this.Length is not null) {
-      text += $" ({this.Length.Value:g})";
+      text.Append(" (").Append(this.Length.Value.ToString("g")).Append(')');
     }
-    return text;
+    return text.ToString();
   }
 
 }

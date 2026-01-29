@@ -11,12 +11,12 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface ISimpleTrack : IJsonBasedObject {
 
   /// <summary>The artist for the track.</summary>
-  string? Artist { get; }
+  string Artist { get; }
 
   /// <summary>The length for the track.</summary>
   TimeSpan Length { get; }
 
   /// <summary>The title for the track.</summary>
-  string? Title { get; }
+  string Title { get; }
 
 }

@@ -39,8 +39,8 @@ internal sealed class ErrorResultReader : ObjectReader<ErrorResult> {
       reader.Read();
     }
     return new ErrorResult {
-      Error = error,
-      Help = help,
+      Error = error ?? "",
+      Help = help ?? "",
       UnhandledProperties = rest
     };
   }

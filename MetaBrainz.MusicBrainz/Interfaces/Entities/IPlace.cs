@@ -7,7 +7,7 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IPlace : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
   /// <summary>The address for the place.</summary>
-  string? Address { get; }
+  string Address { get; }
 
   /// <summary>The area where the place is located.</summary>
   IArea? Area { get; }

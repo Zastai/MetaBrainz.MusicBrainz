@@ -41,7 +41,7 @@ internal sealed class TagReader : ObjectReader<Tag> {
     return new Tag {
       Name = name ?? throw new MissingPropertyException("name"),
       UnhandledProperties = rest,
-      VoteCount = count,
+      VoteCount = count ?? 0,
     };
   }
 

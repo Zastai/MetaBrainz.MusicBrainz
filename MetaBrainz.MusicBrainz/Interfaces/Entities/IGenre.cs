@@ -7,6 +7,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IGenre : INamedEntity {
 
   /// <summary>The number of votes that have been registered for this genre, if applicable.</summary>
-  int? VoteCount { get; }
+  int VoteCount { get; }
 
 }

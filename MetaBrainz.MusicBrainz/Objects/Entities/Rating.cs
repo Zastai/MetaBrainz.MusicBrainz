@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 using MetaBrainz.Common.Json;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
@@ -7,25 +8,22 @@ namespace MetaBrainz.MusicBrainz.Objects.Entities;
 
 internal sealed class Rating : JsonBasedObject, IRating {
 
-  public decimal? Value { get; init; }
+  public decimal Value { get; init; }
 
-  public int? VoteCount { get; init; }
+  public int VoteCount { get; init; }
 
   public override string ToString() {
-    var text = string.Empty;
-    if (this.Value is not null) {
-      var stars = Math.Round(this.Value.Value, MidpointRounding.AwayFromZero);
+    var text = new StringBuilder();
+    {
+      var stars = Math.Round(this.Value, MidpointRounding.AwayFromZero);
       for (var i = 1; i <= 5; ++i) {
-        text = string.Concat(text, (stars >= i) ? "★" : "☆");
+        text.Append(stars >= i ? '★' : '☆');
       }
     }
-    else {
-      text += "<not rated>";
+    if (this.VoteCount is not 0) {
+      text.Append(" (votes: ").Append(this.VoteCount).Append(')');
     }
-    if (this.VoteCount is not null) {
-      text += $" (votes: {this.VoteCount})";
-    }
-    return text;
+    return text.ToString();
   }
 
 }

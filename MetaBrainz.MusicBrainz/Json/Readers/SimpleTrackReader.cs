@@ -43,7 +43,7 @@ internal sealed class SimpleTrackReader : ObjectReader<SimpleTrack> {
       reader.Read();
     }
     return new SimpleTrack {
-      Artist = artist,
+      Artist = artist ?? "",
       Length = length ?? throw new MissingPropertyException("length"),
       Title = title ?? throw new MissingPropertyException("title"),
       UnhandledProperties = rest,

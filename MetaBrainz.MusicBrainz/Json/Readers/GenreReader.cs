@@ -47,11 +47,11 @@ internal sealed class GenreReader : ObjectReader<Genre> {
       reader.Read();
     }
     return new Genre {
-      Disambiguation = disambiguation,
+      Disambiguation = disambiguation ?? "",
       Id = id ?? throw new MissingPropertyException("id"),
       Name = name ?? throw new MissingPropertyException("name"),
       UnhandledProperties = rest,
-      VoteCount = count,
+      VoteCount = count ?? 0,
     };
   }
 

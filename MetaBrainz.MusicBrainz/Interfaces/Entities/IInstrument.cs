@@ -7,6 +7,6 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface IInstrument : IAliasedEntity, IAnnotatedEntity, INamedEntity, IRelatableEntity, ITaggableEntity, ITypedEntity {
 
   /// <summary>The instrument's description.</summary>
-  string? Description { get; }
+  string Description { get; }
 
 }

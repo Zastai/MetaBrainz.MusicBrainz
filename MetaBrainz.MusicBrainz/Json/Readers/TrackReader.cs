@@ -60,7 +60,7 @@ internal sealed class TrackReader : ObjectReader<Track> {
       reader.Read();
     }
     return new Track {
-      ArtistCredit = artistCredit,
+      ArtistCredit = artistCredit ?? [],
       Id = id ?? throw new MissingPropertyException("id"),
       Length = length,
       Number = number,

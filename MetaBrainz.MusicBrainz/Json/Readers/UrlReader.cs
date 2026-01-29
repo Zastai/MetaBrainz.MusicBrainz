@@ -76,7 +76,7 @@ internal sealed class UrlReader : ObjectReader<Url> {
     }
     return new Url {
       Id = id ?? throw new MissingPropertyException("id"),
-      Relationships = relations,
+      Relationships = relations ?? [],
       Resource = resource ?? throw new MissingPropertyException("resource"),
       UnhandledProperties = rest,
     };

@@ -7,9 +7,9 @@ namespace MetaBrainz.MusicBrainz.Interfaces.Entities;
 public interface ITitledEntity : IEntity {
 
   /// <summary>The text used to distinguish this entity from others with the same title.</summary>
-  string? Disambiguation { get; }
+  string Disambiguation { get; }
 
   /// <summary>The entity's title.</summary>
-  string? Title { get; }
+  string Title { get; }
 
 }
